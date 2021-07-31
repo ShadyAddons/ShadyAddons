@@ -43,7 +43,7 @@ public class ShadyAddons {
         MinecraftForge.EVENT_BUS.register(new Utils());
 
         MinecraftForge.EVENT_BUS.register(new BlockAbilities());
-        MinecraftForge.EVENT_BUS.register(new ChestGhostHand());
+        MinecraftForge.EVENT_BUS.register(new ChestThroughWall());
         MinecraftForge.EVENT_BUS.register(new GhostBlockKeybind());
         MinecraftForge.EVENT_BUS.register(new AutoCloseChest());
         MinecraftForge.EVENT_BUS.register(new BossCorleoneFinder());
