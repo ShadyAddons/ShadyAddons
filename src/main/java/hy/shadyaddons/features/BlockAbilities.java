@@ -16,7 +16,7 @@ public class BlockAbilities {
             String skyBlockID = Utils.getSkyBlockID(mc.thePlayer.getHeldItem());
             if(skyBlockID != null) {
                 event.setCanceled(Config.isEnabled(Config.Setting.BLOCK_CELLS_ALIGNMENT) && skyBlockID.equals("GYROKINETIC_WAND"));
-                event.setCanceled(Config.isEnabled(Config.Setting.BLOCK_STONK_ABILITIES) && skyBlockID.equals("STONK"));
+                event.setCanceled(Config.isEnabled(Config.Setting.BLOCK_STONK_ABILITIES) && skyBlockID.equals("STONK_PICKAXE"));
             }
         }
     }
