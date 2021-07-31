@@ -9,6 +9,7 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.util.vector.Vector3f;
@@ -23,6 +24,8 @@ public class Utils {
 
     public static boolean inSkyBlock = false;
     public static boolean inDungeon = false;
+    public static boolean forceSkyBlock = false;
+    public static boolean forceDungeon = false;
 
     /**
      * Remove Minecraft chat formatting from a message
@@ -163,11 +166,17 @@ public class Utils {
     }
 
     /**
-     * Sets the inSkyBlock variable based on the scoreboard title
+     * Sets the inSkyBlock and inDungeon variables based off the scoreboard
      */
     private int ticks = 0;
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
+        if(forceDungeon || forceSkyBlock) {
+            if(forceSkyBlock) inSkyBlock = true;
+            if(forceDungeon) inSkyBlock = true; inDungeon = true;
+            return;
+        }
+
         if(ticks % 20 == 0) {
             if(mc.thePlayer != null && mc.theWorld != null) {
                 ScoreObjective scoreboardObj = mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1);
@@ -180,6 +189,12 @@ public class Utils {
             ticks = 0;
         }
         ticks++;
+    }
+
+    @SubscribeEvent
+    public void onWorldLoad(WorldEvent.Load event) {
+        forceDungeon = false;
+        forceSkyBlock = false;
     }
 
 }
