@@ -41,6 +41,7 @@ public class ConfigGui extends GuiScreen {
             ScaledResolution scaledResolution = new ScaledResolution(mc);
 
             int buttonsPerColumn = (int) ((scaledResolution.getScaledHeight()-55)/25f);
+            if(buttonsPerColumn < 1) buttonsPerColumn = 1;
             int currentColumn = (int) Math.floor(i/buttonsPerColumn);
 
             int yPosition = 40+25*(i%buttonsPerColumn);
