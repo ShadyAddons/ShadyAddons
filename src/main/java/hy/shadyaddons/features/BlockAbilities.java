@@ -12,10 +12,11 @@ public class BlockAbilities {
 
     @SubscribeEvent
     public void onInteract(PlayerInteractEvent event) {
-        if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+        if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && mc.thePlayer.getHeldItem() != null) {
             String skyBlockID = Utils.getSkyBlockID(mc.thePlayer.getHeldItem());
             if(skyBlockID != null) {
-                event.setCanceled(Config.blockCellsAlignment && skyBlockID.equals("GYROKINETIC_WAND"));
+                event.setCanceled(Config.isEnabled(Config.Setting.BLOCK_CELLS_ALIGNMENT) && skyBlockID.equals("GYROKINETIC_WAND"));
+                event.setCanceled(Config.isEnabled(Config.Setting.BLOCK_STONK_ABILITIES) && skyBlockID.equals("STONK"));
             }
         }
     }

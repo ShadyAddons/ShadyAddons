@@ -1,9 +1,20 @@
-plugins {
-    id "net.minecraftforge.gradle.forge" version "6f5327"
-    id "org.spongepowered.mixin" version "d5f9873d60"
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "https://maven.minecraftforge.net/" }
+        maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath "com.github.Skytils:ForgeGradle:6f5327"
+        classpath "com.github.Skytils:mixingradle:d5f9873d60"
+    }
 }
 
-version = "1.0-pre1"
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "org.spongepowered.mixin"
+
+version = "pre1"
 group = "hy.shadyaddons"
 archivesBaseName = "ShadyAddons"
 
@@ -18,30 +29,59 @@ minecraft {
     runDir = "run"
     mappings = "stable_22"
     makeObfSourceJar = false
-
-    replace "@VERSION@": project.version
-
     clientJvmArgs += "-Dfml.coreMods.load=hy.shadyaddons.tweaker.FMLLoadingPlugin"
-    clientRunArgs += "--tweakClass org.spongepowered.asm.launch.MixinTweaker"
     clientRunArgs += "--mixin mixins.shadyaddons.json"
+    replace "@VERSION@": project.version
 }
 
 repositories {
-    mavenCentral()
+    jcenter()
     maven { url "https://repo.spongepowered.org/repository/maven-public/" }
 }
 
-dependencies {
-    implementation("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
-        transitive = false
-    }
+configurations {
+    packageLib
+}
 
-    annotationProcessor("org.spongepowered:mixin:0.7.11-SNAPSHOT")
+
+dependencies {
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+
+    // real examples
+    //compile "com.mod-buildcraft:buildcraft:6.0.8:dev"  // adds buildcraft to the dev env
+    //compile "com.googlecode.efficient-java-matrix-library:ejml:0.24" // adds ejml to the dev env
+
+    // the "provided" configuration is for optional dependencies that exist at compile-time but might not at runtime.
+    //provided "com.mod-buildcraft:buildcraft:6.0.8:dev"
+
+    // the deobf configurations:  "deobfCompile" and "deobfProvided" are the same as the normal compile and provided,
+    // except that these dependencies get remapped to your current MCP mappings
+    //deobfCompile "com.mod-buildcraft:buildcraft:6.0.8:dev"
+    //deobfProvided "com.mod-buildcraft:buildcraft:6.0.8:dev"
+
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    packageLib("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+    }
+    configurations.compile.extendsFrom(configurations.packageLib)
+}
+
+mixin {
+    add sourceSets.main, "mixins.shadyaddons.refmap.json"
 }
 
 jar {
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     manifest.attributes(
-            //"Main-Class": "HyAddonsInstallerFrame",
             "FMLCorePlugin": "hy.shadyaddons.tweaker.FMLLoadingPlugin",
             "FMLCorePluginContainsFMLMod": true,
             "ForceLoadAsMod": true,
@@ -51,7 +91,9 @@ jar {
             "TweakOrder": "0",
     )
 
-    enabled = false
+    from {
+        configurations.packageLib.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 processResources {
@@ -61,33 +103,17 @@ processResources {
 
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include "mcmod.info"
+        include 'mcmod.info'
 
         // replace version and mcversion
-        expand "version": project.version, "mcversion": project.minecraft.version
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
 
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude "mcmod.info"
+        exclude 'mcmod.info'
     }
 }
-
-mixin {
-    disableRefMapWarning = true
-    defaultObfuscationEnv searge
-    add sourceSets.main, "mixins.shadyaddons.refmap.json"
-}
-
-task moveResources {
-    doLast {
-        ant.move file: "${buildDir}/resources/main",
-                todir: "${buildDir}/classes/java"
-    }
-}
-
-tasks.moveResources.dependsOn processResources
-classes.dependsOn tasks.moveResources
 
 sourceSets {
     main {
