@@ -24,7 +24,7 @@ public class ChestThroughWall {
     private static BlockPos selectedChest = null;
 
     private static boolean isEnabled() {
-        return Config.isEnabled(Config.Setting.OPEN_CHESTS_THROUGH_WALLS) && Utils.inDungeon && mc.thePlayer.isSneaking();
+        return Config.isEnabled(Config.Setting.OPEN_CHESTS_THROUGH_WALLS) && Utils.inDungeon && mc.thePlayer != null && mc.thePlayer.isSneaking();
     }
 
     @SubscribeEvent
