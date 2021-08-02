@@ -16,7 +16,7 @@ public class Config {
 
     private static HashMap<Setting, Boolean> config = new HashMap<Setting, Boolean>(){{
         for(Setting setting : Setting.values()) {
-            put(setting, setting.defaultValue);
+            put(setting, false);
         }
     }};
 

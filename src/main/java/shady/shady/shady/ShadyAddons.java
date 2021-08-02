@@ -54,6 +54,7 @@ public class ShadyAddons {
         MinecraftForge.EVENT_BUS.register(new AutoSimonSays());
         MinecraftForge.EVENT_BUS.register(new AbilityKeybind());
         MinecraftForge.EVENT_BUS.register(new SpamRightClick());
+        MinecraftForge.EVENT_BUS.register(new AutoRenewCrystalHollows());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);
