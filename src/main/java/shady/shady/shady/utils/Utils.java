@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.Packet;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -163,6 +164,10 @@ public class Utils {
                 Blocks.stone_button,
                 Blocks.oak_door,
                 Blocks.skull)).contains(block);
+    }
+
+    public static void sendPacket(Packet<?> packet) {
+        mc.getNetHandler().getNetworkManager().sendPacket(packet);
     }
 
     /**
