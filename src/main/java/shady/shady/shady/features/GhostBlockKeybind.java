@@ -22,7 +22,7 @@ public class GhostBlockKeybind {
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
         if(Config.isEnabled(Setting.GHOST_BLOCK_KEYBIND) && KeybindUtils.get("Create Ghost Block").isPressed()) {
-            BlockPos lookingAtPos = mc.objectMouseOver.getBlockPos();
+            BlockPos lookingAtPos = mc.thePlayer.rayTrace(mc.playerController.getBlockReachDistance(), 1).getBlockPos();
             if(lookingAtPos != null) {
                 Block lookingAtblock = mc.theWorld.getBlockState(lookingAtPos).getBlock();
                 if(!Utils.isInteractable(lookingAtblock)) {
