@@ -55,6 +55,11 @@ public enum Setting {
             "Auto GG",
             null,
             false
+    ),
+    DISABLE_BLOCK_ANIMATION(
+            "Disable Sword Block Animation",
+            "Disables the blocking animation on Hyperion, Valkyrie, Scylla, Astraea, Rogue Sword, and Aspect of the End",
+            false
     );
 
     public String name;
