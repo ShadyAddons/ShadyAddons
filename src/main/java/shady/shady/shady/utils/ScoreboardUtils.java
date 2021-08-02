@@ -1,4 +1,4 @@
-package hy.shadyaddons.utils;
+package shady.shady.shady.utils;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

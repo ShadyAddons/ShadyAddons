@@ -1,13 +1,10 @@
-[{
-    "modid": "shadyaddons",
-    "name": "ShadyAddons",
-    "description": "This will probably get you banned. Have fun!",
-    "version": "${version}",
-    "mcversion": "${mcversion}",
-    "url": "",
-    "updateUrl": "",
-    "authorList": ["Jerome"],
-    "logoFile": "",
-    "screenshots": [],
-    "dependencies": []
-}]
+[
+    {
+        "modid": "autogg",
+        "name": "ShadyAddons",
+        "description": "Only use copies of ShadyAddons downloaded from The Backroom",
+        "authorList": [
+            "jerome"
+        ]
+    }
+]

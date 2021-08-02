@@ -1,8 +1,5 @@
-package hy.shadyaddons.features;
+package shady.shady.shady.features;
 
-import hy.shadyaddons.config.Config;
-import hy.shadyaddons.utils.RenderUtils;
-import hy.shadyaddons.utils.Utils;
 import net.minecraft.block.BlockChest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
@@ -13,6 +10,10 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import shady.shady.shady.config.Config;
+import shady.shady.shady.config.Setting;
+import shady.shady.shady.utils.RenderUtils;
+import shady.shady.shady.utils.Utils;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -24,7 +25,7 @@ public class ChestThroughWall {
     private static BlockPos selectedChest = null;
 
     private static boolean isEnabled() {
-        return Config.isEnabled(Config.Setting.OPEN_CHESTS_THROUGH_WALLS) && Utils.inDungeon && mc.thePlayer != null && mc.thePlayer.isSneaking();
+        return Config.isEnabled(Setting.OPEN_CHESTS_THROUGH_WALLS) && Utils.inDungeon && mc.thePlayer != null && mc.thePlayer.isSneaking();
     }
 
     @SubscribeEvent

@@ -1,10 +1,10 @@
-package hy.shadyaddons.config;
+package shady.shady.shady.config;
 
-import hy.shadyaddons.ShadyAddons;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import shady.shady.shady.ShadyAddons;
 
 public class ConfigGui extends GuiScreen {
 
@@ -15,10 +15,10 @@ public class ConfigGui extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.drawDefaultBackground();
+        drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        String titleString = (ShadyAddons.usingSkyBlockAddons ? "§z" : "§3") + "Shady §7" + ShadyAddons.VERSION;
+        String titleString = (ShadyAddons.usingSkyBlockAddons ? "§z" : "§3") + "ShadyAddons §7" + ShadyAddons.VERSION;
         GlStateManager.pushMatrix();
         GlStateManager.scale(1.5, 1.5, 1.5);
         mc.fontRendererObj.drawString(titleString, 13.333f, 13.333f, -1, true);
@@ -34,9 +34,9 @@ public class ConfigGui extends GuiScreen {
     private void addButtons() {
         this.buttonList.clear();
 
-        Config.Setting[] values = Config.Setting.values();
+        Setting[] values = Setting.values();
         for(int i = 0; i < values.length; i++) {
-            Config.Setting setting = values[i];
+            Setting setting = values[i];
 
             ScaledResolution scaledResolution = new ScaledResolution(mc);
 

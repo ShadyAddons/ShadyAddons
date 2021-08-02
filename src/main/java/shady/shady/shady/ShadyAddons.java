@@ -1,10 +1,5 @@
-package hy.shadyaddons;
+package shady.shady.shady;
 
-import hy.shadyaddons.config.Config;
-import hy.shadyaddons.config.ConfigCommand;
-import hy.shadyaddons.features.*;
-import hy.shadyaddons.utils.KeybindUtils;
-import hy.shadyaddons.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
@@ -18,17 +13,24 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import shady.shady.shady.config.Config;
+import shady.shady.shady.config.ConfigCommand;
+import shady.shady.shady.features.*;
+import shady.shady.shady.utils.KeybindUtils;
+import shady.shady.shady.utils.Utils;
 
 @Mod(modid = ShadyAddons.MODID, name = ShadyAddons.MODNAME, version = ShadyAddons.VERSION, clientSideOnly = true)
 public class ShadyAddons {
 
-    public static final String MODID = "shadyaddons"; // Disguised as AutoGG for Forge Handshake purposes
+    public static final String MODID = "autogg"; // Disguised as AutoGG for Forge Handshake purposes
     public static final String MODNAME = "ShadyAddons";
     public static final String VERSION = "@VERSION@";
 
     private static final Minecraft mc = Minecraft.getMinecraft();
 
     public static boolean usingSkyBlockAddons = false;
+    public static boolean usingSkyBlockExtras = false;
+
     public static GuiScreen guiToOpen = null;
 
     @Mod.EventHandler
@@ -48,6 +50,10 @@ public class ShadyAddons {
         MinecraftForge.EVENT_BUS.register(new AutoCloseChest());
         MinecraftForge.EVENT_BUS.register(new BossCorleoneFinder());
         MinecraftForge.EVENT_BUS.register(new RoyalPigeonMacro());
+        MinecraftForge.EVENT_BUS.register(new AutoGG());
+        MinecraftForge.EVENT_BUS.register(new AutoSimonSays());
+        MinecraftForge.EVENT_BUS.register(new AbilityKeybind());
+        MinecraftForge.EVENT_BUS.register(new SpamRightClick());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);
@@ -57,6 +63,7 @@ public class ShadyAddons {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         usingSkyBlockAddons = Loader.isModLoaded("skyblockaddons");
+        usingSkyBlockExtras = Loader.isModLoaded("skyblockextras");
     }
 
     @SubscribeEvent

@@ -1,6 +1,6 @@
-package hy.shadyaddons.utils;
+package shady.shady.shady.utils;
 
-import hy.shadyaddons.ShadyAddons;
+import shady.shady.shady.ShadyAddons;
 import net.minecraft.client.settings.KeyBinding;
 
 import java.util.HashMap;

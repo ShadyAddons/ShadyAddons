@@ -1,4 +1,4 @@
-package hy.shadyaddons.config;
+package shady.shady.shady.config;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -13,24 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Config {
-
-    public enum Setting {
-        OPEN_CHESTS_THROUGH_WALLS("Open Chests Through Walls", false),
-        BLOCK_CELLS_ALIGNMENT("Block Cells Alignment", false),
-        CLOSE_SECRET_CHESTS("Close Secret Chests", false),
-        ROYAL_PIGEON_PICKAXE_MACRO("Royal Pigeon Pickaxe Macro", false),
-        CLOSE_CRYSTAL_HOLLOWS_CHESTS("Close Crystal Hollows Chests", false),
-        GHOST_BLOCK_KEYBIND("Ghost Block Keybind", false),
-        BLOCK_STONK_ABILITIES("Block Stonk Abilities", false),
-        BOSS_CORLEONE_FINDER("Boss Corleone Finder", false);
-
-        public String name;
-        public boolean defaultValue;
-        Setting(String name, boolean defaultValue) {
-            this.name = name;
-            this.defaultValue = defaultValue;
-        }
-    }
 
     private static HashMap<Setting, Boolean> config = new HashMap<Setting, Boolean>(){{
         for(Setting setting : Setting.values()) {

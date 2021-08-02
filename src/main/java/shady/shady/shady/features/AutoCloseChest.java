@@ -1,12 +1,13 @@
-package hy.shadyaddons.features;
+package shady.shady.shady.features;
 
-import hy.shadyaddons.config.Config;
-import hy.shadyaddons.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import shady.shady.shady.config.Config;
+import shady.shady.shady.config.Setting;
+import shady.shady.shady.utils.Utils;
 
 public class AutoCloseChest {
 
@@ -16,11 +17,11 @@ public class AutoCloseChest {
             if(event.gui instanceof GuiChest) {
                 String chestName = ((ContainerChest) ((GuiChest)event.gui).inventorySlots).getLowerChestInventory().getDisplayName().getUnformattedText();
 
-                if(Utils.inDungeon && Config.isEnabled(Config.Setting.CLOSE_SECRET_CHESTS) && chestName.equals("Chest")) {
+                if(Utils.inDungeon && Config.isEnabled(Setting.CLOSE_SECRET_CHESTS) && chestName.equals("Chest")) {
                     closeChest();
                 }
 
-                if(Utils.inSkyBlock && Config.isEnabled(Config.Setting.CLOSE_CRYSTAL_HOLLOWS_CHESTS) && (chestName.contains("Loot Chest") || chestName.contains("Treasure Chest"))) {
+                if(Utils.inSkyBlock && Config.isEnabled(Setting.CLOSE_CRYSTAL_HOLLOWS_CHESTS) && (chestName.contains("Loot Chest") || chestName.contains("Treasure Chest"))) {
                     closeChest();
                 }
             }

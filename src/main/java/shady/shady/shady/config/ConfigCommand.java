@@ -1,7 +1,7 @@
-package hy.shadyaddons.config;
+package shady.shady.shady.config;
 
-import hy.shadyaddons.ShadyAddons;
-import hy.shadyaddons.utils.Utils;
+import shady.shady.shady.ShadyAddons;
+import shady.shady.shady.utils.Utils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;

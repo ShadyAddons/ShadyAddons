@@ -12,8 +12,8 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "pre1"
-group= "hy.shadyaddons"
+version = "pre2"
+group= "shady.shady.shady"
 archivesBaseName = "ShadyAddons"
 
 sourceCompatibility = targetCompatibility = 1.8
@@ -37,19 +37,4 @@ jar {
     manifest.attributes(
             "ModSide": "CLIENT"
     )
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
 }
