@@ -12,7 +12,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "pre3"
+version = "pre4"
 group= "shady.shady.shady"
 archivesBaseName = "ShadyAddons"
 
