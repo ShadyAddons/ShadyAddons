@@ -34,9 +34,9 @@ public class ConfigCommand extends CommandBase {
                     break;
                 case "join_guild":
                     new Thread(() -> {
-                        Minecraft.getMinecraft().thePlayer.sendChatMessage("g leave");
+                        Minecraft.getMinecraft().thePlayer.sendChatMessage("/g leave");
                         ThreadUtils.sleep(750);
-                        Minecraft.getMinecraft().thePlayer.sendChatMessage("g join Wither Kings");
+                        Minecraft.getMinecraft().thePlayer.sendChatMessage("/g join Wither Kings");
                     }, "ShadyAddons-JoinGuildCommand").start();
                     break;
             }

@@ -29,7 +29,7 @@ public class ShadyAddons {
     private static final Minecraft mc = Minecraft.getMinecraft();
 
     public static boolean usingSkyBlockAddons = false;
-    public static boolean usingSkyBlockExtras = false;
+    public static boolean usingPatcher = false;
 
     public static GuiScreen guiToOpen = null;
 
@@ -55,6 +55,7 @@ public class ShadyAddons {
         MinecraftForge.EVENT_BUS.register(new AbilityKeybind());
         MinecraftForge.EVENT_BUS.register(new SpamRightClick());
         MinecraftForge.EVENT_BUS.register(new AutoRenewCrystalHollows());
+        MinecraftForge.EVENT_BUS.register(new DisableSwordAnimation());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);
@@ -64,7 +65,7 @@ public class ShadyAddons {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         usingSkyBlockAddons = Loader.isModLoaded("skyblockaddons");
-        usingSkyBlockExtras = Loader.isModLoaded("skyblockextras");
+        usingPatcher = Loader.isModLoaded("patcher");
     }
 
     @SubscribeEvent

@@ -21,7 +21,7 @@ public class GhostBlockKeybind {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        if(Config.isEnabled(Setting.GHOST_BLOCK_KEYBIND) && KeybindUtils.get("Create Ghost Block").isPressed()) {
+        if(Config.isEnabled(Setting.GHOST_BLOCK_KEYBIND) && KeybindUtils.get("Create Ghost Block").isKeyDown()) {
             BlockPos lookingAtPos = mc.thePlayer.rayTrace(mc.playerController.getBlockReachDistance(), 1).getBlockPos();
             if(lookingAtPos != null) {
                 Block lookingAtblock = mc.theWorld.getBlockState(lookingAtPos).getBlock();
