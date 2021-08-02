@@ -1,10 +1,12 @@
 package shady.shady.shady.config;
 
-import shady.shady.shady.ShadyAddons;
-import shady.shady.shady.utils.Utils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import shady.shady.shady.ShadyAddons;
+import shady.shady.shady.utils.ThreadUtils;
+import shady.shady.shady.utils.Utils;
 
 public class ConfigCommand extends CommandBase {
 
@@ -29,6 +31,13 @@ public class ConfigCommand extends CommandBase {
                 case "force_skyblock":
                     Utils.forceSkyBlock = !Utils.forceSkyBlock;
                     Utils.sendModMessage("Toggled Forcing SkyBlock");
+                    break;
+                case "join_guild":
+                    new Thread(() -> {
+                        Minecraft.getMinecraft().thePlayer.sendChatMessage("g leave");
+                        ThreadUtils.sleep(750);
+                        Minecraft.getMinecraft().thePlayer.sendChatMessage("g join Wither Kings");
+                    }, "ShadyAddons-JoinGuildCommand").start();
                     break;
             }
         } else {
