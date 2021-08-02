@@ -57,7 +57,7 @@ public class Utils {
      * @param block The block position to check
      * @return If the player is looking at the provided block
      */
-    public static boolean facingBlock(BlockPos block, int range) {
+    public static boolean facingBlock(BlockPos block, float range) {
         float stepSize = 0.15f;
         if(mc.thePlayer != null && mc.theWorld != null) {
             Vector3f position = new Vector3f((float) mc.thePlayer.posX, (float) mc.thePlayer.posY+mc.thePlayer.getEyeHeight(), (float) mc.thePlayer.posZ);

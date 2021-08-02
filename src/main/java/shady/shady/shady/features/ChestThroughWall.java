@@ -33,9 +33,9 @@ public class ChestThroughWall {
         if(isEnabled()) {
             chests.clear();
             BlockPos playerPosition = mc.thePlayer.getPosition();
-            for(int x = playerPosition.getX()-5; x < playerPosition.getX()+5; x++) {
-                for(int y = playerPosition.getY()-5; y < playerPosition.getY()+5; y++) {
-                    for(int z = playerPosition.getZ()-5; z < playerPosition.getZ()+5; z++) {
+            for(int x = playerPosition.getX()-7; x < playerPosition.getX()+7; x++) {
+                for(int y = playerPosition.getY()-7; y < playerPosition.getY()+7; y++) {
+                    for(int z = playerPosition.getZ()-7; z < playerPosition.getZ()+7; z++) {
                         BlockPos position = new BlockPos(x, y, z);
                         if(mc.theWorld.getBlockState(position).getBlock() instanceof BlockChest) {
                             chests.add(position);
@@ -52,12 +52,12 @@ public class ChestThroughWall {
             for(BlockPos chest : chests) {
 
                 if(selectedChest == null) {
-                    if(Utils.facingBlock(chest, 5)) {
+                    if(Utils.facingBlock(chest, mc.playerController.getBlockReachDistance())) {
                         selectedChest = chest;
                     }
                 } else {
-                    if(!Utils.facingBlock(selectedChest, 5)) {
-                        if(Utils.facingBlock(chest, 5)) {
+                    if(!Utils.facingBlock(selectedChest, mc.playerController.getBlockReachDistance())) {
+                        if(Utils.facingBlock(chest, mc.playerController.getBlockReachDistance())) {
                             selectedChest = chest;
                         } else {
                             selectedChest = null;
