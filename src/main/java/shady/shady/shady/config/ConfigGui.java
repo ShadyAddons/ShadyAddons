@@ -4,7 +4,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import shady.shady.shady.ShadyAddons;
+import shady.shady.shady.Shady;
 
 public class ConfigGui extends GuiScreen {
 
@@ -18,7 +18,7 @@ public class ConfigGui extends GuiScreen {
         drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        String titleString = (ShadyAddons.usingSkyBlockAddons && !ShadyAddons.usingPatcher ? "§z" : "§3") + "ShadyAddons §7" + ShadyAddons.VERSION;
+        String titleString = (Shady.usingSkyBlockAddons && !Shady.usingPatcher ? "§z" : "§3") + "ShadyAddons §7" + Shady.VERSION;
         GlStateManager.pushMatrix();
         GlStateManager.scale(1.5, 1.5, 1.5);
         mc.fontRendererObj.drawString(titleString, 13.333f, 13.333f, -1, true);

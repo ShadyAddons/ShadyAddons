@@ -1,12 +1,14 @@
 package shady.shady.shady.config;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import shady.shady.shady.ShadyAddons;
-import shady.shady.shady.utils.ThreadUtils;
+import net.minecraft.util.BlockPos;
+import shady.shady.shady.Shady;
+import shady.shady.shady.features.FakeBan;
 import shady.shady.shady.utils.Utils;
+
+import java.util.List;
 
 public class ConfigCommand extends CommandBase {
 
@@ -32,17 +34,20 @@ public class ConfigCommand extends CommandBase {
                     Utils.forceSkyBlock = !Utils.forceSkyBlock;
                     Utils.sendModMessage("Toggled Forcing SkyBlock");
                     break;
-                case "join_guild":
-                    new Thread(() -> {
-                        Minecraft.getMinecraft().thePlayer.sendChatMessage("/g leave");
-                        ThreadUtils.sleep(750);
-                        Minecraft.getMinecraft().thePlayer.sendChatMessage("/g join Wither Kings");
-                    }, "ShadyAddons-JoinGuildCommand").start();
+                case "fake_ban":
+                    FakeBan.fakeBan();
                     break;
             }
         } else {
-            ShadyAddons.guiToOpen = new ConfigGui();
+            Shady.guiToOpen = new ConfigGui();
         }
+    }
+
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+        if(args.length == 1) {
+            return getListOfStringsMatchingLastWord(args, "force_dungeon", "force_skyblock");
+        }
+        return null;
     }
 
     @Override

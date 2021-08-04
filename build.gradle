@@ -12,9 +12,9 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "pre4.2"
+version = "1.0"
 group= "shady.shady.shady"
-archivesBaseName = "ShadyAddons"
+archivesBaseName = "Shady"
 
 sourceCompatibility = targetCompatibility = 1.8
 
@@ -27,6 +27,7 @@ minecraft {
     runDir = "run"
     mappings = "stable_22"
     replace "@VERSION@": project.version
+    makeObfSourceJar = false
 }
 
 dependencies {

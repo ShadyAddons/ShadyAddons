@@ -1,11 +1,10 @@
 package shady.shady.shady.utils;
 
+import com.google.common.collect.Iterables;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -14,14 +13,14 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.util.vector.Vector3f;
+import shady.shady.shady.Shady;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Utils {
-
-    private static final Minecraft mc = Minecraft.getMinecraft();
 
     public static boolean inSkyBlock = false;
     public static boolean inDungeon = false;
@@ -59,10 +58,10 @@ public class Utils {
      */
     public static boolean facingBlock(BlockPos block, float range) {
         float stepSize = 0.15f;
-        if(mc.thePlayer != null && mc.theWorld != null) {
-            Vector3f position = new Vector3f((float) mc.thePlayer.posX, (float) mc.thePlayer.posY+mc.thePlayer.getEyeHeight(), (float) mc.thePlayer.posZ);
+        if(Shady.mc.thePlayer != null && Shady.mc.theWorld != null) {
+            Vector3f position = new Vector3f((float) Shady.mc.thePlayer.posX, (float) Shady.mc.thePlayer.posY+ Shady.mc.thePlayer.getEyeHeight(), (float) Shady.mc.thePlayer.posZ);
 
-            Vec3 look = mc.thePlayer.getLook(0);
+            Vec3 look = Shady.mc.thePlayer.getLook(0);
 
             Vector3f step = new Vector3f((float) look.xCoord, (float) look.yCoord, (float) look.zCoord);
             step.scale(stepSize/step.length());
@@ -76,12 +75,20 @@ public class Utils {
         return false;
     }
 
+    public static List<String> getLore(ItemStack item) {
+        if(item != null) {
+            return item.getTooltip(Shady.mc.thePlayer, false);
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Get inventory name
      * @return The inventory name, or "null" (as a string) if null
      */
     public static String getInventoryName() {
-        String inventoryName = mc.thePlayer.openContainer.inventorySlots.get(0).inventory.getName();
+        String inventoryName = Shady.mc.thePlayer.openContainer.inventorySlots.get(0).inventory.getName();
         if(inventoryName == null) return "null";
         return inventoryName;
     }
@@ -91,11 +98,11 @@ public class Utils {
      * @param message The text to be sent, can include § or & as formatting codes
      */
     public static void sendMessage(String message) {
-        if(mc.thePlayer != null && mc.theWorld != null) {
+        if(Shady.mc.thePlayer != null && Shady.mc.theWorld != null) {
             if(!message.contains("§")) {
                 message = message.replace("&", "§");
             }
-            mc.thePlayer.addChatMessage(new ChatComponentText(message));
+            Shady.mc.thePlayer.addChatMessage(new ChatComponentText(message));
         } else {
             System.out.println("Unable to send chat message, player is null: "+message);
         }
@@ -119,9 +126,8 @@ public class Utils {
      * @param alpha The alpha amount to set, as a percentage
      * @return The original color with the alpha channel
      */
-    public static Color addAlpha(Color color, float alpha) {
-        int alphaInt = Math.round(alpha * 256);
-        return new Color(color.getRed(), color.getGreen(), color.getBlue(), alphaInt);
+    public static Color addAlpha(Color color, int alpha) {
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
     }
 
     /**
@@ -166,8 +172,8 @@ public class Utils {
                 Blocks.skull)).contains(block);
     }
 
-    public static void sendPacket(Packet<?> packet) {
-        mc.getNetHandler().getNetworkManager().sendPacket(packet);
+    public static <T> T firstOrNull(Iterable<T> iterable) {
+        return Iterables.getFirst(iterable, null);
     }
 
     /**
@@ -183,8 +189,8 @@ public class Utils {
         }
 
         if(ticks % 20 == 0) {
-            if(mc.thePlayer != null && mc.theWorld != null) {
-                ScoreObjective scoreboardObj = mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1);
+            if(Shady.mc.thePlayer != null && Shady.mc.theWorld != null) {
+                ScoreObjective scoreboardObj = Shady.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1);
                 if(scoreboardObj != null) {
                     inSkyBlock = removeFormatting(scoreboardObj.getDisplayName()).contains("SKYBLOCK");
                 }

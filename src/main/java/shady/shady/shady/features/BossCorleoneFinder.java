@@ -1,6 +1,5 @@
 package shady.shady.shady.features;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -12,8 +11,6 @@ import shady.shady.shady.utils.RenderUtils;
 import shady.shady.shady.utils.Utils;
 
 public class BossCorleoneFinder {
-
-    private static Minecraft mc = Minecraft.getMinecraft();
 
     private EntityOtherPlayerMP corleone = null;
 
@@ -29,7 +26,7 @@ public class BossCorleoneFinder {
 
     @SubscribeEvent
     public void onRenderWorld(RenderWorldLastEvent event) {
-        if(corleone != null) {
+        if(corleone != null && Config.isEnabled(Setting.BOSS_CORLEONE_FINDER)) {
             RenderUtils.renderWaypointText("Boss Corleone", corleone.posX, corleone.posY+1, corleone.posZ, event.partialTicks);
         }
     }
