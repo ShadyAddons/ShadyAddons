@@ -5,7 +5,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import shady.shady.shady.Shady;
-import shady.shady.shady.features.FakeBan;
+import shady.shady.shady.features.Jokes;
 import shady.shady.shady.utils.Utils;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class ConfigCommand extends CommandBase {
                     Utils.sendModMessage("Toggled Forcing SkyBlock");
                     break;
                 case "fake_ban":
-                    FakeBan.fakeBan();
+                    Jokes.fakeBan();
                     break;
             }
         } else {
