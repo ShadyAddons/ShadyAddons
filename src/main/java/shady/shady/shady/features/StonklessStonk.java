@@ -22,11 +22,13 @@ import shady.shady.shady.utils.Utils;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class StonklessStonk {
     
     private static HashMap<Block, BlockPos> blockList = new HashMap<>();
+    private static HashSet<BlockPos> alreadyUsed = new HashSet<>();
     private static BlockPos selectedBlock = null;
 
     private static float reachDistance = 5f;
@@ -71,37 +73,40 @@ public class StonklessStonk {
     public void onRenderWorld(RenderWorldLastEvent event) {
         if(isEnabled()) {
             for(Map.Entry<Block, BlockPos> block : blockList.entrySet()) {
+                if(!alreadyUsed.contains(block.getValue())) {
 
-                if(selectedBlock == null) {
-                    if(Utils.facingBlock(block.getValue(), reachDistance)) {
-                        selectedBlock = block.getValue();
-                    }
-                } else {
-                    if(!Utils.facingBlock(selectedBlock, reachDistance)) {
+                    if(selectedBlock == null) {
                         if(Utils.facingBlock(block.getValue(), reachDistance)) {
                             selectedBlock = block.getValue();
-                        } else {
-                            selectedBlock = null;
+                        }
+                    } else {
+                        if(!Utils.facingBlock(selectedBlock, reachDistance)) {
+                            if(Utils.facingBlock(block.getValue(), reachDistance)) {
+                                selectedBlock = block.getValue();
+                            } else {
+                                selectedBlock = null;
+                            }
                         }
                     }
+
+                    Color color = Utils.addAlpha(Color.WHITE, 51); // Normal Chest
+                    if(block.getKey() instanceof BlockSkull) color = Utils.addAlpha(Color.BLACK, 51); // Wither Essence
+                    if(block.getKey() instanceof BlockLever) color = Utils.addAlpha(Color.LIGHT_GRAY, 51); // Lever
+                    if(block.getKey() instanceof BlockChest && ((BlockChest) block.getKey()).chestType == 1) color = Utils.addAlpha(Color.RED, 51); // Trapped Chest
+                    if(block.getValue().equals(selectedBlock)) color = Utils.addAlpha(Color.GREEN, 51); // Highlighted Block
+
+                    RenderUtils.highlightBlock(block.getValue(), color, event.partialTicks);
+
                 }
-
-                Color color = Utils.addAlpha(Color.WHITE, 51); // Normal Chest
-                if(block.getKey() instanceof BlockSkull) color = Utils.addAlpha(Color.BLACK, 51); // Wither Essence
-                if(block.getKey() instanceof BlockLever) color = Utils.addAlpha(Color.LIGHT_GRAY, 51); // Lever
-                if(block.getKey() instanceof BlockChest && ((BlockChest) block.getKey()).chestType == 1) color = Utils.addAlpha(Color.RED, 51); // Trapped Chest
-                if(block.getValue().equals(selectedBlock)) color = Utils.addAlpha(Color.GREEN, 51); // Highlighted Block
-
-                RenderUtils.highlightBlock(block.getValue(), color, event.partialTicks);
-
             }
         }
     }
 
     @SubscribeEvent
     public void onInteract(PlayerInteractEvent event) {
+        if(alreadyUsed.contains(selectedBlock)) selectedBlock = null;
         if(isEnabled() && selectedBlock != null) {
-            if(Shady.mc.objectMouseOver != null && Shady.mc.objectMouseOver.getBlockPos().equals(selectedBlock)) return;
+            if(Shady.mc.objectMouseOver != null && Shady.mc.objectMouseOver.getBlockPos() != null && Shady.mc.objectMouseOver.getBlockPos().equals(selectedBlock)) return;
             if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
                 Shady.mc.thePlayer.setSneaking(false);
                 Shady.mc.playerController.onPlayerRightClick(
@@ -119,6 +124,7 @@ public class StonklessStonk {
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) {
         blockList.clear();
+        alreadyUsed.clear();
         selectedBlock = null;
     }
 
