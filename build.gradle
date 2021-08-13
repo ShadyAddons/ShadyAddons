@@ -12,9 +12,9 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.0"
+version = "1.2.0-pre2"
 group= "shady.shady.shady"
-archivesBaseName = "Shady"
+archivesBaseName = "ShadyAddons"
 
 sourceCompatibility = targetCompatibility = 1.8
 
@@ -31,7 +31,6 @@ minecraft {
 }
 
 dependencies {
-
 }
 
 jar {
