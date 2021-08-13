@@ -1,5 +1,7 @@
 package shady.shady.shady.config;
 
+import java.util.Calendar;
+
 public enum Setting {
     STONKLESS_STONK(
             "Stonkless Stonk",
@@ -85,10 +87,6 @@ public enum Setting {
             "Teleport w/ Anything",
             "Use the item in your first slot as an §9Aspect§r §9of§r §9the§r §9End§r. Must have an AOTE/AOTV somewhere in your hotbar. Useful for foraging with a §6Treecapitator§r or grinding with a §6Daedelus§r §6Axe§r in a max magic find setup."
     ),
-    INVENTORY_WALK(
-            "Inventory Walk",
-            "Lets you move while your inventory or a chest is open"
-    ),
     BLOCK_VALKYRIE_ABILITY(
             "Block Valkyrie Ability",
             "Blocks §6Valkyrie§r's Wither Impacy ability while in §eDungeons§r."
@@ -96,6 +94,10 @@ public enum Setting {
     ICE_SPRAY_HOTKEY(
             "Ice Spray Hotkey",
             "Uses your §9Ice§r §9Spray§r §9Wand§r without having to switch items. Defaults to I, can be changed in the controls menu."
+    ),
+    INCREASE_MAGIC_FIND(
+            "Increase Magic Find",
+            "Increases your §bMagic§r §bFind§r! 100% no scam working "+ Calendar.getInstance().get(Calendar.YEAR)+"! Popbob verified hael9 luck mod!"
     );
 
     public String name;
