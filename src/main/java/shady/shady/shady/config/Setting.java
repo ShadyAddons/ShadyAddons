@@ -94,10 +94,6 @@ public enum Setting {
     ICE_SPRAY_HOTKEY(
             "Ice Spray Hotkey",
             "Uses your §9Ice§r §9Spray§r §9Wand§r without having to switch items. Defaults to I, can be changed in the controls menu."
-    ),
-    INCREASE_MAGIC_FIND(
-            "Increase Magic Find",
-            "Increases your §bMagic§r §bFind§r! 100% no scam working "+ Calendar.getInstance().get(Calendar.YEAR)+"! Popbob verified hael9 luck mod!"
     );
 
     public String name;

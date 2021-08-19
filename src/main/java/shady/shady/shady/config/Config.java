@@ -36,7 +36,7 @@ public class Config {
                 }
             }
         } catch(Exception error) {
-            System.out.println("Error loading config file");
+            System.out.println("Error while loading config file");
             error.printStackTrace();
         }
     }
@@ -50,7 +50,7 @@ public class Config {
             String json = new Gson().toJson(convertedSettings);
             Files.write(Paths.get(fileName), json.getBytes(StandardCharsets.UTF_8));
         } catch(Exception error) {
-            System.out.println("Error saving config file");
+            System.out.println("Error while saving config file");
             error.printStackTrace();
         }
     }

@@ -14,8 +14,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import shady.shady.shady.config.Config;
-import shady.shady.shady.config.ConfigCommand;
+import shady.shady.shady.config.MainCommand;
 import shady.shady.shady.features.*;
+import shady.shady.shady.features.dungeonscanner.DungeonScanner;
 import shady.shady.shady.utils.KeybindUtils;
 import shady.shady.shady.utils.Utils;
 
@@ -35,7 +36,7 @@ public class Shady {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        ClientCommandHandler.instance.registerCommand(new ConfigCommand());
+        ClientCommandHandler.instance.registerCommand(new MainCommand());
         Config.load();
     }
 
@@ -58,9 +59,10 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new DisableSwordAnimation());
         MinecraftForge.EVENT_BUS.register(new ShowHiddenEntities());
         MinecraftForge.EVENT_BUS.register(new HideSummonedMobs());
-        MinecraftForge.EVENT_BUS.register(new Jokes());
+        MinecraftForge.EVENT_BUS.register(new FakeBan());
         MinecraftForge.EVENT_BUS.register(new TeleportWithAnything());
         MinecraftForge.EVENT_BUS.register(new IceSprayHotkey());
+        MinecraftForge.EVENT_BUS.register(new DungeonScanner());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);

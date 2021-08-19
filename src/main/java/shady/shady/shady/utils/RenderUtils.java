@@ -12,9 +12,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
+import shady.shady.shady.Shady;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class RenderUtils {
 
@@ -231,6 +231,18 @@ public class RenderUtils {
         GlStateManager.enableBlend();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.popMatrix();
+    }
+
+    public static void drawString(String text, int x, int y) {
+        String[] lines = text.split("\n");
+        for(String line : lines) {
+            Shady.mc.fontRendererObj.drawStringWithShadow(line, x, y, Color.WHITE.getRGB());
+            y += getLineHeight() + 1;
+        }
+    }
+
+    public static int getLineHeight() {
+        return Shady.mc.fontRendererObj.FONT_HEIGHT;
     }
 
 }

@@ -2,7 +2,6 @@ package shady.shady.shady.config;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import shady.shady.shady.Shady;
 
@@ -18,7 +17,7 @@ public class ConfigGui extends GuiScreen {
         drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        String titleString = (Shady.usingSkyBlockAddons && !Shady.usingPatcher ? "§z" : "§3") + "ShadyAddons §7" + Shady.VERSION;
+        String titleString = (Shady.usingSkyBlockAddons && !Shady.usingPatcher ? "§z" : "§c") + "ShadyAddons §7" + Shady.VERSION;
         GlStateManager.pushMatrix();
         GlStateManager.scale(1.5, 1.5, 1.5);
         mc.fontRendererObj.drawString(titleString, 13.333f, 13.333f, -1, true);
@@ -38,9 +37,7 @@ public class ConfigGui extends GuiScreen {
         for(int i = 0; i < values.length; i++) {
             Setting setting = values[i];
 
-            ScaledResolution scaledResolution = new ScaledResolution(mc);
-
-            int buttonsPerColumn = (int) ((scaledResolution.getScaledHeight()-55)/25f);
+            int buttonsPerColumn = (int) ((height-55)/25f);
             if(buttonsPerColumn < 1) buttonsPerColumn = 1;
             int currentColumn = (int) Math.floor(i/buttonsPerColumn);
 

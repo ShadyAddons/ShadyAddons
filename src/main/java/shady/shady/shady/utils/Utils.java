@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -16,9 +17,14 @@ import org.lwjgl.util.vector.Vector3f;
 import shady.shady.shady.Shady;
 
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -75,6 +81,11 @@ public class Utils {
         return false;
     }
 
+    /**
+     * Get the description (lore) of an item
+     * @param item The item to get the lore for
+     * @return The provided item's lore
+     */
     public static List<String> getLore(ItemStack item) {
         if(item != null) {
             return item.getTooltip(Shady.mc.thePlayer, false);
@@ -170,6 +181,10 @@ public class Utils {
                 Blocks.stone_button,
                 Blocks.oak_door,
                 Blocks.skull)).contains(block);
+    }
+
+    public static void copyToClipboard(String text) {
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(text), null);
     }
 
     public static <T> T firstOrNull(Iterable<T> iterable) {

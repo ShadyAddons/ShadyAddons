@@ -2,27 +2,18 @@ package shady.shady.shady.features;
 
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import shady.shady.shady.Shady;
-import shady.shady.shady.config.Config;
-import shady.shady.shady.config.Setting;
 
-public class Jokes {
+public class FakeBan {
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent
     public void onChat(ClientChatReceivedEvent event) {
         if(event.type == 0) {
             String message = event.message.getUnformattedText();
             if(message.equals("From [MVP+] HY7: !banned!") || message.equals("From [MVP++] HY7: !banned!")) {
                 event.setCanceled(true);
                 fakeBan();
-            }
-
-            if(Config.isEnabled(Setting.INCREASE_MAGIC_FIND) && message.contains("% Magic Find!)")) {
-                event.message = new ChatComponentText(
-                        event.message.getFormattedText().replaceAll("§r§b\\(\\+(\\d+)% Magic Find!\\)§r", "§r§b(+923% Magic Find!)§r")
-                );
             }
         }
     }
