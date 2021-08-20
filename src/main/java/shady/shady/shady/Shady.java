@@ -1,9 +1,11 @@
 package shady.shady.shady;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Loader;
@@ -17,20 +19,22 @@ import shady.shady.shady.config.Config;
 import shady.shady.shady.config.MainCommand;
 import shady.shady.shady.features.*;
 import shady.shady.shady.features.dungeonscanner.DungeonScanner;
+import shady.shady.shady.updates.UpdateGui;
+import shady.shady.shady.updates.Updater;
 import shady.shady.shady.utils.KeybindUtils;
 import shady.shady.shady.utils.Utils;
 
-@Mod(modid = Shady.MODID, name = Shady.MODNAME, version = Shady.VERSION, clientSideOnly = true)
+@Mod(modid = "autogg", name = Shady.MODNAME, version = "4.1", clientSideOnly = true)
 public class Shady {
 
-    public static final String MODID = "autogg"; // Disguised as AutoGG for Forge Handshake purposes
-    public static final String MODNAME = "Shady";
+    public static final String MODNAME = "ShadyAddons";
     public static final String VERSION = "@VERSION@";
 
     public static final Minecraft mc = Minecraft.getMinecraft();
 
     public static boolean usingSkyBlockAddons = false;
     public static boolean usingPatcher = false;
+    public static boolean usingSkytils = false;
 
     public static GuiScreen guiToOpen = null;
 
@@ -38,6 +42,7 @@ public class Shady {
     public void preInit(FMLPreInitializationEvent event) {
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         Config.load();
+        Updater.check();
     }
 
     @Mod.EventHandler
@@ -73,6 +78,7 @@ public class Shady {
     public void postInit(FMLPostInitializationEvent event) {
         usingSkyBlockAddons = Loader.isModLoaded("skyblockaddons");
         usingPatcher = Loader.isModLoaded("patcher");
+        usingSkytils = Loader.isModLoaded("skytils");
     }
 
     @SubscribeEvent
@@ -80,6 +86,14 @@ public class Shady {
         if(guiToOpen != null) {
             mc.displayGuiScreen(guiToOpen);
             guiToOpen = null;
+        }
+    }
+
+    @SubscribeEvent
+    public void onGuiOpen(GuiOpenEvent event) {
+        if(Updater.shouldUpdate && event.gui instanceof GuiMainMenu) {
+            guiToOpen = new UpdateGui();
+            Updater.shouldUpdate = false;
         }
     }
 

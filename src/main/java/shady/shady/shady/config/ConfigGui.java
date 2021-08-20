@@ -17,7 +17,7 @@ public class ConfigGui extends GuiScreen {
         drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        String titleString = (Shady.usingSkyBlockAddons && !Shady.usingPatcher ? "§z" : "§c") + "ShadyAddons §7" + Shady.VERSION;
+        String titleString = (Shady.usingSkyBlockAddons && (!Shady.usingPatcher || Shady.usingSkytils) ? "§z" : "§c") + "ShadyAddons §7" + Shady.VERSION;
         GlStateManager.pushMatrix();
         GlStateManager.scale(1.5, 1.5, 1.5);
         mc.fontRendererObj.drawString(titleString, 13.333f, 13.333f, -1, true);

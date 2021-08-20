@@ -8,7 +8,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -18,13 +17,10 @@ import shady.shady.shady.Shady;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -32,6 +28,12 @@ public class Utils {
     public static boolean inDungeon = false;
     public static boolean forceSkyBlock = false;
     public static boolean forceDungeon = false;
+
+    public static void openUrl(String url) {
+        try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch(Exception ignored) {}
+    }
 
     /**
      * Remove Minecraft chat formatting from a message
