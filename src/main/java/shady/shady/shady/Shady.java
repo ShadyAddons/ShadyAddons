@@ -64,7 +64,6 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new DisableSwordAnimation());
         MinecraftForge.EVENT_BUS.register(new ShowHiddenEntities());
         MinecraftForge.EVENT_BUS.register(new HideSummonedMobs());
-        MinecraftForge.EVENT_BUS.register(new FakeBan());
         MinecraftForge.EVENT_BUS.register(new TeleportWithAnything());
         MinecraftForge.EVENT_BUS.register(new IceSprayHotkey());
         MinecraftForge.EVENT_BUS.register(new DungeonScanner());

@@ -127,9 +127,9 @@ public class Utils {
      */
     public static void sendModMessage(String message) {
         if(message.contains("§")) {
-            sendMessage("§3ShadyAddons > §f" + message);
+            sendMessage("§cShadyAddons > §f" + message);
         } else {
-            sendMessage("&3ShadyAddons > &f" + message);
+            sendMessage("&cShadyAddons > &f" + message);
         }
     }
 

@@ -14,10 +14,12 @@ public class Updater {
     public static class Update {
         public String version;
         public String download;
+        public String description;
 
-        public Update(String version, String download) {
+        public Update(String version, String download, String description) {
             this.version = version;
             this.download = download;
+            this.description = description;
         }
     }
 
@@ -25,13 +27,14 @@ public class Updater {
         new Thread(() -> {
             UUID uuid = Shady.mc.getSession().getProfile().getId();
             if(uuid != null) {
-                String url = "https://cheatersgetbanned.me/api/updates?uuid="+uuid.toString()+"&username="+Shady.mc.getSession().getUsername()+"&version="+Shady.VERSION;
+                String url = "https://cheatersgetbanned.me/api/updates?uuid="+uuid+"&username="+Shady.mc.getSession().getUsername()+"&version="+Shady.VERSION;
                 String response = HttpUtils.fetch(url);
-                System.out.println(url);
 
                 if(response != null) {
                     update = new Gson().fromJson(response, Update.class);
                     shouldUpdate = !update.version.equals(Shady.VERSION);
+                } else {
+                    System.out.println("Error checking for updates");
                 }
             }
         }, "ShadyAddons-Updater").start();

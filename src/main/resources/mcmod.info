@@ -2,9 +2,8 @@
     {
         "modid": "autogg",
         "name": "ShadyAddons",
-        "description": "Only use copies of ShadyAddons downloaded from The Backroom",
-        "authorList": [
-            "jerome"
-        ]
+        "url": "https://cheatersgetbanned.me",
+        "description": "Cheaters get banned",
+        "authorList": ["j"]
     }
 ]

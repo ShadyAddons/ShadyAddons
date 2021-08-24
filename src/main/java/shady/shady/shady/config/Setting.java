@@ -1,11 +1,9 @@
 package shady.shady.shady.config;
 
-import java.util.Calendar;
-
 public enum Setting {
     STONKLESS_STONK(
             "Stonkless Stonk",
-            "Sneak to highlight nearby chests, levers, and wither essence. Right-click to open, use, or collect them. Chests are white, trapped chests are red, essence is black, and levers are gray."
+            "(Sometimes called Ghost Hands) Sneak to highlight nearby chests, levers, and wither essence. Right-click to open, use, or collect them. Chests are white, trapped chests are red, essence is black, and levers are gray."
     ),
     AUTO_SIMON_SAYS(
             "Auto Simon Says",
@@ -89,7 +87,7 @@ public enum Setting {
     ),
     BLOCK_VALKYRIE_ABILITY(
             "Block Valkyrie Ability",
-            "Blocks §6Valkyrie§r's Wither Impacy ability while in §eDungeons§r."
+            "Blocks §6Valkyrie§r's Wither Impact ability while in §eDungeons§r."
     ),
     ICE_SPRAY_HOTKEY(
             "Ice Spray Hotkey",
