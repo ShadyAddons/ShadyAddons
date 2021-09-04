@@ -1,7 +1,7 @@
 package shady.shady.shady.utils;
 
-import shady.shady.shady.Shady;
 import net.minecraft.client.settings.KeyBinding;
+import shady.shady.shady.Shady;
 
 import java.util.HashMap;
 
