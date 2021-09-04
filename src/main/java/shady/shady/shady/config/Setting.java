@@ -33,6 +33,10 @@ public enum Setting {
             "Ghost Block Keybind",
             "Toggles the ghost block keybind, which defaults to G and can be changed in the controls menu."
     ),
+    GHOST_BLOCK_STONK(
+            "Ghost Block w/ Stonk",
+            "Right-click a block with a §5Stonk§r or Golden Pickaxe to turn it into a gbost block"
+    ),
     NORMAL_ABILITY_KEYBIND(
             "Normal Ability Keybind",
             "Toggles the normal ability keybind, which defaults to X and can be changed in the controls menu."

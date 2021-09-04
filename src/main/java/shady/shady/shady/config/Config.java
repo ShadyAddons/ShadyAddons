@@ -2,6 +2,7 @@ package shady.shady.shady.config;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import shady.shady.shady.Shady;
 
 import java.io.File;
 import java.io.Reader;
@@ -56,7 +57,7 @@ public class Config {
     }
 
     public static boolean isEnabled(Setting setting) {
-        return config.get(setting);
+        return Shady.enabled && config.get(setting);
     }
 
     public static void setEnabled(Setting setting, boolean enabled) {
