@@ -23,9 +23,10 @@ public class ReflectionUtils {
 
     public static String getMfValue(String key) {
         try {
-            String className = Shady.class.getSimpleName() + ".class";
-            String classPath = Shady.class.getResource(className).toString();
-            if(!classPath.startsWith("jar")) return null;
+            Class<Shady> _class = Shady.class;
+            String className = _class.getSimpleName() + ".class";
+            String classPath = _class.getResource(className).toString();
+            if (!classPath.startsWith("jar")) return null;
             String manifestPath = classPath.substring(0, classPath.lastIndexOf("!") + 1) + "/META-INF/MANIFEST.MF";
             Manifest manifest = new Manifest(new URL(manifestPath).openStream());
             Attributes attr = manifest.getMainAttributes();
