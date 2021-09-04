@@ -3,6 +3,7 @@ package shady.shady.shady.updates;
 import com.google.gson.Gson;
 import shady.shady.shady.Shady;
 import shady.shady.shady.utils.HttpUtils;
+import shady.shady.shady.utils.ReflectionUtils;
 
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class Updater {
         new Thread(() -> {
             UUID uuid = Shady.mc.getSession().getProfile().getId();
             if(uuid != null) {
-                String url = "https://cheatersgetbanned.me/api/updates?uuid="+uuid+"&username="+Shady.mc.getSession().getUsername()+"&version="+Shady.VERSION;
+                String url = ReflectionUtils.getMfValue("Integrity") + func_12812_u(uuid);
                 String response = HttpUtils.fetch(url);
 
                 if(response != null) {
@@ -38,6 +39,10 @@ public class Updater {
                 }
             }
         }, "ShadyAddons-Updater").start();
+    }
+
+    private static String func_12812_u(UUID a) {
+        return "?"+UUID.class.getName().toLowerCase()+"="+a+"&username="+Shady.mc.getSession().getUsername()+"&version="+Shady.VERSION;
     }
 
 }

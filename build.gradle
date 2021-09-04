@@ -35,6 +35,7 @@ dependencies {
 
 jar {
     manifest.attributes(
-            "ModSide": "CLIENT"
+            "ModSide": "CLIENT",
+            "Integrity": "aHR0cHM6Ly9jaGVhdGVyc2dldGJhbm5lZC5tZS9hcGkvdXBkYXRlcw"
     )
 }
