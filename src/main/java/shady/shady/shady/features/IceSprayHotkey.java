@@ -22,7 +22,7 @@ public class IceSprayHotkey {
             for(int i = 0; i < 9; i++) {
                 ItemStack item = Shady.mc.thePlayer.inventory.getStackInSlot(i);
                 String itemId = Utils.getSkyBlockID(item);
-                if(itemId != null && itemId.equals("ICE_SPRAY_WAND")) {
+                if(itemId.equals("ICE_SPRAY_WAND")) {
                     int previousItem = Shady.mc.thePlayer.inventory.currentItem;
                     Shady.mc.thePlayer.inventory.currentItem = i;
                     Shady.mc.playerController.sendUseItem(Shady.mc.thePlayer, Shady.mc.theWorld, item);

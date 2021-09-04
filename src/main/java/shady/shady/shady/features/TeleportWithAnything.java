@@ -18,7 +18,7 @@ public class TeleportWithAnything {
                 ItemStack item = Shady.mc.thePlayer.inventory.getStackInSlot(i);
                 String itemID = Utils.getSkyBlockID(item);
 
-                if(itemID != null && (itemID.equals("ASPECT_OF_THE_END") || itemID.equals("ASPECT_OF_THE_VOID"))) {
+                if((itemID.equals("ASPECT_OF_THE_END") || itemID.equals("ASPECT_OF_THE_VOID"))) {
                     event.setCanceled(true);
                     Shady.mc.thePlayer.inventory.currentItem = i;
                     Shady.mc.playerController.sendUseItem(Shady.mc.thePlayer, Shady.mc.theWorld, item);

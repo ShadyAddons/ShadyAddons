@@ -56,7 +56,7 @@ public class Utils {
                 return extraAttributes.getString("id");
             }
         }
-        return null;
+        return "";
     }
 
     /**
