@@ -24,7 +24,7 @@ import shady.shady.shady.updates.Updater;
 import shady.shady.shady.utils.KeybindUtils;
 import shady.shady.shady.utils.Utils;
 
-@Mod(modid = "autogg", name = Shady.MODNAME, version = "4.1", clientSideOnly = true)
+@Mod(modid = "autogg", name = Shady.MODNAME, version = "4.1.0", clientSideOnly = true)
 public class Shady {
 
     public static final String MODNAME = "ShadyAddons";
@@ -37,6 +37,7 @@ public class Shady {
     public static boolean usingSkytils = false;
 
     public static GuiScreen guiToOpen = null;
+    public static boolean enabled = true;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -52,7 +53,7 @@ public class Shady {
 
         MinecraftForge.EVENT_BUS.register(new BlockAbilities());
         MinecraftForge.EVENT_BUS.register(new StonklessStonk());
-        MinecraftForge.EVENT_BUS.register(new GhostBlockKeybind());
+        MinecraftForge.EVENT_BUS.register(new GhostBlocks());
         MinecraftForge.EVENT_BUS.register(new AutoCloseChest());
         MinecraftForge.EVENT_BUS.register(new BossCorleoneFinder());
         MinecraftForge.EVENT_BUS.register(new RoyalPigeonMacro());
@@ -63,7 +64,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new AutoRenewCrystalHollows());
         MinecraftForge.EVENT_BUS.register(new DisableSwordAnimation());
         MinecraftForge.EVENT_BUS.register(new ShowHiddenEntities());
-        MinecraftForge.EVENT_BUS.register(new HideSummonedMobs());
+        MinecraftForge.EVENT_BUS.register(new HideSummons());
         MinecraftForge.EVENT_BUS.register(new TeleportWithAnything());
         MinecraftForge.EVENT_BUS.register(new IceSprayHotkey());
         MinecraftForge.EVENT_BUS.register(new DungeonScanner());

@@ -34,6 +34,11 @@ public class MainCommand extends CommandBase {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+        if(!Shady.enabled) {
+            Utils.sendMessage("&cUnknown command. Try /help for a list of commands");
+            return;
+        }
+
         if(args.length > 0) {
             switch(args[0]) {
                 case "force_dungeon":
@@ -70,6 +75,10 @@ public class MainCommand extends CommandBase {
                         Utils.sendModMessage("You have to be in dungeons to use this command");
                     }
                     break;
+
+                case "disable":
+                    Shady.enabled = false;
+                    break;
             }
         } else {
             Shady.guiToOpen = new ConfigGui();
@@ -77,8 +86,8 @@ public class MainCommand extends CommandBase {
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-        if(args.length == 1) {
-            return getListOfStringsMatchingLastWord(args, "force_dungeon", "force_skyblock", "get_block", "copy_core", "scan", "rescan");
+        if(args.length == 1 && Shady.enabled) {
+            return getListOfStringsMatchingLastWord(args, "force_dungeon", "force_skyblock", "get_block", "copy_core", "scan", "rescan", "disable");
         }
         return null;
     }
