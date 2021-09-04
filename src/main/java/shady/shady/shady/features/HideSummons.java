@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HideSummonedMobs {
+public class HideSummons {
     
     private static final ArrayList<String> summonItemIDs = new ArrayList<String>(Arrays.asList(
             "HEAVY_HELMET",
@@ -64,7 +64,7 @@ public class HideSummonedMobs {
             AxisAlignedBB boundingBox = excludedEntity.getEntityBoundingBox().addCoord(look.xCoord*reach, look.yCoord*reach, look.zCoord*reach).expand(1, 1, 1);
             List<Entity> entitiesInRange = Shady.mc.theWorld.getEntitiesWithinAABBExcludingEntity(excludedEntity, boundingBox);
             entitiesInRange.removeIf(entity -> !entity.canBeCollidedWith());
-            entitiesInRange.removeIf(HideSummonedMobs::isSummon);
+            entitiesInRange.removeIf(HideSummons::isSummon);
 
             if(entitiesInRange.size() > 0) {
                 event.setCanceled(true);
