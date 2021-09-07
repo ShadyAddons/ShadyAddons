@@ -12,7 +12,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.2.0-pre4.1"
+version = "1.2.0-pre6"
 group= "shady.shady.shady"
 archivesBaseName = "ShadyAddons"
 
@@ -38,4 +38,5 @@ jar {
             "ModSide": "CLIENT",
             "Integrity": "aHR0cHM6Ly9jaGVhdGVyc2dldGJhbm5lZC5tZS9hcGkvdXBkYXRlcw"
     )
+    from "obfuscation.txt"
 }
