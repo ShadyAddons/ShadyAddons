@@ -1,7 +1,9 @@
 package cheaters.get.banned;
 
-import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.MainCommand;
+import cheaters.get.banned.configuration.MainCommand;
+import cheaters.get.banned.configuration.Config;
+import cheaters.get.banned.configuration.ConfigLogic;
+import cheaters.get.banned.configuration.Setting;
 import cheaters.get.banned.features.*;
 import cheaters.get.banned.features.dungeonscanner.DungeonScanner;
 import cheaters.get.banned.updates.UpdateGui;
@@ -24,11 +26,14 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.util.ArrayList;
+
 @Mod(modid = "autogg", name = Shady.MODNAME, version = "4.1.0", clientSideOnly = true)
 public class Shady {
 
     public static final String MODNAME = "ShadyAddons";
     public static final String VERSION = "@VERSION@";
+    public static final boolean PRIVATE = true;
 
     public static final Minecraft mc = Minecraft.getMinecraft();
 
@@ -39,10 +44,12 @@ public class Shady {
     public static GuiScreen guiToOpen = null;
     public static boolean enabled = true;
 
+    public static ArrayList<Setting> settings = ConfigLogic.collect(Config.class);
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         ClientCommandHandler.instance.registerCommand(new MainCommand());
-        Config.load();
+        ConfigLogic.load();
         Updater.check();
     }
 
@@ -66,7 +73,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new ShowHiddenEntities());
         MinecraftForge.EVENT_BUS.register(new HideSummons());
         MinecraftForge.EVENT_BUS.register(new TeleportWithAnything());
-        MinecraftForge.EVENT_BUS.register(new IceSprayHotkey());
+        MinecraftForge.EVENT_BUS.register(new ItemKeybind());
         MinecraftForge.EVENT_BUS.register(new DungeonScanner());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {

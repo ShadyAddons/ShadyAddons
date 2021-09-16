@@ -1,15 +1,14 @@
 package cheaters.get.banned.features;
 
+import cheaters.get.banned.Shady;
+import cheaters.get.banned.configuration.Config;
+import cheaters.get.banned.utils.NetworkUtils;
+import cheaters.get.banned.utils.Utils;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.Setting;
-import cheaters.get.banned.utils.NetworkUtils;
-import cheaters.get.banned.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +37,7 @@ public class DisableSwordAnimation {
 
     @SubscribeEvent
     public void onInteract(PlayerInteractEvent event) {
-        if(Config.isEnabled(Setting.DISABLE_BLOCK_ANIMATION) && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
+        if(Config.disableBlockAnimation && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
             if(Shady.mc.thePlayer.getHeldItem() != null) {
                 String itemID = Utils.getSkyBlockID(Shady.mc.thePlayer.getHeldItem());
                 if(swords.contains(itemID)) {

@@ -1,17 +1,16 @@
 package cheaters.get.banned.features;
 
+import cheaters.get.banned.configuration.Config;
+import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.Setting;
-import cheaters.get.banned.utils.Utils;
 
 public class AutoGG {
 
     @SubscribeEvent
     public void onChat(ClientChatReceivedEvent event) {
-        if(Config.isEnabled(Setting.AUTO_GG) && !Utils.inSkyBlock && event.type == 0) {
+        if(Config.autoGg && !Utils.inSkyBlock && event.type == 0) {
             String message = event.message.getFormattedText();
             if(message.contains("Reward Summary") && !message.contains(":") && !message.contains("]")) {
                 Minecraft.getMinecraft().thePlayer.sendChatMessage("/ac gg");

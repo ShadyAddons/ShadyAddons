@@ -1,13 +1,12 @@
 package cheaters.get.banned.features;
 
+import cheaters.get.banned.Shady;
+import cheaters.get.banned.configuration.Config;
+import cheaters.get.banned.utils.KeybindUtils;
+import cheaters.get.banned.utils.Utils;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
-import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.Setting;
-import cheaters.get.banned.utils.KeybindUtils;
-import cheaters.get.banned.utils.Utils;
 
 public class AbilityKeybind {
 
@@ -17,7 +16,7 @@ public class AbilityKeybind {
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if(Config.isEnabled(Setting.NORMAL_ABILITY_KEYBIND) && KeybindUtils.get("Use Normal Ability").isPressed() && Utils.inDungeon) {
+        if(Config.normalAbilityKeybind && KeybindUtils.get("Use Normal Ability").isPressed() && Utils.inDungeon) {
             Shady.mc.thePlayer.dropOneItem(true);
         }
     }

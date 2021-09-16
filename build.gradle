@@ -1,42 +1,107 @@
-
-// For those who want the bleeding edge
-buildscript {
-    repositories {
-        jcenter()
-        maven { url = "https://maven.minecraftforge.net/" }
-        maven { url = "https://jitpack.io/" }
-    }
-    dependencies {
-        classpath 'com.github.Skytils:ForgeGradle:6f5327'
-    }
+plugins {
+    id 'net.minecraftforge.gradle.forge' version '6f5327'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'org.spongepowered.mixin' version 'd5f9873d60'
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.2.0-pre6"
-group= "shady.shady.shady"
-archivesBaseName = "ShadyAddons"
+version = '1.2.0-pre6'
+group = 'cheaters.get.banned'
+archivesBaseName = 'ShadyAddons'
 
-sourceCompatibility = targetCompatibility = 1.8
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
 minecraft {
-    version = "1.8.9-11.15.1.2318-1.8.9"
-    runDir = "run"
-    mappings = "stable_22"
-    replace "@VERSION@": project.version
+    version = '1.8.9-11.15.1.2318-1.8.9'
+    runDir = 'run'
+    mappings = 'stable_22'
     makeObfSourceJar = false
+    replace '@VERSION@': project.version
+    clientJvmArgs += '--tweakClass org.spongepowered.asm.launch.MixinTweaker'
+    clientRunArgs += '--mixin mixins.shadyaddons.json'
 }
 
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
+}
+
+configurations {
+    packageLib
+    configurations.implementation.extendsFrom(configurations.packageLib)
+}
+
+
 dependencies {
+    annotationProcessor('org.spongepowered:mixin:0.7.11-SNAPSHOT')
+
+    packageLib('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        transitive = false
+    }
+}
+
+mixin {
+    // disableRefMapWarning = true
+    defaultObfuscationEnv searge
 }
 
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     manifest.attributes(
-            "ModSide": "CLIENT",
-            "Integrity": "aHR0cHM6Ly9jaGVhdGVyc2dldGJhbm5lZC5tZS9hcGkvdXBkYXRlcw"
+            'FMLCorePluginContainsFMLMod': true,
+            'ForceLoadAsMod': true,
+            'MixinConfigs': 'mixins.shadyaddons.json',
+            'ModSide': 'CLIENT',
+            'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+            'TweakOrder': '0',
+            'Keklak': 'a75d2b9d18cdaec09cc81543d1c9251eca5aa9ce8ab5d714287a9e4f1b219025',
+            'Integrity': 'aHR0cHM6Ly9jaGVhdGVyc2dldGJhbm5lZC5tZS9hcGkvdXBkYXRlcw',
+            'Northeast': '3032254b596f4f0145161afe92b6e8b92f2b19d5e779ff1f12f5a8bbefd474f5'
     )
-    from "obfuscation.txt"
+
+    from "safety.txt"
+
+    enabled = false
 }
+
+shadowJar {
+    archiveFileName = jar.archiveFileName
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    configurations = [project.configurations.packageLib]
+}
+
+reobf {
+    shadowJar {
+        classpath = sourceSets.main.compileClasspath
+    }
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+sourceSets {
+    main { output.resourcesDir = java.outputDir }
+    ext.refMap = 'mixins.shadyaddons.refmap.json'
+}
+
+tasks.reobfJar.dependsOn(shadowJar)

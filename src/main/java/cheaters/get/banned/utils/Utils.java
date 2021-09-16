@@ -148,7 +148,7 @@ public class Utils {
      * @param block The block to check
      * @return Whether or not the block can be interacted with
      */
-    public static boolean isInteractable(Block block) {
+    public static boolean canInteract(Block block) {
         return new ArrayList<Block>(Arrays.asList(
                 Blocks.acacia_door,
                 Blocks.anvil,
@@ -182,7 +182,8 @@ public class Utils {
                 Blocks.wooden_button,
                 Blocks.stone_button,
                 Blocks.oak_door,
-                Blocks.skull)).contains(block);
+                Blocks.skull
+        )).contains(block);
     }
 
     public static void copyToClipboard(String text) {

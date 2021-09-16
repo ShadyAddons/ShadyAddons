@@ -13,6 +13,10 @@ public class KeybindUtils {
         keyBindings.put(name, new KeyBinding(name, key, Shady.MODNAME));
     }
 
+    public static boolean isPressed(String name) {
+        return get(name).isPressed();
+    }
+
     public static KeyBinding get(String name) {
         return keyBindings.get(name);
     }

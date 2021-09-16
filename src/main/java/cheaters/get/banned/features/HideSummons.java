@@ -1,5 +1,8 @@
 package cheaters.get.banned.features;
 
+import cheaters.get.banned.Shady;
+import cheaters.get.banned.configuration.Config;
+import cheaters.get.banned.utils.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
@@ -12,10 +15,6 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.Setting;
-import cheaters.get.banned.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +46,7 @@ public class HideSummons {
     public void onPreRenderEntity(RenderLivingEvent.Pre<EntityLivingBase> event) {
         if(Utils.inSkyBlock && !Utils.inDungeon) {
             if(isSummon(event.entity)) {
-                if(Config.isEnabled(Setting.HIDE_SUMMONS) && event.entity.getDistanceToEntity(Shady.mc.thePlayer) < 5) {
+                if(Config.hideSummons && event.entity.getDistanceToEntity(Shady.mc.thePlayer) < 5) {
                     event.setCanceled(true);
                 }
             }
@@ -56,7 +55,7 @@ public class HideSummons {
 
     @SubscribeEvent
     public void onAttack(AttackEntityEvent event) {
-        if(Config.isEnabled(Setting.CLICK_THROUGH_SUMMONS) && Utils.inSkyBlock && !Utils.inDungeon && isSummon(event.target)) {
+        if(Config.clickThroughSummons && Utils.inSkyBlock && !Utils.inDungeon && isSummon(event.target)) {
             Entity excludedEntity = Shady.mc.getRenderViewEntity();
             double reach = Shady.mc.playerController.getBlockReachDistance();
             Vec3 look = excludedEntity.getLook(0);

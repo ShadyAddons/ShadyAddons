@@ -1,20 +1,19 @@
 package cheaters.get.banned.features;
 
+import cheaters.get.banned.Shady;
+import cheaters.get.banned.configuration.Config;
+import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.Setting;
-import cheaters.get.banned.utils.Utils;
 
 public class RoyalPigeonMacro {
 
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent event) {
-        if(Utils.inSkyBlock && Config.isEnabled(Setting.ROYAL_PIGEON_PICKAXE_MACRO) && event.gui instanceof GuiChest) {
+        if(Utils.inSkyBlock && Config.royalPigeonMacro && event.gui instanceof GuiChest) {
             String chestName = ((ContainerChest) ((GuiChest)event.gui).inventorySlots).getLowerChestInventory().getDisplayName().getUnformattedText();
 
             if(chestName.contains("Commissions")) {

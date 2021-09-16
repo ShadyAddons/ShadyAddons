@@ -1,13 +1,12 @@
 package cheaters.get.banned.features;
 
+import cheaters.get.banned.configuration.Config;
+import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.Setting;
-import cheaters.get.banned.utils.Utils;
 
 public class AutoCloseChest {
 
@@ -16,11 +15,11 @@ public class AutoCloseChest {
         if(event.gui instanceof GuiChest && Utils.inSkyBlock) {
             String chestName = ((ContainerChest) ((GuiChest)event.gui).inventorySlots).getLowerChestInventory().getDisplayName().getUnformattedText();
 
-            if(Utils.inDungeon && Config.isEnabled(Setting.CLOSE_SECRET_CHESTS) && chestName.equals("Chest")) {
+            if(Utils.inDungeon && Config.closeSecretChests && chestName.equals("Chest")) {
                 closeChest();
             }
 
-            if(Utils.inSkyBlock && Config.isEnabled(Setting.CLOSE_CRYSTAL_HOLLOWS_CHESTS) && (chestName.contains("Loot Chest") || chestName.contains("Treasure Chest"))) {
+            if(Utils.inSkyBlock && Config.closeCrystalHollowsChests && (chestName.contains("Loot Chest") || chestName.contains("Treasure Chest"))) {
                 closeChest();
             }
         }

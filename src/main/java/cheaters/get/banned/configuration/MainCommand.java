@@ -1,13 +1,13 @@
-package cheaters.get.banned.config;
+package cheaters.get.banned.configuration;
 
+import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.dungeonscanner.DungeonScanner;
+import cheaters.get.banned.features.dungeonscanner.DungeonScannerGui;
+import cheaters.get.banned.utils.Utils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
-import cheaters.get.banned.Shady;
-import cheaters.get.banned.features.dungeonscanner.DungeonScannerGui;
-import cheaters.get.banned.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class MainCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         if(!Shady.enabled) {
-            Utils.sendMessage("&cUnknown command. Try /help for a list of commands");
+            Shady.mc.thePlayer.sendChatMessage("/U2t5dGlscw");
             return;
         }
 
@@ -78,6 +78,9 @@ public class MainCommand extends CommandBase {
 
                 case "disable":
                     Shady.enabled = false;
+                    for(Setting setting : Shady.settings) {
+                        setting.update(false, true);
+                    }
                     break;
             }
         } else {

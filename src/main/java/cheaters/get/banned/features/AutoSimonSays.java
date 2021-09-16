@@ -1,13 +1,12 @@
 package cheaters.get.banned.features;
 
+import cheaters.get.banned.Shady;
+import cheaters.get.banned.configuration.Config;
+import cheaters.get.banned.utils.ReflectionUtils;
+import cheaters.get.banned.utils.Utils;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.Setting;
-import cheaters.get.banned.utils.ReflectionUtils;
-import cheaters.get.banned.utils.Utils;
 
 public class AutoSimonSays {
     
@@ -15,7 +14,7 @@ public class AutoSimonSays {
 
     @SubscribeEvent
     public void onInteract(PlayerInteractEvent event) {
-        if(Config.isEnabled(Setting.AUTO_SIMON_SAYS) && !clicking && Utils.inDungeon && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+        if(Config.autoSimonSays && !clicking && Utils.inDungeon && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             if(Shady.mc.theWorld.getBlockState(event.pos).getBlock() == Blocks.stone_button) {
                 int x = event.pos.getX();
                 int y = event.pos.getY();
