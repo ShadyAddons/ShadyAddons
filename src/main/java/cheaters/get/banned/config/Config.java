@@ -1,11 +1,11 @@
-package cheaters.get.banned.configuration;
+package cheaters.get.banned.config;
 
 public class Config {
 
     @Property("Stonkless Stonk")
     public static boolean stonklessStonk = false;
 
-        @Property(value = "Always On", parent = "Stonkless Stonk")
+        @Property(value = "Always On", tooltip = "Always On (May Impact Performance)", parent = "Stonkless Stonk")
         public static boolean alwaysOn = false;
 
 

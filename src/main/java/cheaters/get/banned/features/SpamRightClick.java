@@ -1,7 +1,6 @@
 package cheaters.get.banned.features;
 
-import cheaters.get.banned.Shady;
-import cheaters.get.banned.configuration.Config;
+import cheaters.get.banned.config.Config;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.ReflectionUtils;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -11,15 +10,23 @@ import org.lwjgl.input.Keyboard;
 public class SpamRightClick {
 
     public SpamRightClick() {
-        KeybindUtils.register("Spam Right-Click", Keyboard.KEY_Y);
+        KeybindUtils.register("Autoclicker", Keyboard.KEY_Y);
     }
+
+    private static boolean toggled = false;
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if(Config.autoClickerBurst && KeybindUtils.get("Spam Right-Click").isPressed()) {
-            for(int i = 0; i < 25; i++) {
-                // DEV: ReflectionUtils.invoke(Shady.mc.getClass(), "rightClickMouse");
-                ReflectionUtils.invoke(Shady.mc.getClass(), "func_147121_ag");
+        if(KeybindUtils.get("Autoclicker").isPressed()) {
+            if(Config.autoClickerBurst) {
+                for(int i = 0; i < 25; i++) {
+                    ReflectionUtils.rightClick();
+                }
+            } else if(Config.autoClickerToggle) {
+                toggled = !toggled;
+                while(toggled) {
+                    ReflectionUtils.rightClick();
+                }
             }
         }
     }

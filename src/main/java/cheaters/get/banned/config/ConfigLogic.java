@@ -1,4 +1,4 @@
-package cheaters.get.banned.configuration;
+package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
 import com.google.gson.Gson;
@@ -31,6 +31,7 @@ public class ConfigLogic {
                         annotation.hidden(),
                         annotation.parent().equals("") ? null : annotation.parent(),
                         annotation.boundTo().equals("") ? null : annotation.boundTo(),
+                        annotation.tooltip().equals("") ? null : annotation.tooltip(),
                         annotation.type(),
                         field
                 ));

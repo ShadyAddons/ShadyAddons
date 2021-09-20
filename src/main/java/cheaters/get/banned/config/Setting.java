@@ -1,4 +1,4 @@
-package cheaters.get.banned.configuration;
+package cheaters.get.banned.config;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -9,15 +9,17 @@ public class Setting {
     public boolean hidden = false;
     public String parent = null;
     public String boundTo = null;
+    public String tooltip = null;
     public Type type;
     public Field field;
     public ArrayList<Setting> children = new ArrayList<>();
 
-    public Setting(String name, boolean hidden, String parent, String boundTo, Type type, Field field) {
+    public Setting(String name, boolean hidden, String parent, String boundTo, String tooltip, Type type, Field field) {
         this.name = name;
         this.hidden = hidden;
         this.parent = parent;
         this.boundTo = boundTo;
+        this.tooltip = tooltip;
         this.type = type;
         this.field = field;
     }

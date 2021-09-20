@@ -21,6 +21,11 @@ public class ReflectionUtils {
         }
     }
 
+    public static void rightClick() {
+        // DEV: ReflectionUtils.invoke(Shady.mc.getClass(), "rightClickMouse");
+        ReflectionUtils.invoke(Shady.mc.getClass(), "func_147121_ag");
+    }
+
     public static String getMfValue(String key) {
         try {
             Class<Shady> _class = Shady.class;

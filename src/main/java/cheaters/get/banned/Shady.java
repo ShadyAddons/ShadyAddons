@@ -1,9 +1,9 @@
 package cheaters.get.banned;
 
-import cheaters.get.banned.configuration.MainCommand;
-import cheaters.get.banned.configuration.Config;
-import cheaters.get.banned.configuration.ConfigLogic;
-import cheaters.get.banned.configuration.Setting;
+import cheaters.get.banned.config.MainCommand;
+import cheaters.get.banned.config.Config;
+import cheaters.get.banned.config.ConfigLogic;
+import cheaters.get.banned.config.Setting;
 import cheaters.get.banned.features.*;
 import cheaters.get.banned.features.dungeonscanner.DungeonScanner;
 import cheaters.get.banned.updates.UpdateGui;
@@ -32,8 +32,8 @@ import java.util.ArrayList;
 public class Shady {
 
     public static final String MODNAME = "ShadyAddons";
-    public static final String VERSION = "@VERSION@";
     public static final boolean PRIVATE = true;
+    public static final String VERSION = "@VERSION@" + (PRIVATE ? "-Private" : "");
 
     public static final Minecraft mc = Minecraft.getMinecraft();
 

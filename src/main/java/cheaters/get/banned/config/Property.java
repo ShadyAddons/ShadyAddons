@@ -1,4 +1,4 @@
-package cheaters.get.banned.configuration;
+package cheaters.get.banned.config;
 
 import java.lang.annotation.*;
 
@@ -8,6 +8,7 @@ import java.lang.annotation.*;
 public @interface Property {
 
     String value();
+    String tooltip() default "";
     boolean hidden() default false;
     String parent() default "";
     String boundTo() default "";

@@ -1,4 +1,4 @@
-package cheaters.get.banned.configuration;
+package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.dungeonscanner.DungeonScanner;

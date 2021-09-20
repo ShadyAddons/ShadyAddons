@@ -1,6 +1,6 @@
-package cheaters.get.banned.configuration.components;
+package cheaters.get.banned.config.components;
 
-import cheaters.get.banned.configuration.Setting;
+import cheaters.get.banned.config.Setting;
 import net.minecraft.client.Minecraft;
 
 public class SwitchButton extends ConfigButton {

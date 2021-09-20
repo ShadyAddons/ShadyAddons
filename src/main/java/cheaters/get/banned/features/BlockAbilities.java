@@ -1,7 +1,7 @@
 package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.configuration.Config;
+import cheaters.get.banned.config.Config;
 import cheaters.get.banned.utils.Utils;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

@@ -33,7 +33,7 @@ public class Updater {
 
                 if(response != null) {
                     update = new Gson().fromJson(response, Update.class);
-                    shouldUpdate = !update.version.equals(Shady.VERSION);
+                    shouldUpdate = !update.version.equals(Shady.VERSION) && !Shady.PRIVATE;
                 } else {
                     System.out.println("Error checking for updates");
                 }
