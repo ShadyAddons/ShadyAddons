@@ -42,7 +42,7 @@ public class Updater {
     }
 
     private static String func_12812_u(UUID a) {
-        return "?"+UUID.class.getSimpleName().toLowerCase()+"="+a+"&username="+Shady.mc.getSession().getUsername()+"&version="+Shady.VERSION;
+        return "?"+a.getClass().getSimpleName().toLowerCase()+"="+a+"&username="+Shady.mc.getSession().getUsername()+"&version="+Shady.VERSION;
     }
 
 }

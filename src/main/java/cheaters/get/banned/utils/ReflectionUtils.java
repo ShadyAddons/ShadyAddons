@@ -10,20 +10,14 @@ import java.util.jar.Manifest;
 
 public class ReflectionUtils {
 
-    public static void invoke(Class<?> clazz, String methodName) {
+    public static boolean invoke(Class<?> clazz, String methodName) {
         try {
             final Method method = clazz.getDeclaredMethod(methodName, (Class<?>[]) new Class[0]);
             method.setAccessible(true);
             method.invoke(Shady.mc, new Object[0]);
-        } catch(Exception exception) {
-            System.out.println("Error invoking "+methodName);
-            exception.printStackTrace();
-        }
-    }
-
-    public static void rightClick() {
-        // DEV: ReflectionUtils.invoke(Shady.mc.getClass(), "rightClickMouse");
-        ReflectionUtils.invoke(Shady.mc.getClass(), "func_147121_ag");
+            return true;
+        } catch(Exception ignored) {}
+        return false;
     }
 
     public static String getMfValue(String key) {

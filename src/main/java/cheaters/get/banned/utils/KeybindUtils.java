@@ -21,4 +21,10 @@ public class KeybindUtils {
         return keyBindings.get(name);
     }
 
+    public static void rightClick() {
+        if(!ReflectionUtils.invoke(Shady.mc.getClass(), "func_147121_ag")) {
+            ReflectionUtils.invoke(Shady.mc.getClass(), "rightClickMouse");
+        }
+    }
+
 }

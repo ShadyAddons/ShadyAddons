@@ -2,13 +2,11 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
+import cheaters.get.banned.events.BlockChangeEvent;
 import cheaters.get.banned.utils.RenderUtils;
 import cheaters.get.banned.utils.Utils;
 import com.mojang.authlib.properties.Property;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
-import net.minecraft.block.BlockLever;
-import net.minecraft.block.BlockSkull;
+import net.minecraft.block.*;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -28,10 +26,10 @@ public class StonklessStonk {
     
     private static HashMap<BlockPos, Block> blockList = new HashMap<>();
     private static BlockPos selectedBlock = null;
-    private static BlockPos lastCheckedBlock = null;
+    private static BlockPos lastCheckedPosition = null;
     private static HashSet<BlockPos> usedBlocks = new HashSet<>();
 
-    private static float reachDistance = 5f;
+    private static float range = 5f;
     private static final String witherEssenceSkin = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRkYjRhZGZhOWJmNDhmZjVkNDE3MDdhZTM0ZWE3OGJkMjM3MTY1OWZjZDhjZDg5MzQ3NDlhZjRjY2U5YiJ9fX0=";
 
     private static boolean isEnabled() {
@@ -44,9 +42,9 @@ public class StonklessStonk {
     public void onTick(TickEvent.ClientTickEvent event) {
         if(Shady.mc.thePlayer == null) return;
         BlockPos playerPosition = Shady.mc.thePlayer.getPosition();
-        if(isEnabled() && (Config.alwaysOn || lastCheckedBlock == null || !lastCheckedBlock.equals(playerPosition))) {
+        if(isEnabled() && (lastCheckedPosition == null || !lastCheckedPosition.equals(playerPosition))) {
             blockList.clear();
-            lastCheckedBlock = playerPosition;
+            lastCheckedPosition = playerPosition;
 
             for(int x = playerPosition.getX()-6; x < playerPosition.getX()+6; x++) {
                 for(int y = playerPosition.getY()-6; y < playerPosition.getY()+6; y++) {
@@ -55,16 +53,8 @@ public class StonklessStonk {
                         BlockPos position = new BlockPos(x, y, z);
                         Block block = Shady.mc.theWorld.getBlockState(position).getBlock();
 
-                        if(block instanceof BlockChest || block instanceof BlockLever) {
+                        if(shouldEspBlock(block, position)) {
                             blockList.put(position, block);
-                        } else if(block instanceof BlockSkull) {
-                            TileEntitySkull tileEntity = (TileEntitySkull) Shady.mc.theWorld.getTileEntity(position);
-                            if(tileEntity.getSkullType() == 3) {
-                                Property property = Utils.firstOrNull(tileEntity.getPlayerProfile().getProperties().get("textures"));
-                                if(property != null && property.getValue().equals(witherEssenceSkin)) {
-                                    blockList.put(position, block);
-                                }
-                            }
                         }
 
                     }
@@ -81,11 +71,11 @@ public class StonklessStonk {
                 if(usedBlocks.contains(block.getKey())) continue;
 
                 if(selectedBlock == null) {
-                    if(Utils.facingBlock(block.getKey(), reachDistance)) {
+                    if(Utils.facingBlock(block.getKey(), range)) {
                         selectedBlock = block.getKey();
                     }
                 } else {
-                    if(!Utils.facingBlock(selectedBlock, reachDistance)) {
+                    if(!Utils.facingBlock(selectedBlock, range)) {
                         selectedBlock = null;
                     }
                 }
@@ -126,11 +116,33 @@ public class StonklessStonk {
     }
 
     @SubscribeEvent
+    public void onBlockChange(BlockChangeEvent event) {
+        if(event.position.distanceSq(Shady.mc.thePlayer.getPosition()) > range) return;
+        if(usedBlocks.contains(event.position)) return;
+        if(!shouldEspBlock(event.newBlock.getBlock(), event.position)) return;
+
+        blockList.put(event.position, event.newBlock.getBlock());
+    }
+
+    public static boolean shouldEspBlock(Block block, BlockPos position) {
+        if(block instanceof BlockChest || block instanceof BlockLever) {
+            return true;
+        } else if(block instanceof BlockSkull) {
+            TileEntitySkull tileEntity = (TileEntitySkull) Shady.mc.theWorld.getTileEntity(position);
+            if(tileEntity.getSkullType() == 3) {
+                Property property = Utils.firstOrNull(tileEntity.getPlayerProfile().getProperties().get("textures"));
+                return property != null && property.getValue().equals(witherEssenceSkin);
+            }
+        }
+        return false;
+    }
+
+    @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) {
         blockList.clear();
         usedBlocks.clear();
         selectedBlock = null;
-        lastCheckedBlock = null;
+        lastCheckedPosition = null;
     }
 
 }

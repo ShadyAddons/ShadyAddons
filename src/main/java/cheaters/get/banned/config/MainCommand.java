@@ -77,10 +77,7 @@ public class MainCommand extends CommandBase {
                     break;
 
                 case "disable":
-                    Shady.enabled = false;
-                    for(Setting setting : Shady.settings) {
-                        setting.update(false, true);
-                    }
+                    Shady.disable();
                     break;
             }
         } else {

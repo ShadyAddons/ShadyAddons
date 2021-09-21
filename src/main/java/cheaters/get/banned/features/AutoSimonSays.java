@@ -2,7 +2,7 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
-import cheaters.get.banned.utils.ReflectionUtils;
+import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -23,7 +23,7 @@ public class AutoSimonSays {
                 if(x == 309 && y >= 120 && y <= 123 && z >= 291 && z <= 294) {
                     clicking = true;
                     for(int i = 0; i < 4; i++) {
-                        ReflectionUtils.rightClick();
+                        KeybindUtils.rightClick();
                     }
                     clicking = false;
                 }

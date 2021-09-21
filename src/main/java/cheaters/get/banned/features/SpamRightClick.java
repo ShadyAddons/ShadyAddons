@@ -2,7 +2,7 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.utils.KeybindUtils;
-import cheaters.get.banned.utils.ReflectionUtils;
+import cheaters.get.banned.utils.ThreadUtils;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
@@ -20,12 +20,17 @@ public class SpamRightClick {
         if(KeybindUtils.get("Autoclicker").isPressed()) {
             if(Config.autoClickerBurst) {
                 for(int i = 0; i < 25; i++) {
-                    ReflectionUtils.rightClick();
+                    KeybindUtils.rightClick();
                 }
             } else if(Config.autoClickerToggle) {
                 toggled = !toggled;
-                while(toggled) {
-                    ReflectionUtils.rightClick();
+                if(toggled) {
+                    new Thread(() -> {
+                        while(toggled) {
+                            KeybindUtils.rightClick();
+                            ThreadUtils.sleep(40); // 40ms = 25 CPS
+                        }
+                    }, "ShadyAddons-Autoclicker").start();
                 }
             }
         }

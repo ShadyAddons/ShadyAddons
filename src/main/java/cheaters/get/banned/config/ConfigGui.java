@@ -39,7 +39,7 @@ public class ConfigGui extends GuiScreen {
         GlStateManager.color(255, 255, 255);
         Shady.mc.getTextureManager().bindTexture(new ResourceLocation(usePrideLogo ? "shadyaddons:pride-logo.png" : "shadyaddons:logo.png"));
         drawModalRectWithCustomSizedTexture(width / 2 - 143, 24-scrollOffset, 0, 0, 286, 40, 286, 40);
-        drawCenteredString(Shady.mc.fontRendererObj, (Shady.PRIVATE ? "Dangerous ✦ " : "") + Shady.VERSION, width / 2, 67-scrollOffset, -1);
+        drawCenteredString(Shady.mc.fontRendererObj, (Shady.PRIVATE ? "Insider ✦ " : "") + Shady.VERSION, width / 2, 67-scrollOffset, -1);
 
         // Settings
         for(int i = 0; i < settings.size(); i++) {

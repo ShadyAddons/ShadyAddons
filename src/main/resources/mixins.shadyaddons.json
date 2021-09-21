@@ -4,8 +4,6 @@
     "compatibilityLevel": "JAVA_8",
     "minVersion": "0.7",
     "mixins": [
-        "MixinChunk",
-        "MixinNetHandlerPlayClient",
-        "MixinNetworkManager"
+        "MixinChunk"
     ]
 }

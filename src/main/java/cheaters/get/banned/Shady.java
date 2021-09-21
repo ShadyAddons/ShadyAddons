@@ -8,6 +8,7 @@ import cheaters.get.banned.features.*;
 import cheaters.get.banned.features.dungeonscanner.DungeonScanner;
 import cheaters.get.banned.updates.UpdateGui;
 import cheaters.get.banned.updates.Updater;
+import cheaters.get.banned.updates.Whitelist;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.Minecraft;
@@ -32,8 +33,8 @@ import java.util.ArrayList;
 public class Shady {
 
     public static final String MODNAME = "ShadyAddons";
-    public static final boolean PRIVATE = true;
-    public static final String VERSION = "@VERSION@" + (PRIVATE ? "-Private" : "");
+    public static final String VERSION = "@VERSION@";
+    public static final boolean PRIVATE = VERSION.contains("-pre") || VERSION.equals("@VERSION@");
 
     public static final Minecraft mc = Minecraft.getMinecraft();
 
@@ -48,6 +49,7 @@ public class Shady {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        if(PRIVATE) Whitelist.check();
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         ConfigLogic.load();
         Updater.check();
@@ -101,6 +103,13 @@ public class Shady {
         if(Updater.shouldUpdate && event.gui instanceof GuiMainMenu) {
             guiToOpen = new UpdateGui();
             Updater.shouldUpdate = false;
+        }
+    }
+
+    public static void disable() {
+        enabled = false;
+        for(Setting setting : settings) {
+            setting.update(false, true);
         }
     }
 
