@@ -4,7 +4,7 @@ plugins {
     id 'org.spongepowered.mixin' version 'd5f9873d60'
 }
 
-version = '1.2.0-pre6'
+version = '2.0.0-pre2'
 group = 'cheaters.get.banned'
 archivesBaseName = 'ShadyAddons'
 
@@ -50,7 +50,7 @@ mixin {
 
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
+    
     manifest.attributes(
             'FMLCorePluginContainsFMLMod': true,
             'ForceLoadAsMod': true,
@@ -62,8 +62,6 @@ jar {
             'Integrity': 'aHR0cHM6Ly9jaGVhdGVyc2dldGJhbm5lZC5tZS9hcGkvdXBkYXRlcw',
             'Northeast': '3032254b596f4f0145161afe92b6e8b92f2b19d5e779ff1f12f5a8bbefd474f5'
     )
-
-    from "safety.txt"
 
     enabled = false
 }
