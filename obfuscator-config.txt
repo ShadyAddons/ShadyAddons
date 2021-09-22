@@ -1,0 +1,79 @@
+{
+  "input": "/Users/jerome/Documents/GitHub/ShadyAddons/build/libs/ShadyAddons-2.0.0-pre3-NOT-OBFUSCATED.jar",
+  "output": "/Users/jerome/Documents/GitHub/ShadyAddons/build/libs/ShadyAddons-2.0.0-pre3.jar",
+  "script": "function isRemappingEnabledForClass(node) {\n    var flag1 \u003d node.name.startsWith(\"cheaters/get/banned\");\n    var flag2 \u003d !node.name.startsWith(\"cheaters/get/banned/mixins\");\n    var flag3 \u003d !node.name.startsWith(\"cheaters/get/banned/config\");\n    return flag1 \u0026\u0026 flag2 \u0026\u0026 flag3;\n}\nfunction isObfuscatorEnabledForClass(node) {\n    var flag1 \u003d node.name.startsWith(\"cheaters/get/banned\");\n    var flag2 \u003d !node.name.startsWith(\"cheaters/get/banned/mixins\");\n    var flag3 \u003d !node.name.startsWith(\"cheaters/get/banned/config\");\n    return flag1 \u0026\u0026 flag2 \u0026\u0026 flag3;\n}",
+  "libraries": [],
+  "Crasher": {
+    "Enabled": false
+  },
+  "InvokeDynamic": {
+    "Enabled": false
+  },
+  "HWIDPRotection": {
+    "Enabled": false,
+    "HWID": "8B6BCE5E6362C80D8D9CBD68894A6AE2"
+  },
+  "Optimizer": {
+    "Enabled": false,
+    "Replace String.equals()": false,
+    "Replace String.equalsIgnoreCase()": false,
+    "Optimize static string calls": false
+  },
+  "LineNumberRemover": {
+    "Enabled": true,
+    "Rename local variables": true,
+    "Remove Line Numbers": true,
+    "Remove Debug Names": true,
+    "Add Local Variables": true,
+    "New SourceFile Name": ""
+  },
+  "StringEncryption": {
+    "Enabled": true,
+    "HideStrings": false,
+    "AES": false
+  },
+  "NumberObfuscation": {
+    "Enabled": true,
+    "Extract to Array": true,
+    "Obfuscate Zero": true,
+    "Shift": false,
+    "And": false,
+    "Multiple Instructions": true
+  },
+  "ReferenceProxy": {
+    "Enabled": false
+  },
+  "ShuffleMembers": {
+    "Enabled": true
+  },
+  "InnerClassRemover": {
+    "Enabled": true,
+    "Remap": false,
+    "Remove Metadata": true
+  },
+  "NameObfuscation": {
+    "Enabled": false
+  },
+  "Packager": {
+    "Enabled": false,
+    "Use MainClass from the JAR manifest": true,
+    "Main class": "org.example.Main"
+  },
+  "FlowObfuscator": {
+    "Enabled": true,
+    "Mangle Comparisons": true,
+    "Replace GOTO": true,
+    "Replace If": true,
+    "Bad POP": true,
+    "Bad Concat": true,
+    "Mangle Switches": false,
+    "Mangle Return": false,
+    "Mangle Local Variables": false
+  },
+  "HideMembers": {
+    "Enabled": true
+  },
+  "Inlining": {
+    "Enabled": false
+  }
+}
