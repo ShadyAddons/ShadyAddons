@@ -1,8 +1,8 @@
 package cheaters.get.banned;
 
-import cheaters.get.banned.config.MainCommand;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.config.ConfigLogic;
+import cheaters.get.banned.config.MainCommand;
 import cheaters.get.banned.config.Setting;
 import cheaters.get.banned.features.*;
 import cheaters.get.banned.features.dungeonscanner.DungeonScanner;
@@ -34,7 +34,7 @@ public class Shady {
 
     public static final String MODNAME = "ShadyAddons";
     public static final String VERSION = "@VERSION@";
-    public static final boolean PRIVATE = VERSION.contains("-pre") || VERSION.equals("@VERSION@");
+    public static final boolean PRIVATE = VERSION.contains("-pre") || VERSION.equals("@VER"+"SION@");
 
     public static final Minecraft mc = Minecraft.getMinecraft();
 
@@ -69,7 +69,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new AutoGG());
         MinecraftForge.EVENT_BUS.register(new AutoSimonSays());
         MinecraftForge.EVENT_BUS.register(new AbilityKeybind());
-        MinecraftForge.EVENT_BUS.register(new SpamRightClick());
+        MinecraftForge.EVENT_BUS.register(new AutoClicker());
         MinecraftForge.EVENT_BUS.register(new AutoRenewCrystalHollows());
         MinecraftForge.EVENT_BUS.register(new DisableSwordAnimation());
         MinecraftForge.EVENT_BUS.register(new ShowHiddenEntities());

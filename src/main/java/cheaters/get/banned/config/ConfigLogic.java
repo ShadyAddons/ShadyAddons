@@ -3,6 +3,7 @@ package cheaters.get.banned.config;
 import cheaters.get.banned.Shady;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
 import java.io.Reader;
@@ -17,7 +18,16 @@ import java.util.Map;
 
 public class ConfigLogic {
     
-    private static String fileName = "config/ShadyAddons.config";
+    private static String fileName = "config/ShadyAddons.cfg";
+    private static HashMap<String, String> hashedSettings = new HashMap<>();
+
+    private static HashMap<String, String> generateHashes(ArrayList<Setting> settings) {
+        HashMap<String, String> output = new HashMap<>();
+        for(Setting setting : settings) {
+            output.put(DigestUtils.md5Hex(setting.name), setting.name);
+        }
+        return output;
+    }
 
     public static ArrayList<Setting> collect(Class<Config> instance) {
         Field[] fields = instance.getDeclaredFields();
@@ -44,6 +54,7 @@ public class ConfigLogic {
             settings.set(i, newSetting);
         }
 
+        hashedSettings = generateHashes(settings);
         return settings;
     }
 
@@ -58,7 +69,8 @@ public class ConfigLogic {
         try {
             HashMap<String, Boolean> convertedSettings = new HashMap<>();
             for(Setting setting : Shady.settings) {
-                convertedSettings.put(setting.name, setting.enabled());
+                String settingHash = DigestUtils.md5Hex(setting.name);
+                convertedSettings.put(settingHash, setting.enabled());
             }
             String json = new Gson().toJson(convertedSettings);
             Files.write(Paths.get(fileName), json.getBytes(StandardCharsets.UTF_8));
@@ -78,8 +90,10 @@ public class ConfigLogic {
                 HashMap<String, Boolean> settingsToProcess = new Gson().fromJson(reader, type);
 
                 for(Map.Entry<String, Boolean> settingToProcess : settingsToProcess.entrySet()) {
-                    Setting settingToAdd = getSetting(settingToProcess.getKey());
-                    if(settingToAdd != null) settingToAdd.update(settingToProcess.getValue(), true);
+                    if(hashedSettings.containsKey(settingToProcess.getKey())) {
+                        Setting settingToAdd = getSetting(hashedSettings.get(settingToProcess.getKey()));
+                        if(settingToAdd != null) settingToAdd.set(settingToProcess.getValue());
+                    }
                 }
             }
         } catch(Exception error) {

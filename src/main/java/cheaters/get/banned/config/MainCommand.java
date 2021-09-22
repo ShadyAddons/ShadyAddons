@@ -8,6 +8,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class MainCommand extends CommandBase {
                     break;
             }
         } else {
-            Shady.guiToOpen = new ConfigGui();
+            Shady.guiToOpen = new ConfigGui(new ResourceLocation("shadyaddons:"+Utils.getLogo()+".png"));
         }
     }
 

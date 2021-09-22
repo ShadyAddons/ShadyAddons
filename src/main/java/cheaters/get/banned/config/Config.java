@@ -23,6 +23,9 @@ public class Config {
         @Property(value = "Toggle Continous", parent = "Auto Clicker", boundTo = "Trigger Burst")
         public static boolean autoClickerToggle = false;
 
+            @Property(value = "Show Indicator", parent = "Toggle Continous")
+            public static boolean autoClickerIndicator = false;
+
         @Property(value = "Trigger Burst", parent = "Auto Clicker", boundTo = "Toggle Continous")
         public static boolean autoClickerBurst = false;
 
@@ -65,8 +68,26 @@ public class Config {
         @Property(value = "Normal Ability", parent = "Keybinds")
         public static boolean normalAbilityKeybind = false;
 
-        @Property(value = "Ice Spray Hotkey (I)", parent = "Keybinds")
-        public static boolean iceSprayHotkey = false;
+        @Property(value = "Item Hotkeys", parent = "Keybinds")
+        public static boolean itemHotkeys = false;
+
+            @Property(value = "Ice Spray Hotkey", parent = "Item Hotkeys")
+            public static boolean iceSprayHotkey = false;
+
+            @Property(value = "Plasmaflux Hotkey", parent = "Item Hotkeys")
+            public static boolean plasmafluxHotkey = false;
+
+            @Property(value = "Weird Tuba Hotkey", parent = "Item Hotkeys")
+            public static boolean weirdTubaHotkey = false;
+
+            @Property(value = "Gyrokinetic Wand", parent = "Item Hotkeys")
+            public static boolean gyrokineticWandHotkey = false;
+
+            @Property(value = "Pigman Sword Hotkey", parent = "Item Hotkeys")
+            public static boolean pigmanSwordHotkey = false;
+
+            @Property(value = "Wand of Atonement", parent = "Item Hotkeys")
+            public static boolean wandOfAtonementHotkey = false;
 
 
     @Property("Block Abilities")

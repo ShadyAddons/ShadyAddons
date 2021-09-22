@@ -18,8 +18,7 @@ import cheaters.get.banned.Shady;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class Utils {
@@ -28,6 +27,30 @@ public class Utils {
     public static boolean inDungeon = false;
     public static boolean forceSkyBlock = false;
     public static boolean forceDungeon = false;
+
+    public static String getLogo() {
+        final ArrayList<String> logos = new ArrayList<String>(Arrays.asList("logo-fsr", "logo-hyaddons", "logo-impact", "logo-sbe", "logo-skytils", "logo-pride"));
+
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+        // December 21-31 (Christmas)
+        if(month == Calendar.DECEMBER && day > 20) return "logo-christmas";
+        // October 26-31 (Halloween)
+        if(month == Calendar.OCTOBER && day > 25) return "logo-halloween";
+        // October 11 (National Coming Out Day)
+        if(month == Calendar.OCTOBER && day == 11) return "logo-pride";
+
+        // 60% Chance For Normal Logo
+        if(Math.random() < 0.6d) return "logo";
+
+        // 40% Chance for Random Logo
+        return (String) getRandomItem(logos);
+    }
+
+    public static Object getRandomItem(List<?> list) {
+        return list.get(new Random().nextInt(list.size()));
+    }
 
     public static void openUrl(String url) {
         try {

@@ -31,6 +31,14 @@ public class Setting {
         return false;
     }
 
+    public void set(Object value) {
+        try {
+            field.set(value.getClass(), value);
+        } catch(Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
     public void update(Object newValue, boolean preventRecursion) {
         try {
             for(Setting child : children) {
@@ -50,7 +58,7 @@ public class Setting {
                 }
             }
 
-            field.set(newValue.getClass(), newValue);
+            set(newValue);
         } catch(Exception exception) {
             exception.printStackTrace();
         }

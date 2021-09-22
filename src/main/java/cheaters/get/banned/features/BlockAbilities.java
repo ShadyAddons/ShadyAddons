@@ -12,9 +12,13 @@ public class BlockAbilities {
     public void onInteract(PlayerInteractEvent event) {
         if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && Shady.mc.thePlayer.getHeldItem() != null) {
             String skyBlockID = Utils.getSkyBlockID(Shady.mc.thePlayer.getHeldItem());
-            event.setCanceled(Config.blockCellsAlignment && skyBlockID.equals("GYROKINETIC_WAND"));
-            event.setCanceled(Config.blockGiantsSlam && skyBlockID.equals("GIANTS_SWORD"));
-            event.setCanceled(Config.blockValkyrie && Utils.inDungeon && skyBlockID.equals("VALKYRIE"));
+            if(
+
+                    (Config.blockCellsAlignment && skyBlockID.equals("GYROKINETIC_WAND")) ||
+                    (Config.blockGiantsSlam && skyBlockID.equals("GIANTS_SWORD")) ||
+                    (Config.blockValkyrie && Utils.inDungeon && skyBlockID.equals("VALKYRIE"))
+
+            ) { event.setCanceled(true); }
         }
     }
 

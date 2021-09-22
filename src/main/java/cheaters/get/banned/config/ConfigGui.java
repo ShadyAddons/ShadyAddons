@@ -11,7 +11,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class ConfigGui extends GuiScreen {
 
@@ -21,11 +20,18 @@ public class ConfigGui extends GuiScreen {
     private int prevMouseY;
     private int scrollOffset = 0;
     private boolean scrolling = false;
+    private ResourceLocation logo;
 
     private Integer prevWidth = null;
     private Integer prevHeight = null;
 
-    private final boolean usePrideLogo = Calendar.getInstance().get(Calendar.MONTH) == Calendar.OCTOBER;
+    public ConfigGui() {
+        this(new ResourceLocation("shadyaddons:logo.png"));
+    }
+
+    public ConfigGui(ResourceLocation logo) {
+        this.logo = logo;
+    }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -37,7 +43,7 @@ public class ConfigGui extends GuiScreen {
 
         // Logo + Version
         GlStateManager.color(255, 255, 255);
-        Shady.mc.getTextureManager().bindTexture(new ResourceLocation(usePrideLogo ? "shadyaddons:pride-logo.png" : "shadyaddons:logo.png"));
+        Shady.mc.getTextureManager().bindTexture(logo);
         drawModalRectWithCustomSizedTexture(width / 2 - 143, 24-scrollOffset, 0, 0, 286, 40, 286, 40);
         drawCenteredString(Shady.mc.fontRendererObj, (Shady.PRIVATE ? "Insider ✦ " : "") + Shady.VERSION, width / 2, 67-scrollOffset, -1);
 
@@ -65,7 +71,7 @@ public class ConfigGui extends GuiScreen {
         }
 
         if(prevHeight != null && prevWidth != null && (prevWidth != width || prevHeight != height)) {
-            Shady.mc.displayGuiScreen(new ConfigGui());
+            Shady.mc.displayGuiScreen(new ConfigGui(logo));
         }
 
         prevWidth = width;

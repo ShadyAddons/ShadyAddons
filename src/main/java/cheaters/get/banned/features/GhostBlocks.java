@@ -6,9 +6,9 @@ import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
 public class GhostBlocks {
@@ -18,7 +18,7 @@ public class GhostBlocks {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onRenderWorld(RenderWorldLastEvent event) {
         if(Config.ghostBlockKeybind && KeybindUtils.get("Create Ghost Block").isKeyDown()) {
             BlockPos lookingAtPos = Shady.mc.thePlayer.rayTrace(Shady.mc.playerController.getBlockReachDistance(), 1).getBlockPos();
             if(lookingAtPos != null) {
