@@ -71,23 +71,23 @@ public class Config {
         @Property(value = "Item Hotkeys", parent = "Keybinds")
         public static boolean itemHotkeys = false;
 
-            @Property(value = "Ice Spray Hotkey", parent = "Item Hotkeys")
+            @Property(value = "Ice Spray", parent = "Item Hotkeys")
             public static boolean iceSprayHotkey = false;
 
-            @Property(value = "Plasmaflux Hotkey", parent = "Item Hotkeys")
-            public static boolean plasmafluxHotkey = false;
+            @Property(value = "Power Orb", parent = "Item Hotkeys")
+            public static boolean powerOrbHotkey = false;
 
-            @Property(value = "Weird Tuba Hotkey", parent = "Item Hotkeys")
+            @Property(value = "Weird Tuba", parent = "Item Hotkeys")
             public static boolean weirdTubaHotkey = false;
 
             @Property(value = "Gyrokinetic Wand", parent = "Item Hotkeys")
             public static boolean gyrokineticWandHotkey = false;
 
-            @Property(value = "Pigman Sword Hotkey", parent = "Item Hotkeys")
+            @Property(value = "Pigman Sword", parent = "Item Hotkeys")
             public static boolean pigmanSwordHotkey = false;
 
-            @Property(value = "Wand of Atonement", parent = "Item Hotkeys")
-            public static boolean wandOfAtonementHotkey = false;
+            @Property(value = "Healing Wand", parent = "Item Hotkeys")
+            public static boolean healingWandHotkey = false;
 
 
     @Property("Block Abilities")
@@ -131,5 +131,9 @@ public class Config {
 
         @Property(value = "Stealthy Blood Mobs", parent = "Show Hidden Mobs")
         public static boolean showStealthyBloodMobs = false;
+
+
+    @Property("Highlight Starred Mobs")
+    public static boolean highlightStarredMobs = false;
 
 }

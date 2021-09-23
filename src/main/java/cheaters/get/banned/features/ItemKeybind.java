@@ -13,24 +13,53 @@ public class ItemKeybind {
 
     public ItemKeybind() {
         KeybindUtils.register("Use Ice Spray", Keyboard.KEY_NONE);
-        KeybindUtils.register("Use Plasmaflux", Keyboard.KEY_NONE);
+        KeybindUtils.register("Use Power Orb", Keyboard.KEY_NONE);
         KeybindUtils.register("Use Weird Tuba", Keyboard.KEY_NONE);
         KeybindUtils.register("Use Gyrokinetic Wand", Keyboard.KEY_NONE);
         KeybindUtils.register("Use Pigman Sword", Keyboard.KEY_NONE);
-        KeybindUtils.register("Use Wand of Atonement", Keyboard.KEY_NONE);
+        KeybindUtils.register("Use Healing Wand", Keyboard.KEY_NONE);
     }
 
     @SubscribeEvent
     public void onInput(InputEvent.KeyInputEvent event) {
-        if(Config.iceSprayHotkey && KeybindUtils.isPressed("Use Ice Spray")) useItem("ICE_SPRAY_WAND");
-        if(Config.plasmafluxHotkey && KeybindUtils.isPressed("Use Plasmaflux")) useItem("PLASMAFLUX_POWER_ORB");
-        if(Config.weirdTubaHotkey && KeybindUtils.isPressed("Use Weird Tuba")) useItem("WEIRD_TUBA");
-        if(Config.gyrokineticWandHotkey && KeybindUtils.isPressed("Use Gyrokinetic Wand")) useItem("GYROKINETIC_WAND");
-        if(Config.pigmanSwordHotkey && KeybindUtils.isPressed("Use Pigman Sword")) useItem("PIGMAN_SWORD");
-        if(Config.wandOfAtonementHotkey && KeybindUtils.isPressed("Use Wand of Atonement")) useItem("WAND_OF_ATONEMENT");
+        if(Config.iceSprayHotkey && KeybindUtils.isPressed("Use Ice Spray")) {
+            if(!useItem("ICE_SPRAY_WAND")) {
+                sendUsageMessage("Ice Spray Wand");
+            };
+        }
+
+        if(Config.powerOrbHotkey && KeybindUtils.isPressed("Use Power Orb")) {
+            if(!useItem("PLASMAFLUX_POWER_ORB") && !useItem("OVERFLUX_POWER_ORB") && !useItem("MANA_FLUX_POWER_ORB") && !useItem("RADIANT_POWER_ORB")){
+                sendUsageMessage("Power Orb");
+            }
+        }
+
+        if(Config.weirdTubaHotkey && KeybindUtils.isPressed("Use Weird Tuba")) {
+            if(!useItem("WEIRD_TUBA")) {
+                sendUsageMessage("Weird Tuba");
+            }
+        }
+
+        if(Config.gyrokineticWandHotkey && KeybindUtils.isPressed("Use Gyrokinetic Wand")) {
+            if(!useItem("GYROKINETIC_WAND")) {
+                sendUsageMessage("Gyrokinetic Wand");
+            }
+        }
+
+        if(Config.pigmanSwordHotkey && KeybindUtils.isPressed("Use Pigman Sword")) {
+            if(!useItem("PIGMAN_SWORD")) {
+                sendUsageMessage("Pigman Sword");
+            }
+        }
+
+        if(Config.healingWandHotkey && KeybindUtils.isPressed("Use Healing Wand")) {
+            if(!useItem("WAND_OF_ATONEMENT") && !useItem("WAND_OF_RESTORATION") && !useItem("WAND_OF_MENDING") && !useItem("WAND_OF_HEALING")) {
+                sendUsageMessage("Healing Wand");
+            }
+        }
     }
 
-    public static void useItem(String itemId) {
+    public static boolean useItem(String itemId) {
         for(int i = 0; i < 9; i++) {
             ItemStack item = Shady.mc.thePlayer.inventory.getStackInSlot(i);
             if(itemId.equals(Utils.getSkyBlockID(item))) {
@@ -38,11 +67,15 @@ public class ItemKeybind {
                 Shady.mc.thePlayer.inventory.currentItem = i;
                 Shady.mc.playerController.sendUseItem(Shady.mc.thePlayer, Shady.mc.theWorld, item);
                 Shady.mc.thePlayer.inventory.currentItem = previousItem;
-                return;
+                return true;
             }
         }
 
-        Utils.sendModMessage("No &9"+itemId+"&r found in your hotbar");
+        return false;
+    }
+
+    private static void sendUsageMessage(String itemName) {
+        Utils.sendModMessage("No &9"+itemName+"&r found in your hotbar");
     }
 
 }

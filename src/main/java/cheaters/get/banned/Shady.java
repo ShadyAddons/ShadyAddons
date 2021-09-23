@@ -49,7 +49,7 @@ public class Shady {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        if(PRIVATE) Whitelist.check();
+        Whitelist.check();
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         ConfigLogic.load();
         Updater.check();
@@ -77,6 +77,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new TeleportWithAnything());
         MinecraftForge.EVENT_BUS.register(new ItemKeybind());
         MinecraftForge.EVENT_BUS.register(new DungeonScanner());
+        MinecraftForge.EVENT_BUS.register(new MobESP());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);

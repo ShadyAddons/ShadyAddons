@@ -1,13 +1,13 @@
 {
-  "input": "/Users/jerome/Documents/GitHub/ShadyAddons/build/libs/ShadyAddons-2.0.0-pre3-NOT-OBFUSCATED.jar",
-  "output": "/Users/jerome/Documents/GitHub/ShadyAddons/build/libs/ShadyAddons-2.0.0-pre3.jar",
-  "script": "function isRemappingEnabledForClass(node) {\n    var flag1 \u003d node.name.startsWith(\"cheaters/get/banned\");\n    var flag2 \u003d !node.name.startsWith(\"cheaters/get/banned/mixins\");\n    var flag3 \u003d !node.name.startsWith(\"cheaters/get/banned/config\");\n    return flag1 \u0026\u0026 flag2 \u0026\u0026 flag3;\n}\nfunction isObfuscatorEnabledForClass(node) {\n    var flag1 \u003d node.name.startsWith(\"cheaters/get/banned\");\n    var flag2 \u003d !node.name.startsWith(\"cheaters/get/banned/mixins\");\n    var flag3 \u003d !node.name.startsWith(\"cheaters/get/banned/config\");\n    return flag1 \u0026\u0026 flag2 \u0026\u0026 flag3;\n}",
+  "input": "/Users/jerome/Documents/GitHub/ShadyAddons/build/libs/ShadyAddons-2.0.0-pre4.jar",
+  "output": "/Users/jerome/Documents/GitHub/ShadyAddons/build/libs/ShadyAddons-2.0.0-pre4-OBF.jar",
+  "script": "function isRemappingEnabledForClass(node) {\n    var flag1 \u003d node.name.startsWith(\"cheaters/get/banned\");\n    var flag2 \u003d !node.name.startsWith(\"cheaters/get/banned/mixins\");\n    // var flag3 \u003d !node.name.startsWith(\"cheaters/get/banned/config\");\n    return flag1 \u0026\u0026 flag2 /*\u0026\u0026 flag3*/;\n}\nfunction isObfuscatorEnabledForClass(node) {\n    var flag1 \u003d node.name.startsWith(\"cheaters/get/banned\");\n    var flag2 \u003d !node.name.startsWith(\"cheaters/get/banned/mixins\");\n    // var flag3 \u003d !node.name.startsWith(\"cheaters/get/banned/config\");\n    return flag1 \u0026\u0026 flag2 /*\u0026\u0026 flag3*/;\n}",
   "libraries": [],
   "Crasher": {
     "Enabled": false
   },
   "InvokeDynamic": {
-    "Enabled": false
+    "Enabled": true
   },
   "HWIDPRotection": {
     "Enabled": false,
@@ -29,7 +29,7 @@
   },
   "StringEncryption": {
     "Enabled": true,
-    "HideStrings": false,
+    "HideStrings": true,
     "AES": false
   },
   "NumberObfuscation": {
@@ -44,7 +44,7 @@
     "Enabled": false
   },
   "ShuffleMembers": {
-    "Enabled": true
+    "Enabled": false
   },
   "InnerClassRemover": {
     "Enabled": true,
@@ -56,8 +56,8 @@
   },
   "Packager": {
     "Enabled": false,
-    "Use MainClass from the JAR manifest": true,
-    "Main class": "org.example.Main"
+    "Use MainClass from the JAR manifest": false,
+    "Main class": "cheaters.get.banned.Shady"
   },
   "FlowObfuscator": {
     "Enabled": true,

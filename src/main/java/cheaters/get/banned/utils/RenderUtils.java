@@ -245,4 +245,7 @@ public class RenderUtils {
         return Shady.mc.fontRendererObj.FONT_HEIGHT;
     }
 
+    public static void bindColor(Color color) {
+        GlStateManager.color(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
+    }
 }
