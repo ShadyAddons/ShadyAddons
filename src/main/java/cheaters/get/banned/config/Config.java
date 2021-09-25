@@ -167,4 +167,31 @@ public class Config {
         @Property(value = "Jasper", parent = "Gemstone ESP")
         public static boolean jasperEsp = false;
 
+
+    @Property("Terminals")
+    public static boolean autoTerminals = false;
+
+        @Property(value = "Auto Maze")
+        public static boolean autoMaze = false;
+
+        @Property(value = "Auto Numbers")
+        public static boolean autoNumbers = false;
+
+        @Property(value = "Auto Correct All")
+        public static boolean autoCorrectAll = false;
+
+        @Property(value = "Auto Letter")
+        public static boolean autoLetter = false;
+
+        @Property(value = "Auto Color")
+        public static boolean autoColor = false;
+
+        @Property(value = "Pingless")
+        public static boolean terminalPingless = false;
+
+        @Property(value = "Click Delay in ms")
+        public static int terminalClickDelay = 60;
+        // TODO add delay option for terminal clicks in ms
+
+
 }
