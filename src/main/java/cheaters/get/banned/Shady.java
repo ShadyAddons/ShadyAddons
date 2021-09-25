@@ -78,6 +78,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new ItemKeybind());
         MinecraftForge.EVENT_BUS.register(new DungeonScanner());
         MinecraftForge.EVENT_BUS.register(new MobESP());
+        MinecraftForge.EVENT_BUS.register(new GemstoneESP());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);
