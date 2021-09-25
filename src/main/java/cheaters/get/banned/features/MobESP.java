@@ -23,7 +23,11 @@ public class MobESP {
             GlStateManager.enableBlend();
 
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            RenderUtils.bindColor(new Color(255, 170, 0));
+            if(event.entity.getName().contains("Lost Adventurer") || event.entity.getName().contains("Frozen Adventurer") || event.entity.getName().contains("Angry Archaeologist") || event.entity.getName().contains("Shadow Assassin")) {
+                RenderUtils.bindColor(new Color(0, 255, 234));
+            } else {
+                RenderUtils.bindColor(new Color(255, 170, 0));
+            }
         }
     }
 
@@ -39,7 +43,7 @@ public class MobESP {
     }
 
     private static boolean shouldHighlight(Entity entity) {
-        return Config.highlightStarredMobs && Utils.inDungeon && entity.getName().contains("✯");
+        return Config.highlightStarredMobs && Utils.inDungeon /*&& entity.getName().contains("✯")*/;
     }
 
 }
