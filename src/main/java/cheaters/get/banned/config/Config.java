@@ -74,6 +74,9 @@ public class Config {
             @Property(value = "Ice Spray", parent = "Item Hotkeys")
             public static boolean iceSprayHotkey = false;
 
+            @Property(value = "Rogue Sword", parent = "Item Hotkeys")
+            public static boolean rogueSwordHotkey = false;
+
             @Property(value = "Power Orb", parent = "Item Hotkeys")
             public static boolean powerOrbHotkey = false;
 
@@ -88,6 +91,9 @@ public class Config {
 
             @Property(value = "Healing Wand", parent = "Item Hotkeys")
             public static boolean healingWandHotkey = false;
+
+            @Property(value = "Fishing Rod", parent = "Item Hotkeys")
+            public static boolean fishingRodHotkey = false;
 
 
     @Property("Block Abilities")
@@ -135,5 +141,30 @@ public class Config {
 
     @Property("Highlight Starred Mobs")
     public static boolean highlightStarredMobs = false;
+
+
+    @Property("Gemstone ESP")
+    public static boolean gemstoneEsp = false;
+
+        @Property(value = "Ruby", parent = "Gemstone ESP")
+        public static boolean rubyEsp = false;
+
+        @Property(value = "Amber", parent = "Gemstone ESP")
+        public static boolean amberEsp = false;
+
+        @Property(value = "Sapphire", parent = "Gemstone ESP")
+        public static boolean sapphireEsp = false;
+
+        @Property(value = "Jade", parent = "Gemstone ESP")
+        public static boolean jadeEsp = false;
+
+        @Property(value = "Amethyst", parent = "Gemstone ESP")
+        public static boolean amethystEsp = false;
+
+        @Property(value = "Topaz", parent = "Gemstone ESP")
+        public static boolean topazEsp = false;
+
+        @Property(value = "Jasper", parent = "Gemstone ESP")
+        public static boolean jasperEsp = false;
 
 }
