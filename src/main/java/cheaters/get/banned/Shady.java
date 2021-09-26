@@ -10,6 +10,7 @@ import cheaters.get.banned.updates.UpdateGui;
 import cheaters.get.banned.updates.Updater;
 import cheaters.get.banned.updates.Whitelist;
 import cheaters.get.banned.utils.KeybindUtils;
+import cheaters.get.banned.utils.LocationUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -59,6 +60,7 @@ public class Shady {
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new Utils());
+        MinecraftForge.EVENT_BUS.register(new LocationUtils());
 
         MinecraftForge.EVENT_BUS.register(new BlockAbilities());
         MinecraftForge.EVENT_BUS.register(new StonklessStonk());

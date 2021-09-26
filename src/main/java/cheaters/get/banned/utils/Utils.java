@@ -217,6 +217,16 @@ public class Utils {
         return Iterables.getFirst(iterable, null);
     }
 
+    @SafeVarargs
+    public static <T> T firstNotNull(T...args) {
+        for(T arg : args) {
+            if(arg != null) {
+                return arg;
+            }
+        }
+        return null;
+    }
+
     /**
      * Sets the inSkyBlock and inDungeon variables based off the scoreboard
      */
