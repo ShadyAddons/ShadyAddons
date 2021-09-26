@@ -145,14 +145,14 @@ public class Config {
         public static boolean showStealthyBloodMobs = false;
 
 
-    @Boolean("Highlight Starred Mobs")
+    // @Boolean("Highlight Starred Mobs")
     public static boolean highlightStarredMobs = false;
 
 
     @Boolean("Gemstone ESP")
     public static boolean gemstoneEsp = false;
 
-        @Number(value = "Scan Radius", parent = "Gemstone ESP", suffix = " blocks", min = 5, max = 50)
+        @Number(value = "Scan Radius", parent = "Gemstone ESP", suffix = " blocks", min = 5, max = 30)
         public static int gemstoneRadius = 15;
 
         @Boolean(value = "Ruby", parent = "Gemstone ESP")
@@ -176,6 +176,9 @@ public class Config {
         @Boolean(value = "Jasper", parent = "Gemstone ESP")
         public static boolean jasperEsp = false;
 
+
+    @Boolean("Auto Melody")
+    public static boolean autoMelody = false;
 
     @Boolean("Auto Terminals")
     public static boolean autoTerminals = false;

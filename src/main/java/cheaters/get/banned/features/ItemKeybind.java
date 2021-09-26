@@ -68,7 +68,7 @@ public class ItemKeybind {
             }
         }
 
-        if(Config.fishingRodHotkey && KeybindUtils.isPressed("Use Rogue Sword")) {
+        if(Config.fishingRodHotkey && KeybindUtils.isPressed("Use Fishing Rod")) {
             if(!useItem(Items.fishing_rod)) {
                 sendUsageMessage("Fishing Rod");
             }

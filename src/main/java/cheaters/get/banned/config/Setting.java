@@ -12,7 +12,6 @@ public class Setting {
     public boolean hidden = false;
     public String parent = null;
     public Field field;
-    public Object defaultValue;
 
     // Only SettingType.INTEGER
     public int step;
@@ -27,7 +26,7 @@ public class Setting {
     public BooleanType booleanType;
 
     // Create SettingType.BOOLEAN
-    public Setting(String name, boolean hidden, String parent, String boundTo, BooleanType booleanType, Field field, Object defaultValue) {
+    public Setting(String name, boolean hidden, String parent, String boundTo, BooleanType booleanType, Field field) {
         this.type = SettingType.BOOLEAN;
         this.name = name;
         this.hidden = hidden;
@@ -35,11 +34,10 @@ public class Setting {
         this.boundTo = boundTo;
         this.booleanType = booleanType;
         this.field = field;
-        this.defaultValue = defaultValue;
     }
 
     // Create SettingType.INTEGER
-    public Setting(String name, boolean hidden, String parent, int step, String prefix, String suffix, int min, int max, Field field, Object defaultValue) {
+    public Setting(String name, boolean hidden, String parent, int step, String prefix, String suffix, int min, int max, Field field) {
         this.type = SettingType.INTEGER;
         this.name = name;
         this.hidden = hidden;
@@ -50,13 +48,11 @@ public class Setting {
         this.min = min;
         this.max = max;
         this.field = field;
-        this.defaultValue = defaultValue;
     }
 
     public boolean enabled() {
         try {
             if(type == SettingType.BOOLEAN) return (boolean) field.get(boolean.class);
-            if(type == SettingType.INTEGER) return field.get(int.class) != defaultValue;
         } catch(Exception ignored) {}
         return false;
     }
@@ -80,7 +76,7 @@ public class Setting {
         try {
             for(Setting child : children) {
                 if(field.getType() == boolean.class || field.getType() == Boolean.class) {
-                    child.update(defaultValue, false);
+                    if(type == SettingType.BOOLEAN) child.update(false, false);
                 } else {
                     throw new Exception("Type mismatch when updating sub-setting value");
                 }

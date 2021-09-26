@@ -16,7 +16,8 @@ public abstract class MixinChunk {
 
     @Shadow public abstract IBlockState getBlockState(BlockPos pos);
 
-    @Inject(method = {"setBlockState", "func_177436_a"}, at = @At("HEAD"))
+    // @Inject(method = {"setBlockState", "func_177436_a"}, at = @At("HEAD"))
+    @Inject(method = "setBlockState", at = @At("HEAD"))
     private void onBlockChange(BlockPos position, IBlockState newBlock, CallbackInfoReturnable<IBlockState> callbackInfoReturnable) {
         IBlockState oldBlock = this.getBlockState(position);
 

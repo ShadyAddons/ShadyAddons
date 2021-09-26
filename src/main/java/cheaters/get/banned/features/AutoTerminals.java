@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 // Contributed by 0Kelvin_
-public class Terminals {
+public class AutoTerminals {
 
     private static final ArrayList<Slot> clickQueue = new ArrayList<>(28);
     private static final int[] mazeDirection = {-9, -1, 1, 9};
@@ -38,27 +38,29 @@ public class Terminals {
 
     @SubscribeEvent
     public void guiDraw(GuiScreenEvent.BackgroundDrawnEvent event) {
-        if (event.gui instanceof GuiChest) {
+        if(!Config.autoTerminals) return;
+
+        if(event.gui instanceof GuiChest) {
             Container container = ((GuiChest) event.gui).inventorySlots;
-            if (container instanceof ContainerChest) {
+            if(container instanceof ContainerChest) {
                 List<Slot> invSlots = container.inventorySlots;
                 // Get terminal booleanFieldType from chest name
-                if (currentTerminal == TerminalType.NONE) {
+                if(currentTerminal == TerminalType.NONE) {
                     String chestName = ((ContainerChest) container).getLowerChestInventory().getDisplayName().getUnformattedText();
-                    if (chestName.equals("Navigate the maze!")) {
+                    if(chestName.equals("Navigate the maze!")) {
                         currentTerminal = TerminalType.MAZE;
-                    } else if (chestName.equals("Click in order!")) {
+                    } else if(chestName.equals("Click in order!")) {
                         currentTerminal = TerminalType.NUMBERS;
-                    } else if (chestName.equals("Correct all the panes!")) {
+                    } else if(chestName.equals("Correct all the panes!")) {
                         currentTerminal = TerminalType.CORRECT_ALL;
-                    } else if (chestName.startsWith("What starts with:")) {
+                    } else if(chestName.startsWith("What starts with:")) {
                         currentTerminal = TerminalType.LETTER;
-                    } else if (chestName.startsWith("Select all the")) {
+                    } else if(chestName.startsWith("Select all the")) {
                         currentTerminal = TerminalType.COLOR;
                     }
                 }
-                if (currentTerminal != TerminalType.NONE) {
-                    if (clickQueue.isEmpty() || recalculate) {
+                if(currentTerminal != TerminalType.NONE) {
+                    if(clickQueue.isEmpty() || recalculate) {
                         // Scan chest contents to add to click queue, returns true if it needs to be rescanned.
                         // Note: Sometimes I noticed only half the chest contents loaded on the first frame, so I added this
                         recalculate = getClicks((ContainerChest) container);
@@ -68,34 +70,32 @@ public class Terminals {
                             case MAZE:
                             case NUMBERS:
                             case CORRECT_ALL:
-                                clickQueue.removeIf(slot -> invSlots.get(slot.slotNumber).getHasStack() &&
-                                        invSlots.get(slot.slotNumber).getStack().getItemDamage() == 5);
+                                clickQueue.removeIf(slot -> invSlots.get(slot.slotNumber).getHasStack() && invSlots.get(slot.slotNumber).getStack().getItemDamage() == 5);
                                 break;
                             case LETTER:
                             case COLOR:
-                                clickQueue.removeIf(slot -> invSlots.get(slot.slotNumber).getHasStack() &&
-                                        invSlots.get(slot.slotNumber).getStack().isItemEnchanted());
+                                clickQueue.removeIf(slot -> invSlots.get(slot.slotNumber).getHasStack() && invSlots.get(slot.slotNumber).getStack().isItemEnchanted());
                                 break;
                         }
                     }
                     // Click if delay is up
-                    if (!clickQueue.isEmpty()) {
-                        if (Config.autoTerminals && System.currentTimeMillis() - lastClickTime < Config.terminalClickDelay) {
+                    if(!clickQueue.isEmpty()) {
+                        if(Config.autoTerminals && System.currentTimeMillis() - lastClickTime < Config.terminalClickDelay) {
                             switch (currentTerminal) {
                                 case MAZE:
-                                    if (Config.autoMaze) clickSlot(clickQueue.get(0));
+                                    if(Config.autoMaze) clickSlot(clickQueue.get(0));
                                     break;
                                 case NUMBERS:
-                                    if (Config.autoNumbers) clickSlot(clickQueue.get(0));
+                                    if(Config.autoNumbers) clickSlot(clickQueue.get(0));
                                     break;
                                 case CORRECT_ALL:
-                                    if (Config.autoCorrectAll) clickSlot(clickQueue.get(0));
+                                    if(Config.autoCorrectAll) clickSlot(clickQueue.get(0));
                                     break;
                                 case LETTER:
-                                    if (Config.autoLetter) clickSlot(clickQueue.get(0));
+                                    if(Config.autoLetter) clickSlot(clickQueue.get(0));
                                     break;
                                 case COLOR:
-                                    if (Config.autoColor) clickSlot(clickQueue.get(0));
+                                    if(Config.autoColor) clickSlot(clickQueue.get(0));
                                     break;
                             }
                         }
@@ -107,8 +107,9 @@ public class Terminals {
 
     @SubscribeEvent
     public void tick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.START || Shady.mc.thePlayer == null || Shady.mc.theWorld == null) return;
-        if (!(Shady.mc.currentScreen instanceof GuiChest)) {
+        if(!Config.autoTerminals) return;
+        if(event.phase != TickEvent.Phase.START || Shady.mc.thePlayer == null || Shady.mc.theWorld == null) return;
+        if(!(Shady.mc.currentScreen instanceof GuiChest)) {
             currentTerminal = TerminalType.NONE;
             clickQueue.clear();
             letterNeeded = 0;
@@ -128,14 +129,14 @@ public class Terminals {
                 boolean[] mazeVisited = new boolean[54];
                 // Scan chest for start and end
                 for (Slot slot : invSlots) {
-                    if (startSlot >= 0 && endSlot >= 0) break;
-                    if (slot.inventory == Shady.mc.thePlayer.inventory) continue;
+                    if(startSlot >= 0 && endSlot >= 0) break;
+                    if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
                     ItemStack itemStack = slot.getStack();
-                    if (itemStack == null) continue;
-                    if (itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane)) {
-                        if (itemStack.getItemDamage() == 5) {
+                    if(itemStack == null) continue;
+                    if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane)) {
+                        if(itemStack.getItemDamage() == 5) {
                             startSlot = slot.slotNumber;
-                        } else if (itemStack.getItemDamage() == 14) {
+                        } else if(itemStack.getItemDamage() == 14) {
                             endSlot = slot.slotNumber;
                         }
                     }
@@ -145,13 +146,13 @@ public class Terminals {
                     boolean newSlotChosen = false;
                     for (int i = 0; i < 4; i++) {
                         int slotNumber = startSlot + mazeDirection[i];
-                        if (slotNumber == endSlot) return false;
-                        if (slotNumber < 0 || slotNumber > 53 || i == 1 && slotNumber % 9 == 8 ||
+                        if(slotNumber == endSlot) return false;
+                        if(slotNumber < 0 || slotNumber > 53 || i == 1 && slotNumber % 9 == 8 ||
                                 i == 2 && slotNumber % 9 == 0) continue;
-                        if (mazeVisited[slotNumber]) continue;
+                        if(mazeVisited[slotNumber]) continue;
                         ItemStack itemStack = invSlots.get(slotNumber).getStack();
-                        if (itemStack == null) continue;
-                        if (itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.getItemDamage() == 0) {
+                        if(itemStack == null) continue;
+                        if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.getItemDamage() == 0) {
                             clickQueue.add(invSlots.get(slotNumber));
                             startSlot = slotNumber;
                             mazeVisited[slotNumber] = true;
@@ -160,7 +161,7 @@ public class Terminals {
                         }
                     }
                     // Prevents infinite loop if there is no adjacent white pane
-                    if (!newSlotChosen) {
+                    if(!newSlotChosen) {
                         System.out.println("Maze calculation aborted");
                         return true;
                     }
@@ -169,39 +170,39 @@ public class Terminals {
             case NUMBERS:
                 while (clickQueue.size() < 14) clickQueue.add(null);
                 for (int i = 10; i <= 25; i++) {
-                    if (i == 17 || i == 18) continue;
+                    if(i == 17 || i == 18) continue;
                     ItemStack itemStack = invSlots.get(i).getStack();
-                    if (itemStack == null) continue;
-                    if (itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) &&
+                    if(itemStack == null) continue;
+                    if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) &&
                             itemStack.getItemDamage() == 14 && itemStack.stackSize < 15) {
                         clickQueue.set(itemStack.stackSize - 1, invSlots.get(i));
                     }
                 }
-                if (clickQueue.removeIf(Objects::isNull)) return true;
+                if(clickQueue.removeIf(Objects::isNull)) return true;
                 break;
             case CORRECT_ALL:
                 for (Slot slot : invSlots) {
-                    if (slot.inventory == Shady.mc.thePlayer.inventory) continue;
-                    if (slot.slotNumber < 9 || slot.slotNumber > 35 || slot.slotNumber % 9 <= 1 || slot.slotNumber % 9 >= 7)
+                    if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
+                    if(slot.slotNumber < 9 || slot.slotNumber > 35 || slot.slotNumber % 9 <= 1 || slot.slotNumber % 9 >= 7)
                         continue;
                     ItemStack itemStack = slot.getStack();
-                    if (itemStack == null) return true;
-                    if (itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.getItemDamage() == 14) {
+                    if(itemStack == null) return true;
+                    if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.getItemDamage() == 14) {
                         clickQueue.add(slot);
                     }
                 }
                 break;
             case LETTER:
                 letterNeeded = chestName.charAt(chestName.indexOf("'") + 1);
-                if (letterNeeded != 0) {
+                if(letterNeeded != 0) {
                     for (Slot slot : invSlots) {
-                        if (slot.inventory == Shady.mc.thePlayer.inventory) continue;
-                        if (slot.slotNumber < 9 || slot.slotNumber > 44 || slot.slotNumber % 9 == 0 || slot.slotNumber % 9 == 8)
+                        if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
+                        if(slot.slotNumber < 9 || slot.slotNumber > 44 || slot.slotNumber % 9 == 0 || slot.slotNumber % 9 == 8)
                             continue;
                         ItemStack itemStack = slot.getStack();
-                        if (itemStack == null) return true;
-                        if (itemStack.isItemEnchanted()) continue;
-                        if (StringUtils.stripControlCodes(itemStack.getDisplayName()).charAt(0) == letterNeeded) {
+                        if(itemStack == null) return true;
+                        if(itemStack.isItemEnchanted()) continue;
+                        if(StringUtils.stripControlCodes(itemStack.getDisplayName()).charAt(0) == letterNeeded) {
                             clickQueue.add(slot);
                         }
                     }
@@ -211,20 +212,20 @@ public class Terminals {
                 // Get color from chest name
                 for (EnumDyeColor color : EnumDyeColor.values()) {
                     String colorName = color.getName().replaceAll("_", " ").toUpperCase();
-                    if (chestName.contains(colorName)) {
+                    if(chestName.contains(colorName)) {
                         colorNeeded = color.getUnlocalizedName();
                         break;
                     }
                 }
-                if (colorNeeded != null) {
+                if(colorNeeded != null) {
                     for (Slot slot : invSlots) {
-                        if (slot.inventory == Shady.mc.thePlayer.inventory) continue;
-                        if (slot.slotNumber < 9 || slot.slotNumber > 44 || slot.slotNumber % 9 == 0 || slot.slotNumber % 9 == 8)
+                        if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
+                        if(slot.slotNumber < 9 || slot.slotNumber > 44 || slot.slotNumber % 9 == 0 || slot.slotNumber % 9 == 8)
                             continue;
                         ItemStack itemStack = slot.getStack();
-                        if (itemStack == null) return true;
-                        if (itemStack.isItemEnchanted()) continue;
-                        if (itemStack.getUnlocalizedName().contains(colorNeeded)) {
+                        if(itemStack == null) return true;
+                        if(itemStack.isItemEnchanted()) continue;
+                        if(itemStack.getUnlocalizedName().contains(colorNeeded)) {
                             clickQueue.add(slot);
                         }
                     }
@@ -235,12 +236,11 @@ public class Terminals {
     }
 
     private void clickSlot(Slot slot) {
-        if (windowClicks == 0) windowId = Shady.mc.thePlayer.openContainer.windowId;
-        Shady.mc.playerController.windowClick(windowId + windowClicks,
-                slot.slotNumber, 2, 0, Shady.mc.thePlayer);
+        if(windowClicks == 0) windowId = Shady.mc.thePlayer.openContainer.windowId;
+        Shady.mc.playerController.windowClick(windowId + windowClicks, slot.slotNumber, 2, 0, Shady.mc.thePlayer);
         lastClickTime = System.currentTimeMillis();
         // Immediately remove from queue before gui updates
-        if (Config.terminalPingless) {
+        if(Config.terminalPingless) {
             windowClicks++;
             clickQueue.remove(slot);
         }

@@ -79,8 +79,10 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new TeleportWithAnything());
         MinecraftForge.EVENT_BUS.register(new ItemKeybind());
         MinecraftForge.EVENT_BUS.register(new DungeonScanner());
-        MinecraftForge.EVENT_BUS.register(new MobESP());
+        // MinecraftForge.EVENT_BUS.register(new MobESP());
         MinecraftForge.EVENT_BUS.register(new GemstoneESP());
+        MinecraftForge.EVENT_BUS.register(new AutoTerminals());
+        MinecraftForge.EVENT_BUS.register(new AutoHarp());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);

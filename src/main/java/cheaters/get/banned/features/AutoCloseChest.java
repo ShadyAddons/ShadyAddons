@@ -1,8 +1,8 @@
 package cheaters.get.banned.features;
 
+import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.utils.Utils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -26,7 +26,7 @@ public class AutoCloseChest {
     }
 
     public static void closeChest() {
-        Minecraft.getMinecraft().thePlayer.closeScreen();
+        Shady.mc.thePlayer.closeScreen();
     }
 
 }

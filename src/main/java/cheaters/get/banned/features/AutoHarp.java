@@ -1,0 +1,57 @@
+package cheaters.get.banned.features;
+
+import cheaters.get.banned.Shady;
+import cheaters.get.banned.config.Config;
+import cheaters.get.banned.utils.Utils;
+import net.minecraft.client.gui.inventory.GuiChest;
+import net.minecraft.init.Blocks;
+import net.minecraft.inventory.ContainerChest;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+
+import java.util.ArrayList;
+
+public class AutoHarp {
+
+    private boolean inHarp = false;
+    private ArrayList<Item> lastInventory = new ArrayList<>();
+
+    @SubscribeEvent
+    public void onGuiOpen(GuiOpenEvent event) {
+        if(event.gui instanceof GuiChest && Utils.inSkyBlock && Config.autoMelody) {
+            String chestName = ((ContainerChest) ((GuiChest)event.gui).inventorySlots).getLowerChestInventory().getDisplayName().getUnformattedText();
+            if(chestName.startsWith("Harp -")) {
+                lastInventory.clear();
+                inHarp = true;
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent event) {
+        if(!inHarp && !Config.autoMelody) return;
+        if(!Utils.getInventoryName().startsWith("Harp -")) inHarp = false;
+
+        ArrayList<Item> thisInventory = new ArrayList<>();
+        for(Slot slot : Shady.mc.thePlayer.openContainer.inventorySlots) {
+            if(slot.getStack() != null) thisInventory.add(slot.getStack().getItem());
+        }
+
+        if(!lastInventory.toString().equals(thisInventory.toString())) {
+            for(Slot slot : Shady.mc.thePlayer.openContainer.inventorySlots) {
+                if(slot.getStack() != null && slot.getStack().getItem() instanceof ItemBlock && ((ItemBlock) slot.getStack().getItem()).getBlock() == Blocks.quartz_block) {
+                    Shady.mc.playerController.windowClick(Shady.mc.thePlayer.openContainer.windowId, slot.slotNumber, 2, 0, Shady.mc.thePlayer);
+                    break;
+                }
+            }
+        }
+
+        lastInventory.clear();
+        lastInventory.addAll(thisInventory);
+    }
+
+}

@@ -24,40 +24,33 @@ public class ConfigLogic {
         ArrayList<Setting> settings = new ArrayList<>();
 
         for(Field field : fields) {
-            try {
-                Boolean booleanAnnotation = field.getAnnotation(Boolean.class);
-                if(booleanAnnotation != null) {
-                    settings.add(new Setting(
-                            booleanAnnotation.value(),
-                            booleanAnnotation.hidden(),
-                            booleanAnnotation.parent().equals("") ? null : booleanAnnotation.parent(),
-                            booleanAnnotation.boundTo().equals("") ? null : booleanAnnotation.boundTo(),
-                            booleanAnnotation.booleanType(),
-                            field,
-                            field.get(boolean.class)
-                    ));
-                    continue;
-                }
+            Boolean booleanAnnotation = field.getAnnotation(Boolean.class);
+            if(booleanAnnotation != null) {
+                settings.add(new Setting(
+                        booleanAnnotation.value(),
+                        booleanAnnotation.hidden(),
+                        booleanAnnotation.parent().equals("") ? null : booleanAnnotation.parent(),
+                        booleanAnnotation.boundTo().equals("") ? null : booleanAnnotation.boundTo(),
+                        booleanAnnotation.booleanType(),
+                        field
+                ));
+                continue;
+            }
 
-                Number numberAnnotation = field.getAnnotation(Number.class);
-                if(numberAnnotation != null) {
-                    settings.add(new Setting(
-                            numberAnnotation.value(),
-                            numberAnnotation.hidden(),
-                            numberAnnotation.parent().equals("") ? null : numberAnnotation.parent(),
-                            numberAnnotation.step(),
-                            numberAnnotation.prefix().equals("") ? null : numberAnnotation.prefix(),
-                            numberAnnotation.suffix().equals("") ? null : numberAnnotation.suffix(),
-                            numberAnnotation.min(),
-                            numberAnnotation.max(),
-                            field,
-                            field.get(int.class)
-                    ));
-                    continue;
-                }
-            } catch(Exception exception) {
-                System.out.println("Error collecting setting");
-                exception.printStackTrace();
+            Number numberAnnotation = field.getAnnotation(Number.class);
+            if(numberAnnotation != null) {
+                settings.add(new Setting(
+                        numberAnnotation.value(),
+                        numberAnnotation.hidden(),
+                        numberAnnotation.parent().equals("") ? null : numberAnnotation.parent(),
+                        numberAnnotation.step(),
+                        numberAnnotation.prefix().equals("") ? null : numberAnnotation.prefix(),
+                        numberAnnotation.suffix().equals("") ? null : numberAnnotation.suffix(),
+                        numberAnnotation.min(),
+                        numberAnnotation.max(),
+                        field
+                ));
+                continue;
             }
         }
 

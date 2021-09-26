@@ -75,7 +75,7 @@ public class GemstoneESP {
 
     @SubscribeEvent
     public void onBlockChange(BlockChangeEvent event) {
-        if(isEnabled() && event.position.distanceSq(Shady.mc.thePlayer.getPosition()) < Math.pow(radius, 2) && event.oldBlock.getBlock() == Blocks.stained_glass && event.newBlock.getBlock() == Blocks.air) {
+        if(isEnabled() && event.position.distanceSq(Shady.mc.thePlayer.getPosition()) < Math.pow(Config.gemstoneRadius, 2) && event.oldBlock.getBlock() == Blocks.stained_glass && event.newBlock.getBlock() == Blocks.air) {
             gemstones.remove(event.position);
         }
     }
@@ -86,9 +86,9 @@ public class GemstoneESP {
             for(Map.Entry<BlockPos, Gemstone> gemstone : gemstones.entrySet()) {
                 if(!isGemstoneEnabled(gemstone.getValue())) continue;
                 double distance = Math.sqrt(gemstone.getKey().distanceSq(Shady.mc.thePlayer.posX, Shady.mc.thePlayer.posY, Shady.mc.thePlayer.posZ));
-                if(distance > radius+2) continue;
+                if(distance > Config.gemstoneRadius+2) continue;
 
-                int alpha = (int) Math.abs(100-distance/radius*100);
+                int alpha = (int) Math.abs(100-distance/Config.gemstoneRadius*100);
                 Color color = Utils.addAlpha(gemstone.getValue().color, alpha);
 
                 RenderUtils.highlightBlock(gemstone.getKey(), color, event.partialTicks);
