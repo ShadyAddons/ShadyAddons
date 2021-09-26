@@ -1,7 +1,7 @@
 package cheaters.get.banned.features;
 
+import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+// Contributed by 0Kelvin_
 public class Terminals {
 
-    private static final Minecraft mc = Minecraft.getMinecraft();
     private static final ArrayList<Slot> clickQueue = new ArrayList<>(28);
     private static final int[] mazeDirection = {-9, -1, 1, 9};
     private static TerminalType currentTerminal = TerminalType.NONE;
@@ -33,7 +33,7 @@ public class Terminals {
     private static boolean recalculate = false;
 
     private enum TerminalType {
-        MAZE, NUMBERS, CORRECTALL, LETTER, COLOR, NONE
+        MAZE, NUMBERS, CORRECT_ALL, LETTER, COLOR, NONE
     }
 
     @SubscribeEvent
@@ -42,7 +42,7 @@ public class Terminals {
             Container container = ((GuiChest) event.gui).inventorySlots;
             if (container instanceof ContainerChest) {
                 List<Slot> invSlots = container.inventorySlots;
-                // Get terminal type from chest name
+                // Get terminal booleanFieldType from chest name
                 if (currentTerminal == TerminalType.NONE) {
                     String chestName = ((ContainerChest) container).getLowerChestInventory().getDisplayName().getUnformattedText();
                     if (chestName.equals("Navigate the maze!")) {
@@ -50,7 +50,7 @@ public class Terminals {
                     } else if (chestName.equals("Click in order!")) {
                         currentTerminal = TerminalType.NUMBERS;
                     } else if (chestName.equals("Correct all the panes!")) {
-                        currentTerminal = TerminalType.CORRECTALL;
+                        currentTerminal = TerminalType.CORRECT_ALL;
                     } else if (chestName.startsWith("What starts with:")) {
                         currentTerminal = TerminalType.LETTER;
                     } else if (chestName.startsWith("Select all the")) {
@@ -67,7 +67,7 @@ public class Terminals {
                         switch (currentTerminal) {
                             case MAZE:
                             case NUMBERS:
-                            case CORRECTALL:
+                            case CORRECT_ALL:
                                 clickQueue.removeIf(slot -> invSlots.get(slot.slotNumber).getHasStack() &&
                                         invSlots.get(slot.slotNumber).getStack().getItemDamage() == 5);
                                 break;
@@ -88,7 +88,7 @@ public class Terminals {
                                 case NUMBERS:
                                     if (Config.autoNumbers) clickSlot(clickQueue.get(0));
                                     break;
-                                case CORRECTALL:
+                                case CORRECT_ALL:
                                     if (Config.autoCorrectAll) clickSlot(clickQueue.get(0));
                                     break;
                                 case LETTER:
@@ -107,8 +107,8 @@ public class Terminals {
 
     @SubscribeEvent
     public void tick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.START || mc.thePlayer == null || mc.theWorld == null) return;
-        if (!(mc.currentScreen instanceof GuiChest)) {
+        if (event.phase != TickEvent.Phase.START || Shady.mc.thePlayer == null || Shady.mc.theWorld == null) return;
+        if (!(Shady.mc.currentScreen instanceof GuiChest)) {
             currentTerminal = TerminalType.NONE;
             clickQueue.clear();
             letterNeeded = 0;
@@ -129,7 +129,7 @@ public class Terminals {
                 // Scan chest for start and end
                 for (Slot slot : invSlots) {
                     if (startSlot >= 0 && endSlot >= 0) break;
-                    if (slot.inventory == mc.thePlayer.inventory) continue;
+                    if (slot.inventory == Shady.mc.thePlayer.inventory) continue;
                     ItemStack itemStack = slot.getStack();
                     if (itemStack == null) continue;
                     if (itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane)) {
@@ -179,9 +179,9 @@ public class Terminals {
                 }
                 if (clickQueue.removeIf(Objects::isNull)) return true;
                 break;
-            case CORRECTALL:
+            case CORRECT_ALL:
                 for (Slot slot : invSlots) {
-                    if (slot.inventory == mc.thePlayer.inventory) continue;
+                    if (slot.inventory == Shady.mc.thePlayer.inventory) continue;
                     if (slot.slotNumber < 9 || slot.slotNumber > 35 || slot.slotNumber % 9 <= 1 || slot.slotNumber % 9 >= 7)
                         continue;
                     ItemStack itemStack = slot.getStack();
@@ -195,7 +195,7 @@ public class Terminals {
                 letterNeeded = chestName.charAt(chestName.indexOf("'") + 1);
                 if (letterNeeded != 0) {
                     for (Slot slot : invSlots) {
-                        if (slot.inventory == mc.thePlayer.inventory) continue;
+                        if (slot.inventory == Shady.mc.thePlayer.inventory) continue;
                         if (slot.slotNumber < 9 || slot.slotNumber > 44 || slot.slotNumber % 9 == 0 || slot.slotNumber % 9 == 8)
                             continue;
                         ItemStack itemStack = slot.getStack();
@@ -218,7 +218,7 @@ public class Terminals {
                 }
                 if (colorNeeded != null) {
                     for (Slot slot : invSlots) {
-                        if (slot.inventory == mc.thePlayer.inventory) continue;
+                        if (slot.inventory == Shady.mc.thePlayer.inventory) continue;
                         if (slot.slotNumber < 9 || slot.slotNumber > 44 || slot.slotNumber % 9 == 0 || slot.slotNumber % 9 == 8)
                             continue;
                         ItemStack itemStack = slot.getStack();
@@ -235,9 +235,9 @@ public class Terminals {
     }
 
     private void clickSlot(Slot slot) {
-        if (windowClicks == 0) windowId = mc.thePlayer.openContainer.windowId;
-        mc.playerController.windowClick(windowId + windowClicks,
-                slot.slotNumber, 2, 0, mc.thePlayer);
+        if (windowClicks == 0) windowId = Shady.mc.thePlayer.openContainer.windowId;
+        Shady.mc.playerController.windowClick(windowId + windowClicks,
+                slot.slotNumber, 2, 0, Shady.mc.thePlayer);
         lastClickTime = System.currentTimeMillis();
         // Immediately remove from queue before gui updates
         if (Config.terminalPingless) {
