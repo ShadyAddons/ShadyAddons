@@ -2,169 +2,203 @@ package cheaters.get.banned.config;
 
 public class Config {
 
-    @Property("Stonkless Stonk")
+    @Boolean("Stonkless Stonk")
     public static boolean stonklessStonk = false;
 
-        @Property(value = "Always On", tooltip = "Always On (May Impact Performance)", parent = "Stonkless Stonk")
+        @Boolean(value = "Always On", parent = "Stonkless Stonk")
         public static boolean alwaysOn = false;
 
 
-    @Property("Auto Simon-Says")
+    @Boolean("Auto Simon-Says")
     public static boolean autoSimonSays = false;
 
 
-    @Property("Royal Pigeon Pickaxe Macro")
+    @Boolean("Royal Pigeon Pickaxe Macro")
     public static boolean royalPigeonMacro = false;
 
 
-    @Property("Auto Clicker")
+    @Boolean("Auto Clicker")
     public static boolean autoClicker = false;
 
-        @Property(value = "Toggle Continous", parent = "Auto Clicker", boundTo = "Trigger Burst")
+        @Number(value = "CPS", parent = "Auto Clicker", min = 10, max = 500, suffix = " CPS", step = 10)
+        public static int autoClickerCps = 100;
+
+        @Boolean(value = "Toggle Continous", parent = "Auto Clicker", boundTo = "Trigger Burst")
         public static boolean autoClickerToggle = false;
 
-            @Property(value = "Show Indicator", parent = "Toggle Continous")
+            @Boolean(value = "Show Indicator", parent = "Toggle Continous")
             public static boolean autoClickerIndicator = false;
 
-        @Property(value = "Trigger Burst", parent = "Auto Clicker", boundTo = "Toggle Continous")
+        @Boolean(value = "Trigger Burst", parent = "Auto Clicker", boundTo = "Toggle Continous")
         public static boolean autoClickerBurst = false;
 
+            @Number(value = "Amount", parent = "Trigger Burst", min = 5, max = 100, step = 5, suffix = " clicks")
+            public static int burstAmount = 25;
 
-    @Property("Corleone Finder")
+
+    @Boolean("Corleone Finder")
     public static boolean corleoneFinder = false;
 
 
-    @Property("Summons Features")
+    @Boolean("Summons Features")
     public static boolean summonsFeatures = false;
 
-        @Property(value = "Hide Summons", parent = "Summons Features")
+        @Boolean(value = "Hide Summons", parent = "Summons Features")
         public static boolean hideSummons = false;
 
-        @Property(value = "Click Through Summons", parent = "Summons Features")
+        @Boolean(value = "Click Through Summons", parent = "Summons Features")
         public static boolean clickThroughSummons = false;
 
 
-    @Property("Teleport w/ Anything")
+    @Boolean("Teleport w/ Anything")
     public static boolean teleportWithAnything = false;
 
 
-    @Property("Renew Crystal Hollows Pass")
+    @Boolean("Renew Crystal Hollows Pass")
     public static boolean renewCrystalHollowsPass = false;
 
 
-    @Property("Disable Block Animation")
+    @Boolean("Disable Block Animation")
     public static boolean disableBlockAnimation = false;
 
 
-    @Property("Keybinds")
+    @Boolean("Keybinds")
     public static boolean keybinds = false;
 
-        @Property(value = "Ghost Blocks", parent = "Keybinds")
+        @Boolean(value = "Ghost Blocks", parent = "Keybinds")
         public static boolean ghostBlockKeybind = false;
 
-            @Property(value = "Right-Click w/ Stonk", parent = "Ghost Blocks")
+            @Boolean(value = "Right-Click w/ Stonk", parent = "Ghost Blocks")
             public static boolean stonkGhostBlock = false;
 
-        @Property(value = "Normal Ability", parent = "Keybinds")
+        @Boolean(value = "Normal Ability", parent = "Keybinds")
         public static boolean normalAbilityKeybind = false;
 
-        @Property(value = "Item Hotkeys", parent = "Keybinds")
+        @Boolean(value = "Item Hotkeys", parent = "Keybinds")
         public static boolean itemHotkeys = false;
 
-            @Property(value = "Ice Spray", parent = "Item Hotkeys")
+            @Boolean(value = "Ice Spray", parent = "Item Hotkeys")
             public static boolean iceSprayHotkey = false;
 
-            @Property(value = "Rogue Sword", parent = "Item Hotkeys")
+            @Boolean(value = "Rogue Sword", parent = "Item Hotkeys")
             public static boolean rogueSwordHotkey = false;
 
-            @Property(value = "Power Orb", parent = "Item Hotkeys")
+            @Boolean(value = "Power Orb", parent = "Item Hotkeys")
             public static boolean powerOrbHotkey = false;
 
-            @Property(value = "Weird Tuba", parent = "Item Hotkeys")
+            @Boolean(value = "Weird Tuba", parent = "Item Hotkeys")
             public static boolean weirdTubaHotkey = false;
 
-            @Property(value = "Gyrokinetic Wand", parent = "Item Hotkeys")
+            @Boolean(value = "Gyrokinetic Wand", parent = "Item Hotkeys")
             public static boolean gyrokineticWandHotkey = false;
 
-            @Property(value = "Pigman Sword", parent = "Item Hotkeys")
+            @Boolean(value = "Pigman Sword", parent = "Item Hotkeys")
             public static boolean pigmanSwordHotkey = false;
 
-            @Property(value = "Healing Wand", parent = "Item Hotkeys")
+            @Boolean(value = "Healing Wand", parent = "Item Hotkeys")
             public static boolean healingWandHotkey = false;
 
-            @Property(value = "Fishing Rod", parent = "Item Hotkeys")
+            @Boolean(value = "Fishing Rod", parent = "Item Hotkeys")
             public static boolean fishingRodHotkey = false;
 
 
-    @Property("Block Abilities")
+    @Boolean("Block Abilities")
     public static boolean blockAbilitis = false;
 
-        @Property(value = "Cells Alignment", parent = "Block Abilities")
+        @Boolean(value = "Cells Alignment", parent = "Block Abilities")
         public static boolean blockCellsAlignment = false;
 
-        @Property(value = "Giant's Slam", parent = "Block Abilities")
+        @Boolean(value = "Giant's Slam", parent = "Block Abilities")
         public static boolean blockGiantsSlam = false;
 
-        @Property(value = "Valkyrie Wither Impact", parent = "Block Abilities")
+        @Boolean(value = "Valkyrie Wither Impact", parent = "Block Abilities")
         public static boolean blockValkyrie = false;
 
 
-    @Property("Automatically Close Chests")
+    @Boolean("Automatically Close Chests")
     public static boolean closeChests = false;
 
-        @Property(value = "Secret Chests", parent = "Automatically Close Chests")
+        @Boolean(value = "Secret Chests", parent = "Automatically Close Chests")
         public static boolean closeSecretChests = false;
 
-        @Property(value = "Crystal Hollows Chests", parent = "Automatically Close Chests")
+        @Boolean(value = "Crystal Hollows Chests", parent = "Automatically Close Chests")
         public static boolean closeCrystalHollowsChests = false;
 
 
-    @Property("Auto GG")
+    @Boolean("Auto GG")
     public static boolean autoGg = false;
 
 
-    @Property("Show Hidden Mobs")
+    @Boolean("Show Hidden Mobs")
     public static boolean showHiddenMobs = false;
 
-        @Property(value = "Shadow Assassins", parent = "Show Hidden Mobs")
+        @Boolean(value = "Shadow Assassins", parent = "Show Hidden Mobs")
         public static boolean showHiddenShadowAssassins = false;
 
-        @Property(value = "Fels", parent = "Show Hidden Mobs")
+        @Boolean(value = "Fels", parent = "Show Hidden Mobs")
         public static boolean showHiddenFels = false;
 
-        @Property(value = "Ghosts", parent = "Show Hidden Mobs")
+        @Boolean(value = "Ghosts", parent = "Show Hidden Mobs")
         public static boolean showGhosts = false;
 
-        @Property(value = "Stealthy Blood Mobs", parent = "Show Hidden Mobs")
+        @Boolean(value = "Stealthy Blood Mobs", parent = "Show Hidden Mobs")
         public static boolean showStealthyBloodMobs = false;
 
 
-    @Property("Highlight Starred Mobs")
+    @Boolean("Highlight Starred Mobs")
     public static boolean highlightStarredMobs = false;
 
 
-    @Property("Gemstone ESP")
+    @Boolean("Gemstone ESP")
     public static boolean gemstoneEsp = false;
 
-        @Property(value = "Ruby", parent = "Gemstone ESP")
+        @Number(value = "Scan Radius", parent = "Gemstone ESP", suffix = " blocks", min = 5, max = 50)
+        public static int gemstoneRadius = 15;
+
+        @Boolean(value = "Ruby", parent = "Gemstone ESP")
         public static boolean rubyEsp = false;
 
-        @Property(value = "Amber", parent = "Gemstone ESP")
+        @Boolean(value = "Amber", parent = "Gemstone ESP")
         public static boolean amberEsp = false;
 
-        @Property(value = "Sapphire", parent = "Gemstone ESP")
+        @Boolean(value = "Sapphire", parent = "Gemstone ESP")
         public static boolean sapphireEsp = false;
 
-        @Property(value = "Jade", parent = "Gemstone ESP")
+        @Boolean(value = "Jade", parent = "Gemstone ESP")
         public static boolean jadeEsp = false;
 
-        @Property(value = "Amethyst", parent = "Gemstone ESP")
+        @Boolean(value = "Amethyst", parent = "Gemstone ESP")
         public static boolean amethystEsp = false;
 
-        @Property(value = "Topaz", parent = "Gemstone ESP")
+        @Boolean(value = "Topaz", parent = "Gemstone ESP")
         public static boolean topazEsp = false;
 
-        @Property(value = "Jasper", parent = "Gemstone ESP")
+        @Boolean(value = "Jasper", parent = "Gemstone ESP")
         public static boolean jasperEsp = false;
+
+
+    @Boolean("Auto Terminals")
+    public static boolean autoTerminals = false;
+
+        @Boolean(value = "Maze", parent = "Auto Terminals")
+        public static boolean autoMaze = false;
+
+        @Boolean(value = "Click in Order", parent = "Auto Terminals")
+        public static boolean autoNumbers = false;
+
+        @Boolean(value = "Correct the Panes", parent = "Auto Terminals")
+        public static boolean autoCorrectAll = false;
+
+        @Boolean(value = "Name Starts With", parent = "Auto Terminals")
+        public static boolean autoLetter = false;
+
+        @Boolean(value = "Color", parent = "Auto Terminals")
+        public static boolean autoColor = false;
+
+        @Boolean(value = "Pingless", parent = "Auto Terminals")
+        public static boolean terminalPingless = false;
+
+        @Number(value = "Click Delay", parent = "Auto Terminals", step = 10, suffix = "ms", min = 50, max = 5000)
+        public static int terminalClickDelay = 100;
 
 }

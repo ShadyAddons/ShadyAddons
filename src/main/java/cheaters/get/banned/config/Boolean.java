@@ -5,13 +5,12 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 @Inherited
-public @interface Property {
+public @interface Boolean {
 
     String value();
-    String tooltip() default "";
     boolean hidden() default false;
     String parent() default "";
     String boundTo() default "";
-    Setting.Type type() default Setting.Type.SWITCH;
+    Setting.BooleanType booleanType() default Setting.BooleanType.SWITCH;
 
 }

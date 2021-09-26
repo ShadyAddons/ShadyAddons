@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 public class SwitchButton extends ConfigButton {
 
     public SwitchButton(Setting setting, int x, int y) {
-        super(setting, x, y);
+        super(setting, x-25, y); // subtract width so button is right-aligned
         super.width = 25;
         super.height = 10;
     }
@@ -23,7 +23,7 @@ public class SwitchButton extends ConfigButton {
 
     @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
-        if(mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height) {
+        if(mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height) {
             setting.update(!setting.enabled(), false);
             return true;
         }

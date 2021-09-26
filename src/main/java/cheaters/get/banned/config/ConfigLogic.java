@@ -3,7 +3,6 @@ package cheaters.get.banned.config;
 import cheaters.get.banned.Shady;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
 import java.io.Reader;
@@ -19,42 +18,61 @@ import java.util.Map;
 public class ConfigLogic {
     
     private static String fileName = "config/ShadyAddons.cfg";
-    private static HashMap<String, String> hashedSettings = new HashMap<>();
-
-    private static HashMap<String, String> generateHashes(ArrayList<Setting> settings) {
-        HashMap<String, String> output = new HashMap<>();
-        for(Setting setting : settings) {
-            output.put(DigestUtils.md5Hex(setting.name), setting.name);
-        }
-        return output;
-    }
 
     public static ArrayList<Setting> collect(Class<Config> instance) {
         Field[] fields = instance.getDeclaredFields();
         ArrayList<Setting> settings = new ArrayList<>();
 
         for(Field field : fields) {
-            Property annotation = field.getAnnotation(Property.class);
-            if(annotation != null) {
-                settings.add(new Setting(
-                        annotation.value(),
-                        annotation.hidden(),
-                        annotation.parent().equals("") ? null : annotation.parent(),
-                        annotation.boundTo().equals("") ? null : annotation.boundTo(),
-                        annotation.tooltip().equals("") ? null : annotation.tooltip(),
-                        annotation.type(),
-                        field
-                ));
+            try {
+                Boolean booleanAnnotation = field.getAnnotation(Boolean.class);
+                if(booleanAnnotation != null) {
+                    settings.add(new Setting(
+                            booleanAnnotation.value(),
+                            booleanAnnotation.hidden(),
+                            booleanAnnotation.parent().equals("") ? null : booleanAnnotation.parent(),
+                            booleanAnnotation.boundTo().equals("") ? null : booleanAnnotation.boundTo(),
+                            booleanAnnotation.booleanType(),
+                            field,
+                            field.get(boolean.class)
+                    ));
+                    continue;
+                }
+
+                Number numberAnnotation = field.getAnnotation(Number.class);
+                if(numberAnnotation != null) {
+                    settings.add(new Setting(
+                            numberAnnotation.value(),
+                            numberAnnotation.hidden(),
+                            numberAnnotation.parent().equals("") ? null : numberAnnotation.parent(),
+                            numberAnnotation.step(),
+                            numberAnnotation.prefix().equals("") ? null : numberAnnotation.prefix(),
+                            numberAnnotation.suffix().equals("") ? null : numberAnnotation.suffix(),
+                            numberAnnotation.min(),
+                            numberAnnotation.max(),
+                            field,
+                            field.get(int.class)
+                    ));
+                    continue;
+                }
+            } catch(Exception exception) {
+                System.out.println("Error collecting setting");
+                exception.printStackTrace();
             }
         }
 
-        for(int i = 0; i < settings.size(); i++) {
+        /*for(int i = 0; i < settings.size(); i++) {
             Setting newSetting = settings.get(i);
+            if(newSetting.type != Setting.SettingType.BOOLEAN) continue;
             newSetting.children = newSetting.getChildren(settings);
             settings.set(i, newSetting);
+        }*/
+
+        for(Setting setting : settings) {
+            if(setting.type != Setting.SettingType.BOOLEAN) continue;
+            setting.children = setting.getChildren(settings);
         }
 
-        hashedSettings = generateHashes(settings);
         return settings;
     }
 
@@ -67,10 +85,10 @@ public class ConfigLogic {
 
     public static void save() {
         try {
-            HashMap<String, Boolean> convertedSettings = new HashMap<>();
+            HashMap<String, Object> convertedSettings = new HashMap<>();
             for(Setting setting : Shady.settings) {
-                String settingHash = DigestUtils.md5Hex(setting.name);
-                convertedSettings.put(settingHash, setting.enabled());
+                if(setting.type == Setting.SettingType.BOOLEAN) convertedSettings.put(setting.name, setting.enabled());
+                if(setting.type == Setting.SettingType.INTEGER) convertedSettings.put(setting.name, (int) setting.getValue());
             }
             String json = new Gson().toJson(convertedSettings);
             Files.write(Paths.get(fileName), json.getBytes(StandardCharsets.UTF_8));
@@ -85,14 +103,18 @@ public class ConfigLogic {
             File file = new File(fileName);
             if(file.exists()) {
                 Reader reader = Files.newBufferedReader(Paths.get(fileName));
-                Type type = new TypeToken<HashMap<String, Boolean>>(){}.getType();
+                Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
 
-                HashMap<String, Boolean> settingsToProcess = new Gson().fromJson(reader, type);
+                HashMap<String, Object> settingsToProcess = new Gson().fromJson(reader, type);
 
-                for(Map.Entry<String, Boolean> settingToProcess : settingsToProcess.entrySet()) {
-                    if(hashedSettings.containsKey(settingToProcess.getKey())) {
-                        Setting settingToAdd = getSetting(hashedSettings.get(settingToProcess.getKey()));
-                        if(settingToAdd != null) settingToAdd.set(settingToProcess.getValue());
+                for(Map.Entry<String, Object> settingToProcess : settingsToProcess.entrySet()) {
+                    Setting settingToAdd = getSetting(settingToProcess.getKey());
+                    if(settingToAdd != null) {
+                        if(settingToAdd.getValue() instanceof java.lang.Number) {
+                            settingToAdd.set(((java.lang.Number) settingToProcess.getValue()).intValue());
+                        } else {
+                            settingToAdd.set(settingToProcess.getValue());
+                        }
                     }
                 }
             }

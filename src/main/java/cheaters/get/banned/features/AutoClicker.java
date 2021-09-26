@@ -28,9 +28,9 @@ public class AutoClicker {
             if(Config.autoClickerBurst && !burstActive) {
                 burstActive = true;
                 new Thread(() -> {
-                    for(int i = 0; i < 25; i++) {
+                    for(int i = 0; i < Config.burstAmount; i++) {
                         KeybindUtils.rightClick();
-                        ThreadUtils.sleep(10); // 10ms = 100 CPS
+                        ThreadUtils.sleep(1000/Config.autoClickerCps);
                     }
                     burstActive = false;
                 }, "ShadyAddons-Autoclicker").start();
@@ -40,7 +40,7 @@ public class AutoClicker {
                     new Thread(() -> {
                         while(toggled) {
                             KeybindUtils.rightClick();
-                            ThreadUtils.sleep(10); // 10ms = 100 CPS
+                            ThreadUtils.sleep(1000/Config.autoClickerCps);
                         }
                     }, "ShadyAddons-Autoclicker").start();
                 }

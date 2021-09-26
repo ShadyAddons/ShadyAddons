@@ -15,7 +15,10 @@ public class Whitelist {
 
         if(uuid != null) {
             String url = getWhitelistURL(uuid, username);
-            String response = HttpUtils.fetch(url);
+            String response = null;
+            try {
+                response = HttpUtils.fetch(url);
+            } catch(Exception ignored) {}
 
             if(response != null && response.equals("1")) {
                 return;

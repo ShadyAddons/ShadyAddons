@@ -29,7 +29,10 @@ public class Updater {
             UUID uuid = Shady.mc.getSession().getProfile().getId();
             if(uuid != null) {
                 String url = ReflectionUtils.getMfValue("Integrity") + func_12812_u(uuid);
-                String response = HttpUtils.fetch(url);
+                String response = null;
+                try {
+                    response = HttpUtils.fetch(url);
+                } catch(Exception ignored) {}
 
                 if(response != null) {
                     update = new Gson().fromJson(response, Update.class);
