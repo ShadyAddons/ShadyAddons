@@ -80,7 +80,7 @@ public class AutoTerminals {
                     }
                     // Click if delay is up
                     if(!clickQueue.isEmpty()) {
-                        if(Config.autoTerminals && System.currentTimeMillis() - lastClickTime < Config.terminalClickDelay) {
+                        if(Config.autoTerminals && System.currentTimeMillis() - lastClickTime > Config.terminalClickDelay) {
                             switch (currentTerminal) {
                                 case MAZE:
                                     if(Config.autoMaze) clickSlot(clickQueue.get(0));
