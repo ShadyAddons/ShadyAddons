@@ -83,11 +83,7 @@ public class AutoTerminals {
                     // Click if delay is up
                     if(!clickQueue.isEmpty()) {
                         if(Config.autoTerminals && System.currentTimeMillis() - lastClickTime > Config.terminalClickDelay) {
-<<<<<<< Updated upstream
-                            switch (currentTerminal) {
-=======
                             switch(currentTerminal) {
->>>>>>> Stashed changes
                                 case MAZE:
                                     if(Config.autoMaze) clickSlot(clickQueue.get(0));
                                     break;
