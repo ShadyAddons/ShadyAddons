@@ -29,7 +29,7 @@ public class Utils {
     public static boolean forceDungeon = false;
 
     public static String getLogo() {
-        final ArrayList<String> logos = new ArrayList<String>(Arrays.asList("logo-fsr", "logo-hyaddons", "logo-impact", "logo-sbe", "logo-skytils", "logo-pride"));
+        final ArrayList<String> logos = new ArrayList<String>(Arrays.asList("logo-fsr", "logo-impact", "logo-sbe", "logo-skytils", "logo-pride"));
 
         int month = Calendar.getInstance().get(Calendar.MONTH);
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
@@ -41,10 +41,9 @@ public class Utils {
         // October 11 (National Coming Out Day)
         if(month == Calendar.OCTOBER && day == 11) return "logo-pride";
 
-        // 60% Chance For Normal Logo
-        if(Math.random() < 0.6d) return "logo";
+        // 50% Chance For Normal Logo
+        if(Math.random() < 0.5) return "logo";
 
-        // 40% Chance for Random Logo
         return (String) getRandomItem(logos);
     }
 
