@@ -27,6 +27,7 @@ public class GemstoneESP {
     private ConcurrentHashMap<BlockPos, Gemstone> gemstones = new ConcurrentHashMap<>();
     private HashSet<BlockPos> checked = new HashSet<>();
     private BlockPos lastChecked = null;
+    private boolean isScanning = false;
 
     enum Gemstone {
         RUBY(new Color(188, 3, 29), EnumDyeColor.RED),
@@ -47,7 +48,8 @@ public class GemstoneESP {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        if(isEnabled() && (lastChecked == null || !lastChecked.equals(Shady.mc.thePlayer.playerLocation))) {
+        if(isEnabled() && !isScanning && (lastChecked == null || !lastChecked.equals(Shady.mc.thePlayer.playerLocation))) {
+            isScanning = true;
             new Thread(()->{
 
                 BlockPos playerPosition = Shady.mc.thePlayer.getPosition();
@@ -68,6 +70,8 @@ public class GemstoneESP {
                         }
                     }
                 }
+
+                isScanning = false;
 
             }, "ShadyAddons-GemstoneScanner").start();
         }

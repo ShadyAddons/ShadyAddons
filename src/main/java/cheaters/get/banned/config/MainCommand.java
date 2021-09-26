@@ -1,6 +1,7 @@
 package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
+import cheaters.get.banned.features.AutoTerminals;
 import cheaters.get.banned.features.dungeonscanner.DungeonScanner;
 import cheaters.get.banned.features.dungeonscanner.DungeonScannerGui;
 import cheaters.get.banned.utils.Utils;
@@ -57,6 +58,11 @@ public class MainCommand extends CommandBase {
                             Shady.mc.thePlayer.getPosition().getX(),
                             Shady.mc.thePlayer.getPosition().getZ()
                     ));
+                    break;
+
+                case "test_terms":
+                    AutoTerminals.testing = !AutoTerminals.testing;
+                    Utils.sendModMessage("Toggled Testing Terminals");
                     break;
 
                 case "scan":

@@ -33,7 +33,7 @@ public class AutoHarp {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        if(!inHarp && !Config.autoMelody) return;
+        if(!inHarp || !Config.autoMelody || Shady.mc.thePlayer == null) return;
         if(!Utils.getInventoryName().startsWith("Harp -")) inHarp = false;
 
         ArrayList<Item> thisInventory = new ArrayList<>();

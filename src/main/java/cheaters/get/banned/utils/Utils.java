@@ -123,6 +123,7 @@ public class Utils {
      * @return The inventory name, or "null" (as a string) if null
      */
     public static String getInventoryName() {
+        if(Shady.mc.thePlayer == null || Shady.mc.theWorld == null) return "null";
         String inventoryName = Shady.mc.thePlayer.openContainer.inventorySlots.get(0).inventory.getName();
         if(inventoryName == null) return "null";
         return inventoryName;

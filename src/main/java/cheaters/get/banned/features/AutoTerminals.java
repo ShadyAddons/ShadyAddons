@@ -2,6 +2,7 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
+import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
@@ -31,14 +32,15 @@ public class AutoTerminals {
     private static int windowId;
     private static int windowClicks;
     private static boolean recalculate = false;
+    public static boolean testing = false;
 
     private enum TerminalType {
         MAZE, NUMBERS, CORRECT_ALL, LETTER, COLOR, NONE
     }
 
     @SubscribeEvent
-    public void guiDraw(GuiScreenEvent.BackgroundDrawnEvent event) {
-        if(!Config.autoTerminals) return;
+    public void onGuiDraw(GuiScreenEvent.BackgroundDrawnEvent event) {
+        if(!Config.autoTerminals || !Utils.inDungeon) return;
 
         if(event.gui instanceof GuiChest) {
             Container container = ((GuiChest) event.gui).inventorySlots;
@@ -66,7 +68,7 @@ public class AutoTerminals {
                         recalculate = getClicks((ContainerChest) container);
                     } else {
                         // Remove clicked items from queue
-                        switch (currentTerminal) {
+                        switch(currentTerminal) {
                             case MAZE:
                             case NUMBERS:
                             case CORRECT_ALL:
@@ -81,7 +83,11 @@ public class AutoTerminals {
                     // Click if delay is up
                     if(!clickQueue.isEmpty()) {
                         if(Config.autoTerminals && System.currentTimeMillis() - lastClickTime > Config.terminalClickDelay) {
+<<<<<<< Updated upstream
                             switch (currentTerminal) {
+=======
+                            switch(currentTerminal) {
+>>>>>>> Stashed changes
                                 case MAZE:
                                     if(Config.autoMaze) clickSlot(clickQueue.get(0));
                                     break;
@@ -106,9 +112,10 @@ public class AutoTerminals {
     }
 
     @SubscribeEvent
-    public void tick(TickEvent.ClientTickEvent event) {
-        if(!Config.autoTerminals) return;
+    public void onTick(TickEvent.ClientTickEvent event) {
+        if(!Config.autoTerminals || !Utils.inDungeon) return;
         if(event.phase != TickEvent.Phase.START || Shady.mc.thePlayer == null || Shady.mc.theWorld == null) return;
+
         if(!(Shady.mc.currentScreen instanceof GuiChest)) {
             currentTerminal = TerminalType.NONE;
             clickQueue.clear();
@@ -122,13 +129,13 @@ public class AutoTerminals {
         List<Slot> invSlots = container.inventorySlots;
         String chestName = container.getLowerChestInventory().getDisplayName().getUnformattedText();
         clickQueue.clear();
-        switch (currentTerminal) {
+        switch(currentTerminal) {
             case MAZE:
                 // Note: This could break if there are multiple green panes, solution is to create list of all green panes and loop through routing algorithm for each one
                 int startSlot = -1, endSlot = -1;
                 boolean[] mazeVisited = new boolean[54];
                 // Scan chest for start and end
-                for (Slot slot : invSlots) {
+                for(Slot slot : invSlots) {
                     if(startSlot >= 0 && endSlot >= 0) break;
                     if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
                     ItemStack itemStack = slot.getStack();
@@ -142,13 +149,12 @@ public class AutoTerminals {
                     }
                 }
                 // Plan route for maze from start to end
-                while (startSlot != endSlot) {
+                while(startSlot != endSlot) {
                     boolean newSlotChosen = false;
-                    for (int i = 0; i < 4; i++) {
+                    for(int i = 0; i < 4; i++) {
                         int slotNumber = startSlot + mazeDirection[i];
                         if(slotNumber == endSlot) return false;
-                        if(slotNumber < 0 || slotNumber > 53 || i == 1 && slotNumber % 9 == 8 ||
-                                i == 2 && slotNumber % 9 == 0) continue;
+                        if(slotNumber < 0 || slotNumber > 53 || i == 1 && slotNumber % 9 == 8 || i == 2 && slotNumber % 9 == 0) continue;
                         if(mazeVisited[slotNumber]) continue;
                         ItemStack itemStack = invSlots.get(slotNumber).getStack();
                         if(itemStack == null) continue;
@@ -167,21 +173,22 @@ public class AutoTerminals {
                     }
                 }
                 break;
+
             case NUMBERS:
-                while (clickQueue.size() < 14) clickQueue.add(null);
-                for (int i = 10; i <= 25; i++) {
+                while(clickQueue.size() < 14) clickQueue.add(null);
+                for(int i = 10; i <= 25; i++) {
                     if(i == 17 || i == 18) continue;
                     ItemStack itemStack = invSlots.get(i).getStack();
                     if(itemStack == null) continue;
-                    if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) &&
-                            itemStack.getItemDamage() == 14 && itemStack.stackSize < 15) {
+                    if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.getItemDamage() == 14 && itemStack.stackSize < 15) {
                         clickQueue.set(itemStack.stackSize - 1, invSlots.get(i));
                     }
                 }
                 if(clickQueue.removeIf(Objects::isNull)) return true;
                 break;
+
             case CORRECT_ALL:
-                for (Slot slot : invSlots) {
+                for(Slot slot : invSlots) {
                     if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
                     if(slot.slotNumber < 9 || slot.slotNumber > 35 || slot.slotNumber % 9 <= 1 || slot.slotNumber % 9 >= 7)
                         continue;
@@ -192,10 +199,11 @@ public class AutoTerminals {
                     }
                 }
                 break;
+
             case LETTER:
                 letterNeeded = chestName.charAt(chestName.indexOf("'") + 1);
                 if(letterNeeded != 0) {
-                    for (Slot slot : invSlots) {
+                    for(Slot slot : invSlots) {
                         if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
                         if(slot.slotNumber < 9 || slot.slotNumber > 44 || slot.slotNumber % 9 == 0 || slot.slotNumber % 9 == 8)
                             continue;
@@ -208,17 +216,19 @@ public class AutoTerminals {
                     }
                 }
                 break;
+
             case COLOR:
                 // Get color from chest name
-                for (EnumDyeColor color : EnumDyeColor.values()) {
+                for(EnumDyeColor color : EnumDyeColor.values()) {
                     String colorName = color.getName().replaceAll("_", " ").toUpperCase();
                     if(chestName.contains(colorName)) {
                         colorNeeded = color.getUnlocalizedName();
                         break;
                     }
                 }
+
                 if(colorNeeded != null) {
-                    for (Slot slot : invSlots) {
+                    for(Slot slot : invSlots) {
                         if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
                         if(slot.slotNumber < 9 || slot.slotNumber > 44 || slot.slotNumber % 9 == 0 || slot.slotNumber % 9 == 8)
                             continue;
@@ -237,7 +247,11 @@ public class AutoTerminals {
 
     private void clickSlot(Slot slot) {
         if(windowClicks == 0) windowId = Shady.mc.thePlayer.openContainer.windowId;
-        Shady.mc.playerController.windowClick(windowId + windowClicks, slot.slotNumber, 2, 0, Shady.mc.thePlayer);
+        if(testing) {
+            Shady.mc.playerController.windowClick(windowId + windowClicks, slot.slotNumber, 0, 1, Shady.mc.thePlayer);
+        } else {
+            Shady.mc.playerController.windowClick(windowId + windowClicks, slot.slotNumber, 2, 0, Shady.mc.thePlayer);
+        }
         lastClickTime = System.currentTimeMillis();
         // Immediately remove from queue before gui updates
         if(Config.terminalPingless) {

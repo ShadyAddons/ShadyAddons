@@ -7,6 +7,7 @@ import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.ThreadUtils;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -46,6 +47,11 @@ public class AutoClicker {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onOpenGui(GuiOpenEvent event) {
+        toggled = false;
     }
 
     @SubscribeEvent

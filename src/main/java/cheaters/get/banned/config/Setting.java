@@ -75,11 +75,7 @@ public class Setting {
     public void update(Object newValue, boolean preventRecursion) {
         try {
             for(Setting child : children) {
-                if(field.getType() == boolean.class || field.getType() == Boolean.class) {
-                    if(type == SettingType.BOOLEAN) child.update(false, false);
-                } else {
-                    throw new Exception("Type mismatch when updating sub-setting value");
-                }
+                if(type == SettingType.BOOLEAN) child.update(false, false);
             }
 
             if(!preventRecursion && boundTo != null) {
