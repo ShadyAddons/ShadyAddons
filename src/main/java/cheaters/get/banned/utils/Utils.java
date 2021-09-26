@@ -29,7 +29,7 @@ public class Utils {
     public static boolean forceDungeon = false;
 
     public static String getLogo() {
-        final ArrayList<String> logos = new ArrayList<String>(Arrays.asList("logo-fsr", "logo-hyaddons", "logo-impact", "logo-sbe", "logo-skytils", "logo-pride"));
+        final ArrayList<String> logos = new ArrayList<String>(Arrays.asList("logo-fsr", "logo-badlion", "logo-impact", "logo-sbe", "logo-skytils", "logo-pride", "logo-lunar"));
 
         int month = Calendar.getInstance().get(Calendar.MONTH);
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
