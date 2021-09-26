@@ -2,6 +2,7 @@ package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.components.ConfigButton;
+import cheaters.get.banned.config.components.NumberInput;
 import cheaters.get.banned.config.components.Scrollbar;
 import cheaters.get.banned.config.components.SwitchButton;
 import net.minecraft.client.gui.GuiButton;
@@ -21,6 +22,7 @@ public class ConfigGui extends GuiScreen {
     private int scrollOffset = 0;
     private boolean scrolling = false;
     private ResourceLocation logo;
+    private Scrollbar scrollbar;
 
     private Integer prevWidth = null;
     private Integer prevHeight = null;
@@ -85,18 +87,23 @@ public class ConfigGui extends GuiScreen {
         for(int i = 0; i < settings.size(); i++) {
             Setting setting = settings.get(i);
 
-            int x = getOffset() + columnWidth - 25;
+            int x = getOffset() + columnWidth;
             int y = (columnWidth / 3) + (i * 15) - scrollOffset;
 
-            if(setting.type == Setting.Type.SWITCH) {
-                buttonList.add(new SwitchButton(setting, x, y));
+            if(setting.type == Setting.SettingType.BOOLEAN) {
+                if(setting.booleanType == Setting.BooleanType.SWITCH) buttonList.add(new SwitchButton(setting, x, y));
+                if(setting.booleanType == Setting.BooleanType.CHECKBOX) buttonList.add(new SwitchButton(setting, x, y)); // TODO: Implement components.CheckboxButton
+            } else if(setting.type == Setting.SettingType.INTEGER) {
+                buttonList.add(new NumberInput(setting, x, y));
             }
         }
 
         int viewport = height - 100 - 10;
         int contentHeight = settings.size() * 15;
         int scrollbarX = getOffset() + columnWidth + 10;
-        buttonList.add(new Scrollbar(viewport, contentHeight, scrollOffset, scrollbarX, scrolling));
+
+        scrollbar = new Scrollbar(viewport, contentHeight, scrollOffset, scrollbarX, scrolling);
+        buttonList.add(scrollbar);
     }
 
     @Override
@@ -121,7 +128,18 @@ public class ConfigGui extends GuiScreen {
             int viewport = height - 100 - 10;
             int contentHeight = settings.size() * 15;
 
-            scrollOffset += mouseY-prevMouseY;
+            /*
+            increase by a percentage of the scrollbar height depending on the percentage of the viewport that was scrolled
+            */
+
+            // 1) percentage of viewport scrolled
+            // 2) answer * height of scrollbar
+            // 3) scrollOffset += answer + amount scrolled
+
+            int dragAmount = mouseY-prevMouseY;
+            int scrollbarCompensation = dragAmount/viewport*scrollbar.height;
+
+            scrollOffset += dragAmount + scrollbarCompensation;
             scrollOffset = MathHelper.clamp_int(scrollOffset, 0, contentHeight-viewport);
             initGui();
         }

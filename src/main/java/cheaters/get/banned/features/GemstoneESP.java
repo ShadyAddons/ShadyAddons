@@ -24,7 +24,6 @@ public class GemstoneESP {
     private HashMap<BlockPos, Gemstone> gemstones = new HashMap<>();
     private HashSet<BlockPos> checked = new HashSet<>();
     private BlockPos lastChecked = null;
-    public static int radius = 15;
 
     enum Gemstone {
         RUBY(Color.RED, EnumDyeColor.RED),
@@ -51,9 +50,9 @@ public class GemstoneESP {
                 BlockPos playerPosition = Shady.mc.thePlayer.playerLocation;
                 lastChecked = playerPosition;
 
-                for(int x = playerPosition.getX()-radius; x < playerPosition.getX()+radius; x++) {
-                    for(int y = playerPosition.getY()-radius; y < playerPosition.getY()+radius; y++) {
-                        for(int z = playerPosition.getZ()-radius; z < playerPosition.getZ()+radius; z++) {
+                for(int x = playerPosition.getX()-Config.gemstoneRadius; x < playerPosition.getX()+Config.gemstoneRadius; x++) {
+                    for(int y = playerPosition.getY()-Config.gemstoneRadius; y < playerPosition.getY()+Config.gemstoneRadius; y++) {
+                        for(int z = playerPosition.getZ()-Config.gemstoneRadius; z < playerPosition.getZ()+Config.gemstoneRadius; z++) {
 
                             BlockPos position = new BlockPos(x, y, z);
 

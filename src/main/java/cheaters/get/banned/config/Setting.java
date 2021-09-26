@@ -1,34 +1,71 @@
 package cheaters.get.banned.config;
 
+import net.minecraft.util.MathHelper;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class Setting {
 
+    public SettingType type;
     public String name;
     public boolean hidden = false;
     public String parent = null;
-    public String boundTo = null;
-    public String tooltip = null;
-    public Type type;
     public Field field;
-    public ArrayList<Setting> children = new ArrayList<>();
+    public Object defaultValue;
 
-    public Setting(String name, boolean hidden, String parent, String boundTo, String tooltip, Type type, Field field) {
+    // Only SettingType.INTEGER
+    public int step;
+    public String prefix;
+    public String suffix;
+    public int min;
+    public int max;
+
+    // Only SettingType.BOOLEAN
+    public ArrayList<Setting> children = new ArrayList<>();
+    public String boundTo = null;
+    public BooleanType booleanType;
+
+    // Create SettingType.BOOLEAN
+    public Setting(String name, boolean hidden, String parent, String boundTo, BooleanType booleanType, Field field, Object defaultValue) {
+        this.type = SettingType.BOOLEAN;
         this.name = name;
         this.hidden = hidden;
         this.parent = parent;
         this.boundTo = boundTo;
-        this.tooltip = tooltip;
-        this.type = type;
+        this.booleanType = booleanType;
         this.field = field;
+        this.defaultValue = defaultValue;
+    }
+
+    // Create SettingType.INTEGER
+    public Setting(String name, boolean hidden, String parent, int step, String prefix, String suffix, int min, int max, Field field, Object defaultValue) {
+        this.type = SettingType.INTEGER;
+        this.name = name;
+        this.hidden = hidden;
+        this.parent = parent;
+        this.step = step;
+        this.prefix = prefix;
+        this.suffix = suffix;
+        this.min = min;
+        this.max = max;
+        this.field = field;
+        this.defaultValue = defaultValue;
     }
 
     public boolean enabled() {
         try {
-            return (boolean) field.get(Boolean.class);
+            if(type == SettingType.BOOLEAN) return (boolean) field.get(boolean.class);
+            if(type == SettingType.INTEGER) return field.get(int.class) != defaultValue;
         } catch(Exception ignored) {}
         return false;
+    }
+
+    public Object getValue() {
+        try {
+            return field.get(Object.class);
+        } catch(Exception ignored) {}
+        return null;
     }
 
     public void set(Object value) {
@@ -42,12 +79,10 @@ public class Setting {
     public void update(Object newValue, boolean preventRecursion) {
         try {
             for(Setting child : children) {
-                if(field.getType() == boolean.class) {
-                    child.update(false, false);
-                } else if(field.getType() == String.class) {
-                    child.update(null, false);
+                if(field.getType() == boolean.class || field.getType() == Boolean.class) {
+                    child.update(defaultValue, false);
                 } else {
-                    throw new Exception("Type mismatch when updating setting value");
+                    throw new Exception("Type mismatch when updating sub-setting value");
                 }
             }
 
@@ -58,6 +93,7 @@ public class Setting {
                 }
             }
 
+            if(type == SettingType.INTEGER) newValue = MathHelper.clamp_int((int) newValue, 0, max);
             set(newValue);
         } catch(Exception exception) {
             exception.printStackTrace();
@@ -76,8 +112,12 @@ public class Setting {
         return children;
     }
 
-    public enum Type {
-        SWITCH, CHECKBOX, STRING;
+    public enum BooleanType {
+        SWITCH, CHECKBOX;
+    }
+
+    public enum SettingType {
+        BOOLEAN, INTEGER
     }
 
 }
