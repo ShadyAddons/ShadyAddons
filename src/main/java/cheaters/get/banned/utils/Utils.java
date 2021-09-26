@@ -29,7 +29,7 @@ public class Utils {
     public static boolean forceDungeon = false;
 
     public static String getLogo() {
-        final ArrayList<String> logos = new ArrayList<String>(Arrays.asList("logo-fsr", "logo-impact", "logo-sbe", "logo-skytils", "logo-pride"));
+        final ArrayList<String> logos = new ArrayList<String>(Arrays.asList("logo-fsr", "logo-badlion", "logo-impact", "logo-sbe", "logo-skytils", "logo-pride", "logo-lunar"));
 
         int month = Calendar.getInstance().get(Calendar.MONTH);
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
@@ -214,6 +214,16 @@ public class Utils {
 
     public static <T> T firstOrNull(Iterable<T> iterable) {
         return Iterables.getFirst(iterable, null);
+    }
+
+    @SafeVarargs
+    public static <T> T firstNotNull(T...args) {
+        for(T arg : args) {
+            if(arg != null) {
+                return arg;
+            }
+        }
+        return null;
     }
 
     /**
