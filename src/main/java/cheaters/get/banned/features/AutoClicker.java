@@ -51,7 +51,7 @@ public class AutoClicker {
 
     @SubscribeEvent
     public void onOpenGui(GuiOpenEvent event) {
-        toggled = false;
+        if(Config.stopAutoClickerInGui) toggled = false;
     }
 
     @SubscribeEvent

@@ -29,6 +29,9 @@ public class Config {
             @Boolean(value = "Show Indicator", parent = "Toggle Continous")
             public static boolean autoClickerIndicator = false;
 
+            @Boolean(value = "Stop in GUI", parent = "Toggle Continous")
+            public static boolean stopAutoClickerInGui = false;
+
         @Boolean(value = "Trigger Burst", parent = "Auto Clicker", boundTo = "Toggle Continous")
         public static boolean autoClickerBurst = false;
 
