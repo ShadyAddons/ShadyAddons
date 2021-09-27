@@ -33,7 +33,7 @@ public class GemstoneESP {
         RUBY(new Color(188, 3, 29), EnumDyeColor.RED),
         AMETHYST(new Color(137, 0, 201), EnumDyeColor.PURPLE),
         JADE(new Color(157, 249, 32), EnumDyeColor.LIME),
-        SAPPHIRE(new Color(60, 121, 224), EnumDyeColor.BLUE),
+        SAPPHIRE(new Color(60, 121, 224), EnumDyeColor.LIGHT_BLUE),
         AMBER(new Color(237, 139, 35), EnumDyeColor.ORANGE),
         TOPAZ(new Color(249, 215, 36), EnumDyeColor.YELLOW),
         JASPER(new Color(214, 15, 150), EnumDyeColor.MAGENTA);
