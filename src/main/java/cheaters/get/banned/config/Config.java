@@ -118,7 +118,7 @@ public class Config {
         public static boolean blockValkyrie = false;
 
 
-    @Boolean("Automatically Close Chests")
+    @Boolean("Auto Close Chests")
     public static boolean closeChests = false;
 
         @Boolean(value = "Secret Chests", parent = "Automatically Close Chests")

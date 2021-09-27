@@ -79,7 +79,7 @@ public class GemstoneESP {
 
     @SubscribeEvent
     public void onBlockChange(BlockChangeEvent event) {
-        if(isEnabled() && event.position.distanceSq(Shady.mc.thePlayer.getPosition()) < Math.pow(Config.gemstoneRadius, 2) && event.oldBlock.getBlock() == Blocks.stained_glass && event.newBlock.getBlock() == Blocks.air) {
+        if(isEnabled() && event.position.distanceSq(Shady.mc.thePlayer.getPosition()) < Math.pow(Config.gemstoneRadius, 2) && (event.oldBlock.getBlock() == Blocks.stained_glass || event.oldBlock.getBlock() == Blocks.stained_glass_pane) && event.newBlock.getBlock() == Blocks.air) {
             gemstones.remove(event.position);
         }
     }
