@@ -145,7 +145,7 @@ public class Config {
         public static boolean showStealthyBloodMobs = false;
 
 
-    // @Boolean("Highlight Starred Mobs")
+    @Boolean("Highlight Starred Mobs & Minibosses")
     public static boolean highlightStarredMobs = false;
 
 
