@@ -148,7 +148,7 @@ public class AutoTerminals {
                 for (int j = 0; j < 54; j++) {
                     if (isStartSlot[j]) {
                         int startSlot = j;
-                        boolean newSlotChosen = false
+                        boolean newSlotChosen = false;
                         while(startSlot != endSlot) {
                             newSlotChosen = false;
                             for(int i = 0; i < 4; i++) {
@@ -172,7 +172,6 @@ public class AutoTerminals {
                                 break;
                             }
                         }
-                        if (!newSlotChosen) continue;
                     }   
                 }
                 return true;
