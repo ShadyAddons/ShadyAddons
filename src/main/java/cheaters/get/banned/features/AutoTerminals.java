@@ -128,48 +128,55 @@ public class AutoTerminals {
         switch(currentTerminal) {
             case MAZE:
                 // Note: This could break if there are multiple green panes, solution is to create list of all green panes and loop through routing algorithm for each one
-                int startSlot = -1, endSlot = -1;
+                int endSlot = -1;
                 boolean[] mazeVisited = new boolean[54];
                 // Scan chest for start and end
+                boolean[] isStartSlot = new boolean[54];
                 for(Slot slot : invSlots) {
-                    if(startSlot >= 0 && endSlot >= 0) break;
                     if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
                     ItemStack itemStack = slot.getStack();
                     if(itemStack == null) continue;
                     if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane)) {
                         if(itemStack.getItemDamage() == 5) {
-                            startSlot = slot.slotNumber;
+                            isStartSlot[slot.slotNumber] = true;
                         } else if(itemStack.getItemDamage() == 14) {
                             endSlot = slot.slotNumber;
                         }
                     }
                 }
                 // Plan route for maze from start to end
-                while(startSlot != endSlot) {
-                    boolean newSlotChosen = false;
-                    for(int i = 0; i < 4; i++) {
-                        int slotNumber = startSlot + mazeDirection[i];
-                        if(slotNumber == endSlot) return false;
-                        if(slotNumber < 0 || slotNumber > 53 || i == 1 && slotNumber % 9 == 8 || i == 2 && slotNumber % 9 == 0) continue;
-                        if(mazeVisited[slotNumber]) continue;
-                        ItemStack itemStack = invSlots.get(slotNumber).getStack();
-                        if(itemStack == null) continue;
-                        if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.getItemDamage() == 0) {
-                            clickQueue.add(invSlots.get(slotNumber));
-                            startSlot = slotNumber;
-                            mazeVisited[slotNumber] = true;
-                            newSlotChosen = true;
-                            break;
+                for (int j = 0; j < 54; j++) {
+                    if (isStartSlot[j]) {
+                        int startSlot = j;
+                        boolean newSlotChosen = false
+                        while(startSlot != endSlot) {
+                            newSlotChosen = false;
+                            for(int i = 0; i < 4; i++) {
+                                int slotNumber = startSlot + mazeDirection[i];
+                                if(slotNumber == endSlot) return false;
+                                if(slotNumber < 0 || slotNumber > 53 || i == 1 && slotNumber % 9 == 8 || i == 2 && slotNumber % 9 == 0) continue;
+                                if(mazeVisited[slotNumber]) continue;
+                                ItemStack itemStack = invSlots.get(slotNumber).getStack();
+                                if(itemStack == null) continue;
+                                if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.getItemDamage() == 0) {
+                                    clickQueue.add(invSlots.get(slotNumber));
+                                    startSlot = slotNumber;
+                                    mazeVisited[slotNumber] = true;
+                                    newSlotChosen = true;
+                                    break;
+                                }
+                            }
+                            // Prevents infinite loop if there is no adjacent white pane
+                            if(!newSlotChosen) {
+                                System.out.println("Maze calculation aborted");
+                                break;
+                            }
                         }
-                    }
-                    // Prevents infinite loop if there is no adjacent white pane
-                    if(!newSlotChosen) {
-                        System.out.println("Maze calculation aborted");
-                        return true;
-                    }
+                        if (!newSlotChosen) continue;
+                    }   
                 }
+                return true;
                 break;
-
             case NUMBERS:
                 while(clickQueue.size() < 14) clickQueue.add(null);
                 for(int i = 10; i <= 25; i++) {
