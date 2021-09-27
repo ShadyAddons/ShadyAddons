@@ -178,7 +178,7 @@ public class AutoTerminals {
                 return true;
                 break;
             case NUMBERS:
-                while (toClick.size() < 14) toClick.add(null);
+                while (clickQueue.size() < 14) clickQueue.add(null);
                 int min = 0;
                 for (int i = 10; i <= 25; i++) {
                     if (i == 17 || i == 18) continue;
@@ -186,14 +186,14 @@ public class AutoTerminals {
                     if (item == null) continue;
                     if (item.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && item.stackSize < 15) {
                         if (item.getItemDamage() == 14) {
-                            toClick.set(item.stackSize - 1, invSlots.get(i));
+                            clickQueue.set(item.stackSize - 1, invSlots.get(i));
                         } else if (item.getItemDamage() == 5) {
                             min = Math.max(0, item.stackSize);
                         }
                     }
                 }
                 for (int i = min; i < 14; i++) {
-                    if (toClick.get(i) == null) {
+                    if (clickQueue.get(i) == null) {
                         return true;
                     }
                 }
