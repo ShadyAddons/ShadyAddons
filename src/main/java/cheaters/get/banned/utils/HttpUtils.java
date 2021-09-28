@@ -1,6 +1,5 @@
 package cheaters.get.banned.utils;
 
-import cheaters.get.banned.Shady;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -21,7 +20,7 @@ public class HttpUtils {
             if(!request.containsHeader("Cache-Control")) request.addHeader("Cache-Control", "no-cache");
         });
 
-        if(includeUserAgent) client.setUserAgent("ShadyAddons/" + Shady.VERSION);
+        if(includeUserAgent) client.setUserAgent("ShadyAddons/@VERSION@");
 
         try {
             HttpGet request = new HttpGet(url);

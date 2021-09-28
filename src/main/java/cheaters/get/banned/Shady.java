@@ -5,7 +5,6 @@ import cheaters.get.banned.config.ConfigLogic;
 import cheaters.get.banned.config.MainCommand;
 import cheaters.get.banned.config.Setting;
 import cheaters.get.banned.features.*;
-import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.remote.UpdateGui;
 import cheaters.get.banned.remote.Updater;
 import cheaters.get.banned.remote.Whitelist;
@@ -54,7 +53,6 @@ public class Shady {
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         ConfigLogic.load();
         Updater.check();
-        MayorAPI.fetch();
     }
 
     @Mod.EventHandler
