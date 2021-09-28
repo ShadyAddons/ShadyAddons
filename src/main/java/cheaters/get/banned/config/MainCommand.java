@@ -2,7 +2,6 @@ package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.AutoTerminals;
-import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -55,11 +54,6 @@ public class MainCommand extends CommandBase {
                     AutoTerminals.testing = !AutoTerminals.testing;
                     Utils.sendModMessage("Toggled Testing Terminals");
                     if(!Utils.forceDungeon) Utils.useCommand("shady force_dungeon");
-                    break;
-
-                case "force_paul":
-                    MayorAPI.forcePaul();
-                    Utils.sendMessage("EZPZ bonus set to active");
                     break;
 
                 case "disable":

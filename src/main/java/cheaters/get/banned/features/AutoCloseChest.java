@@ -5,13 +5,13 @@ import cheaters.get.banned.config.Config;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.inventory.ContainerChest;
-import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class AutoCloseChest {
 
     @SubscribeEvent
-    public void onGuiOpen(GuiOpenEvent event) {
+    public void onDrawBackground(GuiScreenEvent.BackgroundDrawnEvent event) {
         if(event.gui instanceof GuiChest && Utils.inSkyBlock) {
             String chestName = ((ContainerChest) ((GuiChest)event.gui).inventorySlots).getLowerChestInventory().getDisplayName().getUnformattedText();
 

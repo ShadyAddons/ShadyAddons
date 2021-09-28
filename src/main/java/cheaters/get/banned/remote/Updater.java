@@ -1,4 +1,4 @@
-package cheaters.get.banned.updates;
+package cheaters.get.banned.remote;
 
 import com.google.gson.Gson;
 import cheaters.get.banned.Shady;

@@ -144,6 +144,10 @@ public class Utils {
         }
     }
 
+    public static void useCommand(String command) {
+        if(command.startsWith("/")) Shady.mc.thePlayer.sendChatMessage(command);
+    }
+
     /**
      * Send mod message
      * @param message The message to be sent with the mod's prefix

@@ -1,4 +1,4 @@
-package cheaters.get.banned.updates;
+package cheaters.get.banned.remote;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.utils.HttpUtils;

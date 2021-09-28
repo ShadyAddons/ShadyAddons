@@ -5,10 +5,10 @@ import cheaters.get.banned.config.ConfigLogic;
 import cheaters.get.banned.config.MainCommand;
 import cheaters.get.banned.config.Setting;
 import cheaters.get.banned.features.*;
-import cheaters.get.banned.features.dungeonscanner.DungeonScanner;
-import cheaters.get.banned.updates.UpdateGui;
-import cheaters.get.banned.updates.Updater;
-import cheaters.get.banned.updates.Whitelist;
+import cheaters.get.banned.remote.MayorAPI;
+import cheaters.get.banned.remote.UpdateGui;
+import cheaters.get.banned.remote.Updater;
+import cheaters.get.banned.remote.Whitelist;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.LocationUtils;
 import cheaters.get.banned.utils.Utils;
@@ -54,6 +54,7 @@ public class Shady {
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         ConfigLogic.load();
         Updater.check();
+        MayorAPI.fetch();
     }
 
     @Mod.EventHandler
@@ -78,7 +79,6 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new HideSummons());
         MinecraftForge.EVENT_BUS.register(new TeleportWithAnything());
         MinecraftForge.EVENT_BUS.register(new ItemKeybind());
-        MinecraftForge.EVENT_BUS.register(new DungeonScanner());
         MinecraftForge.EVENT_BUS.register(new MobESP());
         MinecraftForge.EVENT_BUS.register(new GemstoneESP());
         MinecraftForge.EVENT_BUS.register(new AutoTerminals());

@@ -18,6 +18,13 @@ import java.awt.*;
 
 public class RenderUtils {
 
+    public static void drawScaledString(String string, float scale, int x, int y) {
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(scale, scale, scale);
+        Shady.mc.fontRendererObj.drawString(string, (int)(x/scale), (int)(y/scale), -1);
+        GlStateManager.popMatrix();
+    }
+
     /**
      * Taken from NotEnoughUpdates under Creative Commons Attribution-NonCommercial 3.0
      * https://github.com/Moulberry/NotEnoughUpdates/blob/master/LICENSE
