@@ -32,7 +32,8 @@ public class ConfigLogic {
                         booleanAnnotation.parent().equals("") ? null : booleanAnnotation.parent(),
                         booleanAnnotation.boundTo().equals("") ? null : booleanAnnotation.boundTo(),
                         booleanAnnotation.booleanType(),
-                        field
+                        field,
+                        booleanAnnotation.credit().equals("") ? null : booleanAnnotation.credit()
                 ));
                 continue;
             }
@@ -48,7 +49,8 @@ public class ConfigLogic {
                         numberAnnotation.suffix().equals("") ? null : numberAnnotation.suffix(),
                         numberAnnotation.min(),
                         numberAnnotation.max(),
-                        field
+                        field,
+                        numberAnnotation.credit().equals("") ? null : numberAnnotation.credit()
                 ));
                 continue;
             }

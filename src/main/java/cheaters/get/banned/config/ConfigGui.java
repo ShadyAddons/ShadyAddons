@@ -5,6 +5,7 @@ import cheaters.get.banned.config.components.ConfigButton;
 import cheaters.get.banned.config.components.NumberInput;
 import cheaters.get.banned.config.components.Scrollbar;
 import cheaters.get.banned.config.components.SwitchButton;
+import cheaters.get.banned.utils.RenderUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -70,6 +71,12 @@ public class ConfigGui extends GuiScreen {
 
             // Setting Text
             Shady.mc.fontRendererObj.drawString((setting.enabled() ? "§a" : "§f") + setting.name, x, y+1, -1);
+            if(setting.credit != null) {
+                int settingNameWidth = Shady.mc.fontRendererObj.getStringWidth(setting.name+" ");
+                GlStateManager.translate(0, 1.8, 0);
+                RenderUtils.drawScaledString("§7"+setting.credit, 0.8f, x+settingNameWidth, y+1);
+                GlStateManager.translate(0, -1.8, 0);
+            }
         }
 
         if(prevHeight != null && prevWidth != null && (prevWidth != width || prevHeight != height)) {
@@ -130,6 +137,7 @@ public class ConfigGui extends GuiScreen {
 
             /*
             increase by a percentage of the scrollbar height depending on the percentage of the viewport that was scrolled
+            TODO: This doesn't work since the scroll amount is like 1 or 2 pixels every time
             */
 
             // 1) percentage of viewport scrolled

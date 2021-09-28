@@ -15,5 +15,6 @@ public @interface Number {
     String suffix() default "";
     int min() default 0;
     int max();
+    String credit() default "";
 
 }

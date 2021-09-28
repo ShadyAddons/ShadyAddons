@@ -183,7 +183,8 @@ public class Config {
     @Boolean("Auto Melody")
     public static boolean autoMelody = false;
 
-    @Boolean("Auto Terminals")
+
+    @Boolean(value = "Auto Terminals", credit = "by 0Kelvin_")
     public static boolean autoTerminals = false;
 
         @Boolean(value = "Maze", parent = "Auto Terminals")

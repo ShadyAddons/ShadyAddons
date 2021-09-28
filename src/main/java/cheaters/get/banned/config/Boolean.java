@@ -12,5 +12,6 @@ public @interface Boolean {
     String parent() default "";
     String boundTo() default "";
     Setting.BooleanType booleanType() default Setting.BooleanType.SWITCH;
+    String credit() default "";
 
 }

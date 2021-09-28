@@ -12,6 +12,7 @@ public class Setting {
     public boolean hidden = false;
     public String parent = null;
     public Field field;
+    public String credit;
 
     // Only SettingType.INTEGER
     public int step;
@@ -26,7 +27,7 @@ public class Setting {
     public BooleanType booleanType;
 
     // Create SettingType.BOOLEAN
-    public Setting(String name, boolean hidden, String parent, String boundTo, BooleanType booleanType, Field field) {
+    public Setting(String name, boolean hidden, String parent, String boundTo, BooleanType booleanType, Field field, String credit) {
         this.type = SettingType.BOOLEAN;
         this.name = name;
         this.hidden = hidden;
@@ -34,10 +35,11 @@ public class Setting {
         this.boundTo = boundTo;
         this.booleanType = booleanType;
         this.field = field;
+        this.credit = credit;
     }
 
     // Create SettingType.INTEGER
-    public Setting(String name, boolean hidden, String parent, int step, String prefix, String suffix, int min, int max, Field field) {
+    public Setting(String name, boolean hidden, String parent, int step, String prefix, String suffix, int min, int max, Field field, String credit) {
         this.type = SettingType.INTEGER;
         this.name = name;
         this.hidden = hidden;
@@ -48,6 +50,7 @@ public class Setting {
         this.min = min;
         this.max = max;
         this.field = field;
+        this.credit = credit;
     }
 
     public boolean enabled() {
@@ -75,7 +78,7 @@ public class Setting {
     public void update(Object newValue, boolean preventRecursion) {
         try {
             for(Setting child : children) {
-                if(type == SettingType.BOOLEAN) child.update(false, false);
+                if(child.type == SettingType.BOOLEAN) child.update(false, false);
             }
 
             if(!preventRecursion && boundTo != null) {

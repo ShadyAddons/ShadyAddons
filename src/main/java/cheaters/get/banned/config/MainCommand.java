@@ -2,13 +2,11 @@ package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.AutoTerminals;
-import cheaters.get.banned.features.dungeonscanner.DungeonScanner;
-import cheaters.get.banned.features.dungeonscanner.DungeonScannerGui;
+import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
@@ -53,34 +51,15 @@ public class MainCommand extends CommandBase {
                     Utils.sendModMessage("Toggled Forcing SkyBlock");
                     break;
 
-                case "copy_core":
-                    Utils.copyToClipboard(DungeonScanner.getCore(
-                            Shady.mc.thePlayer.getPosition().getX(),
-                            Shady.mc.thePlayer.getPosition().getZ()
-                    ));
-                    break;
-
-                case "test_terms":
+                case "test_terminals":
                     AutoTerminals.testing = !AutoTerminals.testing;
                     Utils.sendModMessage("Toggled Testing Terminals");
+                    if(!Utils.forceDungeon) Utils.useCommand("shady force_dungeon");
                     break;
 
-                case "scan":
-                    if(Utils.inDungeon) {
-                        Shady.guiToOpen = new DungeonScannerGui();
-                        Utils.sendModMessage("Thanks for testing this unstable feature! Report any bugs you encounter or feedback you have!");
-                    } else {
-                        Utils.sendModMessage("You have to be in dungeons to use this command");
-                    }
-                    break;
-
-                case "rescan":
-                    if(Utils.inDungeon) {
-                        DungeonScanner.reScan();
-                        Utils.sendModMessage("Refreshed dungeon scan");
-                    } else {
-                        Utils.sendModMessage("You have to be in dungeons to use this command");
-                    }
+                case "force_paul":
+                    MayorAPI.forcePaul();
+                    Utils.sendMessage("EZPZ bonus set to active");
                     break;
 
                 case "disable":
@@ -90,13 +69,6 @@ public class MainCommand extends CommandBase {
         } else {
             Shady.guiToOpen = new ConfigGui(new ResourceLocation("shadyaddons:"+Utils.getLogo()+".png"));
         }
-    }
-
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-        if(args.length == 1 && Shady.enabled) {
-            return getListOfStringsMatchingLastWord(args, "force_dungeon", "force_skyblock", "get_block", "copy_core", "scan", "rescan", "disable");
-        }
-        return null;
     }
 
     @Override
