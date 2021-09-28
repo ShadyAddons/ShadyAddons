@@ -118,10 +118,6 @@ public class Config {
         public static boolean blockValkyrie = false;
 
 
-    @Boolean(value = "Dungeon Map", credit = "ported from IllegalMap by UnclaimedBloom6")
-    public static boolean dungeonMap = false;
-
-
     @Boolean("Auto Close Chests")
     public static boolean closeChests = false;
 
