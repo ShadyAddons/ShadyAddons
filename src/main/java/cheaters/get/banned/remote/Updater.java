@@ -33,6 +33,8 @@ public class Updater {
                 try {
                     response = HttpUtils.fetch(url);
                 } catch(Exception ignored) {}
+                
+                System.out.println(response);
 
                 if(response != null) {
                     update = new Gson().fromJson(response, Update.class);

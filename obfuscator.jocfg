@@ -1,7 +1,7 @@
 {
-  "input": "/Users/jerome/Documents/GitHub/ShadyAddons/build/libs/ShadyAddons-2.0.0-pre4.jar",
-  "output": "/Users/jerome/Documents/GitHub/ShadyAddons/build/libs/ShadyAddons-2.0.0-pre4-OBF.jar",
-  "script": "function isRemappingEnabledForClass(node) {\n    var flag1 \u003d node.name.startsWith(\"cheaters/get/banned\");\n    var flag2 \u003d !node.name.startsWith(\"cheaters/get/banned/mixins\");\n    // var flag3 \u003d !node.name.startsWith(\"cheaters/get/banned/config\");\n    return flag1 \u0026\u0026 flag2 /*\u0026\u0026 flag3*/;\n}\nfunction isObfuscatorEnabledForClass(node) {\n    var flag1 \u003d node.name.startsWith(\"cheaters/get/banned\");\n    var flag2 \u003d !node.name.startsWith(\"cheaters/get/banned/mixins\");\n    // var flag3 \u003d !node.name.startsWith(\"cheaters/get/banned/config\");\n    return flag1 \u0026\u0026 flag2 /*\u0026\u0026 flag3*/;\n}",
+  "input": "/Users/jerome/Documents/GitHub/ShadyAddons/build/libs/ShadyAddons-2.0.0.jar",
+  "output": "/Users/jerome/Library/Application Support/minecraft/mods/ShadyAddons-2.0.0-OBF.jar",
+  "script": "function isRemappingEnabledForClass(node) {\n    var flag1 \u003d node.name.startsWith(\"cheaters/get/banned\");\n    var flag2 \u003d !node.name.startsWith(\"cheaters/get/banned/mixins\");\n    var flag3 \u003d !node.name.endsWith(\"Update\");\n    return flag1 \u0026\u0026 flag2 \u0026\u0026 flag3;\n}\nfunction isObfuscatorEnabledForClass(node) {\n    var flag1 \u003d node.name.startsWith(\"cheaters/get/banned\");\n    var flag2 \u003d !node.name.startsWith(\"cheaters/get/banned/mixins\");\n    var flag3 \u003d !node.name.endsWith(\"Update\");\n    return flag1 \u0026\u0026 flag2 \u0026\u0026 flag3;\n}",
   "libraries": [],
   "Crasher": {
     "Enabled": false
@@ -14,10 +14,10 @@
     "HWID": "8B6BCE5E6362C80D8D9CBD68894A6AE2"
   },
   "Optimizer": {
-    "Enabled": false,
+    "Enabled": true,
     "Replace String.equals()": false,
     "Replace String.equalsIgnoreCase()": false,
-    "Optimize static string calls": false
+    "Optimize static string calls": true
   },
   "LineNumberRemover": {
     "Enabled": true,
@@ -29,15 +29,15 @@
   },
   "StringEncryption": {
     "Enabled": true,
-    "HideStrings": true,
+    "HideStrings": false,
     "AES": false
   },
   "NumberObfuscation": {
     "Enabled": true,
     "Extract to Array": true,
     "Obfuscate Zero": true,
-    "Shift": false,
-    "And": false,
+    "Shift": true,
+    "And": true,
     "Multiple Instructions": true
   },
   "ReferenceProxy": {
