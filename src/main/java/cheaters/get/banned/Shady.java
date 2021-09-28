@@ -49,7 +49,7 @@ public class Shady {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        Whitelist.check();
+        if(PRIVATE) Whitelist.check();
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         ConfigLogic.load();
         Updater.check();
