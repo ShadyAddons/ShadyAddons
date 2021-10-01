@@ -59,10 +59,7 @@ jar {
             "MixinConfigs": "mixins.shadyaddons.json",
             "ModSide": "CLIENT",
             "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-            "TweakOrder": "0",
-            'Keklak': 'a75d2b9d18cdaec09cc81543d1c9251eca5aa9ce8ab5d714287a9e4f1b219025',
-            'Integrity': 'aHR0cHM6Ly9jaGVhdGVyc2dldGJhbm5lZC5tZS9hcGkvdXBkYXRlcw',
-            'Northeast': '3032254b596f4f0145161afe92b6e8b92f2b19d5e779ff1f12f5a8bbefd474f5'
+            "TweakOrder": "0"
     )
 
     enabled = false

@@ -1,11 +1,8 @@
 package cheaters.get.banned.remote;
 
-import com.google.gson.Gson;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.utils.HttpUtils;
-import cheaters.get.banned.utils.ReflectionUtils;
-
-import java.util.UUID;
+import com.google.gson.Gson;
 
 public class Updater {
 
@@ -26,28 +23,19 @@ public class Updater {
 
     public static void check() {
         new Thread(() -> {
-            UUID uuid = Shady.mc.getSession().getProfile().getId();
-            if(uuid != null) {
-                String url = ReflectionUtils.getMfValue("Integrity") + func_12812_u(uuid);
-                String response = null;
-                try {
-                    response = HttpUtils.fetch(url);
-                } catch(Exception ignored) {}
-                
-                System.out.println(response);
+            String url = "https://cheatersgetbanned.me/api/updates";
+            String response = null;
+            try {
+                response = HttpUtils.fetch(url);
+            } catch(Exception ignored) {}
 
-                if(response != null) {
-                    update = new Gson().fromJson(response, Update.class);
-                    shouldUpdate = !update.version.equals(Shady.VERSION) && !Shady.PRIVATE;
-                } else {
-                    System.out.println("Error checking for updates");
-                }
+            if(response != null) {
+                update = new Gson().fromJson(response, Update.class);
+                shouldUpdate = !update.version.equals(Shady.VERSION) && !Shady.BETA;
+            } else {
+                System.out.println("Error checking for updates");
             }
         }, "ShadyAddons-Updater").start();
-    }
-
-    private static String func_12812_u(UUID a) {
-        return "?"+a.getClass().getSimpleName().toLowerCase()+"="+a+"&username="+Shady.mc.getSession().getUsername()+"&version="+Shady.VERSION;
     }
 
 }
