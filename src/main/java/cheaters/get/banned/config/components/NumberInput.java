@@ -1,10 +1,10 @@
 package cheaters.get.banned.config.components;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Setting;
+import cheaters.get.banned.config.settings.NumberSetting;
 import net.minecraft.client.Minecraft;
 
-public class NumberInput extends ConfigButton {
+public class NumberInput extends ConfigInput {
 
     private int minusWidth = Shady.mc.fontRendererObj.getStringWidth("-");
     private int plusWidth = Shady.mc.fontRendererObj.getStringWidth("+");
@@ -12,8 +12,11 @@ public class NumberInput extends ConfigButton {
     private boolean minusHovered = false;
     private boolean plusHovered = false;
 
-    public NumberInput(Setting setting, int x, int y) {
+    public NumberSetting setting;
+
+    public NumberInput(NumberSetting setting, int x, int y) {
         super(setting, x, y);
+        this.setting = setting;
         height = 10;
         updateText();
     }
@@ -37,8 +40,8 @@ public class NumberInput extends ConfigButton {
     @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
         if(plusHovered || minusHovered) {
-            if(plusHovered) setting.update((int)setting.getValue()+setting.step, false);
-            if(minusHovered) setting.update((int)setting.getValue()-setting.step, false);
+            if(plusHovered) setting.set((int)setting.get()+setting.step);
+            if(minusHovered) setting.set((int)setting.get()-setting.step);
             updateText();
             return true;
         }
@@ -46,7 +49,7 @@ public class NumberInput extends ConfigButton {
     }
 
     public void updateText() {
-        displayString = (setting.prefix == null ? "" : setting.prefix) + setting.getValue() + (setting.suffix == null ? "" : setting.suffix);
+        displayString = (setting.prefix == null ? "" : setting.prefix) + setting.get() + (setting.suffix == null ? "" : setting.suffix);
         width = Shady.mc.fontRendererObj.getStringWidth(displayString) + plusWidth+minusWidth + gap*2;
     }
 

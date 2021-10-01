@@ -3,11 +3,11 @@ package cheaters.get.banned;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.config.ConfigLogic;
 import cheaters.get.banned.config.MainCommand;
-import cheaters.get.banned.config.Setting;
+import cheaters.get.banned.config.settings.BooleanSetting;
+import cheaters.get.banned.config.settings.Setting;
 import cheaters.get.banned.features.*;
 import cheaters.get.banned.remote.UpdateGui;
 import cheaters.get.banned.remote.Updater;
-import cheaters.get.banned.remote.Whitelist;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.LocationUtils;
 import cheaters.get.banned.utils.Utils;
@@ -34,7 +34,7 @@ public class Shady {
 
     public static final String MODNAME = "ShadyAddons";
     public static final String VERSION = "@VERSION@";
-    public static final boolean PRIVATE = VERSION.contains("-pre") || VERSION.equals("@VER"+"SION@");
+    public static final boolean BETA = VERSION.contains("-pre") || VERSION.equals("@VER"+"SION@");
 
     public static final Minecraft mc = Minecraft.getMinecraft();
 
@@ -49,7 +49,10 @@ public class Shady {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+<<<<<<< Updated upstream
         if(PRIVATE) Whitelist.check();
+=======
+>>>>>>> Stashed changes
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         ConfigLogic.load();
         Updater.check();
@@ -113,7 +116,7 @@ public class Shady {
     public static void disable() {
         enabled = false;
         for(Setting setting : settings) {
-            setting.update(false, true);
+            if(setting instanceof BooleanSetting) setting.set(false);
         }
     }
 

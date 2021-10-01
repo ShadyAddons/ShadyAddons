@@ -1,211 +1,513 @@
 package cheaters.get.banned.config;
 
+import cheaters.get.banned.config.properties.Property;
+
 public class Config {
 
-    @Boolean("Stonkless Stonk")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Stonkless Stonk"
+    )
     public static boolean stonklessStonk = false;
 
-        @Boolean(value = "Always On", parent = "Stonkless Stonk")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Always On",
+                parent = "Stonkless Stonk"
+        )
         public static boolean alwaysOn = false;
 
 
-    @Boolean("Auto Simon-Says")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto Simon-Says"
+    )
     public static boolean autoSimonSays = false;
 
 
-    @Boolean("Royal Pigeon Pickaxe Macro")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Royal Pigeon Pickaxe Macro"
+    )
     public static boolean royalPigeonMacro = false;
 
 
-    @Boolean("Auto Clicker")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto Clicker"
+    )
     public static boolean autoClicker = false;
 
-        @Number(value = "CPS", parent = "Auto Clicker", min = 10, max = 500, suffix = " CPS", step = 10)
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "CPS",
+                parent = "Auto Clicker",
+                min = 10,
+                max = 500,
+                step = 10,
+                suffix = " CPS"
+        )
         public static int autoClickerCps = 100;
 
-        @Boolean(value = "Toggle Continous", parent = "Auto Clicker", boundTo = "Trigger Burst")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Toggle Continous",
+                parent = "Auto Clicker",
+                boundTo = "Trigger Burst"
+        )
         public static boolean autoClickerToggle = false;
 
-            @Boolean(value = "Show Indicator", parent = "Toggle Continous")
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Show Indicator",
+                    parent = "Toggle Continous"
+            )
             public static boolean autoClickerIndicator = false;
 
-            @Boolean(value = "Stop in GUI", parent = "Toggle Continous")
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Stop in GUI",
+                    parent = "Toggle Continous"
+            )
             public static boolean stopAutoClickerInGui = false;
 
-        @Boolean(value = "Trigger Burst", parent = "Auto Clicker", boundTo = "Toggle Continous")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Trigger Burst",
+                parent = "Auto Clicker",
+                boundTo = "Toggle Continous"
+        )
         public static boolean autoClickerBurst = false;
 
-            @Number(value = "Amount", parent = "Trigger Burst", min = 5, max = 100, step = 5, suffix = " clicks")
+            @Property(
+                    type = Property.Type.NUMBER,
+                    name = "Amount",
+                    parent = "Trigger Burst",
+                    min = 5,
+                    max = 100,
+                    step = 5,
+                    suffix = " clicks"
+            )
             public static int burstAmount = 25;
 
 
-    @Boolean("Corleone Finder")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Corleone Finder"
+    )
     public static boolean corleoneFinder = false;
 
 
-    @Boolean("Summons Features")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Summons Features"
+    )
     public static boolean summonsFeatures = false;
 
-        @Boolean(value = "Hide Summons", parent = "Summons Features")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Hide Summons",
+                parent = "Summons Features"
+        )
         public static boolean hideSummons = false;
 
-        @Boolean(value = "Click Through Summons", parent = "Summons Features")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Click Through Summons",
+                parent = "Summons Features"
+        )
         public static boolean clickThroughSummons = false;
 
 
-    @Boolean("Teleport w/ Anything")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Teleport w/ Anything"
+    )
     public static boolean teleportWithAnything = false;
 
 
-    @Boolean("Renew Crystal Hollows Pass")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto Renew Crystal Hollows Pass"
+    )
     public static boolean renewCrystalHollowsPass = false;
 
 
-    @Boolean("Disable Block Animation")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Disable Block Animation"
+    )
     public static boolean disableBlockAnimation = false;
 
 
-    @Boolean("Keybinds")
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Keybinds"
+    )
     public static boolean keybinds = false;
 
-        @Boolean(value = "Ghost Blocks", parent = "Keybinds")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Ghost Blocks",
+                parent = "Keybinds"
+        )
         public static boolean ghostBlockKeybind = false;
 
-            @Boolean(value = "Right-Click w/ Stonk", parent = "Ghost Blocks")
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Right-Click w/ Stonk",
+                    parent = "Ghost Blocks"
+            )
             public static boolean stonkGhostBlock = false;
 
-        @Boolean(value = "Normal Ability", parent = "Keybinds")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Normal Ability",
+                parent = "Keybinds"
+        )
         public static boolean normalAbilityKeybind = false;
 
-        @Boolean(value = "Item Hotkeys", parent = "Keybinds")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Item Hotkeys",
+                parent = "Keybinds"
+        )
         public static boolean itemHotkeys = false;
 
-            @Boolean(value = "Ice Spray", parent = "Item Hotkeys")
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Ice Spray",
+                    parent = "Item Hotkeys"
+            )
             public static boolean iceSprayHotkey = false;
 
-            @Boolean(value = "Rogue Sword", parent = "Item Hotkeys")
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Rogue Sword",
+                    parent = "Item Hotkeys"
+            )
             public static boolean rogueSwordHotkey = false;
 
-            @Boolean(value = "Power Orb", parent = "Item Hotkeys")
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Power Orb",
+                    parent = "Item Hotkeys"
+            )
             public static boolean powerOrbHotkey = false;
 
-            @Boolean(value = "Weird Tuba", parent = "Item Hotkeys")
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Weird Tuba",
+                    parent = "Item Hotkeys"
+            )
             public static boolean weirdTubaHotkey = false;
 
-            @Boolean(value = "Gyrokinetic Wand", parent = "Item Hotkeys")
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Gyrokinetic Wand",
+                    parent = "Item Hotkeys"
+            )
             public static boolean gyrokineticWandHotkey = false;
 
-            @Boolean(value = "Pigman Sword", parent = "Item Hotkeys")
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Pigman Sword",
+                    parent = "Item Hotkeys"
+            )
             public static boolean pigmanSwordHotkey = false;
 
-            @Boolean(value = "Healing Wand", parent = "Item Hotkeys")
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Healing Wand",
+                    parent = "Item Hotkeys"
+            )
             public static boolean healingWandHotkey = false;
 
-            @Boolean(value = "Fishing Rod", parent = "Item Hotkeys")
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Fishing Rod",
+                    parent = "Item Hotkeys"
+            )
             public static boolean fishingRodHotkey = false;
 
 
-    @Boolean("Block Abilities")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Block Abilities"
+    )
     public static boolean blockAbilitis = false;
 
-        @Boolean(value = "Cells Alignment", parent = "Block Abilities")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Cells Alignment",
+                parent = "Block Abilities"
+        )
         public static boolean blockCellsAlignment = false;
 
-        @Boolean(value = "Giant's Slam", parent = "Block Abilities")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Giant's Slam",
+                parent = "Block Abilities"
+        )
         public static boolean blockGiantsSlam = false;
 
-        @Boolean(value = "Valkyrie Wither Impact", parent = "Block Abilities")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Valkyrie Wither Impact",
+                parent = "Block Abilities"
+        )
         public static boolean blockValkyrie = false;
 
 
-    @Boolean("Auto Close Chests")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Dungeon Map",
+            credit = "ported from IllegalMap by UnclaimedBloom6"
+    )
+    public static boolean dungeonMap = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Darken Unexplored",
+                parent = "Dungeon Map"
+        )
+        public static boolean darkenUnexplored = false;
+
+        @Property(
+                type = Property.Type.NUMBER,
+                name = "Background Opacity",
+                parent = "Dungeon Map",
+                max = 100,
+                step = 10,
+                suffix = "%"
+        )
+        public static int mapBackgroundOpacity = 50;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "RBG Border",
+                parent = "Dungeon Map"
+        )
+        public static boolean rbgMapBorder = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Show Player Heads",
+                parent = "Dungeon Map"
+        )
+        public static boolean showPlayerHeads = false;
+
+        @Property(
+                type = Property.Type.SELECT,
+                name = "Checkmark Style",
+                parent = "Dungeon Map",
+                options = {"None", "Vanilla", "Fancy"}
+        )
+        public static int mapCheckmarkStyle = 0;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto Close Chests"
+    )
     public static boolean closeChests = false;
 
-        @Boolean(value = "Secret Chests", parent = "Automatically Close Chests")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Secret Chests",
+                parent = "Auto Close Chests"
+        )
         public static boolean closeSecretChests = false;
 
-        @Boolean(value = "Crystal Hollows Chests", parent = "Automatically Close Chests")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Crystal Hollows Chests",
+                parent = "Auto Close Chests"
+        )
         public static boolean closeCrystalHollowsChests = false;
 
 
-    @Boolean("Auto GG")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto GG"
+    )
     public static boolean autoGg = false;
 
 
-    @Boolean("Show Hidden Mobs")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Show Hidden Mobs"
+    )
     public static boolean showHiddenMobs = false;
 
-        @Boolean(value = "Shadow Assassins", parent = "Show Hidden Mobs")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Shadow Assassins",
+                parent = "Show Hidden Mobs"
+        )
         public static boolean showHiddenShadowAssassins = false;
 
-        @Boolean(value = "Fels", parent = "Show Hidden Mobs")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Fels",
+                parent = "Show Hidden Mobs"
+        )
         public static boolean showHiddenFels = false;
 
-        @Boolean(value = "Ghosts", parent = "Show Hidden Mobs")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Ghosts",
+                parent = "Show Hidden Mobs"
+        )
         public static boolean showGhosts = false;
 
-        @Boolean(value = "Stealthy Blood Mobs", parent = "Show Hidden Mobs")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Stealthy Blood Mobs",
+                parent = "Show Hidden Mobs"
+        )
         public static boolean showStealthyBloodMobs = false;
 
 
-    @Boolean("Highlight Starred Mobs & Minibosses")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Highlight Starred Mobs & Minibosses"
+    )
     public static boolean highlightStarredMobs = false;
 
 
-    @Boolean("Gemstone ESP")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Gemstone ESP"
+    )
     public static boolean gemstoneEsp = false;
 
-        @Number(value = "Scan Radius", parent = "Gemstone ESP", suffix = " blocks", min = 5, max = 30)
+        @Property(
+                type = Property.Type.NUMBER,
+                name = "Scan Radius",
+                parent = "Gemstone ESP",
+                suffix = " blocks",
+                min = 5,
+                max = 30
+        )
         public static int gemstoneRadius = 15;
 
-        @Boolean(value = "Ruby", parent = "Gemstone ESP")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Ruby",
+                parent = "Gemstone ESP"
+        )
         public static boolean rubyEsp = false;
 
-        @Boolean(value = "Amber", parent = "Gemstone ESP")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Amber",
+                parent = "Gemstone ESP"
+        )
         public static boolean amberEsp = false;
 
-        @Boolean(value = "Sapphire", parent = "Gemstone ESP")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Sapphire",
+                parent = "Gemstone ESP"
+        )
         public static boolean sapphireEsp = false;
 
-        @Boolean(value = "Jade", parent = "Gemstone ESP")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Jade",
+                parent = "Gemstone ESP"
+        )
         public static boolean jadeEsp = false;
 
-        @Boolean(value = "Amethyst", parent = "Gemstone ESP")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Amethyst",
+                parent = "Gemstone ESP"
+        )
         public static boolean amethystEsp = false;
 
-        @Boolean(value = "Topaz", parent = "Gemstone ESP")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Topaz",
+                parent = "Gemstone ESP"
+        )
         public static boolean topazEsp = false;
 
-        @Boolean(value = "Jasper", parent = "Gemstone ESP")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Jasper",
+                parent = "Gemstone ESP"
+        )
         public static boolean jasperEsp = false;
 
 
-    @Boolean("Auto Melody")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto Melody"
+    )
     public static boolean autoMelody = false;
 
 
-    @Boolean(value = "Auto Terminals", credit = "by 0Kelvin_")
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto Terminals",
+            credit = "by 0Kelvin_"
+    )
     public static boolean autoTerminals = false;
 
-        @Boolean(value = "Maze", parent = "Auto Terminals")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Maze",
+                parent = "Auto Terminals"
+        )
         public static boolean autoMaze = false;
 
-        @Boolean(value = "Click in Order", parent = "Auto Terminals")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Click in Order",
+                parent = "Auto Terminals"
+        )
         public static boolean autoNumbers = false;
 
-        @Boolean(value = "Correct the Panes", parent = "Auto Terminals")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Correct the Panes",
+                parent = "Auto Terminals"
+        )
         public static boolean autoCorrectAll = false;
 
-        @Boolean(value = "Name Starts With", parent = "Auto Terminals")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Name Starts With",
+                parent = "Auto Terminals"
+        )
         public static boolean autoLetter = false;
 
-        @Boolean(value = "Color", parent = "Auto Terminals")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Color",
+                parent = "Auto Terminals"
+        )
         public static boolean autoColor = false;
 
-        @Boolean(value = "Pingless", parent = "Auto Terminals")
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Pingless",
+                parent = "Auto Terminals"
+        )
         public static boolean terminalPingless = false;
 
-        @Number(value = "Click Delay", parent = "Auto Terminals", step = 10, suffix = "ms", min = 50, max = 5000)
+        @Property(
+                type = Property.Type.NUMBER,
+                name = "Click Delay",
+                parent = "Auto Terminals",
+                step =  10,
+                suffix = "ms",
+                min = 50,
+                max = 1000
+        )
         public static int terminalClickDelay = 100;
 
 }

@@ -41,8 +41,8 @@ public class Utils {
         // October 11 (National Coming Out Day)
         if(month == Calendar.OCTOBER && day == 11) return "logo-pride";
 
-        // 50% Chance For Normal Logo
-        if(Math.random() < 0.5) return "logo";
+        // 80% Chance For Normal Logo
+        if(Math.random() < 0.8) return "logo";
 
         return (String) getRandomItem(logos);
     }

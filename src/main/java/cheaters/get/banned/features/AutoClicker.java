@@ -2,7 +2,7 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.components.ConfigButton;
+import cheaters.get.banned.config.components.ConfigInput;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.ThreadUtils;
 import net.minecraft.client.gui.Gui;
@@ -59,7 +59,7 @@ public class AutoClicker {
         if(toggled && Config.autoClickerIndicator && event.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
             int x = new ScaledResolution(Shady.mc).getScaledWidth()/2 + 10;
             int y = new ScaledResolution(Shady.mc).getScaledHeight()/2 - 2;
-            Gui.drawRect(x, y, x+5, y+5, ConfigButton.red.getRGB());
+            Gui.drawRect(x, y, x+5, y+5, ConfigInput.red.getRGB());
         }
     }
 

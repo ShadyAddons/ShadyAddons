@@ -16,7 +16,7 @@ public class Scrollbar extends GuiButton {
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         hovered = mousePressed(mc, mouseX, mouseY);
-        drawRect(xPosition, yPosition, xPosition+width, yPosition+height, hovered ? ConfigButton.white.getRGB() : ConfigButton.transparent.getRGB());
+        drawRect(xPosition, yPosition, xPosition+width, yPosition+height, hovered ? ConfigInput.white.getRGB() : ConfigInput.transparent.getRGB());
     }
 
     @Override

@@ -1,6 +1,8 @@
 package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
+import cheaters.get.banned.config.properties.Property;
+import cheaters.get.banned.config.settings.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -24,55 +26,53 @@ public class ConfigLogic {
         ArrayList<Setting> settings = new ArrayList<>();
 
         for(Field field : fields) {
-            Boolean booleanAnnotation = field.getAnnotation(Boolean.class);
-            if(booleanAnnotation != null) {
-                settings.add(new Setting(
-                        booleanAnnotation.value(),
-                        booleanAnnotation.hidden(),
-                        booleanAnnotation.parent().equals("") ? null : booleanAnnotation.parent(),
-                        booleanAnnotation.boundTo().equals("") ? null : booleanAnnotation.boundTo(),
-                        booleanAnnotation.booleanType(),
-                        field,
-                        booleanAnnotation.credit().equals("") ? null : booleanAnnotation.credit()
-                ));
-                continue;
-            }
+            Property annotation = field.getAnnotation(Property.class);
+            if(annotation != null) {
+                switch(annotation.type()) {
+                    case BOOLEAN:
+                        settings.add(new BooleanSetting(annotation, field));
+                        break;
 
-            Number numberAnnotation = field.getAnnotation(Number.class);
-            if(numberAnnotation != null) {
-                settings.add(new Setting(
-                        numberAnnotation.value(),
-                        numberAnnotation.hidden(),
-                        numberAnnotation.parent().equals("") ? null : numberAnnotation.parent(),
-                        numberAnnotation.step(),
-                        numberAnnotation.prefix().equals("") ? null : numberAnnotation.prefix(),
-                        numberAnnotation.suffix().equals("") ? null : numberAnnotation.suffix(),
-                        numberAnnotation.min(),
-                        numberAnnotation.max(),
-                        field,
-                        numberAnnotation.credit().equals("") ? null : numberAnnotation.credit()
-                ));
-                continue;
+                    case NUMBER:
+                        settings.add(new NumberSetting(annotation, field));
+                        break;
+
+                    case SELECT:
+                        settings.add(new SelectSetting(annotation, field));
+                        break;
+
+                    case FOLDER:
+                        // TODO: Implement folders, like boolean but they don't change contents when collapsed
+                        break;
+                }
             }
         }
 
-        /*for(int i = 0; i < settings.size(); i++) {
-            Setting newSetting = settings.get(i);
-            if(newSetting.type != Setting.SettingType.BOOLEAN) continue;
-            newSetting.children = newSetting.getChildren(settings);
-            settings.set(i, newSetting);
-        }*/
-
+        // Relationships that need to be set after all settings have been collected
         for(Setting setting : settings) {
-            if(setting.type != Setting.SettingType.BOOLEAN) continue;
-            setting.children = setting.getChildren(settings);
+            // Add parents, null if no parent
+            if(!setting.annotation.parent().equals("")) {
+                setting.parent = (ParentSetting) ConfigLogic.getSetting(setting.annotation.parent(), settings);
+            }
+
+            // Add children to parent settings (settings that control the visibility of children)
+            if(setting instanceof ParentSetting) {
+                ((ParentSetting)setting).children = ((ParentSetting)setting).getChildren(settings);
+            }
+
+            // Add bound boolean settings (mutally exclusive)
+            if(setting instanceof BooleanSetting) {
+                if(setting.parent != null) {
+                    ((BooleanSetting)setting).boundTo = (BooleanSetting)ConfigLogic.getSetting(setting.annotation.boundTo(), settings);
+                }
+            }
         }
 
         return settings;
     }
 
-    public static Setting getSetting(String name) {
-        for(Setting setting : Shady.settings) {
+    public static Setting getSetting(String name, ArrayList<Setting> settings) {
+        for(Setting setting : settings) {
             if(setting.name.equals(name)) return setting;
         }
         return null;
@@ -82,8 +82,7 @@ public class ConfigLogic {
         try {
             HashMap<String, Object> convertedSettings = new HashMap<>();
             for(Setting setting : Shady.settings) {
-                if(setting.type == Setting.SettingType.BOOLEAN) convertedSettings.put(setting.name, setting.enabled());
-                if(setting.type == Setting.SettingType.INTEGER) convertedSettings.put(setting.name, (int) setting.getValue());
+                convertedSettings.put(setting.name, setting.get());
             }
             String json = new Gson().toJson(convertedSettings);
             Files.write(Paths.get(fileName), json.getBytes(StandardCharsets.UTF_8));
@@ -100,15 +99,15 @@ public class ConfigLogic {
                 Reader reader = Files.newBufferedReader(Paths.get(fileName));
                 Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
 
-                HashMap<String, Object> settingsToProcess = new Gson().fromJson(reader, type);
+                HashMap<String, Object> settingsFromConfig = new Gson().fromJson(reader, type);
 
-                for(Map.Entry<String, Object> settingToProcess : settingsToProcess.entrySet()) {
-                    Setting settingToAdd = getSetting(settingToProcess.getKey());
-                    if(settingToAdd != null) {
-                        if(settingToAdd.getValue() instanceof java.lang.Number) {
-                            settingToAdd.set(((java.lang.Number) settingToProcess.getValue()).intValue());
+                for(Map.Entry<String, Object> fromConfig : settingsFromConfig.entrySet()) {
+                    Setting beingUpdated = getSetting(fromConfig.getKey(), Shady.settings);
+                    if(beingUpdated != null) {
+                        if(beingUpdated instanceof NumberSetting) {
+                            ((NumberSetting)beingUpdated).set(((Number)fromConfig.getValue()).intValue());
                         } else {
-                            settingToAdd.set(settingToProcess.getValue());
+                            beingUpdated.set(fromConfig.getValue());
                         }
                     }
                 }

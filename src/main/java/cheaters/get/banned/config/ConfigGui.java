@@ -1,10 +1,10 @@
 package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.components.ConfigButton;
-import cheaters.get.banned.config.components.NumberInput;
+import cheaters.get.banned.config.components.ConfigInput;
 import cheaters.get.banned.config.components.Scrollbar;
-import cheaters.get.banned.config.components.SwitchButton;
+import cheaters.get.banned.config.settings.BooleanSetting;
+import cheaters.get.banned.config.settings.Setting;
 import cheaters.get.banned.utils.RenderUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -48,7 +48,11 @@ public class ConfigGui extends GuiScreen {
         GlStateManager.color(255, 255, 255);
         Shady.mc.getTextureManager().bindTexture(logo);
         drawModalRectWithCustomSizedTexture(width / 2 - 143, 24-scrollOffset, 0, 0, 286, 40, 286, 40);
+<<<<<<< Updated upstream
         drawCenteredString(Shady.mc.fontRendererObj, (Shady.PRIVATE ? "Insider" : "Public") + " ✦ " + Shady.VERSION, width / 2, 67-scrollOffset, -1);
+=======
+        drawCenteredString(Shady.mc.fontRendererObj, (Shady.BETA ? "Beta ✦ " : "Stable ✦ ") + Shady.VERSION, width / 2, 67-scrollOffset, -1);
+>>>>>>> Stashed changes
 
         // Settings
         for(int i = 0; i < settings.size(); i++) {
@@ -60,17 +64,17 @@ public class ConfigGui extends GuiScreen {
             // Nested Setting
             if(setting.parent != null) {
                 x += 10;
-                Setting parentSetting = ConfigLogic.getSetting(setting.parent);
+                Setting parentSetting = setting.parent.parent;
                 if(parentSetting != null && parentSetting.parent != null) {
                     x += 10;
                 }
             } else if(i > 0) {
                 // Setting Border
-                drawRect(x, y-3, getOffset() + columnWidth, y-2, ConfigButton.transparent.getRGB());
+                drawRect(x, y-3, getOffset() + columnWidth, y-2, ConfigInput.transparent.getRGB());
             }
 
             // Setting Text
-            Shady.mc.fontRendererObj.drawString((setting.enabled() ? "§a" : "§f") + setting.name, x, y+1, -1);
+            Shady.mc.fontRendererObj.drawString(((setting instanceof BooleanSetting && (boolean)setting.get()) ? "§a" : "§f") + setting.name, x, y+1, -1);
             if(setting.credit != null) {
                 int settingNameWidth = Shady.mc.fontRendererObj.getStringWidth(setting.name+" ");
                 GlStateManager.translate(0, 1.8, 0);
@@ -97,12 +101,7 @@ public class ConfigGui extends GuiScreen {
             int x = getOffset() + columnWidth;
             int y = (columnWidth / 3) + (i * 15) - scrollOffset;
 
-            if(setting.type == Setting.SettingType.BOOLEAN) {
-                if(setting.booleanType == Setting.BooleanType.SWITCH) buttonList.add(new SwitchButton(setting, x, y));
-                if(setting.booleanType == Setting.BooleanType.CHECKBOX) buttonList.add(new SwitchButton(setting, x, y)); // TODO: Implement components.CheckboxButton
-            } else if(setting.type == Setting.SettingType.INTEGER) {
-                buttonList.add(new NumberInput(setting, x, y));
-            }
+            buttonList.add(ConfigInput.createButtonForSetting(setting, x, y));
         }
 
         int viewport = height - 100 - 10;
@@ -163,10 +162,8 @@ public class ConfigGui extends GuiScreen {
                 continue;
             }
 
-            for(Setting subSetting : Shady.settings) {
-                if(subSetting.name.equals(setting.parent) && subSetting.enabled()) {
-                    newSettings.add(setting);
-                }
+            if((boolean)setting.parent.get()) {
+                newSettings.add(setting);
             }
         }
 
