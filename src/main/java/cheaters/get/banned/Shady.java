@@ -6,6 +6,8 @@ import cheaters.get.banned.config.MainCommand;
 import cheaters.get.banned.config.settings.BooleanSetting;
 import cheaters.get.banned.config.settings.Setting;
 import cheaters.get.banned.features.*;
+import cheaters.get.banned.features.dungeonmap.DungeonMap;
+import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.remote.UpdateGui;
 import cheaters.get.banned.remote.Updater;
 import cheaters.get.banned.utils.KeybindUtils;
@@ -49,13 +51,10 @@ public class Shady {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-<<<<<<< Updated upstream
-        if(PRIVATE) Whitelist.check();
-=======
->>>>>>> Stashed changes
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         ConfigLogic.load();
         Updater.check();
+        MayorAPI.fetch();
     }
 
     @Mod.EventHandler
@@ -84,6 +83,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new GemstoneESP());
         MinecraftForge.EVENT_BUS.register(new AutoTerminals());
         MinecraftForge.EVENT_BUS.register(new AutoHarp());
+        MinecraftForge.EVENT_BUS.register(new DungeonMap());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);

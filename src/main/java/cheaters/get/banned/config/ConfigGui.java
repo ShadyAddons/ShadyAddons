@@ -48,11 +48,7 @@ public class ConfigGui extends GuiScreen {
         GlStateManager.color(255, 255, 255);
         Shady.mc.getTextureManager().bindTexture(logo);
         drawModalRectWithCustomSizedTexture(width / 2 - 143, 24-scrollOffset, 0, 0, 286, 40, 286, 40);
-<<<<<<< Updated upstream
-        drawCenteredString(Shady.mc.fontRendererObj, (Shady.PRIVATE ? "Insider" : "Public") + " ✦ " + Shady.VERSION, width / 2, 67-scrollOffset, -1);
-=======
         drawCenteredString(Shady.mc.fontRendererObj, (Shady.BETA ? "Beta ✦ " : "Stable ✦ ") + Shady.VERSION, width / 2, 67-scrollOffset, -1);
->>>>>>> Stashed changes
 
         // Settings
         for(int i = 0; i < settings.size(); i++) {

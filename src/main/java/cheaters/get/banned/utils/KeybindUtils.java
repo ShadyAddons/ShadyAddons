@@ -1,7 +1,7 @@
 package cheaters.get.banned.utils;
 
-import net.minecraft.client.settings.KeyBinding;
 import cheaters.get.banned.Shady;
+import net.minecraft.client.settings.KeyBinding;
 
 import java.util.HashMap;
 
