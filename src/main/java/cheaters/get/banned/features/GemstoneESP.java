@@ -9,6 +9,7 @@ import cheaters.get.banned.utils.Utils;
 import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.BlockStainedGlassPane;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.BlockPos;
@@ -48,6 +49,7 @@ public class GemstoneESP {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.START) return;
         if(isEnabled() && !isScanning && (lastChecked == null || !lastChecked.equals(Shady.mc.thePlayer.playerLocation))) {
             isScanning = true;
             new Thread(()->{
@@ -87,6 +89,13 @@ public class GemstoneESP {
     @SubscribeEvent
     public void onRenderWorld(RenderWorldLastEvent event) {
         if(isEnabled()) {
+            GlStateManager.enableBlend();
+            GlStateManager.disableLighting();
+            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+            GlStateManager.disableTexture2D();
+            GlStateManager.disableDepth();
+            GlStateManager.disableCull();
+            GlStateManager.disableLighting();
             for(Map.Entry<BlockPos, Gemstone> gemstone : gemstones.entrySet()) {
                 if(!isGemstoneEnabled(gemstone.getValue())) continue;
                 double distance = Math.sqrt(gemstone.getKey().distanceSq(Shady.mc.thePlayer.posX, Shady.mc.thePlayer.posY, Shady.mc.thePlayer.posZ));
@@ -97,6 +106,11 @@ public class GemstoneESP {
 
                 RenderUtils.highlightBlock(gemstone.getKey(), color, event.partialTicks);
             }
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableBlend();
+            GlStateManager.enableLighting();
+            GlStateManager.enableDepth();
+            GlStateManager.enableCull();
         }
     }
 
@@ -109,14 +123,23 @@ public class GemstoneESP {
 
         EnumDyeColor color = Utils.firstNotNull(block.getValue(BlockStainedGlass.COLOR), block.getValue(BlockStainedGlassPane.COLOR));
 
-        if(color == Gemstone.RUBY.dyeColor) return Gemstone.RUBY;
-        if(color == Gemstone.AMETHYST.dyeColor) return Gemstone.AMETHYST;
-        if(color == Gemstone.JADE.dyeColor) return Gemstone.JADE;
-        if(color == Gemstone.SAPPHIRE.dyeColor) return Gemstone.SAPPHIRE;
-        if(color == Gemstone.AMBER.dyeColor) return Gemstone.AMBER;
-        if(color == Gemstone.TOPAZ.dyeColor) return Gemstone.TOPAZ;
-        if(color == Gemstone.JASPER.dyeColor) return Gemstone.JASPER;
-
+        switch (color) {
+            case RED:
+                return Gemstone.RUBY;
+            case PURPLE:
+                return Gemstone.AMETHYST;
+            case LIME:
+                return Gemstone.JADE;
+            case LIGHT_BLUE:
+                return Gemstone.SAPPHIRE;
+            case ORANGE:
+                return Gemstone.AMBER;
+            case YELLOW:
+                return Gemstone.TOPAZ;
+            case MAGENTA:
+                return Gemstone.JASPER;
+        }
+        Utils.sendMessage("didn't hit any");
         return null;
     }
 

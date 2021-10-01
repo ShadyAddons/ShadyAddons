@@ -1,9 +1,11 @@
 package cheaters.get.banned.mixins;
 
 import cheaters.get.banned.events.PacketEvent;
+import cheaters.get.banned.events.ParticleEvent;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.INetHandlerPlayClient;
+import net.minecraft.network.play.server.S2APacketParticles;
 import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,4 +23,8 @@ public abstract class MixinNetHandlerPlayClient implements INetHandlerPlayClient
         } catch(Exception ignored) {}
     }
 
+    @Inject(method = {"handleParticles", "func_147289_a"}, at = @At("TAIL"))
+    public void onParticleHandle(S2APacketParticles packetIn) {
+        MinecraftForge.EVENT_BUS.post(new ParticleEvent(packetIn.getParticleType(), packetIn.getXCoordinate(), packetIn.getYCoordinate(), packetIn.getZCoordinate(), packetIn.getXOffset(), packetIn.getYOffset(), packetIn.getZOffset()));
+    }
 }

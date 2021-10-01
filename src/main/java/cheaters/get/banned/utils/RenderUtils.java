@@ -3,6 +3,7 @@ package cheaters.get.banned.utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -87,6 +88,7 @@ public class RenderUtils {
      * Modified from Skytils under GPL-3.0
      * https://github.com/Skytils/SkytilsMod/blob/master/LICENSE
      */
+
     public static void highlightBlock(BlockPos pos, Color color, float partialTicks) {
         Entity viewer = Minecraft.getMinecraft().getRenderViewEntity();
         double viewerX = viewer.lastTickPosX + (viewer.posX - viewer.lastTickPosX) * partialTicks;
