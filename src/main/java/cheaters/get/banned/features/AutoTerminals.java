@@ -154,7 +154,7 @@ public class AutoTerminals {
                             for(int i = 0; i < 4; i++) {
                                 int slotNumber = startSlot + mazeDirection[i];
                                 if(slotNumber == endSlot) return false;
-                                if(slotNumber < 0 || slotNumber > 53 || i == 1 && slotNumber % 9 == 8 || i == 2 && slotNumber % 9 == 0) continue;
+                                if (slotNumber < 0 || slotNumber > 53 || i == 1 && slotNumber % 9 == 0 || i == 2 && slotNumber % 9 == 8) continue;
                                 if(mazeVisited[slotNumber]) continue;
                                 ItemStack itemStack = invSlots.get(slotNumber).getStack();
                                 if(itemStack == null) continue;
