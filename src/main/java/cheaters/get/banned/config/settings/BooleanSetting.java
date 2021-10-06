@@ -12,14 +12,16 @@ public class BooleanSetting extends ParentSetting {
         super(annotation, field);
     }
 
-    public boolean set(boolean value) {
+    @Override
+    public boolean set(Object value) {
         try {
             for(Setting child : children) {
                 if(child instanceof BooleanSetting) child.set(false);
+                if(child instanceof SelectSetting) child.set(0);
             }
 
-            if(boundTo != null && (boolean)boundTo.get() != (boolean)get()) {
-                boundTo.set(!(boolean)get());
+            if(boundTo != null && boundTo.get(Boolean.class) != get(Boolean.class)) {
+                //((Setting) boundTo).set(!get(Boolean.class));
             }
 
             return super.set(value);

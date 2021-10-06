@@ -2,13 +2,13 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
+import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.utils.NetworkUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class DisableSwordAnimation {
     private static boolean isRightClickKeyDown = false;
 
     @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(TickEndEvent event) {
         isRightClickKeyDown = Shady.mc.gameSettings.keyBindUseItem.isKeyDown();
     }
 

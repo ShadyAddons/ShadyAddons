@@ -13,9 +13,10 @@ public class SelectSetting extends Setting {
         this.options = annotation.options();
     }
 
-    public boolean set(int value) {
-        if(value > options.length-1) return super.set(0);
-        if(value < 0) return super.set(options.length-1);
+    @Override
+    public boolean set(Object value) {
+        if(((Number)value).intValue() > options.length-1) return super.set(0);
+        if(((Number)value).intValue() < 0) return super.set(options.length-1);
         return super.set(value);
     }
 

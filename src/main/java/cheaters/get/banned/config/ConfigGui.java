@@ -5,13 +5,15 @@ import cheaters.get.banned.config.components.ConfigInput;
 import cheaters.get.banned.config.components.Scrollbar;
 import cheaters.get.banned.config.settings.BooleanSetting;
 import cheaters.get.banned.config.settings.Setting;
-import cheaters.get.banned.utils.RenderUtils;
+import cheaters.get.banned.utils.FontUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Mouse;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ConfigGui extends GuiScreen {
@@ -57,24 +59,19 @@ public class ConfigGui extends GuiScreen {
             int x = getOffset();
             int y = (columnWidth / 3) + (i * 15) - scrollOffset;
 
-            // Nested Setting
-            if(setting.parent != null) {
-                x += 10;
-                Setting parentSetting = setting.parent.parent;
-                if(parentSetting != null && parentSetting.parent != null) {
-                    x += 10;
-                }
-            } else if(i > 0) {
+            x += setting.getIndent(0);
+
+            if(setting.parent == null && i > 0) {
                 // Setting Border
                 drawRect(x, y-3, getOffset() + columnWidth, y-2, ConfigInput.transparent.getRGB());
             }
 
             // Setting Text
-            Shady.mc.fontRendererObj.drawString(((setting instanceof BooleanSetting && (boolean)setting.get()) ? "§a" : "§f") + setting.name, x, y+1, -1);
+            Shady.mc.fontRendererObj.drawString(((setting instanceof BooleanSetting && setting.get(Boolean.class)) ? "§a" : "§f") + setting.name, x, y+1, -1);
             if(setting.credit != null) {
                 int settingNameWidth = Shady.mc.fontRendererObj.getStringWidth(setting.name+" ");
                 GlStateManager.translate(0, 1.8, 0);
-                RenderUtils.drawScaledString("§7"+setting.credit, 0.8f, x+settingNameWidth, y+1);
+                FontUtils.drawScaledString("§7"+setting.credit, 0.8f, x+settingNameWidth, y+1);
                 GlStateManager.translate(0, -1.8, 0);
             }
         }
@@ -125,27 +122,17 @@ public class ConfigGui extends GuiScreen {
         super.mouseReleased(mouseX, mouseY, state);
     }
 
+    private void scrollScreen(int scrollAmount) {
+        int viewport = height - 100 - 10;
+        int contentHeight = settings.size() * 15;
+
+        scrollOffset += scrollAmount;
+        scrollOffset = MathHelper.clamp_int(scrollOffset, 0, contentHeight-viewport);
+        initGui();
+    }
+
     private void mouseMoved(int mouseY) {
-        if(scrolling) {
-            int viewport = height - 100 - 10;
-            int contentHeight = settings.size() * 15;
-
-            /*
-            increase by a percentage of the scrollbar height depending on the percentage of the viewport that was scrolled
-            TODO: This doesn't work since the scroll amount is like 1 or 2 pixels every time
-            */
-
-            // 1) percentage of viewport scrolled
-            // 2) answer * height of scrollbar
-            // 3) scrollOffset += answer + amount scrolled
-
-            int dragAmount = mouseY-prevMouseY;
-            int scrollbarCompensation = dragAmount/viewport*scrollbar.height;
-
-            scrollOffset += dragAmount + scrollbarCompensation;
-            scrollOffset = MathHelper.clamp_int(scrollOffset, 0, contentHeight-viewport);
-            initGui();
-        }
+        if(scrolling) scrollScreen(mouseY - prevMouseY);
         prevMouseY = mouseY;
     }
 
@@ -158,12 +145,20 @@ public class ConfigGui extends GuiScreen {
                 continue;
             }
 
-            if((boolean)setting.parent.get()) {
+            if(setting.parent.get(Boolean.class)) {
                 newSettings.add(setting);
             }
         }
 
         return newSettings;
+    }
+
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+        if(Mouse.getEventDWheel() != 0) {
+            scrollScreen(Integer.signum(Mouse.getEventDWheel()) * -10);
+        }
     }
 
     @Override

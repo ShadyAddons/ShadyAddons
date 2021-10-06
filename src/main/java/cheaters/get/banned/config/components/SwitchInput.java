@@ -17,13 +17,13 @@ public class SwitchInput extends ConfigInput {
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         drawRect(xPosition, yPosition+3, xPosition+25, yPosition+6, white.getRGB());
-        drawRect((boolean)setting.get() ? xPosition+15 : xPosition, yPosition, (boolean)setting.get() ? xPosition+25 : xPosition+10, yPosition+10, (boolean)setting.get() ? green.getRGB() : red.getRGB());
+        drawRect(setting.get(Boolean.class) ? xPosition+15 : xPosition, yPosition, setting.get(Boolean.class) ? xPosition+25 : xPosition+10, yPosition+10, setting.get(Boolean.class) ? green.getRGB() : red.getRGB());
     }
 
     @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
         if(mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height) {
-            setting.set(!(boolean)setting.get());
+            setting.set(!setting.get(Boolean.class));
             return true;
         }
 

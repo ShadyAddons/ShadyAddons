@@ -40,8 +40,8 @@ public class NumberInput extends ConfigInput {
     @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
         if(plusHovered || minusHovered) {
-            if(plusHovered) setting.set((int)setting.get()+setting.step);
-            if(minusHovered) setting.set((int)setting.get()-setting.step);
+            if(plusHovered) setting.set(setting.get(Integer.class)+setting.step);
+            if(minusHovered) setting.set(setting.get(Integer.class)-setting.step);
             updateText();
             return true;
         }
@@ -49,7 +49,7 @@ public class NumberInput extends ConfigInput {
     }
 
     public void updateText() {
-        displayString = (setting.prefix == null ? "" : setting.prefix) + setting.get() + (setting.suffix == null ? "" : setting.suffix);
+        displayString = (setting.prefix == null ? "" : setting.prefix) + setting.get(Integer.class) + (setting.suffix == null ? "" : setting.suffix);
         width = Shady.mc.fontRendererObj.getStringWidth(displayString) + plusWidth+minusWidth + gap*2;
     }
 

@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiButton;
 
 import java.awt.*;
 
-public class ConfigInput extends GuiButton {
+public abstract class ConfigInput extends GuiButton {
 
     public static Color white = new Color(255, 255, 255);
     public static Color green = new Color(85, 255, 85);

@@ -34,8 +34,8 @@ public class SelectInput extends ConfigInput {
     @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
         if(rightHovered || leftHovered) {
-            if(rightHovered) setting.set((int)setting.get()+1);
-            if(leftHovered) setting.set((int)setting.get()-1);
+            if(rightHovered) setting.set(setting.get(Integer.class)+1);
+            if(leftHovered) setting.set(setting.get(Integer.class)-1);
             updateText();
             return true;
         }
@@ -43,7 +43,7 @@ public class SelectInput extends ConfigInput {
     }
 
     public void updateText() {
-        displayString = setting.options[(int)setting.get()];
+        displayString = setting.options[setting.get(Integer.class)];
         width = Shady.mc.fontRendererObj.getStringWidth(displayString) + rightWidth+leftWidth + gap*2;
     }
 

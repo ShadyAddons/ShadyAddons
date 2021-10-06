@@ -22,14 +22,15 @@ public class NumberSetting extends Setting implements Comparable<Integer> {
         this.suffix = annotation.suffix();
     }
 
-    public boolean set(int value) {
-        return super.set(MathHelper.clamp_int(value, 0, max));
+    @Override
+    public boolean set(Object value) {
+        return super.set(MathHelper.clamp_int((int)value, 0, max));
     }
 
     @Override
     public int compareTo(Integer other) {
         try {
-            return Integer.compare((int)get(), other);
+            return Integer.compare(get(int.class), other);
         } catch(Exception ignored) {}
         return 0;
     }

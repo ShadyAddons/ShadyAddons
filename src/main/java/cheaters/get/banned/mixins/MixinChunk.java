@@ -1,5 +1,6 @@
 package cheaters.get.banned.mixins;
 
+import cheaters.get.banned.Shady;
 import cheaters.get.banned.events.BlockChangeEvent;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
@@ -21,7 +22,7 @@ public abstract class MixinChunk {
     private void onBlockChange(BlockPos position, IBlockState newBlock, CallbackInfoReturnable<IBlockState> callbackInfoReturnable) {
         IBlockState oldBlock = this.getBlockState(position);
 
-        if(oldBlock != newBlock) {
+        if(oldBlock != newBlock && Shady.mc.theWorld != null) {
             try {
                 MinecraftForge.EVENT_BUS.post(new BlockChangeEvent(position, oldBlock, newBlock));
             } catch(Exception ignored) {}

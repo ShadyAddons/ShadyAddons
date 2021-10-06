@@ -1,5 +1,6 @@
 package cheaters.get.banned.utils;
 
+import cheaters.get.banned.events.TickEndEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -37,7 +38,7 @@ public class LocationUtils {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(TickEndEvent event) {
         if(Utils.inSkyBlock) {
             for(String name : TabUtils.getTabList()) {
                 if(!name.equals(prevIsland) && name.contains("Area:")) {

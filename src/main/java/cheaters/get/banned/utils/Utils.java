@@ -1,5 +1,6 @@
 package cheaters.get.banned.utils;
 
+import cheaters.get.banned.events.TickEndEvent;
 import com.google.common.collect.Iterables;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -27,6 +28,32 @@ public class Utils {
     public static boolean inDungeon = false;
     public static boolean forceSkyBlock = false;
     public static boolean forceDungeon = false;
+
+    public static int romanToInt(String s) {
+        Map<Character, Integer> numerals = new HashMap<>();
+        numerals.put('I', 1);
+        numerals.put('V', 5);
+        numerals.put('X', 10);
+        numerals.put('L', 50);
+        numerals.put('C', 100);
+        numerals.put('D', 500);
+        numerals.put('M', 1000);
+
+        int result = 0;
+        for(int i = 0; i < s.length(); i++) {
+            int add = numerals.get(s.charAt(i));
+            if(i < s.length() - 1) {
+                int next = numerals.get(s.charAt(i + 1));
+                if(next / add == 5 || next / add == 10) {
+                    add = next - add;
+                    i++;
+                }
+            }
+            result = result + add;
+        }
+
+        return result;
+    }
 
     public static String getLogo() {
         final ArrayList<String> logos = new ArrayList<String>(Arrays.asList("logo-fsr", "logo-badlion", "logo-impact", "logo-sbe", "logo-skytils", "logo-pride", "logo-lunar"));
@@ -57,20 +84,10 @@ public class Utils {
         } catch(Exception ignored) {}
     }
 
-    /**
-     * Remove Minecraft chat formatting from a message
-     * @param input The string to clean
-     * @return The cleaned string
-     */
     public static String removeFormatting(String input) {
         return input.replaceAll("§[0-9a-fk-or]", "");
     }
 
-    /**
-     * Get SkyBlock ID
-     * @param item The item to check
-     * @return The item's ID, or null if it doesn't have one
-     */
     public static String getSkyBlockID(ItemStack item) {
         if(item != null) {
             NBTTagCompound extraAttributes = item.getSubCompound("ExtraAttributes", false);
@@ -81,11 +98,6 @@ public class Utils {
         return "";
     }
 
-    /**
-     * Check if player is looking at block using raytracing
-     * @param block The block position to check
-     * @return If the player is looking at the provided block
-     */
     public static boolean facingBlock(BlockPos block, float range) {
         float stepSize = 0.15f;
         if(Shady.mc.thePlayer != null && Shady.mc.theWorld != null) {
@@ -105,11 +117,6 @@ public class Utils {
         return false;
     }
 
-    /**
-     * Get the description (lore) of an item
-     * @param item The item to get the lore for
-     * @return The provided item's lore
-     */
     public static List<String> getLore(ItemStack item) {
         if(item != null) {
             return item.getTooltip(Shady.mc.thePlayer, false);
@@ -118,10 +125,6 @@ public class Utils {
         }
     }
 
-    /**
-     * Get inventory name
-     * @return The inventory name, or "null" (as a string) if null
-     */
     public static String getInventoryName() {
         if(Shady.mc.thePlayer == null || Shady.mc.theWorld == null) return "null";
         String inventoryName = Shady.mc.thePlayer.openContainer.inventorySlots.get(0).inventory.getName();
@@ -129,18 +132,12 @@ public class Utils {
         return inventoryName;
     }
 
-    /**
-     * Send chat message
-     * @param message The text to be sent, can include § or & as formatting codes
-     */
     public static void sendMessage(String message) {
         if(Shady.mc.thePlayer != null && Shady.mc.theWorld != null) {
             if(!message.contains("§")) {
                 message = message.replace("&", "§");
             }
             Shady.mc.thePlayer.addChatMessage(new ChatComponentText(message));
-        } else {
-            System.out.println("Unable to send chat message, player is null: "+message);
         }
     }
 
@@ -148,10 +145,6 @@ public class Utils {
         if(command.startsWith("/")) Shady.mc.thePlayer.sendChatMessage(command);
     }
 
-    /**
-     * Send mod message
-     * @param message The message to be sent with the mod's prefix
-     */
     public static void sendModMessage(String message) {
         if(message.contains("§")) {
             sendMessage("§cShadyAddons > §f" + message);
@@ -160,21 +153,10 @@ public class Utils {
         }
     }
 
-    /**
-     * Add alpha (transparency) to a color
-     * @param color The color to modify
-     * @param alpha The alpha amount to set, as a percentage
-     * @return The original color with the alpha channel
-     */
     public static Color addAlpha(Color color, int alpha) {
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
     }
 
-    /**
-     * Check if block is interactable
-     * @param block The block to check
-     * @return Whether or not the block can be interacted with
-     */
     public static boolean canInteract(Block block) {
         return new ArrayList<Block>(Arrays.asList(
                 Blocks.acacia_door,
@@ -231,12 +213,9 @@ public class Utils {
         return null;
     }
 
-    /**
-     * Sets the inSkyBlock and inDungeon variables based off the scoreboard
-     */
     private int ticks = 0;
     @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(TickEndEvent event) {
         if(forceDungeon || forceSkyBlock) {
             if(forceSkyBlock) inSkyBlock = true;
             if(forceDungeon) inSkyBlock = true; inDungeon = true;

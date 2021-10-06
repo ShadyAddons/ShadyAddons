@@ -3,10 +3,14 @@ package cheaters.get.banned.features;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.BlockChangeEvent;
+import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.utils.RenderUtils;
 import cheaters.get.banned.utils.Utils;
 import com.mojang.authlib.properties.Property;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
+import net.minecraft.block.BlockLever;
+import net.minecraft.block.BlockSkull;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -15,7 +19,6 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -39,7 +42,7 @@ public class StonklessStonk {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(TickEndEvent event) {
         if(Shady.mc.thePlayer == null) return;
         BlockPos playerPosition = Shady.mc.thePlayer.getPosition();
         if(isEnabled() && (lastCheckedPosition == null || !lastCheckedPosition.equals(playerPosition))) {
@@ -117,6 +120,8 @@ public class StonklessStonk {
 
     @SubscribeEvent
     public void onBlockChange(BlockChangeEvent event) {
+        if(Shady.mc.theWorld == null || Shady.mc.thePlayer == null) return;
+
         if(event.position.distanceSq(Shady.mc.thePlayer.getPosition()) > range) return;
         if(usedBlocks.contains(event.position)) return;
         if(!shouldEspBlock(event.newBlock.getBlock(), event.position)) return;

@@ -4,12 +4,16 @@ import cheaters.get.banned.config.Config;
 import cheaters.get.banned.config.ConfigLogic;
 import cheaters.get.banned.config.MainCommand;
 import cheaters.get.banned.config.settings.BooleanSetting;
+import cheaters.get.banned.config.settings.SelectSetting;
 import cheaters.get.banned.config.settings.Setting;
+import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.*;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
+import cheaters.get.banned.features.dungeonmap.RoomLoader;
 import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.remote.UpdateGui;
 import cheaters.get.banned.remote.Updater;
+import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.LocationUtils;
 import cheaters.get.banned.utils.Utils;
@@ -27,7 +31,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 
@@ -54,14 +57,17 @@ public class Shady {
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         ConfigLogic.load();
         Updater.check();
+        RoomLoader.load();
         MayorAPI.fetch();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        MinecraftForge.EVENT_BUS.register(new TickEndEvent());
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new Utils());
         MinecraftForge.EVENT_BUS.register(new LocationUtils());
+        MinecraftForge.EVENT_BUS.register(new DungeonUtils());
 
         MinecraftForge.EVENT_BUS.register(new BlockAbilities());
         MinecraftForge.EVENT_BUS.register(new StonklessStonk());
@@ -84,6 +90,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new AutoTerminals());
         MinecraftForge.EVENT_BUS.register(new AutoHarp());
         MinecraftForge.EVENT_BUS.register(new DungeonMap());
+        MinecraftForge.EVENT_BUS.register(new CatGirls());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);
@@ -98,7 +105,7 @@ public class Shady {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(TickEndEvent event) {
         if(guiToOpen != null) {
             mc.displayGuiScreen(guiToOpen);
             guiToOpen = null;
@@ -117,6 +124,7 @@ public class Shady {
         enabled = false;
         for(Setting setting : settings) {
             if(setting instanceof BooleanSetting) setting.set(false);
+            if(setting instanceof SelectSetting) setting.set(0);
         }
     }
 

@@ -52,17 +52,13 @@ public class ConfigLogic {
         for(Setting setting : settings) {
             // Add parents, null if no parent
             if(!setting.annotation.parent().equals("")) {
-                setting.parent = (ParentSetting) ConfigLogic.getSetting(setting.annotation.parent(), settings);
-            }
-
-            // Add children to parent settings (settings that control the visibility of children)
-            if(setting instanceof ParentSetting) {
-                ((ParentSetting)setting).children = ((ParentSetting)setting).getChildren(settings);
+                setting.parent = (ParentSetting)ConfigLogic.getSetting(setting.annotation.parent(), settings);
             }
 
             // Add bound boolean settings (mutally exclusive)
             if(setting instanceof BooleanSetting) {
                 if(setting.parent != null) {
+                    setting.parent.children.add(setting);
                     ((BooleanSetting)setting).boundTo = (BooleanSetting)ConfigLogic.getSetting(setting.annotation.boundTo(), settings);
                 }
             }
@@ -82,7 +78,7 @@ public class ConfigLogic {
         try {
             HashMap<String, Object> convertedSettings = new HashMap<>();
             for(Setting setting : Shady.settings) {
-                convertedSettings.put(setting.name, setting.get());
+                convertedSettings.put(setting.name, setting.get(Object.class));
             }
             String json = new Gson().toJson(convertedSettings);
             Files.write(Paths.get(fileName), json.getBytes(StandardCharsets.UTF_8));
@@ -104,8 +100,8 @@ public class ConfigLogic {
                 for(Map.Entry<String, Object> fromConfig : settingsFromConfig.entrySet()) {
                     Setting beingUpdated = getSetting(fromConfig.getKey(), Shady.settings);
                     if(beingUpdated != null) {
-                        if(beingUpdated instanceof NumberSetting) {
-                            ((NumberSetting)beingUpdated).set(((Number)fromConfig.getValue()).intValue());
+                        if(beingUpdated instanceof NumberSetting || beingUpdated instanceof SelectSetting) {
+                            beingUpdated.set(((Double)fromConfig.getValue()).intValue());
                         } else {
                             beingUpdated.set(fromConfig.getValue());
                         }

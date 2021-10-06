@@ -19,11 +19,32 @@ public abstract class Setting {
         this.field = field;
     }
 
-    // Fail at no cost
-    public Object get() {
+    public int getIndent(int startingIndent) {
+        return getIndent(startingIndent, this);
+    }
+
+    public int getIndent(int startingIndent, Setting setting) {
+        if(setting.parent != null) {
+            startingIndent += 10;
+            return setting.getIndent(startingIndent, setting.parent);
+        }
+        return startingIndent;
+    }
+
+    /*public Object get() {
         try {
             return field.get(Object.class);
         } catch(Exception ignored) {}
+        return null;
+    }*/
+
+    // Fail at no cost
+    public <T> T get(Class<T> type) {
+        try {
+            return type.cast(field.get(Object.class));
+        } catch(Exception ignored) {
+            ignored.printStackTrace();
+        }
         return null;
     }
 

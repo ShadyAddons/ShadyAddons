@@ -263,16 +263,52 @@ public class Config {
     @Property(
             type = Property.Type.BOOLEAN,
             name = "Dungeon Map",
-            credit = "ported from IllegalMap by UnclaimedBloom6"
+            credit = "based on IllegalMap by UnclaimedBloom6"
     )
     public static boolean dungeonMap = false;
 
-        @Property(
+        /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "Darken Unexplored",
                 parent = "Dungeon Map"
-        )
+        )*/
         public static boolean darkenUnexplored = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Show Score Information",
+                parent = "Dungeon Map"
+        )
+        public static boolean showDungeonInformation = false;
+
+        @Property(
+                type = Property.Type.NUMBER,
+                name = "Horizontal Offset",
+                parent = "Dungeon Map",
+                suffix = "px",
+                step = 10
+        )
+        public static int mapXOffset = 10;
+
+        @Property(
+                type = Property.Type.NUMBER,
+                name = "Vertical Offset",
+                parent = "Dungeon Map",
+                suffix = "px",
+                step = 10
+        )
+        public static int mapYOffset = 10;
+
+        /*@Property(
+                type = Property.Type.NUMBER,
+                name = "Scale",
+                parent = "Dungeon Map",
+                suffix = "%",
+                step = 10,
+                min = 50,
+                max = 150
+        )*/
+        public static int mapScale = 100;
 
         @Property(
                 type = Property.Type.NUMBER,
@@ -284,26 +320,27 @@ public class Config {
         )
         public static int mapBackgroundOpacity = 50;
 
-        @Property(
+        /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "RBG Border",
                 parent = "Dungeon Map"
-        )
+        )*/
         public static boolean rbgMapBorder = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
-                name = "Show Player Heads",
-                parent = "Dungeon Map"
+                type = Property.Type.SELECT,
+                name = "Significant Room Name Style",
+                parent = "Dungeon Map",
+                options = {"Short", "Full", "None"}
         )
-        public static boolean showPlayerHeads = false;
+        public static int significantRoomNameStyle = 0;
 
-        @Property(
+        /*@Property(
                 type = Property.Type.SELECT,
                 name = "Checkmark Style",
                 parent = "Dungeon Map",
                 options = {"None", "Vanilla", "Fancy"}
-        )
+        )*/
         public static int mapCheckmarkStyle = 0;
 
 
@@ -370,10 +407,10 @@ public class Config {
         public static boolean showStealthyBloodMobs = false;
 
 
-    @Property(
+    /*@Property(
             type = Property.Type.BOOLEAN,
             name = "Highlight Starred Mobs & Minibosses"
-    )
+    )*/
     public static boolean highlightStarredMobs = false;
 
 
@@ -448,6 +485,22 @@ public class Config {
             name = "Auto Melody"
     )
     public static boolean autoMelody = false;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Cat Girls",
+            credit = "I was paid to add this, ok?"
+    )
+    public static boolean catGirls = false;
+
+        @Property(
+                type = Property.Type.SELECT,
+                name = "Cat-Mode",
+                parent = "Cat Girls",
+                options = {"Girls", "Boys", "Bisexual"}
+        )
+        public static int catGirlsMode = 0;
 
 
     @Property(

@@ -1,29 +1,22 @@
 package cheaters.get.banned.utils;
 
+import cheaters.get.banned.Shady;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Vec3;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EnumPlayerModelParts;
+import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
-import cheaters.get.banned.Shady;
 
 import java.awt.*;
 
 public class RenderUtils {
-
-    public static void drawScaledString(String string, float scale, int x, int y) {
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(scale, scale, scale);
-        Shady.mc.fontRendererObj.drawString(string, (int)(x/scale), (int)(y/scale), -1);
-        GlStateManager.popMatrix();
-    }
 
     /**
      * Taken from NotEnoughUpdates under Creative Commons Attribution-NonCommercial 3.0
@@ -240,19 +233,35 @@ public class RenderUtils {
         GlStateManager.popMatrix();
     }
 
-    public static void drawString(String text, int x, int y) {
-        String[] lines = text.split("\n");
-        for(String line : lines) {
-            Shady.mc.fontRendererObj.drawStringWithShadow(line, x, y, Color.WHITE.getRGB());
-            y += getLineHeight() + 1;
-        }
-    }
-
-    public static int getLineHeight() {
-        return Shady.mc.fontRendererObj.FONT_HEIGHT;
-    }
-
     public static void bindColor(Color color) {
         GlStateManager.color(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
     }
+
+    public static void drawRotatedTexture(ResourceLocation resourceLocation, int x, int y, int width, int height, int angle) {
+        drawRotatedTexture(resourceLocation, x, y, width, height, width, height, 0, 0, angle);
+    }
+
+    public static void drawRotatedTexture(ResourceLocation resourceLocation, int x, int y, int width, int height, int textureWidth, int textureHeight, int textureX, int textureY, int angle) {
+        GlStateManager.pushMatrix();
+
+        GlStateManager.translate(x+width/2f, y+height/2f, 0);
+        GlStateManager.rotate(angle, 0, 0, 1);
+        GlStateManager.translate(-x-width/2f, -y-height/2f, 0);
+
+        Shady.mc.getTextureManager().bindTexture(resourceLocation);
+        Gui.drawModalRectWithCustomSizedTexture(x, y, textureX, textureY, width, height, textureWidth, textureHeight);
+
+        GlStateManager.popMatrix();
+    }
+
+    public static void drawPlayerIcon(EntityPlayer player, int size, int x, int y) {
+        Shady.mc.getTextureManager().bindTexture(Shady.mc.getNetHandler().getPlayerInfo(player.getUniqueID()).getLocationSkin());
+
+        Gui.drawScaledCustomSizeModalRect(x, y, 8f, 8f, 8, 8, size, size, 64f, 64f);
+
+        if(player.isWearing(EnumPlayerModelParts.HAT)) {
+            Gui.drawScaledCustomSizeModalRect(x, y, 40f, 8f, 8, 8, size, size, 64f, 64f);
+        }
+    }
+
 }

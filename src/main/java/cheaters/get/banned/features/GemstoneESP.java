@@ -3,6 +3,7 @@ package cheaters.get.banned.features;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.BlockChangeEvent;
+import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.utils.LocationUtils;
 import cheaters.get.banned.utils.RenderUtils;
 import cheaters.get.banned.utils.Utils;
@@ -15,7 +16,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -47,7 +47,7 @@ public class GemstoneESP {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(TickEndEvent event) {
         if(isEnabled() && !isScanning && (lastChecked == null || !lastChecked.equals(Shady.mc.thePlayer.playerLocation))) {
             isScanning = true;
             new Thread(()->{
