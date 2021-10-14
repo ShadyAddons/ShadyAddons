@@ -39,7 +39,7 @@ public class Config {
     public static boolean autoClicker = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.NUMBER,
                 name = "CPS",
                 parent = "Auto Clicker",
                 min = 10,
@@ -50,45 +50,26 @@ public class Config {
         public static int autoClickerCps = 100;
 
         @Property(
-                type = Property.Type.BOOLEAN,
-                name = "Toggle Continous",
+                type = Property.Type.SELECT,
+                name = "Mode",
                 parent = "Auto Clicker",
-                boundTo = "Trigger Burst"
+                options = {"Burst", "Continous"}
         )
-        public static boolean autoClickerToggle = false;
-
-            @Property(
-                    type = Property.Type.BOOLEAN,
-                    name = "Show Indicator",
-                    parent = "Toggle Continous"
-            )
-            public static boolean autoClickerIndicator = false;
-
-            @Property(
-                    type = Property.Type.BOOLEAN,
-                    name = "Stop in GUI",
-                    parent = "Toggle Continous"
-            )
-            public static boolean stopAutoClickerInGui = false;
+        public static int autoClickerMode = 0;
 
         @Property(
                 type = Property.Type.BOOLEAN,
-                name = "Trigger Burst",
-                parent = "Auto Clicker",
-                boundTo = "Toggle Continous"
+                name = "Show Indicator",
+                parent = "Auto Clicker"
         )
-        public static boolean autoClickerBurst = false;
+        public static boolean autoClickerIndicator = false;
 
-            @Property(
-                    type = Property.Type.NUMBER,
-                    name = "Amount",
-                    parent = "Trigger Burst",
-                    min = 5,
-                    max = 100,
-                    step = 5,
-                    suffix = " clicks"
-            )
-            public static int burstAmount = 25;
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Stop in GUI",
+                parent = "Auto Clicker"
+        )
+        public static boolean stopAutoClickerInGui = false;
 
 
     @Property(
@@ -262,7 +243,7 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Dungeon Map",
+            name = "Dungeon Map β",
             credit = "based on IllegalMap by UnclaimedBloom6"
     )
     public static boolean dungeonMap = false;
@@ -270,21 +251,70 @@ public class Config {
         /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "Darken Unexplored",
-                parent = "Dungeon Map"
+                parent = "Dungeon Map β"
         )*/
         public static boolean darkenUnexplored = false;
 
         @Property(
                 type = Property.Type.BOOLEAN,
-                name = "Show Score Information",
-                parent = "Dungeon Map"
+                name = "Show Run Information",
+                parent = "Dungeon Map β"
         )
         public static boolean showDungeonInformation = false;
+
+        /*@Property(
+                type = Property.Type.BOOLEAN,
+                name = "Wither/Blood Door ESP",
+                parent = "Dungeon Map β"
+        )*/
+        public static boolean witherDoorESP = false;
+
+            /*@Property(
+                    type = Property.Type.SELECT,
+                    name = "Wither Door Color",
+                    parent = "Wither/Blood Door ESP",
+                    options = {"White", "Black"}
+            )*/
+            public static int witherDoorColor = 0;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Assume Spirit Pet",
+                parent = "Dungeon Map β"
+        )
+        public static boolean assumeSpiritPet = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Announce Score in Chat",
+                parent = "Dungeon Map β"
+        )
+        public static boolean announceScore = false;
+
+            @Property(
+                    type = Property.Type.NUMBER,
+                    name = "Specify Number",
+                    parent = "Announce Score in Chat",
+                    min = 230,
+                    max = 300,
+                    step = 10,
+                    prefix = "Announce at ",
+                    suffix = " score"
+            )
+            public static int announceScoreNumber = 300;
+
+            @Property(
+                    type = Property.Type.SELECT,
+                    name = "Specify Chat",
+                    parent = "Announce Score in Chat",
+                    options = {"Party Chat", "All Chat", "Guild Chat", "Message Reply"}
+            )
+            public static int announceScoreChat = 0;
 
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Horizontal Offset",
-                parent = "Dungeon Map",
+                parent = "Dungeon Map β",
                 suffix = "px",
                 step = 10
         )
@@ -293,7 +323,7 @@ public class Config {
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Vertical Offset",
-                parent = "Dungeon Map",
+                parent = "Dungeon Map β",
                 suffix = "px",
                 step = 10
         )
@@ -302,7 +332,7 @@ public class Config {
         /*@Property(
                 type = Property.Type.NUMBER,
                 name = "Scale",
-                parent = "Dungeon Map",
+                parent = "Dungeon Map β",
                 suffix = "%",
                 step = 10,
                 min = 50,
@@ -313,7 +343,7 @@ public class Config {
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Background Opacity",
-                parent = "Dungeon Map",
+                parent = "Dungeon Map β",
                 max = 100,
                 step = 10,
                 suffix = "%"
@@ -323,14 +353,14 @@ public class Config {
         /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "RBG Border",
-                parent = "Dungeon Map"
+                parent = "Dungeon Map β"
         )*/
         public static boolean rbgMapBorder = false;
 
         @Property(
                 type = Property.Type.SELECT,
                 name = "Significant Room Name Style",
-                parent = "Dungeon Map",
+                parent = "Dungeon Map β",
                 options = {"Short", "Full", "None"}
         )
         public static int significantRoomNameStyle = 0;
@@ -338,7 +368,7 @@ public class Config {
         /*@Property(
                 type = Property.Type.SELECT,
                 name = "Checkmark Style",
-                parent = "Dungeon Map",
+                parent = "Dungeon Map β",
                 options = {"None", "Vanilla", "Fancy"}
         )*/
         public static int mapCheckmarkStyle = 0;

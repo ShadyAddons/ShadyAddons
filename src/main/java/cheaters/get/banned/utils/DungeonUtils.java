@@ -1,8 +1,12 @@
 package cheaters.get.banned.utils;
 
 import cheaters.get.banned.Shady;
+import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.TickEndEvent;
+import cheaters.get.banned.features.dungeonmap.DungeonMap;
+import cheaters.get.banned.remote.MayorAPI;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -28,7 +32,7 @@ public class DungeonUtils {
             "Mimic Annhilated!"
     };
 
-    public static DungeonRun dungeonRun = new DungeonRun();
+    public static DungeonRun dungeonRun = null;
 
     public enum Floor {
         ENTERANCE("(E)"),
@@ -62,6 +66,11 @@ public class DungeonUtils {
         public boolean mimicFound = false;
         public int deaths;
         public HashSet<String> team = new HashSet<>();
+        public long startTime = System.currentTimeMillis(); // TODO: Use dungeon start chat message
+
+        public long getTimeMs() {
+            return System.currentTimeMillis() - startTime;
+        }
     }
 
     @SubscribeEvent
@@ -80,6 +89,7 @@ public class DungeonUtils {
     public void onTick(TickEndEvent event) {
         if(counter % 20 == 0) {
             if(Utils.inDungeon) {
+                if(dungeonRun == null) dungeonRun = new DungeonRun();
                 if(dungeonRun.floor == null) {
                     String cataLine = ScoreboardUtils.getLineThatContains("The Catacombs");
                     if(cataLine != null) {
@@ -132,7 +142,7 @@ public class DungeonUtils {
                     }
                 }
             } else {
-                dungeonRun = new DungeonRun();
+                dungeonRun = null;
             }
 
             counter = 0;
@@ -141,19 +151,38 @@ public class DungeonUtils {
     }
 
     public static void debug() {
-        if(Utils.inDungeon) {
-            Utils.sendModMessage("Floor:"+dungeonRun.floor.name());
-            Utils.sendModMessage("InBoss:"+dungeonRun.inBoss);
-            Utils.sendModMessage("SecretsFound:"+dungeonRun.secretsFound);
-            Utils.sendModMessage("CryptsFound:"+dungeonRun.cryptsFound);
+        if(Utils.inDungeon && dungeonRun != null) {
+            Utils.sendModMessage("Floor: "+dungeonRun.floor.name());
+            Utils.sendModMessage("In Boss: "+dungeonRun.inBoss);
+            Utils.sendModMessage("Secrets Found: "+dungeonRun.secretsFound);
+            Utils.sendModMessage("Crypts Found: "+dungeonRun.cryptsFound);
         } else {
             Utils.sendMessage("You must be in a dungeon to debug a dungeon!");
         }
     }
 
     public static int calculateScore() {
-        return 300;
-        // TODO: Implement this heh
+        if(dungeonRun == null || DungeonMap.activeDungeonLayout == null) return 0;
+        return calculateSkillScore() + calculateExploreScore() + calculateSpeedScore() + calculateBonusScore();
+    }
+
+    private static int calculateSkillScore() {
+        // TODO: https://hypixel-skyblock.fandom.com/wiki/Dungeon_Score#Skill
+        return (100 - dungeonRun.deaths * 2) + (Config.assumeSpiritPet && dungeonRun.deaths > 0 ? 1 : 0);
+    }
+
+    private static int calculateExploreScore() {
+        // TODO: https://hypixel-skyblock.fandom.com/wiki/Dungeon_Score#Explore
+        return 60 + 40 * dungeonRun.secretsFound / DungeonMap.activeDungeonLayout.totalSecrets;
+    }
+
+    private static int calculateSpeedScore() {
+        // TODO: https://hypixel-skyblock.fandom.com/wiki/Dungeon_Score#Speed
+        return 100;
+    }
+
+    private static int calculateBonusScore() {
+        return (MayorAPI.isPaulBonus() ? 10 : 0) + (dungeonRun.mimicFound ? 5 : 0) + MathHelper.clamp_int(dungeonRun.cryptsFound, 0, 5);
     }
 
     @SubscribeEvent
@@ -175,7 +204,8 @@ public class DungeonUtils {
     }
 
     public static boolean onFloorWithMimic() {
-        return dungeonRun.floor != null &&
+        return dungeonRun != null &&
+                dungeonRun.floor != null &&
                 dungeonRun.floor != Floor.ENTERANCE &&
                 dungeonRun.floor != Floor.FLOOR_1 &&
                 dungeonRun.floor != Floor.FLOOR_2 &&

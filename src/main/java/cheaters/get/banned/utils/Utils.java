@@ -1,5 +1,6 @@
 package cheaters.get.banned.utils;
 
+import cheaters.get.banned.Shady;
 import cheaters.get.banned.events.TickEndEvent;
 import com.google.common.collect.Iterables;
 import net.minecraft.block.Block;
@@ -12,15 +13,13 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.util.vector.Vector3f;
-import cheaters.get.banned.Shady;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.net.URI;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class Utils {
 
@@ -141,8 +140,8 @@ public class Utils {
         }
     }
 
-    public static void useCommand(String command) {
-        if(command.startsWith("/")) Shady.mc.thePlayer.sendChatMessage(command);
+    public static void sendMessageAsPlayer(String message) {
+        Shady.mc.thePlayer.sendChatMessage(message);
     }
 
     public static void sendModMessage(String message) {

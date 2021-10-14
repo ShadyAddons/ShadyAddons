@@ -31,24 +31,23 @@ public abstract class Setting {
         return startingIndent;
     }
 
-    /*public Object get() {
-        try {
-            return field.get(Object.class);
-        } catch(Exception ignored) {}
-        return null;
-    }*/
-
     // Fail at no cost
     public <T> T get(Class<T> type) {
         try {
             return type.cast(field.get(Object.class));
-        } catch(Exception ignored) {
-            ignored.printStackTrace();
-        }
+        } catch(Exception ignored) {}
         return null;
     }
 
     public boolean set(Object value) {
+        try {
+            field.set(value.getClass(), value);
+            return true;
+        } catch(Exception ignored) {}
+        return false;
+    }
+
+    public boolean forceSet(Object value) {
         try {
             field.set(value.getClass(), value);
             return true;

@@ -46,69 +46,96 @@ public class DungeonMap {
 
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
-        if(Utils.inDungeon && DungeonUtils.dungeonRun.floor != null && activeDungeonLayout == null && !scanning) {
-            switch(DungeonUtils.dungeonRun.floor) {
-                case FLOOR_1:
-                case MASTER_1:
-                    xCorner = 127;
-                    zCorner = 159;
-                    break;
+        if(Utils.inDungeon) {
+            if(activeDungeonLayout == null) {
+                if(DungeonUtils.dungeonRun != null && DungeonUtils.dungeonRun.floor != null && !scanning) {
+                    switch(DungeonUtils.dungeonRun.floor) {
+                        case FLOOR_1:
+                        case MASTER_1:
+                            xCorner = 127;
+                            zCorner = 159;
+                            break;
 
-                case FLOOR_2:
-                case MASTER_2:
-                    xCorner = 159;
-                    zCorner = 159;
-                    break;
+                        case FLOOR_2:
+                        case MASTER_2:
+                            xCorner = 159;
+                            zCorner = 159;
+                            break;
 
-                default:
-                    xCorner = 191;
-                    zCorner = 191;
-            }
+                        default:
+                            xCorner = 191;
+                            zCorner = 191;
+                    }
 
-            if(Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(xCorner, 70, zCorner)).isLoaded() && Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(0, 70, 0)).isLoaded()) {
-                scanning = true;
-                new Thread(() -> {
-                    activeDungeonLayout = DungeonScanner.scan(xCorner, zCorner);
-                    scanning = false;
-                }, "ShadyAddons-DungeonScanner").start();
+                    if(Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(xCorner, 70, zCorner)).isLoaded() && Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(0, 70, 0)).isLoaded()) {
+                        scanning = true;
+                        new Thread(() -> {
+                            activeDungeonLayout = DungeonScanner.scan(xCorner, zCorner);
+                            scanning = false;
+                        }, "ShadyAddons-DungeonScanner").start();
+                    }
+                }
+            } else if(Config.announceScore && !activeDungeonLayout.sentScoreMessage && DungeonUtils.calculateScore() >= Config.announceScoreNumber) {
+                activeDungeonLayout.sentScoreMessage = true;
+                String chatPrefix = new String[]{"/pc", "/ac", "/gc", "/r"}[Config.announceScoreChat];
+                Utils.sendMessageAsPlayer(chatPrefix + " ShadyAddons: " + Config.announceScoreNumber + " score reached");
             }
         }
     }
 
     @SubscribeEvent
     public void onRenderWorld(RenderWorldLastEvent event) {
-        if(activeDungeonLayout != null && debug) {
-            for(DungeonLayout.ConnectorTile connectorTile : activeDungeonLayout.connectorTiles) {
-                if(connectorTile.type == null) continue;
-                RenderUtils.highlightBlock(new BlockPos(connectorTile.x, 69, connectorTile.z), connectorTile.type == DungeonLayout.ConnectorTile.Type.CONNECTOR ? Color.BLUE : connectorTile.type.color, event.partialTicks);
+        if(activeDungeonLayout != null) {
+            if(debug) {
+                for(DungeonLayout.ConnectorTile connectorTile : activeDungeonLayout.connectorTiles) {
+                    if(connectorTile.type == null) continue;
+                    RenderUtils.highlightBlock(new BlockPos(connectorTile.x, 69, connectorTile.z), connectorTile.type == DungeonLayout.ConnectorTile.Type.CONNECTOR ? Color.BLUE : connectorTile.type.color, event.partialTicks);
+                }
+
+                for(DungeonLayout.RoomTile roomTile : activeDungeonLayout.roomTiles) {
+                    RenderUtils.highlightBlock(new BlockPos(roomTile.x, 99, roomTile.z), roomTile.room.type.color, event.partialTicks);
+                }
             }
 
-            for(DungeonLayout.RoomTile roomTile : activeDungeonLayout.roomTiles) {
-                RenderUtils.highlightBlock(new BlockPos(roomTile.x, 99, roomTile.z), roomTile.room.type.color, event.partialTicks);
+            if(Config.witherDoorESP && DungeonUtils.dungeonRun != null && !DungeonUtils.dungeonRun.inBoss) {
+                for(DungeonLayout.ConnectorTile door : activeDungeonLayout.connectorTiles) {
+                    if(!door.isOpen && door.type == DungeonLayout.ConnectorTile.Type.WITHER_DOOR || door.type == DungeonLayout.ConnectorTile.Type.BLOOD_DOOR) {
+                        Color color = Config.witherDoorColor == 0 ? Color.WHITE : Color.BLACK;
+                        if(door.type == DungeonLayout.ConnectorTile.Type.BLOOD_DOOR) color = Color.RED;
+
+                        Iterable<BlockPos> positions;
+                        if(door.direction == EnumFacing.NORTH || door.direction == EnumFacing.SOUTH) positions = BlockPos.getAllInBox(door.getPosition(69).west(1), door.getPosition(72).east(1));
+                        else positions = BlockPos.getAllInBox(door.getPosition(69).north(1), door.getPosition(72).south(1));
+
+                        for(BlockPos position : positions) {
+                            RenderUtils.highlightBlock(position, color, event.partialTicks);
+                        }
+                    }
+                }
             }
         }
     }
 
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
-        if(!Config.dungeonMap || event.type != RenderGameOverlayEvent.ElementType.HOTBAR || !Utils.inDungeon || DungeonUtils.dungeonRun.inBoss) return;
+        if(!Config.dungeonMap || event.type != RenderGameOverlayEvent.ElementType.HOTBAR || !Utils.inDungeon || DungeonUtils.dungeonRun == null || DungeonUtils.dungeonRun.inBoss) return;
 
         x = Config.mapXOffset;
         y = Config.mapYOffset;
 
         // Draw Map Background
         if(!scanning && activeDungeonLayout != null && Config.showDungeonInformation) {
-            Gui.drawRect(0, 0, 200, 230, new Color(0, 0, 0, 255*Config.mapBackgroundOpacity/100).getRGB());
+            Gui.drawRect(x, y, x+200, y+230, new Color(0, 0, 0, 255*Config.mapBackgroundOpacity/100).getRGB());
         } else {
-            Gui.drawRect(0, 0, 200, 200, new Color(0, 0, 0, 255*Config.mapBackgroundOpacity/100).getRGB());
+            Gui.drawRect(x, y, x+200, y+200, new Color(0, 0, 0, 255*Config.mapBackgroundOpacity/100).getRGB());
         }
 
         // Draw Scanning Text
         if(scanning) {
-            FontUtils.drawCenteredString("Scanning Dungeon...", 100, 100);
+            FontUtils.drawCenteredString("Scanning Dungeon...", x+100, y+100);
             return;
         } else if(activeDungeonLayout == null) {
-            FontUtils.drawCenteredString("§cNot Scanned", 100, 100);
+            FontUtils.drawCenteredString("§cNot Scanned", x+100, y+100);
             return;
         }
 
@@ -145,12 +172,12 @@ public class DungeonMap {
                 }
             }
 
-            Gui.drawRect(x1, y1, x2, y2, connector.type.color.getRGB());
+            Gui.drawRect(x+x1, y+y1, x+x2, y+y2, connector.type.color.getRGB());
         }
 
         // Draw Room Tiles
         for(DungeonLayout.RoomTile room : activeDungeonLayout.roomTiles) {
-            Gui.drawRect(room.x-14, room.z-14, room.x+14, room.z+14, room.room.type.color.getRGB());
+            Gui.drawRect(x+room.x-14, y+room.z-14, x+room.x+14, y+room.z+14, room.room.type.color.getRGB());
         }
 
         // Draw Room Names & Secrets
@@ -158,23 +185,16 @@ public class DungeonMap {
             if(room.room.type == Room.Type.PUZZLE || room.room.type == Room.Type.TRAP && Config.significantRoomNameStyle != 2) {
                 switch(Config.significantRoomNameStyle) {
                     case 0: // Shortened Names
-                        FontUtils.drawCenteredString(getShortenedRoomName(room.room.name), room.x, room.z);
+                        FontUtils.drawCenteredString(getShortenedRoomName(room.room.name), x+room.x, y+room.z);
                         break;
 
                     case 1: // Full Names
-                        FontUtils.drawCenteredString(room.room.name.replace(" ", "\n"), room.x, room.z);
+                        FontUtils.drawCenteredString(room.room.name.replace(" ", "\n"), x+room.x, y+room.z);
                         break;
                 }
             } /*else if(room.room.secrets > 0) {
                 FontUtils.drawCenteredString(String.valueOf(room.room.secrets), room.x, room.z);
             }*/
-        }
-
-        // Draw Dungeon Info
-        if(Config.showDungeonInformation) {
-            String dungeonStats = "§7Secrets: §a"+DungeonUtils.dungeonRun.secretsFound+"§7/"+activeDungeonLayout.totalSecrets+"   Crypts: §a"+DungeonUtils.dungeonRun.cryptsFound+"§7/"+(activeDungeonLayout.uncertainCrypts ? "~" : "")+activeDungeonLayout.totalCrypts+"\n";
-            dungeonStats += "§7Puzzles: §a"+activeDungeonLayout.totalPuzzles+"§7"+"   Deaths: §c"+DungeonUtils.dungeonRun.deaths+"§7"+"   Score: §e~"+DungeonUtils.calculateScore();
-            FontUtils.drawCenteredString(dungeonStats, 100, 210);
         }
 
         // Draw Player Heads
@@ -189,14 +209,19 @@ public class DungeonMap {
                 int playerX = MathHelper.clamp_int(playerEntity.getPosition().getX() - size/2, 0, xCorner-14);
                 int playerZ = MathHelper.clamp_int(playerEntity.getPosition().getZ() - size/2, 0, zCorner-14);
                 float playerRotation = playerEntity.getRotationYawHead() - 180;
-                drawPlayerIcon(playerEntity, size, playerX, playerZ, (int)playerRotation);
+                drawPlayerIcon(playerEntity, size, x+playerX, y+playerZ, (int)playerRotation);
             }
         }
 
         // Reset Room Centering
         GlStateManager.translate(-((200-xCorner)/2f), -((200-zCorner)/2f), 0);
-        // Reset User Position
-        GlStateManager.translate(-y, -y, 0);
+
+        // Draw Dungeon Info
+        if(Config.showDungeonInformation) {
+            String dungeonStats = "§7Secrets: §a"+DungeonUtils.dungeonRun.secretsFound+"§7/"+activeDungeonLayout.totalSecrets+"   Crypts: §a"+DungeonUtils.dungeonRun.cryptsFound+"§7/"+(activeDungeonLayout.uncertainCrypts ? "~" : "")+activeDungeonLayout.totalCrypts+"\n";
+            dungeonStats += "§7Puzzles: §a"+activeDungeonLayout.totalPuzzles+"§7"+"   Deaths: §c"+DungeonUtils.dungeonRun.deaths+"§7"+"   Score: §e~"+DungeonUtils.calculateScore();
+            FontUtils.drawCenteredString(dungeonStats, x+100, y+207);
+        }
     }
 
     private static void drawPlayerIcon(EntityPlayer player, int size, int x, int y, int angle) {
@@ -211,11 +236,6 @@ public class DungeonMap {
         RenderUtils.drawPlayerIcon(player, size-2, x+1, y+1);
 
         GlStateManager.popMatrix();
-    }
-
-    // What does this do?
-    private boolean isBetween(int a, int b, int c) {
-        return (a-b) * (a-c) <= 0;
     }
 
     public static final HashMap<String, String> shortNames = new HashMap<String, String>(){{

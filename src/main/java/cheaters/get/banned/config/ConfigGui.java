@@ -126,8 +126,7 @@ public class ConfigGui extends GuiScreen {
         int viewport = height - 100 - 10;
         int contentHeight = settings.size() * 15;
 
-        scrollOffset += scrollAmount;
-        scrollOffset = MathHelper.clamp_int(scrollOffset, 0, contentHeight-viewport);
+        scrollOffset = MathHelper.clamp_int(scrollOffset+scrollAmount, 0, contentHeight-viewport);
         initGui();
     }
 
@@ -155,10 +154,10 @@ public class ConfigGui extends GuiScreen {
 
     @Override
     public void handleMouseInput() throws IOException {
-        super.handleMouseInput();
         if(Mouse.getEventDWheel() != 0) {
             scrollScreen(Integer.signum(Mouse.getEventDWheel()) * -10);
         }
+        super.handleMouseInput();
     }
 
     @Override

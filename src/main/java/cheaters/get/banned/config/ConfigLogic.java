@@ -54,14 +54,6 @@ public class ConfigLogic {
             if(!setting.annotation.parent().equals("")) {
                 setting.parent = (ParentSetting)ConfigLogic.getSetting(setting.annotation.parent(), settings);
             }
-
-            // Add bound boolean settings (mutally exclusive)
-            if(setting instanceof BooleanSetting) {
-                if(setting.parent != null) {
-                    setting.parent.children.add(setting);
-                    ((BooleanSetting)setting).boundTo = (BooleanSetting)ConfigLogic.getSetting(setting.annotation.boundTo(), settings);
-                }
-            }
         }
 
         return settings;
@@ -103,7 +95,7 @@ public class ConfigLogic {
                         if(beingUpdated instanceof NumberSetting || beingUpdated instanceof SelectSetting) {
                             beingUpdated.set(((Double)fromConfig.getValue()).intValue());
                         } else {
-                            beingUpdated.set(fromConfig.getValue());
+                            beingUpdated.forceSet(fromConfig.getValue());
                         }
                     }
                 }

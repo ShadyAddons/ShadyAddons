@@ -1,5 +1,6 @@
 package cheaters.get.banned.features.dungeonmap;
 
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
 import java.awt.*;
@@ -14,7 +15,7 @@ public class DungeonLayout {
     public int totalPuzzles;
     public boolean uncertainCrypts = false;
     public TrapType trapType;
-    public boolean sent300ScoreMessage = false;
+    public boolean sentScoreMessage = false;
 
     enum TrapType {
         OLD, NEW
@@ -24,7 +25,7 @@ public class DungeonLayout {
         public int x;
         public int z;
         public ConnectorTile.Type type;
-        public boolean doorOpen = false;
+        public boolean isOpen = false;
         public EnumFacing direction;
 
         public ConnectorTile(int x, int z, ConnectorTile.Type type, EnumFacing direction) {
@@ -32,6 +33,10 @@ public class DungeonLayout {
             this.z = z;
             this.type = type;
             this.direction = direction;
+        }
+
+        public BlockPos getPosition(int y) {
+            return new BlockPos(x, y, z);
         }
 
         enum Type {

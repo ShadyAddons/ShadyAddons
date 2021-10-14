@@ -12,9 +12,6 @@ public @interface Property {
     String parent() default "";
     String credit() default "";
 
-    // Type.BOOLEAN
-    String boundTo() default "";
-
     // Type.NUMBER
     int step() default 1;
     String prefix() default "";

@@ -9,6 +9,7 @@ import cheaters.get.banned.config.settings.Setting;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.*;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
+import cheaters.get.banned.features.dungeonmap.DungeonScanner;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
 import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.remote.UpdateGui;
@@ -68,6 +69,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new Utils());
         MinecraftForge.EVENT_BUS.register(new LocationUtils());
         MinecraftForge.EVENT_BUS.register(new DungeonUtils());
+        MinecraftForge.EVENT_BUS.register(new DungeonScanner());
 
         MinecraftForge.EVENT_BUS.register(new BlockAbilities());
         MinecraftForge.EVENT_BUS.register(new StonklessStonk());

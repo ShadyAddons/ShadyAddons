@@ -27,61 +27,65 @@ public class ItemKeybind {
     @SubscribeEvent
     public void onInput(InputEvent.KeyInputEvent event) {
         if(Config.iceSprayHotkey && KeybindUtils.isPressed("Use Ice Spray")) {
-            if(!useSkyBlockItem("ICE_SPRAY_WAND")) {
-                sendUsageMessage("Ice Spray Wand");
+            if(!useSkyBlockItem("ICE_SPRAY_WAND", true)) {
+                sendMissingItemMessage("Ice Spray Wand");
             };
         }
 
         if(Config.powerOrbHotkey && KeybindUtils.isPressed("Use Power Orb")) {
-            if(!useSkyBlockItem("PLASMAFLUX_POWER_ORB") && !useSkyBlockItem("OVERFLUX_POWER_ORB") && !useSkyBlockItem("MANA_FLUX_POWER_ORB") && !useSkyBlockItem("RADIANT_POWER_ORB")){
-                sendUsageMessage("Power Orb");
+            if(!useSkyBlockItem("PLASMAFLUX_POWER_ORB", true) && !useSkyBlockItem("OVERFLUX_POWER_ORB", true) && !useSkyBlockItem("MANA_FLUX_POWER_ORB", true) && !useSkyBlockItem("RADIANT_POWER_ORB", true)){
+                sendMissingItemMessage("Power Orb");
             }
         }
 
         if(Config.weirdTubaHotkey && KeybindUtils.isPressed("Use Weird Tuba")) {
-            if(!useSkyBlockItem("WEIRD_TUBA")) {
-                sendUsageMessage("Weird Tuba");
+            if(!useSkyBlockItem("WEIRD_TUBA", true)) {
+                sendMissingItemMessage("Weird Tuba");
             }
         }
 
         if(Config.gyrokineticWandHotkey && KeybindUtils.isPressed("Use Gyrokinetic Wand")) {
-            if(!useSkyBlockItem("GYROKINETIC_WAND")) {
-                sendUsageMessage("Gyrokinetic Wand");
+            if(!useSkyBlockItem("GYROKINETIC_WAND", false)) {
+                sendMissingItemMessage("Gyrokinetic Wand");
             }
         }
 
         if(Config.pigmanSwordHotkey && KeybindUtils.isPressed("Use Pigman Sword")) {
-            if(!useSkyBlockItem("PIGMAN_SWORD")) {
-                sendUsageMessage("Pigman Sword");
+            if(!useSkyBlockItem("PIGMAN_SWORD", true)) {
+                sendMissingItemMessage("Pigman Sword");
             }
         }
 
         if(Config.healingWandHotkey && KeybindUtils.isPressed("Use Healing Wand")) {
-            if(!useSkyBlockItem("WAND_OF_ATONEMENT") && !useSkyBlockItem("WAND_OF_RESTORATION") && !useSkyBlockItem("WAND_OF_MENDING") && !useSkyBlockItem("WAND_OF_HEALING")) {
-                sendUsageMessage("Healing Wand");
+            if(!useSkyBlockItem("WAND_OF_ATONEMENT", true) && !useSkyBlockItem("WAND_OF_RESTORATION", true) && !useSkyBlockItem("WAND_OF_MENDING", true) && !useSkyBlockItem("WAND_OF_HEALING", true)) {
+                sendMissingItemMessage("Healing Wand");
             }
         }
 
         if(Config.rogueSwordHotkey && KeybindUtils.isPressed("Use Rogue Sword")) {
             if(!useRogueSword()) {
-                sendUsageMessage("Rogue Sword");
+                sendMissingItemMessage("Rogue Sword");
             }
         }
 
         if(Config.fishingRodHotkey && KeybindUtils.isPressed("Use Fishing Rod")) {
-            if(!useItem(Items.fishing_rod)) {
-                sendUsageMessage("Fishing Rod");
+            if(!useVanillaItem(Items.fishing_rod)) {
+                sendMissingItemMessage("Fishing Rod");
             }
         }
     }
 
-    public static boolean useSkyBlockItem(String itemId) {
+    public static boolean useSkyBlockItem(String itemId, boolean rightClick) {
         for(int i = 0; i < 9; i++) {
             ItemStack item = Shady.mc.thePlayer.inventory.getStackInSlot(i);
             if(itemId.equals(Utils.getSkyBlockID(item))) {
                 int previousItem = Shady.mc.thePlayer.inventory.currentItem;
                 Shady.mc.thePlayer.inventory.currentItem = i;
-                Shady.mc.playerController.sendUseItem(Shady.mc.thePlayer, Shady.mc.theWorld, item);
+                if(rightClick) {
+                    Shady.mc.playerController.sendUseItem(Shady.mc.thePlayer, Shady.mc.theWorld, item);
+                } else {
+                    KeybindUtils.leftClick();
+                }
                 Shady.mc.thePlayer.inventory.currentItem = previousItem;
                 return true;
             }
@@ -106,7 +110,7 @@ public class ItemKeybind {
         return false;
     }
 
-    public static boolean useItem(Item item) {
+    public static boolean useVanillaItem(Item item) {
         for(int i = 0; i < 9; i++) {
             ItemStack itemStack = Shady.mc.thePlayer.inventory.getStackInSlot(i);
             if(itemStack.getItem() == item) {
@@ -121,7 +125,7 @@ public class ItemKeybind {
         return false;
     }
 
-    private static void sendUsageMessage(String itemName) {
+    private static void sendMissingItemMessage(String itemName) {
         Utils.sendModMessage("No &9"+itemName+"&r found in your hotbar");
     }
 

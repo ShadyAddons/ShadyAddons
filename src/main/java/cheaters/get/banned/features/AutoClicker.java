@@ -26,16 +26,16 @@ public class AutoClicker {
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
         if(KeybindUtils.get("Autoclicker").isPressed()) {
-            if(Config.autoClickerBurst && !burstActive) {
+            if(Config.autoClickerMode == 0 && !burstActive) {
                 burstActive = true;
                 new Thread(() -> {
-                    for(int i = 0; i < Config.burstAmount; i++) {
+                    for(int i = 0; i < 25; i++) {
                         KeybindUtils.rightClick();
                         ThreadUtils.sleep(1000/Config.autoClickerCps);
                     }
                     burstActive = false;
                 }, "ShadyAddons-Autoclicker").start();
-            } else if(Config.autoClickerToggle) {
+            } else if(Config.autoClickerMode == 1) {
                 toggled = !toggled;
                 if(toggled) {
                     new Thread(() -> {
