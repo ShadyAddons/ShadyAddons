@@ -156,40 +156,13 @@ public class Utils {
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
     }
 
-    public static boolean canInteract(Block block) {
-        return new ArrayList<Block>(Arrays.asList(
-                Blocks.acacia_door,
-                Blocks.anvil,
-                Blocks.beacon,
-                Blocks.bed,
-                Blocks.birch_door,
-                Blocks.brewing_stand,
-                Blocks.command_block,
-                Blocks.crafting_table,
+    public static boolean isInteractable(Block block) {
+        return new ArrayList<>(Arrays.asList(
                 Blocks.chest,
-                Blocks.dark_oak_door,
-                Blocks.daylight_detector,
-                Blocks.daylight_detector_inverted,
-                Blocks.dispenser,
-                Blocks.dropper,
-                Blocks.enchanting_table,
-                Blocks.ender_chest,
-                Blocks.furnace,
-                Blocks.hopper,
-                Blocks.jungle_door,
                 Blocks.lever,
-                Blocks.noteblock,
-                Blocks.powered_comparator,
-                Blocks.unpowered_comparator,
-                Blocks.powered_repeater,
-                Blocks.unpowered_repeater,
-                Blocks.standing_sign,
-                Blocks.wall_sign,
-                Blocks.trapdoor,
                 Blocks.trapped_chest,
                 Blocks.wooden_button,
                 Blocks.stone_button,
-                Blocks.oak_door,
                 Blocks.skull
         )).contains(block);
     }

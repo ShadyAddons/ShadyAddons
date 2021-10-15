@@ -50,9 +50,9 @@ public class ConfigLogic {
 
         // Relationships that need to be set after all settings have been collected
         for(Setting setting : settings) {
-            // Add parents, null if no parent
             if(!setting.annotation.parent().equals("")) {
                 setting.parent = (ParentSetting)ConfigLogic.getSetting(setting.annotation.parent(), settings);
+                if(setting.parent != null) setting.parent.children.add(setting);
             }
         }
 

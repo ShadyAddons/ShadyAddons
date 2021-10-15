@@ -6,6 +6,7 @@ import cheaters.get.banned.features.CatGirls;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.Room;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
+import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.command.CommandBase;
@@ -49,6 +50,11 @@ public class MainCommand extends CommandBase {
                 case "force_dungeon":
                     Utils.forceDungeon = !Utils.forceDungeon;
                     Utils.sendModMessage("Toggled forcing dungeon to "+Utils.forceDungeon);
+                    break;
+
+                case "force_paul":
+                    MayorAPI.forcePaul();
+                    Utils.sendModMessage("Paul has committed a coup d'état and is now mayor of SkyBlock");
                     break;
 
                 case "force_skyblock":

@@ -31,7 +31,7 @@ public class Updater {
 
             if(response != null) {
                 update = new Gson().fromJson(response, Update.class);
-                shouldUpdate = !update.version.equals(Shady.VERSION) && !Shady.BETA;
+                shouldUpdate = !update.version.equals(Shady.VERSION);
             } else {
                 System.out.println("Error checking for updates");
             }

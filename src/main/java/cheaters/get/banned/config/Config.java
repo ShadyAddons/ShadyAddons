@@ -72,10 +72,10 @@ public class Config {
         public static boolean stopAutoClickerInGui = false;
 
 
-    @Property(
+    /*@Property(
             type = Property.Type.BOOLEAN,
             name = "Corleone Finder"
-    )
+    )*/
     public static boolean corleoneFinder = false;
 
 
@@ -243,7 +243,7 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Dungeon Map β",
+            name = "Dungeon Map (WIP)",
             credit = "based on IllegalMap by UnclaimedBloom6"
     )
     public static boolean dungeonMap = false;
@@ -251,21 +251,21 @@ public class Config {
         /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "Darken Unexplored",
-                parent = "Dungeon Map β"
+                parent = "Dungeon Map (WIP)"
         )*/
         public static boolean darkenUnexplored = false;
 
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Show Run Information",
-                parent = "Dungeon Map β"
+                parent = "Dungeon Map (WIP)"
         )
         public static boolean showDungeonInformation = false;
 
         /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "Wither/Blood Door ESP",
-                parent = "Dungeon Map β"
+                parent = "Dungeon Map (WIP)"
         )*/
         public static boolean witherDoorESP = false;
 
@@ -280,14 +280,14 @@ public class Config {
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Assume Spirit Pet",
-                parent = "Dungeon Map β"
+                parent = "Dungeon Map (WIP)"
         )
         public static boolean assumeSpiritPet = false;
 
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Announce Score in Chat",
-                parent = "Dungeon Map β"
+                parent = "Dungeon Map (WIP)"
         )
         public static boolean announceScore = false;
 
@@ -314,7 +314,7 @@ public class Config {
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Horizontal Offset",
-                parent = "Dungeon Map β",
+                parent = "Dungeon Map (WIP)",
                 suffix = "px",
                 step = 10
         )
@@ -323,27 +323,27 @@ public class Config {
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Vertical Offset",
-                parent = "Dungeon Map β",
+                parent = "Dungeon Map (WIP)",
                 suffix = "px",
                 step = 10
         )
         public static int mapYOffset = 10;
 
-        /*@Property(
+        @Property(
                 type = Property.Type.NUMBER,
                 name = "Scale",
-                parent = "Dungeon Map β",
+                parent = "Dungeon Map (WIP)",
                 suffix = "%",
                 step = 10,
                 min = 50,
                 max = 150
-        )*/
-        public static int mapScale = 100;
+        )
+        public static int mapScale = 80;
 
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Background Opacity",
-                parent = "Dungeon Map β",
+                parent = "Dungeon Map (WIP)",
                 max = 100,
                 step = 10,
                 suffix = "%"
@@ -353,14 +353,14 @@ public class Config {
         /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "RBG Border",
-                parent = "Dungeon Map β"
+                parent = "Dungeon Map (WIP)"
         )*/
         public static boolean rbgMapBorder = false;
 
         @Property(
                 type = Property.Type.SELECT,
                 name = "Significant Room Name Style",
-                parent = "Dungeon Map β",
+                parent = "Dungeon Map (WIP)",
                 options = {"Short", "Full", "None"}
         )
         public static int significantRoomNameStyle = 0;
@@ -368,7 +368,7 @@ public class Config {
         /*@Property(
                 type = Property.Type.SELECT,
                 name = "Checkmark Style",
-                parent = "Dungeon Map β",
+                parent = "Dungeon Map (WIP)",
                 options = {"None", "Vanilla", "Fancy"}
         )*/
         public static int mapCheckmarkStyle = 0;

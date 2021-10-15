@@ -11,6 +11,7 @@ import cheaters.get.banned.features.*;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.DungeonScanner;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
+import cheaters.get.banned.remote.Analytics;
 import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.remote.UpdateGui;
 import cheaters.get.banned.remote.Updater;
@@ -23,6 +24,7 @@ import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -31,9 +33,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Mod(modid = "autogg", name = Shady.MODNAME, version = "4.1.0", clientSideOnly = true)
 public class Shady {
@@ -50,6 +55,9 @@ public class Shady {
 
     public static GuiScreen guiToOpen = null;
     public static boolean enabled = true;
+    private static boolean sentPlayTimeCommand = false;
+    private static boolean sentPlayTimeData = false;
+    private static Pattern playTimePattern = Pattern.compile("You have (\\d*) hours and \\d* minutes playtime!");
 
     public static ArrayList<Setting> settings = ConfigLogic.collect(Config.class);
 
@@ -57,9 +65,10 @@ public class Shady {
     public void preInit(FMLPreInitializationEvent event) {
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         ConfigLogic.load();
-        Updater.check();
         RoomLoader.load();
+        Updater.check();
         MayorAPI.fetch();
+        Analytics.collect("version", VERSION);
     }
 
     @Mod.EventHandler
@@ -111,6 +120,23 @@ public class Shady {
         if(guiToOpen != null) {
             mc.displayGuiScreen(guiToOpen);
             guiToOpen = null;
+        }
+
+        if(Utils.inSkyBlock && !sentPlayTimeCommand) {
+            Utils.sendMessageAsPlayer("/playtime");
+            sentPlayTimeCommand = true;
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onChat(ClientChatReceivedEvent event) {
+        if(Utils.inSkyBlock && sentPlayTimeCommand && !sentPlayTimeData && event.message.getUnformattedText().contains("minutes playtime!")) {
+            Matcher matcher = playTimePattern.matcher(event.message.getUnformattedText());
+            if(matcher.matches()) {
+                Analytics.collect("playtime", matcher.group(1));
+                event.setCanceled(true);
+                sentPlayTimeData = true;
+            }
         }
     }
 

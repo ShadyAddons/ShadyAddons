@@ -30,10 +30,6 @@ public class DungeonMap {
     public static boolean scanning = false;
     public static boolean debug = false;
 
-    public static int x = 10;
-    public static int y = 10;
-    public static float scale = 1f;
-
     public DungeonMap() {
         // KeybindUtils.register("Peek Rooms", Keyboard.KEY_NONE);
     }
@@ -120,22 +116,27 @@ public class DungeonMap {
     public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
         if(!Config.dungeonMap || event.type != RenderGameOverlayEvent.ElementType.HOTBAR || !Utils.inDungeon || DungeonUtils.dungeonRun == null || DungeonUtils.dungeonRun.inBoss) return;
 
-        x = Config.mapXOffset;
-        y = Config.mapYOffset;
+        float scale = Config.mapScale / 100f;
+
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(scale, scale, scale);
+        GlStateManager.translate(Config.mapXOffset, Config.mapYOffset, 0);
 
         // Draw Map Background
         if(!scanning && activeDungeonLayout != null && Config.showDungeonInformation) {
-            Gui.drawRect(x, y, x+200, y+230, new Color(0, 0, 0, 255*Config.mapBackgroundOpacity/100).getRGB());
+            Gui.drawRect(0, 0, 200, 230, new Color(0, 0, 0, 255*Config.mapBackgroundOpacity/100).getRGB());
         } else {
-            Gui.drawRect(x, y, x+200, y+200, new Color(0, 0, 0, 255*Config.mapBackgroundOpacity/100).getRGB());
+            Gui.drawRect(0, 0, 200, 200, new Color(0, 0, 0, 255*Config.mapBackgroundOpacity/100).getRGB());
         }
 
         // Draw Scanning Text
         if(scanning) {
-            FontUtils.drawCenteredString("Scanning Dungeon...", x+100, y+100);
+            FontUtils.drawCenteredString("Scanning Dungeon...", 100, 100);
+            GlStateManager.popMatrix();
             return;
         } else if(activeDungeonLayout == null) {
-            FontUtils.drawCenteredString("§cNot Scanned", x+100, y+100);
+            FontUtils.drawCenteredString("§cNot Scanned", 100, 100);
+            GlStateManager.popMatrix();
             return;
         }
 
@@ -172,12 +173,12 @@ public class DungeonMap {
                 }
             }
 
-            Gui.drawRect(x+x1, y+y1, x+x2, y+y2, connector.type.color.getRGB());
+            Gui.drawRect(x1, y1, x2, y2, connector.type.color.getRGB());
         }
 
         // Draw Room Tiles
         for(DungeonLayout.RoomTile room : activeDungeonLayout.roomTiles) {
-            Gui.drawRect(x+room.x-14, y+room.z-14, x+room.x+14, y+room.z+14, room.room.type.color.getRGB());
+            Gui.drawRect(room.x-14, room.z-14, room.x+14, room.z+14, room.room.type.color.getRGB());
         }
 
         // Draw Room Names & Secrets
@@ -185,11 +186,11 @@ public class DungeonMap {
             if(room.room.type == Room.Type.PUZZLE || room.room.type == Room.Type.TRAP && Config.significantRoomNameStyle != 2) {
                 switch(Config.significantRoomNameStyle) {
                     case 0: // Shortened Names
-                        FontUtils.drawCenteredString(getShortenedRoomName(room.room.name), x+room.x, y+room.z);
+                        FontUtils.drawCenteredString(getShortenedRoomName(room.room.name), room.x, room.z);
                         break;
 
                     case 1: // Full Names
-                        FontUtils.drawCenteredString(room.room.name.replace(" ", "\n"), x+room.x, y+room.z);
+                        FontUtils.drawCenteredString(room.room.name.replace(" ", "\n"), room.x, room.z);
                         break;
                 }
             } /*else if(room.room.secrets > 0) {
@@ -209,7 +210,7 @@ public class DungeonMap {
                 int playerX = MathHelper.clamp_int(playerEntity.getPosition().getX() - size/2, 0, xCorner-14);
                 int playerZ = MathHelper.clamp_int(playerEntity.getPosition().getZ() - size/2, 0, zCorner-14);
                 float playerRotation = playerEntity.getRotationYawHead() - 180;
-                drawPlayerIcon(playerEntity, size, x+playerX, y+playerZ, (int)playerRotation);
+                drawPlayerIcon(playerEntity, size, playerX, playerZ, (int)playerRotation);
             }
         }
 
@@ -220,8 +221,10 @@ public class DungeonMap {
         if(Config.showDungeonInformation) {
             String dungeonStats = "§7Secrets: §a"+DungeonUtils.dungeonRun.secretsFound+"§7/"+activeDungeonLayout.totalSecrets+"   Crypts: §a"+DungeonUtils.dungeonRun.cryptsFound+"§7/"+(activeDungeonLayout.uncertainCrypts ? "~" : "")+activeDungeonLayout.totalCrypts+"\n";
             dungeonStats += "§7Puzzles: §a"+activeDungeonLayout.totalPuzzles+"§7"+"   Deaths: §c"+DungeonUtils.dungeonRun.deaths+"§7"+"   Score: §e~"+DungeonUtils.calculateScore();
-            FontUtils.drawCenteredString(dungeonStats, x+100, y+207);
+            FontUtils.drawCenteredString(dungeonStats, 100, 212);
         }
+
+        GlStateManager.popMatrix();
     }
 
     private static void drawPlayerIcon(EntityPlayer player, int size, int x, int y, int angle) {

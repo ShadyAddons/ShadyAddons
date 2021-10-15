@@ -23,7 +23,7 @@ public class GhostBlocks {
             BlockPos lookingAtPos = Shady.mc.thePlayer.rayTrace(Shady.mc.playerController.getBlockReachDistance(), 1).getBlockPos();
             if(lookingAtPos != null) {
                 Block lookingAtblock = Shady.mc.theWorld.getBlockState(lookingAtPos).getBlock();
-                if(!Utils.canInteract(lookingAtblock)) {
+                if(!Utils.isInteractable(lookingAtblock)) {
                     Shady.mc.theWorld.setBlockToAir(lookingAtPos);
                 }
             }
@@ -32,7 +32,7 @@ public class GhostBlocks {
 
     @SubscribeEvent
     public void onInteract(PlayerInteractEvent event) {
-        if(Utils.inSkyBlock && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && Config.stonkGhostBlock && !Utils.canInteract(Shady.mc.theWorld.getBlockState(event.pos).getBlock())) {
+        if(Utils.inSkyBlock && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && Config.stonkGhostBlock && !Utils.isInteractable(Shady.mc.theWorld.getBlockState(event.pos).getBlock())) {
             String itemId = Utils.getSkyBlockID(Shady.mc.thePlayer.getHeldItem());
             if(itemId.equals("STONK_PICKAXE") || itemId.equals("GOLD_PICKAXE")) {
                 Shady.mc.theWorld.setBlockToAir(event.pos);
