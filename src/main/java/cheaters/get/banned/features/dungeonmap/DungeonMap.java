@@ -207,6 +207,7 @@ public class DungeonMap {
 
             for(String player : DungeonUtils.dungeonRun.team) {
                 EntityPlayer playerEntity = Shady.mc.theWorld.getPlayerEntityByName(player);
+                if(playerEntity == null) continue;
                 int playerX = MathHelper.clamp_int(playerEntity.getPosition().getX() - size/2, 0, xCorner-14);
                 int playerZ = MathHelper.clamp_int(playerEntity.getPosition().getZ() - size/2, 0, zCorner-14);
                 float playerRotation = playerEntity.getRotationYawHead() - 180;
