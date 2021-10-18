@@ -32,7 +32,8 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Clicker"
+            name = "Auto Clicker",
+            blatant = true
     )
     public static boolean autoClicker = false;
 
@@ -93,7 +94,8 @@ public class Config {
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Click Through Summons",
-                parent = "Summons Features"
+                parent = "Summons Features",
+                blatant = true
         )
         public static boolean clickThroughSummons = false;
 
