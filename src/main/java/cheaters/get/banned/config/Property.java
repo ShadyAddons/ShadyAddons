@@ -1,4 +1,4 @@
-package cheaters.get.banned.config.properties;
+package cheaters.get.banned.config;
 
 import java.lang.annotation.*;
 
@@ -11,6 +11,7 @@ public @interface Property {
     String name();
     String parent() default "";
     String credit() default "";
+    boolean blatant() default false;
 
     // Type.NUMBER
     int step() default 1;

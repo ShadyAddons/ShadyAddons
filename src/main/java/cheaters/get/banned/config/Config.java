@@ -1,7 +1,5 @@
 package cheaters.get.banned.config;
 
-import cheaters.get.banned.config.properties.Property;
-
 public class Config {
 
     @Property(
@@ -121,7 +119,6 @@ public class Config {
     public static boolean disableBlockAnimation = false;
 
 
-
     @Property(
             type = Property.Type.BOOLEAN,
             name = "Keybinds"
@@ -211,6 +208,14 @@ public class Config {
                     parent = "Item Hotkeys"
             )
             public static boolean fishingRodHotkey = false;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto Ready Up",
+            blatant = true
+    )
+    public static boolean autoReadyUp = false;
 
 
     @Property(

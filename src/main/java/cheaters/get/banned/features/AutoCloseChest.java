@@ -16,17 +16,13 @@ public class AutoCloseChest {
             String chestName = ((ContainerChest) ((GuiChest)event.gui).inventorySlots).getLowerChestInventory().getDisplayName().getUnformattedText();
 
             if(Utils.inDungeon && Config.closeSecretChests && chestName.equals("Chest")) {
-                closeChest();
+                Shady.mc.thePlayer.closeScreen();
             }
 
             if(Utils.inSkyBlock && Config.closeCrystalHollowsChests && (chestName.contains("Loot Chest") || chestName.contains("Treasure Chest"))) {
-                closeChest();
+                Shady.mc.thePlayer.closeScreen();
             }
         }
-    }
-
-    public static void closeChest() {
-        Shady.mc.thePlayer.closeScreen();
     }
 
 }

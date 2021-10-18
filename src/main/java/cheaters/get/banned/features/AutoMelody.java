@@ -6,7 +6,6 @@ import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -15,7 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 
-public class AutoHarp {
+public class AutoMelody {
 
     private boolean inHarp = false;
     private ArrayList<Item> lastInventory = new ArrayList<>();
@@ -23,8 +22,7 @@ public class AutoHarp {
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent event) {
         if(event.gui instanceof GuiChest && Utils.inSkyBlock && Config.autoMelody) {
-            String chestName = ((ContainerChest) ((GuiChest)event.gui).inventorySlots).getLowerChestInventory().getDisplayName().getUnformattedText();
-            if(chestName.startsWith("Harp -")) {
+            if(Utils.getGuiName(event.gui).startsWith("Harp -")) {
                 lastInventory.clear();
                 inHarp = true;
             }
@@ -34,7 +32,8 @@ public class AutoHarp {
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
         if(!inHarp || !Config.autoMelody || Shady.mc.thePlayer == null) return;
-        if(!Utils.getInventoryName().startsWith("Harp -")) inHarp = false;
+        String inventoryName = Utils.getInventoryName();
+        if(inventoryName == null || !inventoryName.startsWith("Harp -")) inHarp = false;
 
         ArrayList<Item> thisInventory = new ArrayList<>();
         for(Slot slot : Shady.mc.thePlayer.openContainer.inventorySlots) {

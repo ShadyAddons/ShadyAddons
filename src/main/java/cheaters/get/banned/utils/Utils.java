@@ -4,7 +4,10 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.events.TickEndEvent;
 import com.google.common.collect.Iterables;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -126,9 +129,14 @@ public class Utils {
 
     public static String getInventoryName() {
         if(Shady.mc.thePlayer == null || Shady.mc.theWorld == null) return "null";
-        String inventoryName = Shady.mc.thePlayer.openContainer.inventorySlots.get(0).inventory.getName();
-        if(inventoryName == null) return "null";
-        return inventoryName;
+        return Shady.mc.thePlayer.openContainer.inventorySlots.get(0).inventory.getName();
+    }
+
+    public static String getGuiName(GuiScreen gui) {
+        if(gui instanceof GuiChest) {
+            return ((ContainerChest) ((GuiChest) gui).inventorySlots).getLowerChestInventory().getDisplayName().getUnformattedText();
+        }
+        return "";
     }
 
     public static void sendMessage(String message) {

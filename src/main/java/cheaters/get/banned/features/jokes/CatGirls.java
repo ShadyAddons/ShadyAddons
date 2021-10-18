@@ -1,4 +1,4 @@
-package cheaters.get.banned.features;
+package cheaters.get.banned.features.jokes;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;

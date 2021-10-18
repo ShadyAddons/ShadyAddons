@@ -2,7 +2,7 @@ package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.AutoTerminals;
-import cheaters.get.banned.features.CatGirls;
+import cheaters.get.banned.features.jokes.CatGirls;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.Room;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;

@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public class Analytics {
 
-    private static final String whyCollectAnalytics = "Basic analytics are collected to gague version adoption rates. Other metrics, such as play time and rare drops may be collected for the creator's personal hobby projects in the future. Data is only associated with the player's hashed UUID.";
-    private static final String howAreTheySent = "This system allows Shady to verify the authenticity of your data WITHOUT your session ID. This is the same process that Minecraft servers (net.minecraft.client.network.NetHandlerLoginClient) use to make sure you are who you say you are. Optifine (net.optifine.gui.GuiScreenCapeOF) and Skytils (skytils.skytilsmod.features.impl.handlers.MayorInfo.kt) do the exact same thing. See https://wiki.vg/Protocol_Encryption#Authentication for more information.";
-    private static final String pleaseDontCollectAnalytics = "Sorry dude. In exchange for your safe, free, and relatively high-quality block game cheats, I'd like to collect a little information for personal data science projects and so I can scratch some curious itches I have about this game.";
+    private static final String whyCollectAnalyics = "I collect analytics for my own personal data projects. All data is stored anonymously. Your username is only sent to verify your data with Mojang's servers. See https://wiki.vg/Protocol_Encryption#Authentication for more information.";
+    private static final String howAreTheySent = "This system allows Shady to verify the authenticity of your data WITHOUT your session ID. This is the same process that Minecraft servers (net.minecraft.client.network.NetHandlerLoginClient) use to make sure you are who you say you are. Optifine (net.optifine.gui.GuiScreenCapeOF) and Skytils (skytils.skytilsmod.features.impl.handlers.MayorInfo.kt) do the exact same thing.";
+    private static final String pleaseDontCollectAnalytics = "In exchange for your safe, free, and relatively high-quality block game cheats, I'd like to collect a little information for personal data science projects. Sorry.";
 
     public static void collect(String key, String value) {
         new Thread(() -> {

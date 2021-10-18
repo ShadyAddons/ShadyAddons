@@ -1,6 +1,6 @@
 package cheaters.get.banned.config.settings;
 
-import cheaters.get.banned.config.properties.Property;
+import cheaters.get.banned.config.Property;
 import net.minecraft.util.MathHelper;
 
 import java.lang.reflect.Field;

@@ -40,7 +40,6 @@ public class MobESP {
                 entitiesToHighlight.add(event.entity);
                 List<Entity> possibleEntities = event.entity.getEntityWorld().getEntitiesInAABBexcluding(event.entity, event.entity.getEntityBoundingBox().expand(0, 3, 0), entity -> !(entity instanceof EntityArmorStand));
                 if(!possibleEntities.isEmpty()) {
-                    System.out.println(possibleEntities);
                     entitiesToHighlight.add(possibleEntities.get(0));
                 }
                 Shady.mc.theWorld.removeEntity(event.entity);

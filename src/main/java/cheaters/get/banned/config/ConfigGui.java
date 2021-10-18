@@ -6,6 +6,7 @@ import cheaters.get.banned.config.components.Scrollbar;
 import cheaters.get.banned.config.settings.BooleanSetting;
 import cheaters.get.banned.config.settings.Setting;
 import cheaters.get.banned.utils.FontUtils;
+import cheaters.get.banned.utils.RenderUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -64,6 +65,11 @@ public class ConfigGui extends GuiScreen {
             if(setting.parent == null && i > 0) {
                 // Setting Border
                 drawRect(x, y-3, getOffset() + columnWidth, y-2, ConfigInput.transparent.getRGB());
+            }
+
+            if(setting.blatant) {
+                RenderUtils.drawTexture(new ResourceLocation("shadyaddons:warning.png"), x, y, 9, 9);
+                x += 13;
             }
 
             // Setting Text

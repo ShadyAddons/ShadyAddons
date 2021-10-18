@@ -1,7 +1,6 @@
 package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.properties.Property;
 import cheaters.get.banned.config.settings.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

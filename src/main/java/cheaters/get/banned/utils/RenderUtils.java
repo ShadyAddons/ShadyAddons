@@ -248,19 +248,29 @@ public class RenderUtils {
         GlStateManager.rotate(angle, 0, 0, 1);
         GlStateManager.translate(-x-width/2f, -y-height/2f, 0);
 
-        Shady.mc.getTextureManager().bindTexture(resourceLocation);
-        Gui.drawModalRectWithCustomSizedTexture(x, y, textureX, textureY, width, height, textureWidth, textureHeight);
+        drawTexture(resourceLocation, x, y, width, height, textureWidth, textureHeight, textureX, textureY);
 
         GlStateManager.popMatrix();
     }
 
+    public static void drawTexture(ResourceLocation resourceLocation, int x, int y, int width, int height, int textureWidth, int textureHeight, int textureX, int textureY) {
+        Shady.mc.getTextureManager().bindTexture(resourceLocation);
+        Gui.drawModalRectWithCustomSizedTexture(x, y, textureX, textureY, width, height, textureWidth, textureHeight);
+    }
+
+    public static void drawTexture(ResourceLocation resourceLocation, int x, int y, int width, int height) {
+        drawTexture(resourceLocation, x, y, width, height, width, height, 0, 0);
+    }
+
     public static void drawPlayerIcon(EntityPlayer player, int size, int x, int y) {
-        Shady.mc.getTextureManager().bindTexture(Shady.mc.getNetHandler().getPlayerInfo(player.getUniqueID()).getLocationSkin());
+        if(player != null) {
+            Shady.mc.getTextureManager().bindTexture(Shady.mc.getNetHandler().getPlayerInfo(player.getUniqueID()).getLocationSkin());
 
-        Gui.drawScaledCustomSizeModalRect(x, y, 8f, 8f, 8, 8, size, size, 64f, 64f);
+            Gui.drawScaledCustomSizeModalRect(x, y, 8f, 8f, 8, 8, size, size, 64f, 64f);
 
-        if(player.isWearing(EnumPlayerModelParts.HAT)) {
-            Gui.drawScaledCustomSizeModalRect(x, y, 40f, 8f, 8, 8, size, size, 64f, 64f);
+            if(player.isWearing(EnumPlayerModelParts.HAT)) {
+                Gui.drawScaledCustomSizeModalRect(x, y, 40f, 8f, 8, 8, size, size, 64f, 64f);
+            }
         }
     }
 
