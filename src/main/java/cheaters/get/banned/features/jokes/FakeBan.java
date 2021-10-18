@@ -21,7 +21,7 @@ public class FakeBan {
         }
     }
 
-    //@SubscribeEvent
+    @SubscribeEvent
     public void onJoinServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         if(Shady.mc.getCurrentServerData() != null && Shady.mc.getCurrentServerData().serverIP.contains("hypixel.net") && !Shady.mc.getCurrentServerData().serverIP.contains("letmein")) {
             switch(Shady.mc.getSession().getProfile().getName().hashCode()) {
