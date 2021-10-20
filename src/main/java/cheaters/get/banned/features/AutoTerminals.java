@@ -17,8 +17,10 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 // Contributed by 0Kelvin_
 public class AutoTerminals {
@@ -55,7 +57,7 @@ public class AutoTerminals {
                         currentTerminal = TerminalType.NUMBERS;
                     } else if(chestName.equals("Correct all the panes!")) {
                         currentTerminal = TerminalType.CORRECT_ALL;
-                    } else if(chestName.startsWith("What starts with:")) {
+                    } else if(chestName.startsWith("What starts with: '")) {
                         currentTerminal = TerminalType.LETTER;
                     } else if(chestName.startsWith("Select all the")) {
                         currentTerminal = TerminalType.COLOR;
@@ -115,8 +117,6 @@ public class AutoTerminals {
         if(!(Shady.mc.currentScreen instanceof GuiChest)) {
             currentTerminal = TerminalType.NONE;
             clickQueue.clear();
-            letterNeeded = 0;
-            colorNeeded = null;
             windowClicks = 0;
         }
     }
@@ -127,60 +127,74 @@ public class AutoTerminals {
         clickQueue.clear();
         switch(currentTerminal) {
             case MAZE:
-                // Note: This could break if there are multiple green panes, solution is to create list of all green panes and loop through routing algorithm for each one
-                int startSlot = -1, endSlot = -1;
-                boolean[] mazeVisited = new boolean[54];
+                int[] mazeDirection = new int[]{-9, -1, 1, 9};
+                boolean[] isStartSlot = new boolean[54];
+                int endSlot = -1;
                 // Scan chest for start and end
                 for(Slot slot : invSlots) {
-                    if(startSlot >= 0 && endSlot >= 0) break;
                     if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
                     ItemStack itemStack = slot.getStack();
                     if(itemStack == null) continue;
                     if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane)) {
                         if(itemStack.getItemDamage() == 5) {
-                            startSlot = slot.slotNumber;
+                            isStartSlot[slot.slotNumber] = true;
                         } else if(itemStack.getItemDamage() == 14) {
                             endSlot = slot.slotNumber;
                         }
                     }
                 }
                 // Plan route for maze from start to end
-                while(startSlot != endSlot) {
-                    boolean newSlotChosen = false;
-                    for(int i = 0; i < 4; i++) {
-                        int slotNumber = startSlot + mazeDirection[i];
-                        if(slotNumber == endSlot) return false;
-                        if(slotNumber < 0 || slotNumber > 53 || i == 1 && slotNumber % 9 == 8 || i == 2 && slotNumber % 9 == 0) continue;
-                        if(mazeVisited[slotNumber]) continue;
-                        ItemStack itemStack = invSlots.get(slotNumber).getStack();
-                        if(itemStack == null) continue;
-                        if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.getItemDamage() == 0) {
-                            clickQueue.add(invSlots.get(slotNumber));
-                            startSlot = slotNumber;
-                            mazeVisited[slotNumber] = true;
-                            newSlotChosen = true;
-                            break;
+                for (int slot = 0; slot < 54; slot++) {
+                    if (isStartSlot[slot]) {
+                        mazeVisited = new boolean[54];
+                        int startSlot = slot
+                        while(startSlot != endSlot) {
+                            boolean newSlotChosen = false;
+                            for(int i : mazeDirection) {
+                                int nextSlot = startSlot + i;
+                                if(nextSlot < 0 || nextSlot > 53 || i == -1 && startSlot % 9 == 0 || i == 1 && startSlot % 9 == 8) continue;
+                                if (nextSlot == endSlot) return false;
+                                if(mazeVisited[nextSlot]) continue;
+                                ItemStack itemStack = invSlots.get(nextSlot).getStack();
+                                if(itemStack == null) continue;
+                                if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.getItemDamage() == 0) {
+                                    clickQueue.add(invSlots.get(nextSlot));
+                                    startSlot = nextSlot;
+                                    mazeVisited[nextSlot] = true;
+                                    newSlotChosen = true;
+                                    break;
+                                }
+                            }
+                            // Prevents infinite loop if there is no adjacent white pane
+                            if(!newSlotChosen) {
+                                System.out.println("Maze calculation aborted");
+                                return true;
+                            }
                         }
                     }
-                    // Prevents infinite loop if there is no adjacent white pane
-                    if(!newSlotChosen) {
-                        System.out.println("Maze calculation aborted");
-                        return true;
-                    }
                 }
-                break;
+                return true;
 
             case NUMBERS:
+                int min = 0;
+                Slot[] temp = new Slot[14];
                 while(clickQueue.size() < 14) clickQueue.add(null);
                 for(int i = 10; i <= 25; i++) {
                     if(i == 17 || i == 18) continue;
                     ItemStack itemStack = invSlots.get(i).getStack();
                     if(itemStack == null) continue;
-                    if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.getItemDamage() == 14 && itemStack.stackSize < 15) {
-                        clickQueue.set(itemStack.stackSize - 1, invSlots.get(i));
+                    if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.stackSize < 15) {
+                        if (itemStack.getItemDamage() == 14) {
+                            temp[itemStack.stackSize - 1] = invSlots[i];
+                        } else if (itemStack.getItemDamage() == 5) {
+                            if (min < itemStack.stackSize) {
+                                min = itemStack.stackSize;
+                            }
+                        }
                     }
                 }
-                if(clickQueue.removeIf(Objects::isNull)) return true;
+                clickQueue.addAll(Arrays.stream(temp).filter(Objects::notNull).collect(Collectors.toList()))
+                if (clickQueue.size() != 14 - min) return true
                 break;
 
             case CORRECT_ALL:
@@ -197,8 +211,8 @@ public class AutoTerminals {
                 break;
 
             case LETTER:
-                letterNeeded = chestName.charAt(chestName.indexOf("'") + 1);
-                if(letterNeeded != 0) {
+                if (chestName.length() > chestName.indexOf("'") + 1 && chestName.indexOf("'") + 1 != -1) {
+                    letterNeeded = chestName.charAt(chestName.indexOf("'") + 1);
                     for(Slot slot : invSlots) {
                         if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
                         if(slot.slotNumber < 9 || slot.slotNumber > 44 || slot.slotNumber % 9 == 0 || slot.slotNumber % 9 == 8)
@@ -215,6 +229,7 @@ public class AutoTerminals {
 
             case COLOR:
                 // Get color from chest name
+                String colorNeeded = null;
                 for(EnumDyeColor color : EnumDyeColor.values()) {
                     String colorName = color.getName().replaceAll("_", " ").toUpperCase();
                     if(chestName.contains(colorName)) {
