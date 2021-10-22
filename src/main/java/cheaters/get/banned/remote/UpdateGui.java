@@ -23,7 +23,7 @@ public class UpdateGui extends GuiScreen {
     @Override
     public void actionPerformed(GuiButton button) {
         if(button.id == 0) {
-            Utils.openUrl("https://cheatersgetbanned.me/latest/");
+            Utils.openUrl("https://cheatersgetbanned.me/latest");
         }
         Shady.guiToOpen = new GuiMainMenu();
     }
