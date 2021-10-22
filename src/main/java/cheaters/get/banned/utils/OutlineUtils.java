@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Modified from LiquidBounce under GPL-3.0
- * https://github.com/Moulberry/NotEnoughUpdates/blob/master/LICENSE
+ * https://github.com/CCBlueX/LiquidBounce/blob/legacy/LICENSE
  */
 public class OutlineUtils {
 
