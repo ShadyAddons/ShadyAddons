@@ -28,8 +28,6 @@ public class AutoTerminals {
     private static final ArrayList<Slot> clickQueue = new ArrayList<>(28);
     private static final int[] mazeDirection = {-9, -1, 1, 9};
     private static TerminalType currentTerminal = TerminalType.NONE;
-    private static char letterNeeded;
-    private static String colorNeeded;
     private static long lastClickTime;
     private static int windowId;
     private static int windowClicks;
@@ -212,7 +210,7 @@ public class AutoTerminals {
 
             case LETTER:
                 if (chestName.length() > chestName.indexOf("'") + 1) {
-                    letterNeeded = chestName.charAt(chestName.indexOf("'") + 1);
+                    char letterNeeded = chestName.charAt(chestName.indexOf("'") + 1);
                     for(Slot slot : invSlots) {
                         if(slot.inventory == Shady.mc.thePlayer.inventory) continue;
                         if(slot.slotNumber < 9 || slot.slotNumber > 44 || slot.slotNumber % 9 == 0 || slot.slotNumber % 9 == 8)
