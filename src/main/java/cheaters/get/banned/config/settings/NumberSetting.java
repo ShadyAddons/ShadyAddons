@@ -24,7 +24,7 @@ public class NumberSetting extends Setting implements Comparable<Integer> {
 
     @Override
     public boolean set(Object value) {
-        return super.set(MathHelper.clamp_int((int)value, 0, max));
+        return super.set(MathHelper.clamp_int((int)value, min, max));
     }
 
     @Override
