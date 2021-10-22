@@ -17,7 +17,7 @@ import org.lwjgl.input.Keyboard;
 public class AutoClicker {
 
     public AutoClicker() {
-        KeybindUtils.register("Autoclicker", Keyboard.KEY_Y);
+        KeybindUtils.register("Auto Clicker", Keyboard.KEY_Y);
     }
 
     private static boolean toggled = false;
@@ -30,6 +30,7 @@ public class AutoClicker {
                 burstActive = true;
                 new Thread(() -> {
                     for(int i = 0; i < 25; i++) {
+                        if(!burstActive) break;
                         KeybindUtils.rightClick();
                         ThreadUtils.sleep(1000/Config.autoClickerCps);
                     }
@@ -51,7 +52,10 @@ public class AutoClicker {
 
     @SubscribeEvent
     public void onOpenGui(GuiOpenEvent event) {
-        if(Config.stopAutoClickerInGui) toggled = false;
+        if(Config.stopAutoClickerInGui) {
+            toggled = false;
+            burstActive = false;
+        }
     }
 
     @SubscribeEvent
@@ -66,6 +70,7 @@ public class AutoClicker {
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) {
         toggled = false;
+        burstActive = false;
     }
 
 }

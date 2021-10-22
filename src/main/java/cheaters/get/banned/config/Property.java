@@ -24,7 +24,7 @@ public @interface Property {
     String[] options() default {};
 
     enum Type {
-        BOOLEAN, FOLDER, NUMBER, SELECT
+        BOOLEAN, FOLDER, NUMBER, SELECT, CHECKBOX
     }
 
 }

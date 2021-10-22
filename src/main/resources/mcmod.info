@@ -2,8 +2,9 @@
     {
         "modid": "autogg",
         "name": "ShadyAddons",
-        "url": "https://cheatersgetbanned.me/hashes.txt",
+        "url": "https://cheatersgetbanned.me/",
         "description": "Cheaters get banned",
-        "authorList": ["5553b4dc3b2966df7d85c01ef4270a02"]
+        "version": "@VERSION@",
+        "logoFile": "assets/shadyaddons/logo.png"
     }
 ]

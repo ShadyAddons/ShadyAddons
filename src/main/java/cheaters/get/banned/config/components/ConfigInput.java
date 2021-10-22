@@ -1,5 +1,6 @@
 package cheaters.get.banned.config.components;
 
+import cheaters.get.banned.config.Property;
 import cheaters.get.banned.config.settings.BooleanSetting;
 import cheaters.get.banned.config.settings.NumberSetting;
 import cheaters.get.banned.config.settings.SelectSetting;
@@ -22,9 +23,13 @@ public abstract class ConfigInput extends GuiButton {
         this.setting = setting;
     }
 
-    public static ConfigInput createButtonForSetting(Setting setting, int x, int y) {
+    public static ConfigInput buttonFromSetting(Setting setting, int x, int y) {
         if(setting instanceof BooleanSetting) {
-            return new SwitchInput((BooleanSetting) setting, x, y);
+            if(((BooleanSetting) setting).type == Property.Type.BOOLEAN) {
+                return new SwitchInput((BooleanSetting) setting, x, y);
+            } else if(((BooleanSetting) setting).type == Property.Type.CHECKBOX) {
+                return new CheckboxInput((BooleanSetting) setting, x, y);
+            }
         } else if(setting instanceof NumberSetting) {
             return new NumberInput((NumberSetting) setting, x, y);
         } else if(setting instanceof SelectSetting) {

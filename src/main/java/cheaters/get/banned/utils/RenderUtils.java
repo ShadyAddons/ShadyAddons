@@ -31,7 +31,7 @@ public class RenderUtils {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-        GlStateManager.color(c.getRed()/255f, c.getGreen()/255f, c.getBlue()/255f, c.getAlpha()/255f*alphaMultiplier);
+        GlStateManager.color(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f * alphaMultiplier);
 
         //vertical
         worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
@@ -48,7 +48,7 @@ public class RenderUtils {
         tessellator.draw();
 
 
-        GlStateManager.color(c.getRed()/255f*0.8f, c.getGreen()/255f*0.8f, c.getBlue()/255f*0.8f, c.getAlpha()/255f*alphaMultiplier);
+        GlStateManager.color(c.getRed() / 255f * 0.8f, c.getGreen() / 255f * 0.8f, c.getBlue() / 255f * 0.8f, c.getAlpha() / 255f * alphaMultiplier);
 
         //x
         worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
@@ -65,7 +65,7 @@ public class RenderUtils {
         tessellator.draw();
 
 
-        GlStateManager.color(c.getRed()/255f*0.9f, c.getGreen()/255f*0.9f, c.getBlue()/255f*0.9f, c.getAlpha()/255f*alphaMultiplier);
+        GlStateManager.color(c.getRed() / 255f * 0.9f, c.getGreen() / 255f * 0.9f, c.getBlue() / 255f * 0.9f, c.getAlpha() / 255f * alphaMultiplier);
         //z
         worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
         worldrenderer.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
@@ -107,7 +107,7 @@ public class RenderUtils {
     }
 
     /**
-     * Taken from Danker's Skyblock Mod under GPL 3.0 license
+     * Taken from Danker's Skyblock Mod under GPL-3.0
      * https://github.com/bowser0000/SkyblockMod/blob/master/LICENSE
      */
     public static void draw3DLine(Vec3 pos1, Vec3 pos2, Color color, int lineWidth, boolean depth, float partialTicks) {
@@ -125,7 +125,7 @@ public class RenderUtils {
         GlStateManager.disableAlpha();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GL11.glLineWidth(lineWidth);
-        if (!depth) {
+        if(!depth) {
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             GlStateManager.depthMask(false);
         }
@@ -137,7 +137,7 @@ public class RenderUtils {
         Tessellator.getInstance().draw();
 
         GlStateManager.translate(realX, realY, realZ);
-        if (!depth) {
+        if(!depth) {
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             GlStateManager.depthMask(true);
         }
@@ -166,12 +166,12 @@ public class RenderUtils {
         double y = Y - viewerY - viewer.getEyeHeight();
         double z = Z - viewerZ;
 
-        double distSq = x*x + y*y + z*z;
+        double distSq = x * x + y * y + z * z;
         double dist = Math.sqrt(distSq);
         if(distSq > 144) {
-            x *= 12/dist;
-            y *= 12/dist;
-            z *= 12/dist;
+            x *= 12 / dist;
+            y *= 12 / dist;
+            z *= 12 / dist;
         }
         GlStateManager.translate(x, y, z);
         GlStateManager.translate(0, viewer.getEyeHeight(), 0);
@@ -184,7 +184,7 @@ public class RenderUtils {
         GlStateManager.rotate(-Minecraft.getMinecraft().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
         GlStateManager.rotate(Minecraft.getMinecraft().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
 
-        drawNametag(EnumChatFormatting.YELLOW.toString()+Math.round(dist)+" blocks");
+        drawNametag(EnumChatFormatting.YELLOW.toString() + Math.round(dist) + " blocks");
 
         GlStateManager.popMatrix();
 
@@ -244,9 +244,9 @@ public class RenderUtils {
     public static void drawRotatedTexture(ResourceLocation resourceLocation, int x, int y, int width, int height, int textureWidth, int textureHeight, int textureX, int textureY, int angle) {
         GlStateManager.pushMatrix();
 
-        GlStateManager.translate(x+width/2f, y+height/2f, 0);
+        GlStateManager.translate(x + width / 2f, y + height / 2f, 0);
         GlStateManager.rotate(angle, 0, 0, 1);
-        GlStateManager.translate(-x-width/2f, -y-height/2f, 0);
+        GlStateManager.translate(-x - width / 2f, -y - height / 2f, 0);
 
         drawTexture(resourceLocation, x, y, width, height, textureWidth, textureHeight, textureX, textureY);
 

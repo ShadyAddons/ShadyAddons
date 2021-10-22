@@ -29,7 +29,8 @@ public class ConfigLogic {
             if(annotation != null) {
                 switch(annotation.type()) {
                     case BOOLEAN:
-                        settings.add(new BooleanSetting(annotation, field));
+                    case CHECKBOX:
+                        settings.add(new BooleanSetting(annotation, field, annotation.type()));
                         break;
 
                     case NUMBER:

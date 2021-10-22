@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Modified from Danker's Skyblock Mod under GPL 3.0 license
+ * Modified from Danker's Skyblock Mod under GPL-3.0
  * https://github.com/bowser0000/SkyblockMod/blob/master/LICENSE
  */
 public class ScoreboardUtils {

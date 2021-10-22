@@ -4,6 +4,7 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.BlockChangeEvent;
 import cheaters.get.banned.events.TickEndEvent;
+import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.RenderUtils;
 import cheaters.get.banned.utils.Utils;
 import com.mojang.authlib.properties.Property;
@@ -38,6 +39,7 @@ public class StonklessStonk {
     private static boolean isEnabled() {
         boolean isEnabled = Utils.inDungeon && Shady.mc.thePlayer != null;
         if(!Config.alwaysOn && isEnabled) isEnabled = Config.stonklessStonk && Shady.mc.thePlayer.isSneaking();
+        if(Config.disableInBoss && isEnabled) isEnabled = DungeonUtils.dungeonRun != null && !DungeonUtils.dungeonRun.inBoss;
         return isEnabled;
     }
 

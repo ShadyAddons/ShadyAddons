@@ -77,7 +77,7 @@ public class ConfigGui extends GuiScreen {
             if(setting.credit != null) {
                 int settingNameWidth = Shady.mc.fontRendererObj.getStringWidth(setting.name+" ");
                 GlStateManager.translate(0, 1.8, 0);
-                FontUtils.drawScaledString("§7"+setting.credit, 0.8f, x+settingNameWidth, y+1);
+                FontUtils.drawScaledString("§7"+setting.credit, 0.8f, x+settingNameWidth, y+1, false);
                 GlStateManager.translate(0, -1.8, 0);
             }
         }
@@ -100,7 +100,7 @@ public class ConfigGui extends GuiScreen {
             int x = getOffset() + columnWidth;
             int y = (columnWidth / 3) + (i * 15) - scrollOffset;
 
-            buttonList.add(ConfigInput.createButtonForSetting(setting, x, y));
+            buttonList.add(ConfigInput.buttonFromSetting(setting, x, y));
         }
 
         int viewport = height - 100 - 10;

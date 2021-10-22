@@ -58,7 +58,7 @@ public class Utils {
     }
 
     public static String getLogo() {
-        final ArrayList<String> logos = new ArrayList<String>(Arrays.asList("logo-fsr", "logo-badlion", "logo-impact", "logo-sbe", "logo-skytils", "logo-pride", "logo-lunar"));
+        final ArrayList<String> logos = new ArrayList<>(Arrays.asList("logo-fsr", "logo-sbe", "logo-pride"));
 
         int month = Calendar.getInstance().get(Calendar.MONTH);
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);

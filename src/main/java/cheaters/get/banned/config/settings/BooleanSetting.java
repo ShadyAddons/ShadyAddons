@@ -6,8 +6,11 @@ import java.lang.reflect.Field;
 
 public class BooleanSetting extends ParentSetting {
 
-    public BooleanSetting(Property annotation, Field field) {
+    public Property.Type type = Property.Type.BOOLEAN;
+
+    public BooleanSetting(Property annotation, Field field, Property.Type type) {
         super(annotation, field);
+        this.type = type;
     }
 
     @Override

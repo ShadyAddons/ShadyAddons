@@ -5,7 +5,9 @@
     "minVersion": "0.7",
     "mixins": [
         "MixinChunk",
+        "MixinGuiMainMenu",
         "MixinMinecraft",
+        "MixinRendererLivingEntity",
         "MixinSlashProgress"
     ]
 }

@@ -7,7 +7,7 @@ public class MayorAPI {
 
     private static Mayor mayor = null;
 
-    static class Mayor {
+    public static class Mayor {
         public String name;
         public boolean ezpz;
 

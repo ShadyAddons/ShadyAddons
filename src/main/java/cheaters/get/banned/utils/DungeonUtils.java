@@ -200,7 +200,7 @@ public class DungeonUtils {
     }
 
     public static boolean inFloor(Floor floor) {
-        return dungeonRun.floor != null && dungeonRun.floor.equals(floor);
+        return floor.equals(dungeonRun.floor);
     }
 
     public static boolean onFloorWithMimic() {

@@ -7,13 +7,17 @@ import cheaters.get.banned.utils.Utils;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
-public class ItemKeybind {
+public class ItemMacro {
 
-    public ItemKeybind() {
+    private static boolean sentMissingSoulWhipMessage = false;
+
+    public ItemMacro() {
         KeybindUtils.register("Use Ice Spray", Keyboard.KEY_NONE);
         KeybindUtils.register("Use Power Orb", Keyboard.KEY_NONE);
         KeybindUtils.register("Use Weird Tuba", Keyboard.KEY_NONE);
@@ -22,6 +26,21 @@ public class ItemKeybind {
         KeybindUtils.register("Use Healing Wand", Keyboard.KEY_NONE);
         KeybindUtils.register("Use Rogue Sword", Keyboard.KEY_NONE);
         KeybindUtils.register("Use Fishing Rod", Keyboard.KEY_NONE);
+    }
+
+    @SubscribeEvent
+    public void onAttack(PlayerInteractEvent event) {
+        if(Config.soulWhipWithSword && event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK) {
+            if(!useSkyBlockItem("SOUL_WHIP", true) && !sentMissingSoulWhipMessage) {
+                sendMissingItemMessage("Soul Whip");
+                sentMissingSoulWhipMessage = true;
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onWorldLoad(WorldEvent.Load event) {
+        sentMissingSoulWhipMessage = false;
     }
 
     @SubscribeEvent
@@ -113,7 +132,7 @@ public class ItemKeybind {
     public static boolean useVanillaItem(Item item) {
         for(int i = 0; i < 9; i++) {
             ItemStack itemStack = Shady.mc.thePlayer.inventory.getStackInSlot(i);
-            if(itemStack.getItem() == item) {
+            if(itemStack != null && itemStack.getItem() == item) {
                 int previousItem = Shady.mc.thePlayer.inventory.currentItem;
                 Shady.mc.thePlayer.inventory.currentItem = i;
                 Shady.mc.playerController.sendUseItem(Shady.mc.thePlayer, Shady.mc.theWorld, itemStack);

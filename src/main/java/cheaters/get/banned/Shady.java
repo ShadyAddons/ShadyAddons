@@ -42,10 +42,11 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Mod(modid = "autogg", name = Shady.MODNAME, version = "4.1.0", clientSideOnly = true)
+@Mod(modid = Shady.MODID, name = Shady.MODNAME, version = "4.1.0", clientSideOnly = true)
 public class Shady {
 
     public static final String MODNAME = "ShadyAddons";
+    public static final String MODID = "autogg";
     public static final String VERSION = "@VERSION@";
     public static final boolean BETA = VERSION.contains("-pre") || VERSION.equals("@VER"+"SION@");
 
@@ -68,6 +69,7 @@ public class Shady {
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         ConfigLogic.load();
         RoomLoader.load();
+        // VerifyMod.verify();
         Updater.check();
         MayorAPI.fetch();
         Analytics.collect("version", VERSION);
@@ -97,7 +99,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new ShowHiddenEntities());
         MinecraftForge.EVENT_BUS.register(new HideSummons());
         MinecraftForge.EVENT_BUS.register(new TeleportWithAnything());
-        MinecraftForge.EVENT_BUS.register(new ItemKeybind());
+        MinecraftForge.EVENT_BUS.register(new ItemMacro());
         MinecraftForge.EVENT_BUS.register(new MobESP());
         MinecraftForge.EVENT_BUS.register(new GemstoneESP());
         MinecraftForge.EVENT_BUS.register(new AutoTerminals());
@@ -106,6 +108,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new CatGirls());
         MinecraftForge.EVENT_BUS.register(new FakeBan());
         MinecraftForge.EVENT_BUS.register(new AutoReadyUp());
+        MinecraftForge.EVENT_BUS.register(new CrystalReach());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);

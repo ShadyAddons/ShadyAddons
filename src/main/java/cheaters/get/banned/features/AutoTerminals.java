@@ -146,8 +146,8 @@ public class AutoTerminals {
                 // Plan route for maze from start to end
                 for (int slot = 0; slot < 54; slot++) {
                     if (isStartSlot[slot]) {
-                        mazeVisited = new boolean[54];
-                        int startSlot = slot
+                        boolean[] mazeVisited = new boolean[54];
+                        int startSlot = slot;
                         while(startSlot != endSlot) {
                             boolean newSlotChosen = false;
                             for(int i : mazeDirection) {
@@ -185,7 +185,7 @@ public class AutoTerminals {
                     if(itemStack == null) continue;
                     if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.stackSize < 15) {
                         if (itemStack.getItemDamage() == 14) {
-                            temp[itemStack.stackSize - 1] = invSlots[i];
+                            temp[itemStack.stackSize - 1] = invSlots.get(i);
                         } else if (itemStack.getItemDamage() == 5) {
                             if (min < itemStack.stackSize) {
                                 min = itemStack.stackSize;
@@ -193,8 +193,8 @@ public class AutoTerminals {
                         }
                     }
                 }
-                clickQueue.addAll(Arrays.stream(temp).filter(Objects::notNull).collect(Collectors.toList()))
-                if (clickQueue.size() != 14 - min) return true
+                clickQueue.addAll(Arrays.stream(temp).filter(Objects::nonNull).collect(Collectors.toList()));
+                if (clickQueue.size() != 14 - min) return true;
                 break;
 
             case CORRECT_ALL:
@@ -211,7 +211,7 @@ public class AutoTerminals {
                 break;
 
             case LETTER:
-                if (chestName.length() > chestName.indexOf("'") + 1 && chestName.indexOf("'") + 1 != -1) {
+                if (chestName.length() > chestName.indexOf("'") + 1) {
                     letterNeeded = chestName.charAt(chestName.indexOf("'") + 1);
                     for(Slot slot : invSlots) {
                         if(slot.inventory == Shady.mc.thePlayer.inventory) continue;

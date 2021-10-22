@@ -15,6 +15,13 @@ public class Config {
         )
         public static boolean alwaysOn = false;
 
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Disable in Boss",
+                parent = "Stonkless Stonk"
+        )
+        public static boolean disableInBoss = false;
+
 
     @Property(
             type = Property.Type.BOOLEAN,
@@ -109,6 +116,14 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "Crystal Reach",
+            blatant = true
+    )
+    public static boolean crystalReach = false;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "Auto Renew Crystal Hollows Pass"
     )
     public static boolean renewCrystalHollowsPass = false;
@@ -150,66 +165,75 @@ public class Config {
 
         @Property(
                 type = Property.Type.BOOLEAN,
-                name = "Item Hotkeys",
-                parent = "Keybinds"
+                name = "Item Macros",
+                parent = "Keybinds",
+                blatant = true
         )
         public static boolean itemHotkeys = false;
 
             @Property(
-                    type = Property.Type.BOOLEAN,
+                    type = Property.Type.CHECKBOX,
                     name = "Ice Spray",
-                    parent = "Item Hotkeys"
+                    parent = "Item Macros"
             )
             public static boolean iceSprayHotkey = false;
 
             @Property(
-                    type = Property.Type.BOOLEAN,
+                    type = Property.Type.CHECKBOX,
                     name = "Rogue Sword",
-                    parent = "Item Hotkeys"
+                    parent = "Item Macros"
             )
             public static boolean rogueSwordHotkey = false;
 
             @Property(
-                    type = Property.Type.BOOLEAN,
+                    type = Property.Type.CHECKBOX,
                     name = "Power Orb",
-                    parent = "Item Hotkeys"
+                    parent = "Item Macros"
             )
             public static boolean powerOrbHotkey = false;
 
             @Property(
-                    type = Property.Type.BOOLEAN,
+                    type = Property.Type.CHECKBOX,
                     name = "Weird Tuba",
-                    parent = "Item Hotkeys"
+                    parent = "Item Macros"
             )
             public static boolean weirdTubaHotkey = false;
 
             @Property(
-                    type = Property.Type.BOOLEAN,
+                    type = Property.Type.CHECKBOX,
                     name = "Gyrokinetic Wand",
-                    parent = "Item Hotkeys"
+                    parent = "Item Macros"
             )
             public static boolean gyrokineticWandHotkey = false;
 
             @Property(
-                    type = Property.Type.BOOLEAN,
+                    type = Property.Type.CHECKBOX,
                     name = "Pigman Sword",
-                    parent = "Item Hotkeys"
+                    parent = "Item Macros"
             )
             public static boolean pigmanSwordHotkey = false;
 
             @Property(
-                    type = Property.Type.BOOLEAN,
+                    type = Property.Type.CHECKBOX,
                     name = "Healing Wand",
-                    parent = "Item Hotkeys"
+                    parent = "Item Macros"
             )
             public static boolean healingWandHotkey = false;
 
             @Property(
-                    type = Property.Type.BOOLEAN,
+                    type = Property.Type.CHECKBOX,
                     name = "Fishing Rod",
-                    parent = "Item Hotkeys"
+                    parent = "Item Macros"
             )
             public static boolean fishingRodHotkey = false;
+
+            @Property(
+                    type = Property.Type.CHECKBOX,
+                    name = "Soul Whip w/ Sword",
+                    credit = "Whip whip nae nae",
+                    parent = "Item Macros"
+            )
+            public static boolean soulWhipWithSword = false;
 
 
     @Property(
@@ -444,11 +468,57 @@ public class Config {
         public static boolean showStealthyBloodMobs = false;
 
 
-    /*@Property(
+    @Property(
             type = Property.Type.BOOLEAN,
-            name = "Highlight Starred Mobs & Minibosses"
-    )*/
-    public static boolean highlightStarredMobs = false;
+            name = "Entity ESP",
+            credit = "Customizable colors coming soon!"
+    )
+    public static boolean entityESP = false;
+
+        @Property(
+                type = Property.Type.NUMBER,
+                name = "Outline Thickness",
+                parent = "Entity ESP",
+                min = 3,
+                max = 10,
+                suffix = "px"
+        )
+        public static int espThickness = 5;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Sludges",
+                parent = "Entity ESP"
+        )
+        public static boolean sludgeEsp = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Yogs",
+                parent = "Entity ESP"
+        )
+        public static boolean yogEsp = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Starred Mobs",
+                parent = "Entity ESP"
+        )
+        public static boolean starredMobEsp = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Secret Bats",
+                parent = "Entity ESP"
+        )
+        public static boolean secretBatEsp = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Minibosses",
+                parent = "Entity ESP"
+        )
+        public static boolean minibossEsp = false;
 
 
     @Property(
