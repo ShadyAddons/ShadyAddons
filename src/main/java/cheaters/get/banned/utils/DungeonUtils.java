@@ -17,10 +17,10 @@ import java.util.regex.Pattern;
 
 public class DungeonUtils {
 
-    private static final Pattern namePattern = Pattern.compile("([A-Za-z0-9_]{0,16}) \\((Mage|Tank|Berserker|Healer|Archer) ([IVXL0]{1,7})\\)");
+    private static final Pattern namePattern = Pattern.compile("([A-Za-z0-9_]{0,16}) \\((Mage|Tank|Berserk|Healer|Archer) ([IVXL0]{1,7})\\)");
     private static final Pattern secretsPattern = Pattern.compile(" Secrets Found: (\\d*)");
     private static final Pattern cryptsPattern = Pattern.compile(" Crypts: (\\d*)");
-    private static final Pattern deathsPattern = Pattern.compile(" Deaths: \\((\\d*)\\)");
+    private static final Pattern deathsPattern = Pattern.compile("Deaths: \\((\\d*)\\)");
 
     private static final String[] mimicDeathMessages = new String[]{
             "Mimic Dead!",
