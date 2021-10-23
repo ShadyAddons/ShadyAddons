@@ -42,7 +42,7 @@ public class CrystalReach {
 
     @SubscribeEvent
     public void onInteract(PlayerInteractEvent event) {
-        if(isEnabled() && crystal != null && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+        if(isEnabled() && crystal != null && (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
             Entity armorStand = Shady.mc.theWorld.getEntitiesInAABBexcluding(crystal, crystal.getEntityBoundingBox(), entity -> entity instanceof EntityArmorStand && entity.getCustomNameTag().contains("CLICK HERE")).get(0);
             Shady.mc.playerController.interactWithEntitySendPacket(Shady.mc.thePlayer, armorStand);
             event.setCanceled(true);
