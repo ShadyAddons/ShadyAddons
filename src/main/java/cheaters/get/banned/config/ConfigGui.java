@@ -132,8 +132,10 @@ public class ConfigGui extends GuiScreen {
         int viewport = height - 100 - 10;
         int contentHeight = settings.size() * 15;
 
-        scrollOffset = MathHelper.clamp_int(scrollOffset+scrollAmount, 0, contentHeight-viewport);
-        initGui();
+        if(contentHeight > viewport) {
+            scrollOffset = MathHelper.clamp_int(scrollOffset+scrollAmount, 0, contentHeight-viewport);
+            initGui();
+        }
     }
 
     private void mouseMoved(int mouseY) {
