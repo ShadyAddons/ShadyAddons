@@ -1,4 +1,4 @@
-package cheaters.get.banned.verify;
+package cheaters.get.banned.config.components;
 
 import cheaters.get.banned.utils.FontUtils;
 import net.minecraft.client.Minecraft;

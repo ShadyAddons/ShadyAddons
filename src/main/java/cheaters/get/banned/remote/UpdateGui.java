@@ -2,7 +2,7 @@ package cheaters.get.banned.remote;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.utils.RenderUtils;
-import cheaters.get.banned.verify.ClearButton;
+import cheaters.get.banned.config.components.ClearButton;
 import cheaters.get.banned.utils.FontUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.gui.GuiButton;

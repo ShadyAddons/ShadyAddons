@@ -4,9 +4,11 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.RenderEntityModelEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.EXTPackedDepthStencil;
 import org.lwjgl.opengl.GL11;
@@ -21,7 +23,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class OutlineUtils {
 
-    public static void outlineEntity(RenderEntityModelEvent event, Color color) {
+    public static void outlineEntity(ModelBase model, Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch, float scaleFactor, Color color) {
         boolean fancyGraphics = Shady.mc.gameSettings.fancyGraphics;
         float gamma = Shady.mc.gameSettings.gammaSetting;
         Shady.mc.gameSettings.fancyGraphics = false;
@@ -31,50 +33,50 @@ public class OutlineUtils {
         setColor(color);
 
         renderOne(Config.espThickness);
-        event.model.render(
-                event.entity,
-                event.limbSwing,
-                event.limbSwingAmount,
-                event.ageInTicks,
-                event.headYaw,
-                event.headPitch,
-                event.scaleFactor
+        model.render(
+                entity,
+                limbSwing,
+                limbSwingAmount,
+                ageInTicks,
+                headYaw,
+                headPitch,
+                scaleFactor
         );
 
         setColor(color);
         renderTwo();
-        event.model.render(
-                event.entity,
-                event.limbSwing,
-                event.limbSwingAmount,
-                event.ageInTicks,
-                event.headYaw,
-                event.headPitch,
-                event.scaleFactor
+        model.render(
+                entity,
+                limbSwing,
+                limbSwingAmount,
+                ageInTicks,
+                headYaw,
+                headPitch,
+                scaleFactor
         );
 
         setColor(color);
         renderThree();
-        event.model.render(
-                event.entity,
-                event.limbSwing,
-                event.limbSwingAmount,
-                event.ageInTicks,
-                event.headYaw,
-                event.headPitch,
-                event.scaleFactor
+        model.render(
+                entity,
+                limbSwing,
+                limbSwingAmount,
+                ageInTicks,
+                headYaw,
+                headPitch,
+                scaleFactor
         );
 
         setColor(color);
         renderFour(color);
-        event.model.render(
-                event.entity,
-                event.limbSwing,
-                event.limbSwingAmount,
-                event.ageInTicks,
-                event.headYaw,
-                event.headPitch,
-                event.scaleFactor
+        model.render(
+                entity,
+                limbSwing,
+                limbSwingAmount,
+                ageInTicks,
+                headYaw,
+                headPitch,
+                scaleFactor
         );
 
         setColor(color);
@@ -83,6 +85,10 @@ public class OutlineUtils {
         setColor(Color.WHITE);
         Shady.mc.gameSettings.fancyGraphics = fancyGraphics;
         Shady.mc.gameSettings.gammaSetting = gamma;
+    }
+
+    public static void outlineEntity(RenderEntityModelEvent event, Color color) {
+        outlineEntity(event.model, event.entity, event.limbSwing, event.limbSwingAmount, event.ageInTicks, event.headYaw, event.headPitch, event.scaleFactor, color);
     }
 
     private static void renderOne(final float lineWidth) {

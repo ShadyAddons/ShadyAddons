@@ -4,6 +4,7 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.ResourcePackRefreshEvent;
 import cheaters.get.banned.events.TickEndEvent;
+import cheaters.get.banned.remote.Analytics;
 import cheaters.get.banned.utils.ArrayUtils;
 import cheaters.get.banned.utils.MathUtils;
 import cheaters.get.banned.utils.ReflectionUtils;
@@ -109,6 +110,7 @@ public class CatGirls {
         imagesLoaded = false;
         currentCatPeople.clear();
         load();
+        Analytics.collect("using_pack", imagesLoaded ? "1" : "0");
     }
 
     @SubscribeEvent

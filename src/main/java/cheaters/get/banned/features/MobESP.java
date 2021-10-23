@@ -24,7 +24,7 @@ public class MobESP {
 
     private static HashMap<Entity, Color> highlightedEntities = new HashMap<>();
 
-    public static void highlightEntity(Entity entity, Color color) {
+    private static void highlightEntity(Entity entity, Color color) {
         highlightedEntities.put(entity, color);
     }
 
@@ -86,7 +86,6 @@ public class MobESP {
                     Shady.mc.theWorld.removeEntity(event.entity);
                 }
             }
-
         }
 
         if(Config.entityESP && !highlightedEntities.isEmpty() && highlightedEntities.containsKey(event.entity)) {

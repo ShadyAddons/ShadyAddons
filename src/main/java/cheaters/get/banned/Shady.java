@@ -21,7 +21,6 @@ import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.LocationUtils;
 import cheaters.get.banned.utils.Utils;
-import cheaters.get.banned.verify.VerifyMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
@@ -43,7 +42,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Mod(modid = Shady.MODID, name = Shady.MODNAME, version = "4.1.0", clientSideOnly = true)
+@Mod(modid = Shady.MODID, name = Shady.MODNAME, version = "4.1.3", clientSideOnly = true)
 public class Shady {
 
     public static final String MODNAME = "ShadyAddons";
@@ -70,11 +69,9 @@ public class Shady {
         ClientCommandHandler.instance.registerCommand(new MainCommand());
         ConfigLogic.load();
         RoomLoader.load();
-        // VerifyMod.verify();
         Updater.check();
         MayorAPI.fetch();
         Analytics.collect("version", VERSION);
-        Analytics.collect("jar_hash", VerifyMod.hashMod());
     }
 
     @Mod.EventHandler
