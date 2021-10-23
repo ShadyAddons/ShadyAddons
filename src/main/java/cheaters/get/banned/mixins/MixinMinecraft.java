@@ -1,8 +1,10 @@
 package cheaters.get.banned.mixins;
 
+import cheaters.get.banned.events.ResourcePackRefreshEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -20,6 +22,16 @@ public abstract class MixinMinecraft {
     @Inject(method = "drawSplashScreen", at = @At("HEAD"))
     public void modifyMojangLogo(TextureManager textureManagerInstance, CallbackInfo callbackInfo) {
         locationMojangPng = new ResourceLocation("shadyaddons:splash.png");
+    }
+
+    @Inject(method = "refreshResources", at = @At("HEAD"), cancellable = true)
+    public void refreshResourcesPre(CallbackInfo ci) {
+        if(MinecraftForge.EVENT_BUS.post(new ResourcePackRefreshEvent.Pre())) ci.cancel();
+    }
+
+    @Inject(method = "refreshResources", at = @At("RETURN"))
+    public void refreshResourcesPost(CallbackInfo ci) {
+        MinecraftForge.EVENT_BUS.post(new ResourcePackRefreshEvent.Post());
     }
 
 }

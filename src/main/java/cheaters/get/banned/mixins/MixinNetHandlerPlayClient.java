@@ -16,9 +16,7 @@ public abstract class MixinNetHandlerPlayClient implements INetHandlerPlayClient
     // @Inject(method = {"addToSendQueue", "func_147297_a"}, at = @At("HEAD"), cancellable = true)
     @Inject(method = "addToSendQueue", at = @At("HEAD"), cancellable = true)
     private void onSendPacket(Packet<?> packet, CallbackInfo callbackInfo) {
-        try {
-            if(MinecraftForge.EVENT_BUS.post(new PacketEvent.SendEvent(packet))) callbackInfo.cancel();
-        } catch(Exception ignored) {}
+        if(MinecraftForge.EVENT_BUS.post(new PacketEvent.SendEvent(packet))) callbackInfo.cancel();
     }
 
 }

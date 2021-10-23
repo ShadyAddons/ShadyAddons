@@ -16,9 +16,7 @@ public abstract class MixinNetworkManager extends SimpleChannelInboundHandler<Pa
 
     @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
     private void onReceivePacket(ChannelHandlerContext context, Packet<?> packet, CallbackInfo callbackInfo) {
-        try {
-            if(MinecraftForge.EVENT_BUS.post(new PacketEvent.ReceiveEvent(packet))) callbackInfo.cancel();
-        } catch(Exception ignored) {}
+        if(MinecraftForge.EVENT_BUS.post(new PacketEvent.ReceiveEvent(packet))) callbackInfo.cancel();
     }
 
 }
