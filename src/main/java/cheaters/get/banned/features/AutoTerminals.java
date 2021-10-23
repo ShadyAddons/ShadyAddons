@@ -28,9 +28,9 @@ public class AutoTerminals {
     private static final ArrayList<Slot> clickQueue = new ArrayList<>(28);
     private static final int[] mazeDirection = {-9, -1, 1, 9};
     private static TerminalType currentTerminal = TerminalType.NONE;
-    private static long lastClickTime;
-    private static int windowId;
-    private static int windowClicks;
+    private static long lastClickTime = 0;
+    private static int windowId = 0;
+    private static int windowClicks = 0;
     private static boolean recalculate = false;
     public static boolean testing = false;
 
