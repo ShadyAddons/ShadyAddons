@@ -18,9 +18,9 @@ public class ClearButton extends GuiButton {
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        if(this.visible) {
+        if(visible) {
             hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition+width && mouseY < yPosition+height;
-            Color color = hovered ? new Color(75, 75, 75, 64) : new Color(0, 0, 0, 64);
+            Color color = hovered ? new Color(30, 30, 30, 64) : new Color(0, 0, 0, 64);
             drawRect(xPosition, yPosition, xPosition+width, yPosition+height, color.getRGB());
             FontUtils.drawCenteredString(displayString, xPosition+width/2, yPosition+height/2);
         }
