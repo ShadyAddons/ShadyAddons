@@ -25,7 +25,7 @@ public class AutoClicker {
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if(KeybindUtils.get("Autoclicker").isPressed()) {
+        if(KeybindUtils.get("Auto Clicker").isPressed()) {
             if(Config.autoClickerMode == 0 && !burstActive) {
                 burstActive = true;
                 new Thread(() -> {
