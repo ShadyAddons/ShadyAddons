@@ -2,12 +2,13 @@ package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.AutoTerminals;
-import cheaters.get.banned.features.jokes.CatGirls;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.Room;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
+import cheaters.get.banned.features.jokes.CatGirls;
 import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.utils.DungeonUtils;
+import cheaters.get.banned.utils.MathUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -71,7 +72,7 @@ public class MainCommand extends CommandBase {
 
                             case "catperson":
                             case "cat":
-                                CatGirls.addRandomCatPerson();
+                                CatGirls.addRandomCatPerson(MathUtils.random(0, 3));
                                 Utils.sendModMessage("rawr");
                                 break;
 

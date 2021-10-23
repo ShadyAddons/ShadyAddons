@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 
 public class BooleanSetting extends ParentSetting {
 
-    public Property.Type type = Property.Type.BOOLEAN;
+    public Property.Type type;
 
     public BooleanSetting(Property annotation, Field field, Property.Type type) {
         super(annotation, field);
@@ -18,7 +18,6 @@ public class BooleanSetting extends ParentSetting {
         try {
             for(Setting child : children) {
                 if(child instanceof BooleanSetting) child.set(false);
-                if(child instanceof SelectSetting) child.set(0);
             }
 
             return super.set(value);

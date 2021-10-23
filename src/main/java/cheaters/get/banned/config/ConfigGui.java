@@ -5,6 +5,7 @@ import cheaters.get.banned.config.components.ConfigInput;
 import cheaters.get.banned.config.components.Scrollbar;
 import cheaters.get.banned.config.settings.BooleanSetting;
 import cheaters.get.banned.config.settings.Setting;
+import cheaters.get.banned.features.jokes.CatGirls;
 import cheaters.get.banned.utils.FontUtils;
 import cheaters.get.banned.utils.RenderUtils;
 import net.minecraft.client.gui.GuiButton;
@@ -37,6 +38,7 @@ public class ConfigGui extends GuiScreen {
 
     public ConfigGui(ResourceLocation logo) {
         this.logo = logo;
+        settings = filterSettings();
     }
 
     @Override
@@ -67,7 +69,7 @@ public class ConfigGui extends GuiScreen {
                 drawRect(x, y-3, getOffset() + columnWidth, y-2, ConfigInput.transparent.getRGB());
             }
 
-            if(setting.blatant) {
+            if(setting.warning) {
                 RenderUtils.drawTexture(new ResourceLocation("shadyaddons:warning.png"), x, y, 9, 9);
                 x += 13;
             }
@@ -147,6 +149,11 @@ public class ConfigGui extends GuiScreen {
         ArrayList<Setting> newSettings = new ArrayList<>();
 
         for(Setting setting : Shady.settings) {
+            if(!CatGirls.imagesLoaded) {
+                if(setting.name.equals("Catgirls")) continue;
+                if(setting.parent != null && setting.parent.name.equals("Catgirls")) continue;
+            }
+
             if(setting.parent == null) {
                 newSettings.add(setting);
                 continue;

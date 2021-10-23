@@ -4,6 +4,7 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.BlockChangeEvent;
 import cheaters.get.banned.events.TickEndEvent;
+import cheaters.get.banned.utils.ArrayUtils;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.RenderUtils;
 import cheaters.get.banned.utils.Utils;
@@ -137,7 +138,7 @@ public class StonklessStonk {
         } else if(block instanceof BlockSkull) {
             TileEntitySkull tileEntity = (TileEntitySkull) Shady.mc.theWorld.getTileEntity(position);
             if(tileEntity.getSkullType() == 3) {
-                Property property = Utils.firstOrNull(tileEntity.getPlayerProfile().getProperties().get("textures"));
+                Property property = ArrayUtils.firstOrNull(tileEntity.getPlayerProfile().getProperties().get("textures"));
                 return property != null && property.getValue().equals(witherEssenceSkin);
             }
         }

@@ -2,7 +2,6 @@ package cheaters.get.banned.utils;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.events.TickEndEvent;
-import com.google.common.collect.Iterables;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
@@ -73,11 +72,7 @@ public class Utils {
         // 80% Chance For Normal Logo
         if(Math.random() < 0.8) return "logo";
 
-        return (String) getRandomItem(logos);
-    }
-
-    public static Object getRandomItem(List<?> list) {
-        return list.get(new Random().nextInt(list.size()));
+        return (String) ArrayUtils.getRandomItem(logos);
     }
 
     public static void openUrl(String url) {
@@ -177,10 +172,6 @@ public class Utils {
 
     public static void copyToClipboard(String text) {
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(text), null);
-    }
-
-    public static <T> T firstOrNull(Iterable<T> iterable) {
-        return Iterables.getFirst(iterable, null);
     }
 
     @SafeVarargs

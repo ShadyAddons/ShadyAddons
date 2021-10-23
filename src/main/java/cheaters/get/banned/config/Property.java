@@ -11,7 +11,7 @@ public @interface Property {
     String name();
     String parent() default "";
     String credit() default "";
-    boolean blatant() default false;
+    boolean warning() default false;
 
     // Type.NUMBER
     int step() default 1;
