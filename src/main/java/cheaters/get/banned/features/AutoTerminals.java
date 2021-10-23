@@ -176,7 +176,6 @@ public class AutoTerminals {
             case NUMBERS:
                 int min = 0;
                 Slot[] temp = new Slot[14];
-                while(clickQueue.size() < 14) clickQueue.add(null);
                 for(int i = 10; i <= 25; i++) {
                     if(i == 17 || i == 18) continue;
                     ItemStack itemStack = invSlots.get(i).getStack();
