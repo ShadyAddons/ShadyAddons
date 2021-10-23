@@ -21,6 +21,7 @@ import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.LocationUtils;
 import cheaters.get.banned.utils.Utils;
+import cheaters.get.banned.verify.VerifyMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
@@ -73,6 +74,7 @@ public class Shady {
         Updater.check();
         MayorAPI.fetch();
         Analytics.collect("version", VERSION);
+        Analytics.collect("jar_hash", VerifyMod.hashMod());
     }
 
     @Mod.EventHandler
