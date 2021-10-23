@@ -40,7 +40,7 @@ public class Config {
     @Property(
             type = Property.Type.BOOLEAN,
             name = "Auto Clicker",
-            blatant = true
+            warning = true
     )
     public static boolean autoClicker = false;
 
@@ -102,7 +102,7 @@ public class Config {
                 type = Property.Type.BOOLEAN,
                 name = "Click Through Summons",
                 parent = "Summons Features",
-                blatant = true
+                warning = true
         )
         public static boolean clickThroughSummons = false;
 
@@ -117,7 +117,7 @@ public class Config {
     @Property(
             type = Property.Type.BOOLEAN,
             name = "Crystal Reach",
-            blatant = true
+            warning = true
     )
     public static boolean crystalReach = false;
 
@@ -167,7 +167,7 @@ public class Config {
                 type = Property.Type.BOOLEAN,
                 name = "Item Macros",
                 parent = "Keybinds",
-                blatant = true
+                warning = true
         )
         public static boolean itemHotkeys = false;
 
@@ -239,7 +239,7 @@ public class Config {
     @Property(
             type = Property.Type.BOOLEAN,
             name = "Auto Ready Up",
-            blatant = true
+            warning = true
     )
     public static boolean autoReadyUp = false;
 
@@ -596,16 +596,15 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Cat Girls",
-            credit = "I was paid to add this, ok?"
+            name = "Catgirls"
     )
     public static boolean catGirls = false;
 
         @Property(
                 type = Property.Type.SELECT,
                 name = "Cat-Mode",
-                parent = "Cat Girls",
-                options = {"Girls", "Boys", "Bisexual"}
+                parent = "Catgirls",
+                options = {"Girls", "Boys", "Bisexual", "Real Cats"}
         )
         public static int catGirlsMode = 0;
 
@@ -669,5 +668,13 @@ public class Config {
                 max = 1000
         )
         public static int terminalClickDelay = 100;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Use Clean Buttons",
+            credit = "Not a cheat, just cosmetic"
+    )
+    public static boolean useCleanButtons = false;
 
 }
