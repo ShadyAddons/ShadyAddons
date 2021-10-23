@@ -18,13 +18,20 @@ public class CheckboxInput extends ConfigInput {
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+        hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+
         drawRect(xPosition, yPosition, xPosition+width, yPosition+height, white.getRGB());
-        if(setting.get(Boolean.class)) FontUtils.drawString("§0x", xPosition+2, yPosition, false);
+
+        if(setting.get(Boolean.class)) {
+            FontUtils.drawString("§0x", xPosition+2, yPosition, false);
+        } else if(hovered) {
+            FontUtils.drawString("§7x", xPosition+2, yPosition, false);
+        }
     }
 
     @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
-        if(mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height) {
+        if(hovered) {
             setting.set(!setting.get(Boolean.class));
             return true;
         }
