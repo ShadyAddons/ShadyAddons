@@ -87,7 +87,6 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new StonklessStonk());
         MinecraftForge.EVENT_BUS.register(new GhostBlocks());
         MinecraftForge.EVENT_BUS.register(new AutoCloseChest());
-        MinecraftForge.EVENT_BUS.register(new BossCorleoneFinder());
         MinecraftForge.EVENT_BUS.register(new RoyalPigeonMacro());
         MinecraftForge.EVENT_BUS.register(new AutoGG());
         MinecraftForge.EVENT_BUS.register(new AutoSimonSays());

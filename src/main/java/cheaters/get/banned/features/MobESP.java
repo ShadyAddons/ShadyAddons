@@ -1,11 +1,12 @@
 package cheaters.get.banned.features;
 
-import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
+import cheaters.get.banned.config.settings.FolderSetting;
 import cheaters.get.banned.events.RenderEntityModelEvent;
 import cheaters.get.banned.utils.LocationUtils;
 import cheaters.get.banned.utils.OutlineUtils;
 import cheaters.get.banned.utils.Utils;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntityMagmaCube;
@@ -18,11 +19,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class MobESP {
 
     private static HashMap<Entity, Color> highlightedEntities = new HashMap<>();
+    private static HashSet<Entity> checkedStarEntities = new HashSet<>();
 
     private static void highlightEntity(Entity entity, Color color) {
         highlightedEntities.put(entity, color);
@@ -30,7 +33,7 @@ public class MobESP {
 
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if(Config.entityESP) {
+        if(FolderSetting.isEnabled("Mob ESP")) {
             if(Utils.inDungeon) {
                 if(Config.minibossEsp && event.entity instanceof EntityPlayer) {
                     String name = event.entity.getName();
@@ -50,10 +53,7 @@ public class MobESP {
                 }
 
                 if(Config.secretBatEsp && event.entity instanceof EntityBat) {
-                    float health = ((EntityBat) event.entity).getMaxHealth();
-                    if(health == 100 || health == 200 || health == 400 || health == 800) {
-                        highlightEntity(event.entity, Color.RED);
-                    }
+                    highlightEntity(event.entity, Color.RED);
                 }
             }
 
@@ -69,26 +69,34 @@ public class MobESP {
                         highlightEntity(event.entity, Color.RED);
                     }
                 }
+
+                if(Config.corleoneEsp) {
+                    if(event.entity instanceof EntityOtherPlayerMP && event.entity.getName().equals("Team Treasurite")) {
+                        float health = ((EntityOtherPlayerMP) event.entity).getMaxHealth();
+                        if(health == 1_000_000 || health == 2_000_000) {
+                            highlightEntity(event.entity, Color.PINK);
+                        }
+                    }
+                }
             }
         }
     }
 
     @SubscribeEvent
     public void onRenderEntityModel(RenderEntityModelEvent event) {
-        if(Utils.inDungeon && Config.starredMobEsp) {
+        if(Utils.inDungeon && !checkedStarEntities.contains(event.entity) && Config.starredMobEsp) {
             if(event.entity instanceof EntityArmorStand) {
                 if(event.entity.hasCustomName() && event.entity.getCustomNameTag().contains("✯")) {
-                    // highlightEntity(event.entity, Color.MAGENTA);
                     List<Entity> possibleEntities = event.entity.getEntityWorld().getEntitiesInAABBexcluding(event.entity, event.entity.getEntityBoundingBox().expand(0, 3, 0), entity -> !(entity instanceof EntityArmorStand));
                     if(!possibleEntities.isEmpty()) {
                         highlightEntity(possibleEntities.get(0), Color.ORANGE);
                     }
-                    Shady.mc.theWorld.removeEntity(event.entity);
+                    checkedStarEntities.add(event.entity);
                 }
             }
         }
 
-        if(Config.entityESP && !highlightedEntities.isEmpty() && highlightedEntities.containsKey(event.entity)) {
+        if(FolderSetting.isEnabled("Mob ESP") && !highlightedEntities.isEmpty() && highlightedEntities.containsKey(event.entity)) {
             OutlineUtils.outlineEntity(event, highlightedEntities.get(event.entity));
         }
     }
@@ -96,6 +104,7 @@ public class MobESP {
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) {
         highlightedEntities.clear();
+        checkedStarEntities.clear();
     }
 
 }
