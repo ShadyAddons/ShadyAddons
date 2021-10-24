@@ -2,12 +2,12 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
+import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -29,8 +29,8 @@ public class ItemMacro {
     }
 
     @SubscribeEvent
-    public void onAttack(PlayerInteractEvent event) {
-        if(Config.soulWhipWithSword && event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK) {
+    public void onLeftCLick(ClickEvent.Left event) {
+        if(Config.soulWhipWithAnything) {
             if(!useSkyBlockItem("SOUL_WHIP", true) && !sentMissingSoulWhipMessage) {
                 sendMissingItemMessage("Soul Whip");
                 sentMissingSoulWhipMessage = true;

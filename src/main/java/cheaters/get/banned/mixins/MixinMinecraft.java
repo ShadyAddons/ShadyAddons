@@ -1,5 +1,6 @@
 package cheaters.get.banned.mixins;
 
+import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.events.ResourcePackRefreshEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -20,7 +21,7 @@ public abstract class MixinMinecraft {
     private static ResourceLocation locationMojangPng;
 
     @Inject(method = "drawSplashScreen", at = @At("HEAD"))
-    public void modifyMojangLogo(TextureManager textureManagerInstance, CallbackInfo callbackInfo) {
+    public void modifyMojangLogo(TextureManager textureManagerInstance, CallbackInfo ci) {
         locationMojangPng = new ResourceLocation("shadyaddons:splash.png");
     }
 
@@ -32,6 +33,21 @@ public abstract class MixinMinecraft {
     @Inject(method = "refreshResources", at = @At("RETURN"))
     public void refreshResourcesPost(CallbackInfo ci) {
         MinecraftForge.EVENT_BUS.post(new ResourcePackRefreshEvent.Post());
+    }
+
+    @Inject(method = "rightClickMouse", at = @At("HEAD"), cancellable = true)
+    public void rightClickEvent(CallbackInfo ci) {
+        if(MinecraftForge.EVENT_BUS.post(new ClickEvent.Right())) ci.cancel();
+    }
+
+    @Inject(method = "clickMouse", at = @At("HEAD"), cancellable = true)
+    public void leftClickEvent(CallbackInfo ci) {
+        if(MinecraftForge.EVENT_BUS.post(new ClickEvent.Left())) ci.cancel();
+    }
+
+    @Inject(method = "middleClickMouse", at = @At("HEAD"), cancellable = true)
+    public void middleClickEvent(CallbackInfo ci) {
+        if(MinecraftForge.EVENT_BUS.post(new ClickEvent.Middle())) ci.cancel();
     }
 
 }
