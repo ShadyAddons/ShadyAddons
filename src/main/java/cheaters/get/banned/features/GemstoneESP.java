@@ -2,6 +2,7 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
+import cheaters.get.banned.config.settings.FolderSetting;
 import cheaters.get.banned.events.BlockChangeEvent;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.utils.LocationUtils;
@@ -101,7 +102,11 @@ public class GemstoneESP {
     }
 
     private static boolean isEnabled() {
-        return Shady.mc.thePlayer != null && Shady.mc.theWorld != null && Config.gemstoneEsp && Utils.inSkyBlock && LocationUtils.onIsland(LocationUtils.Island.CRYSTAL_HOLLOWS);
+        return Shady.mc.thePlayer != null &&
+                Shady.mc.theWorld != null &&
+                FolderSetting.isEnabled("Gemstone ESP") &&
+                Utils.inSkyBlock &&
+                LocationUtils.onIsland(LocationUtils.Island.CRYSTAL_HOLLOWS);
     }
 
     private static Gemstone getGemstone(IBlockState block) {

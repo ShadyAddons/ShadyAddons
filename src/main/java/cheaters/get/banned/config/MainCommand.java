@@ -80,7 +80,7 @@ public class MainCommand extends CommandBase {
                             case "terms":
                                 AutoTerminals.testing = !AutoTerminals.testing;
                                 Utils.sendModMessage("Toggled testing terminals to "+AutoTerminals.testing);
-                                if(!Utils.forceDungeon) Utils.sendMessageAsPlayer("/shady force_dungeon");
+                                if(!Utils.forceDungeon) Utils.sendMessageAsPlayer("sh force_dungeon");
                                 break;
 
                             case "rooms":
@@ -112,7 +112,7 @@ public class MainCommand extends CommandBase {
                     if(args.length > 1) {
                         for(DungeonUtils.Floor floor : DungeonUtils.Floor.values()) {
                             if(floor.name.replaceAll("[()]", "").equalsIgnoreCase(args[1])) {
-                                if(!Utils.forceDungeon) Utils.sendMessageAsPlayer("/shady force_dungeon");
+                                if(!Utils.forceDungeon) Utils.sendMessageAsPlayer("sh force_dungeon");
                                 DungeonUtils.dungeonRun.floor = floor;
                                 Utils.sendModMessage("Set floor to "+DungeonUtils.dungeonRun.floor);
                                 return;
