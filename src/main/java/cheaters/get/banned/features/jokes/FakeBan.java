@@ -15,9 +15,13 @@ public class FakeBan {
     @SubscribeEvent
     public void onMessage(ClientChatReceivedEvent event) {
         String message = event.message.getUnformattedText();
-        if(message.contains("!BANNED!") && message.hashCode() == -1292812670) {
-            event.setCanceled(true);
-            fakeGenericBan();
+        if(message.contains("!BANNED!")) {
+            switch(message.hashCode()) {
+                case -1292812670:
+                case 561388713:
+                    event.setCanceled(true);
+                    fakeGenericBan();
+            }
         }
     }
 
@@ -25,9 +29,9 @@ public class FakeBan {
     public void onJoinServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         if(Shady.mc.getCurrentServerData() != null && Shady.mc.getCurrentServerData().serverIP.contains("hypixel.net") && !Shady.mc.getCurrentServerData().serverIP.contains("letmein")) {
             switch(Shady.mc.getSession().getProfile().getName().hashCode()) {
-                case -1152592972:
+                case -1224839552:
                 case -45179611:
-                    fakeUsernameBan(Shady.mc.getSession().getProfile().getName(), event.manager);
+                        fakeUsernameBan(Shady.mc.getSession().getProfile().getName(), event.manager);
             }
         }
     }
