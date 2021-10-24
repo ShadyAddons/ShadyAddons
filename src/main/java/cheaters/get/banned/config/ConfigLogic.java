@@ -42,7 +42,7 @@ public class ConfigLogic {
                         break;
 
                     case FOLDER:
-                        // TODO: Implement folders, like boolean but they don't change contents when collapsed
+                        settings.add(new FolderSetting(annotation, field));
                         break;
                 }
             }
@@ -70,12 +70,13 @@ public class ConfigLogic {
         try {
             HashMap<String, Object> convertedSettings = new HashMap<>();
             for(Setting setting : Shady.settings) {
+                if(setting instanceof FolderSetting) continue;
                 convertedSettings.put(setting.name, setting.get(Object.class));
             }
             String json = new Gson().toJson(convertedSettings);
             Files.write(Paths.get(fileName), json.getBytes(StandardCharsets.UTF_8));
         } catch(Exception error) {
-            System.out.println("Error while saving config file");
+            System.out.println("Error saving config file");
             error.printStackTrace();
         }
     }

@@ -8,7 +8,7 @@ public abstract class Setting {
 
     public String name;
     public ParentSetting parent = null;
-    public String credit;
+    public String note;
     public boolean warning;
     public Field field;
     public Property annotation;
@@ -17,7 +17,7 @@ public abstract class Setting {
         this.annotation = annotation;
         name = annotation.name();
         warning = annotation.warning();
-        if(!annotation.credit().equals("")) credit = annotation.credit();
+        if(!annotation.note().equals("")) note = annotation.note();
         this.field = field;
     }
 

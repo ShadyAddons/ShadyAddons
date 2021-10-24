@@ -10,7 +10,7 @@ public @interface Property {
     Type type();
     String name();
     String parent() default "";
-    String credit() default "";
+    String note() default "";
     boolean warning() default false;
 
     // Type.NUMBER
@@ -22,6 +22,24 @@ public @interface Property {
 
     // Type.SELECT
     String[] options() default {};
+
+    /*
+    Type.BOOLEAN
+        Can be toggled on and off. Can have children. When toggled off, all boolean children are also toggled off.
+
+    Type.FOLDER
+        Can be toggled open and closed. Not safed in config file. When closed, settings preserve their state.
+        Use `FolderSetting.isEnabled(name)` to check the state of direct Type.BOOLEAN or Type.CHECKBOX descendents.
+
+    Type.NUMBER
+        Allow for incremental number input. Stored as integer, has prefix/suffix, step, and min/max options.
+
+    Type.SELECT
+        Allows for selection of string from array. Stored as integer. Similar UX as Type.NUMBER inputs.
+
+    Type.CHECKBOX
+        Functons the same as Type.BOOLEAN, just with a different appearance.
+    */
 
     enum Type {
         BOOLEAN, FOLDER, NUMBER, SELECT, CHECKBOX

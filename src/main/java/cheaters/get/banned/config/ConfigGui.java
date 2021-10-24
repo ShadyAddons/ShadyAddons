@@ -4,6 +4,7 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.components.ConfigInput;
 import cheaters.get.banned.config.components.Scrollbar;
 import cheaters.get.banned.config.settings.BooleanSetting;
+import cheaters.get.banned.config.settings.FolderSetting;
 import cheaters.get.banned.config.settings.Setting;
 import cheaters.get.banned.features.jokes.CatGirls;
 import cheaters.get.banned.utils.FontUtils;
@@ -75,11 +76,15 @@ public class ConfigGui extends GuiScreen {
             }
 
             // Setting Text
-            Shady.mc.fontRendererObj.drawString(((setting instanceof BooleanSetting && setting.get(Boolean.class)) ? "§a" : "§f") + setting.name, x, y+1, -1);
-            if(setting.credit != null) {
+            char color = 'f';
+            if(setting instanceof BooleanSetting && setting.get(Boolean.class)) color = 'a';
+            if(setting instanceof FolderSetting && ((FolderSetting) setting).isChildEnabled()) color = 'a';
+
+            Shady.mc.fontRendererObj.drawString("§" + color + setting.name, x, y+1, -1);
+            if(setting.note != null) {
                 int settingNameWidth = Shady.mc.fontRendererObj.getStringWidth(setting.name+" ");
                 GlStateManager.translate(0, 1.8, 0);
-                FontUtils.drawScaledString("§7"+setting.credit, 0.8f, x+settingNameWidth, y+1, false);
+                FontUtils.drawScaledString("§7"+setting.note, 0.8f, x+settingNameWidth, y+1, false);
                 GlStateManager.translate(0, -1.8, 0);
             }
         }
@@ -130,9 +135,12 @@ public class ConfigGui extends GuiScreen {
         super.mouseReleased(mouseX, mouseY, state);
     }
 
-    private void scrollScreen(int scrollAmount) {
+    // pixels - Whether to scroll that amount, or to convert to a percentage
+    private void scrollScreen(int scrollAmount, boolean pixels) {
         int viewport = height - 100 - 10;
         int contentHeight = settings.size() * 15;
+
+        if(!pixels) scrollAmount = (int) ((scrollAmount/(float)viewport) * contentHeight);
 
         if(contentHeight > viewport) {
             scrollOffset = MathHelper.clamp_int(scrollOffset+scrollAmount, 0, contentHeight-viewport);
@@ -141,7 +149,7 @@ public class ConfigGui extends GuiScreen {
     }
 
     private void mouseMoved(int mouseY) {
-        if(scrolling) scrollScreen(mouseY - prevMouseY);
+        if(scrolling) scrollScreen(mouseY - prevMouseY, false);
         prevMouseY = mouseY;
     }
 
@@ -170,7 +178,7 @@ public class ConfigGui extends GuiScreen {
     @Override
     public void handleMouseInput() throws IOException {
         if(Mouse.getEventDWheel() != 0) {
-            scrollScreen(Integer.signum(Mouse.getEventDWheel()) * -10);
+            scrollScreen(Integer.signum(Mouse.getEventDWheel()) * -10, true);
         }
         super.handleMouseInput();
     }

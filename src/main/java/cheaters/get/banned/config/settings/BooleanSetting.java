@@ -17,7 +17,7 @@ public class BooleanSetting extends ParentSetting {
     public boolean set(Object value) {
         try {
             for(Setting child : children) {
-                if(child instanceof BooleanSetting) child.set(false);
+                if(child instanceof ParentSetting) child.set(false);
             }
 
             return super.set(value);

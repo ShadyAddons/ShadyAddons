@@ -255,6 +255,7 @@ public class RenderUtils {
 
     public static void drawTexture(ResourceLocation resourceLocation, int x, int y, int width, int height, int textureWidth, int textureHeight, int textureX, int textureY) {
         Shady.mc.getTextureManager().bindTexture(resourceLocation);
+        GlStateManager.color(255, 255, 255);
         Gui.drawModalRectWithCustomSizedTexture(x, y, textureX, textureY, width, height, textureWidth, textureHeight);
     }
 

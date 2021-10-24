@@ -1,10 +1,6 @@
 package cheaters.get.banned.config.components;
 
-import cheaters.get.banned.config.Property;
-import cheaters.get.banned.config.settings.BooleanSetting;
-import cheaters.get.banned.config.settings.NumberSetting;
-import cheaters.get.banned.config.settings.SelectSetting;
-import cheaters.get.banned.config.settings.Setting;
+import cheaters.get.banned.config.settings.*;
 import net.minecraft.client.gui.GuiButton;
 
 import java.awt.*;
@@ -24,18 +20,25 @@ public abstract class ConfigInput extends GuiButton {
     }
 
     public static ConfigInput buttonFromSetting(Setting setting, int x, int y) {
-        if(setting instanceof BooleanSetting) {
-            if(((BooleanSetting) setting).type == Property.Type.BOOLEAN) {
+        switch(setting.annotation.type()) {
+            case BOOLEAN:
                 return new SwitchInput((BooleanSetting) setting, x, y);
-            } else if(((BooleanSetting) setting).type == Property.Type.CHECKBOX) {
+
+            case CHECKBOX:
                 return new CheckboxInput((BooleanSetting) setting, x, y);
-            }
-        } else if(setting instanceof NumberSetting) {
-            return new NumberInput((NumberSetting) setting, x, y);
-        } else if(setting instanceof SelectSetting) {
-            return new SelectInput((SelectSetting) setting, x, y);
+
+            case FOLDER:
+                return new FolderComponent((FolderSetting) setting, x, y);
+
+            case NUMBER:
+                return new NumberInput((NumberSetting) setting, x, y);
+
+            case SELECT:
+                return new SelectInput((SelectSetting) setting, x, y);
+
+            default:
+                return null;
         }
-        return null;
     }
 
 }

@@ -38,7 +38,7 @@ public class Config {
 
 
     @Property(
-            type = Property.Type.BOOLEAN,
+            type = Property.Type.FOLDER,
             name = "Auto Clicker",
             warning = true
     )
@@ -78,15 +78,8 @@ public class Config {
         public static boolean stopAutoClickerInGui = false;
 
 
-    /*@Property(
-            type = Property.Type.BOOLEAN,
-            name = "Corleone Finder"
-    )*/
-    public static boolean corleoneFinder = false;
-
-
     @Property(
-            type = Property.Type.BOOLEAN,
+            type = Property.Type.FOLDER,
             name = "Summons Features"
     )
     public static boolean summonsFeatures = false;
@@ -105,13 +98,6 @@ public class Config {
                 warning = true
         )
         public static boolean clickThroughSummons = false;
-
-
-    @Property(
-            type = Property.Type.BOOLEAN,
-            name = "Teleport w/ Anything"
-    )
-    public static boolean teleportWithAnything = false;
 
 
     @Property(
@@ -137,7 +123,7 @@ public class Config {
 
 
     @Property(
-            type = Property.Type.BOOLEAN,
+            type = Property.Type.FOLDER,
             name = "Keybinds"
     )
     public static boolean keybinds = false;
@@ -164,7 +150,7 @@ public class Config {
         public static boolean normalAbilityKeybind = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.FOLDER,
                 name = "Item Macros",
                 parent = "Keybinds",
                 warning = true
@@ -229,11 +215,18 @@ public class Config {
 
             @Property(
                     type = Property.Type.CHECKBOX,
-                    name = "Soul Whip w/ Sword",
-                    credit = "Whip whip nae nae",
+                    name = "Soul Whip w/ Anything",
+                    note = "Whip whip nae nae",
                     parent = "Item Macros"
             )
-            public static boolean soulWhipWithSword = false;
+            public static boolean soulWhipWithAnything = false;
+
+            @Property(
+                    type = Property.Type.BOOLEAN,
+                    name = "Teleport w/ Anything",
+                    parent = "Item Macros"
+            )
+            public static boolean teleportWithAnything = false;
 
 
     @Property(
@@ -245,27 +238,27 @@ public class Config {
 
 
     @Property(
-            type = Property.Type.BOOLEAN,
+            type = Property.Type.FOLDER,
             name = "Block Abilities"
     )
-    public static boolean blockAbilitis = false;
+    public static boolean blockAbilities = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Cells Alignment",
                 parent = "Block Abilities"
         )
         public static boolean blockCellsAlignment = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Giant's Slam",
                 parent = "Block Abilities"
         )
         public static boolean blockGiantsSlam = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Valkyrie Wither Impact",
                 parent = "Block Abilities"
         )
@@ -274,29 +267,29 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Dungeon Map (WIP)",
-            credit = "based on IllegalMap by UnclaimedBloom6"
+            name = "Dungeon Map",
+            note = "based on IllegalMap by UnclaimedBloom6"
     )
     public static boolean dungeonMap = false;
 
         /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "Darken Unexplored",
-                parent = "Dungeon Map (WIP)"
+                parent = "Dungeon Map"
         )*/
         public static boolean darkenUnexplored = false;
 
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Show Run Information",
-                parent = "Dungeon Map (WIP)"
+                parent = "Dungeon Map"
         )
         public static boolean showDungeonInformation = false;
 
         /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "Wither/Blood Door ESP",
-                parent = "Dungeon Map (WIP)"
+                parent = "Dungeon Map"
         )*/
         public static boolean witherDoorESP = false;
 
@@ -311,14 +304,14 @@ public class Config {
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Assume Spirit Pet",
-                parent = "Dungeon Map (WIP)"
+                parent = "Dungeon Map"
         )
         public static boolean assumeSpiritPet = false;
 
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Announce Score in Chat",
-                parent = "Dungeon Map (WIP)"
+                parent = "Dungeon Map"
         )
         public static boolean announceScore = false;
 
@@ -345,7 +338,7 @@ public class Config {
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Horizontal Offset",
-                parent = "Dungeon Map (WIP)",
+                parent = "Dungeon Map",
                 suffix = "px",
                 step = 10
         )
@@ -354,7 +347,7 @@ public class Config {
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Vertical Offset",
-                parent = "Dungeon Map (WIP)",
+                parent = "Dungeon Map",
                 suffix = "px",
                 step = 10
         )
@@ -363,7 +356,7 @@ public class Config {
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Scale",
-                parent = "Dungeon Map (WIP)",
+                parent = "Dungeon Map",
                 suffix = "%",
                 step = 10,
                 min = 50,
@@ -374,7 +367,7 @@ public class Config {
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Background Opacity",
-                parent = "Dungeon Map (WIP)",
+                parent = "Dungeon Map",
                 max = 100,
                 step = 10,
                 suffix = "%"
@@ -384,14 +377,14 @@ public class Config {
         /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "RBG Border",
-                parent = "Dungeon Map (WIP)"
+                parent = "Dungeon Map"
         )*/
         public static boolean rbgMapBorder = false;
 
         @Property(
                 type = Property.Type.SELECT,
                 name = "Significant Room Name Style",
-                parent = "Dungeon Map (WIP)",
+                parent = "Dungeon Map",
                 options = {"Short", "Full", "None"}
         )
         public static int significantRoomNameStyle = 0;
@@ -399,14 +392,14 @@ public class Config {
         /*@Property(
                 type = Property.Type.SELECT,
                 name = "Checkmark Style",
-                parent = "Dungeon Map (WIP)",
+                parent = "Dungeon Map",
                 options = {"None", "Vanilla", "Fancy"}
         )*/
         public static int mapCheckmarkStyle = 0;
 
 
     @Property(
-            type = Property.Type.BOOLEAN,
+            type = Property.Type.FOLDER,
             name = "Auto Close Chests"
     )
     public static boolean closeChests = false;
@@ -434,34 +427,34 @@ public class Config {
 
 
     @Property(
-            type = Property.Type.BOOLEAN,
+            type = Property.Type.FOLDER,
             name = "Show Hidden Mobs"
     )
     public static boolean showHiddenMobs = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Shadow Assassins",
                 parent = "Show Hidden Mobs"
         )
         public static boolean showHiddenShadowAssassins = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Fels",
                 parent = "Show Hidden Mobs"
         )
         public static boolean showHiddenFels = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Ghosts",
                 parent = "Show Hidden Mobs"
         )
         public static boolean showGhosts = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Stealthy Blood Mobs",
                 parent = "Show Hidden Mobs"
         )
@@ -469,16 +462,15 @@ public class Config {
 
 
     @Property(
-            type = Property.Type.BOOLEAN,
-            name = "Entity ESP",
-            credit = "Customizable colors coming soon!"
+            type = Property.Type.FOLDER,
+            name = "Mob ESP"
     )
-    public static boolean entityESP = false;
+    public static boolean mobEsp = false;
 
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Outline Thickness",
-                parent = "Entity ESP",
+                parent = "Mob ESP",
                 min = 3,
                 max = 10,
                 suffix = "px"
@@ -488,41 +480,48 @@ public class Config {
         @Property(
                 type = Property.Type.CHECKBOX,
                 name = "Sludges",
-                parent = "Entity ESP"
+                parent = "Mob ESP"
         )
         public static boolean sludgeEsp = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
                 name = "Yogs",
-                parent = "Entity ESP"
+                parent = "Mob ESP"
         )
         public static boolean yogEsp = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
+                name = "Corleone",
+                parent = "Mob ESP"
+        )
+        public static boolean corleoneEsp = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
                 name = "Starred Mobs",
-                parent = "Entity ESP"
+                parent = "Mob ESP"
         )
         public static boolean starredMobEsp = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
                 name = "Secret Bats",
-                parent = "Entity ESP"
+                parent = "Mob ESP"
         )
         public static boolean secretBatEsp = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
                 name = "Minibosses",
-                parent = "Entity ESP"
+                parent = "Mob ESP"
         )
         public static boolean minibossEsp = false;
 
 
     @Property(
-            type = Property.Type.BOOLEAN,
+            type = Property.Type.FOLDER,
             name = "Gemstone ESP"
     )
     public static boolean gemstoneEsp = false;
@@ -538,49 +537,49 @@ public class Config {
         public static int gemstoneRadius = 15;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Ruby",
                 parent = "Gemstone ESP"
         )
         public static boolean rubyEsp = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Amber",
                 parent = "Gemstone ESP"
         )
         public static boolean amberEsp = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Sapphire",
                 parent = "Gemstone ESP"
         )
         public static boolean sapphireEsp = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Jade",
                 parent = "Gemstone ESP"
         )
         public static boolean jadeEsp = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Amethyst",
                 parent = "Gemstone ESP"
         )
         public static boolean amethystEsp = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Topaz",
                 parent = "Gemstone ESP"
         )
         public static boolean topazEsp = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Jasper",
                 parent = "Gemstone ESP"
         )
@@ -612,40 +611,40 @@ public class Config {
     @Property(
             type = Property.Type.BOOLEAN,
             name = "Auto Terminals",
-            credit = "by 0Kelvin_"
+            note = "by 0Kelvin_"
     )
     public static boolean autoTerminals = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Maze",
                 parent = "Auto Terminals"
         )
         public static boolean autoMaze = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Click in Order",
                 parent = "Auto Terminals"
         )
         public static boolean autoNumbers = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Correct the Panes",
                 parent = "Auto Terminals"
         )
         public static boolean autoCorrectAll = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Name Starts With",
                 parent = "Auto Terminals"
         )
         public static boolean autoLetter = false;
 
         @Property(
-                type = Property.Type.BOOLEAN,
+                type = Property.Type.CHECKBOX,
                 name = "Color",
                 parent = "Auto Terminals"
         )
@@ -654,6 +653,7 @@ public class Config {
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Pingless",
+                note = "Send clicks before window is updated",
                 parent = "Auto Terminals"
         )
         public static boolean terminalPingless = false;
@@ -672,8 +672,8 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Use Clean Buttons",
-            credit = "Not a cheat, just cosmetic"
+            name = "Use Clear Buttons",
+            note = "Not a cheat, just cosmetic"
     )
     public static boolean useCleanButtons = false;
 
