@@ -34,8 +34,7 @@ public class StonklessStonk {
     private static BlockPos lastCheckedPosition = null;
     private static HashSet<BlockPos> usedBlocks = new HashSet<>();
 
-    private static float range = 5f;
-    private static final String witherEssenceSkin = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRkYjRhZGZhOWJmNDhmZjVkNDE3MDdhZTM0ZWE3OGJkMjM3MTY1OWZjZDhjZDg5MzQ3NDlhZjRjY2U5YiJ9fX0=";
+    private static float range = 5;
 
     private static boolean isEnabled() {
         boolean isEnabled = Utils.inDungeon && Shady.mc.thePlayer != null;
@@ -111,11 +110,11 @@ public class StonklessStonk {
                         Shady.mc.theWorld,
                         Shady.mc.thePlayer.inventory.getCurrentItem(),
                         selectedBlock,
-                        EnumFacing.fromAngle((double) Shady.mc.thePlayer.rotationYaw),
+                        EnumFacing.fromAngle(Shady.mc.thePlayer.rotationYaw),
                         new Vec3(Math.random(), Math.random(), Math.random())
                 )) {
                     Shady.mc.thePlayer.swingItem();
-                };
+                }
 
             }
         }
@@ -139,7 +138,7 @@ public class StonklessStonk {
             TileEntitySkull tileEntity = (TileEntitySkull) Shady.mc.theWorld.getTileEntity(position);
             if(tileEntity.getSkullType() == 3) {
                 Property property = ArrayUtils.firstOrNull(tileEntity.getPlayerProfile().getProperties().get("textures"));
-                return property != null && property.getValue().equals(witherEssenceSkin);
+                return property != null && property.getValue().hashCode() == 241000665;
             }
         }
         return false;
