@@ -34,7 +34,7 @@ public class CrystalReach {
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
         if(isEnabled()) {
-            crystal = lookingAtCrystal(32);
+            crystal = lookingAtCrystal();
         } else {
             crystal = null;
         }
@@ -44,12 +44,15 @@ public class CrystalReach {
     public void onInteract(PlayerInteractEvent event) {
         if(isEnabled() && crystal != null && (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
             Entity armorStand = Shady.mc.theWorld.getEntitiesInAABBexcluding(crystal, crystal.getEntityBoundingBox(), entity -> entity instanceof EntityArmorStand && entity.getCustomNameTag().contains("CLICK HERE")).get(0);
-            Shady.mc.playerController.interactWithEntitySendPacket(Shady.mc.thePlayer, armorStand);
-            event.setCanceled(true);
+            if(armorStand != null) {
+                Shady.mc.playerController.interactWithEntitySendPacket(Shady.mc.thePlayer, armorStand);
+                event.setCanceled(true);
+            }
         }
     }
 
-    private static EntityEnderCrystal lookingAtCrystal(float range) {
+    private static EntityEnderCrystal lookingAtCrystal() {
+        float range = 32;
         float stepSize = 0.5f;
         if(Shady.mc.thePlayer != null && Shady.mc.theWorld != null) {
             Vector3f position = new Vector3f((float) Shady.mc.thePlayer.posX, (float) Shady.mc.thePlayer.posY+ Shady.mc.thePlayer.getEyeHeight(), (float) Shady.mc.thePlayer.posZ);
