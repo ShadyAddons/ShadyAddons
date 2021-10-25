@@ -103,6 +103,7 @@ public class Config {
     @Property(
             type = Property.Type.BOOLEAN,
             name = "Crystal Reach",
+            note = "Sneak to activate",
             warning = true
     )
     public static boolean crystalReach = false;

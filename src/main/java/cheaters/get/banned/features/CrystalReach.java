@@ -27,13 +27,12 @@ public class CrystalReach {
                 Shady.mc.thePlayer.getPosition().getY() > 215 &&
                 DungeonUtils.dungeonRun != null &&
                 DungeonUtils.dungeonRun.inBoss &&
-                DungeonUtils.inFloor(DungeonUtils.Floor.FLOOR_7) &&
-                Shady.mc.thePlayer.isSneaking();
+                DungeonUtils.inFloor(DungeonUtils.Floor.FLOOR_7);
     }
 
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
-        if(isEnabled()) {
+        if(isEnabled() && Shady.mc.thePlayer.isSneaking()) {
             crystal = lookingAtCrystal();
         } else {
             crystal = null;
@@ -42,10 +41,10 @@ public class CrystalReach {
 
     @SubscribeEvent
     public void onInteract(PlayerInteractEvent event) {
-        if(isEnabled() && crystal != null && (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
-            Entity armorStand = Shady.mc.theWorld.getEntitiesInAABBexcluding(crystal, crystal.getEntityBoundingBox(), entity -> entity instanceof EntityArmorStand && entity.getCustomNameTag().contains("CLICK HERE")).get(0);
-            if(armorStand != null) {
-                Shady.mc.playerController.interactWithEntitySendPacket(Shady.mc.thePlayer, armorStand);
+        if(isEnabled() && Shady.mc.thePlayer.isSneaking() && crystal != null && (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
+            List<Entity> armorStand = Shady.mc.theWorld.getEntitiesInAABBexcluding(crystal, crystal.getEntityBoundingBox(), entity -> entity instanceof EntityArmorStand && entity.getCustomNameTag().contains("CLICK HERE"));
+            if(!armorStand.isEmpty() && armorStand.get(0) != null) {
+                Shady.mc.playerController.interactWithEntitySendPacket(Shady.mc.thePlayer, armorStand.get(0));
                 event.setCanceled(true);
             }
         }

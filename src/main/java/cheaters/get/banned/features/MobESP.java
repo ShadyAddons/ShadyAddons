@@ -25,7 +25,7 @@ import java.util.List;
 public class MobESP {
 
     private static HashMap<Entity, Color> highlightedEntities = new HashMap<>();
-    private static HashSet<Entity> checkedStarEntities = new HashSet<>();
+    private static HashSet<Entity> checkedStarNameTags = new HashSet<>();
 
     private static void highlightEntity(Entity entity, Color color) {
         highlightedEntities.put(entity, color);
@@ -33,49 +33,48 @@ public class MobESP {
 
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if(FolderSetting.isEnabled("Mob ESP")) {
-            if(Utils.inDungeon) {
-                if(Config.minibossEsp && event.entity instanceof EntityPlayer) {
-                    String name = event.entity.getName();
-                    switch(name) {
-                        case "Shadow Assassin":
-                            highlightEntity(event.entity, Color.MAGENTA);
-                            break;
+        if(Utils.inDungeon) {
+            if(Config.minibossEsp && event.entity instanceof EntityPlayer) {
+                String name = event.entity.getName();
+                switch(name) {
+                    case "Shadow Assassin":
+                        event.entity.setInvisible(false);
+                        highlightEntity(event.entity, Color.MAGENTA);
+                        break;
 
-                        case "Lost Adventurer":
-                            highlightEntity(event.entity, Color.BLUE);
-                            break;
+                    case "Lost Adventurer":
+                        highlightEntity(event.entity, Color.BLUE);
+                        break;
 
-                        case "Diamond Guy":
-                            highlightEntity(event.entity, Color.CYAN);
-                            break;
-                    }
+                    case "Diamond Guy":
+                        highlightEntity(event.entity, Color.CYAN);
+                        break;
                 }
+            }
 
-                if(Config.secretBatEsp && event.entity instanceof EntityBat) {
+            if(Config.secretBatEsp && event.entity instanceof EntityBat) {
+                highlightEntity(event.entity, Color.RED);
+            }
+        }
+
+        if(Utils.inSkyBlock && LocationUtils.onIsland(LocationUtils.Island.CRYSTAL_HOLLOWS)) {
+            if(Config.sludgeEsp) {
+                if(event.entity instanceof EntitySlime && !(event.entity instanceof EntityMagmaCube)) {
+                    highlightEntity(event.entity, Color.GREEN);
+                }
+            }
+
+            if(Config.yogEsp) {
+                if(event.entity instanceof EntityMagmaCube) {
                     highlightEntity(event.entity, Color.RED);
                 }
             }
 
-            if(Utils.inSkyBlock && LocationUtils.onIsland(LocationUtils.Island.CRYSTAL_HOLLOWS)) {
-                if(Config.sludgeEsp) {
-                    if(event.entity instanceof EntitySlime && !(event.entity instanceof EntityMagmaCube)) {
-                        highlightEntity(event.entity, Color.GREEN);
-                    }
-                }
-
-                if(Config.yogEsp) {
-                    if(event.entity instanceof EntityMagmaCube) {
-                        highlightEntity(event.entity, Color.RED);
-                    }
-                }
-
-                if(Config.corleoneEsp) {
-                    if(event.entity instanceof EntityOtherPlayerMP && event.entity.getName().equals("Team Treasurite")) {
-                        float health = ((EntityOtherPlayerMP) event.entity).getMaxHealth();
-                        if(health == 1_000_000 || health == 2_000_000) {
-                            highlightEntity(event.entity, Color.PINK);
-                        }
+            if(Config.corleoneEsp) {
+                if(event.entity instanceof EntityOtherPlayerMP && event.entity.getName().equals("Team Treasurite")) {
+                    float health = ((EntityOtherPlayerMP) event.entity).getMaxHealth();
+                    if(health == 1_000_000 || health == 2_000_000) {
+                        highlightEntity(event.entity, Color.PINK);
                     }
                 }
             }
@@ -84,14 +83,14 @@ public class MobESP {
 
     @SubscribeEvent
     public void onRenderEntityModel(RenderEntityModelEvent event) {
-        if(Utils.inDungeon && !checkedStarEntities.contains(event.entity) && Config.starredMobEsp) {
+        if(Utils.inDungeon && !checkedStarNameTags.contains(event.entity) && Config.starredMobEsp) {
             if(event.entity instanceof EntityArmorStand) {
                 if(event.entity.hasCustomName() && event.entity.getCustomNameTag().contains("✯")) {
                     List<Entity> possibleEntities = event.entity.getEntityWorld().getEntitiesInAABBexcluding(event.entity, event.entity.getEntityBoundingBox().expand(0, 3, 0), entity -> !(entity instanceof EntityArmorStand));
                     if(!possibleEntities.isEmpty()) {
                         highlightEntity(possibleEntities.get(0), Color.ORANGE);
                     }
-                    checkedStarEntities.add(event.entity);
+                    checkedStarNameTags.add(event.entity);
                 }
             }
         }
@@ -104,7 +103,7 @@ public class MobESP {
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) {
         highlightedEntities.clear();
-        checkedStarEntities.clear();
+        checkedStarNameTags.clear();
     }
 
 }

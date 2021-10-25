@@ -1,5 +1,6 @@
 package cheaters.get.banned.mixins;
 
+import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.CrystalReach;
 import cheaters.get.banned.utils.RenderUtils;
 import net.minecraft.client.model.ModelEnderCrystal;
@@ -25,7 +26,7 @@ public abstract class MixinModelEnderCrystal {
             GlStateManager.enableBlend();
 
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            RenderUtils.bindColor(entityIn.equals(CrystalReach.crystal) ? Color.MAGENTA : Color.WHITE);
+            RenderUtils.bindColor(entityIn.equals(CrystalReach.crystal) && Shady.mc.thePlayer.isSneaking() ? Color.MAGENTA : Color.WHITE);
         }
     }
 

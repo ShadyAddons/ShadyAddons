@@ -4,7 +4,7 @@
         "name": "ShadyAddons",
         "url": "https://cheatersgetbanned.me/",
         "description": "Cheaters get banned",
-        "version": "@VERSION@",
+        "version": "",
         "logoFile": "assets/shadyaddons/logo.png"
     }
 ]

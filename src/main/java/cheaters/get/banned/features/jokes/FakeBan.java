@@ -9,18 +9,27 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public class FakeBan {
+
+    private static boolean permBan = false;
+    private static long banTime = 0;
 
     @SubscribeEvent
     public void onMessage(ClientChatReceivedEvent event) {
         String message = event.message.getUnformattedText();
-        if(message.contains("!BANNED!")) {
+        if(message.contains("!BANNED!") || message.contains("!PERMBAN!")) {
             switch(message.hashCode()) {
+                case 870570787:
+                case -1778728484:
+                    permBan = true;
+
                 case -1292812670:
                 case 561388713:
+                    banTime = System.currentTimeMillis() - 1000;
                     event.setCanceled(true);
-                    fakeGenericBan();
+                    fakeGenericBan(Shady.mc.getNetHandler().getNetworkManager());
             }
         }
     }
@@ -28,29 +37,36 @@ public class FakeBan {
     @SubscribeEvent
     public void onJoinServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         if(Shady.mc.getCurrentServerData() != null && Shady.mc.getCurrentServerData().serverIP.contains("hypixel.net") && !Shady.mc.getCurrentServerData().serverIP.contains("letmein")) {
-            switch(Shady.mc.getSession().getProfile().getName().hashCode()) {
+            /*switch(Shady.mc.getSession().getProfile().getName().hashCode()) {
                 case -1224839552:
                 case -45179611:
-                        fakeUsernameBan(Shady.mc.getSession().getProfile().getName(), event.manager);
+                        fakeUsernameBan(event.manager);
+            }*/
+
+            if(permBan) {
+                fakeGenericBan(event.manager);
             }
         }
     }
 
-    public static void fakeGenericBan() {
-        ChatComponentText component = new ChatComponentText("§cYou are temporarily banned for §f29d 23h 59m 59s §cfrom this server!");
+    public static void fakeGenericBan(NetworkManager manager) {
+        long banDuration = banTime + 2592000000L - System.currentTimeMillis();
+        String formattedDuration = DurationFormatUtils.formatDuration(banDuration, "d'd' H'h' m'm' s's'", false);
+
+        ChatComponentText component = new ChatComponentText("§cYou are temporarily banned for §f" + formattedDuration + " §cfrom this server!");
         component.appendText("\n");
         component.appendText("\n§7Reason: §rCheating through the use of unfair game advantages.");
         component.appendText("\n§7Find out more: §b§nhttps://www.hypixel.net/appeal");
         component.appendText("\n");
         component.appendText("\n§7Ban ID: §r#"+Math.abs(Shady.mc.getSession().getProfile().getId().toString().hashCode()));
         component.appendText("\n§7Sharing your Ban ID may affect the processing of your appeal!");
-        Shady.mc.getNetHandler().getNetworkManager().closeChannel(component);
+        manager.closeChannel(component);
     }
 
-    public static void fakeUsernameBan(String username, NetworkManager manager) {
+    public static void fakeUsernameBan(NetworkManager manager) {
         ChatComponentText component = new ChatComponentText("\n§cYou are currently blocked from joining this server!");
         component.appendText("\n");
-        component.appendText("\n§7Reason: §fYour username, " + username + ", is not allowed on the server and is breaking our rules.");
+        component.appendText("\n§7Reason: §fYour username, " + Shady.mc.getSession().getProfile().getName() + ", is not allowed on the server and is breaking our rules.");
         component.appendText("\n§7Find out more: §b§nhttps://www.hypixel.net/rules");
         component.appendText("\n");
         component.appendText("\n§cPlease change your Minecraft username before trying to join again.");
