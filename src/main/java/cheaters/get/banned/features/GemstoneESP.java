@@ -80,7 +80,7 @@ public class GemstoneESP {
 
     @SubscribeEvent
     public void onBlockChange(BlockChangeEvent event) {
-        if(isEnabled() && event.position.distanceSq(Shady.mc.thePlayer.getPosition()) < Math.pow(Config.gemstoneRadius, 2) && (event.oldBlock.getBlock() == Blocks.stained_glass || event.oldBlock.getBlock() == Blocks.stained_glass_pane) && event.newBlock.getBlock() == Blocks.air) {
+        if(event.newBlock.getBlock() == Blocks.air) {
             gemstones.remove(event.position);
         }
     }
@@ -110,7 +110,8 @@ public class GemstoneESP {
     }
 
     private static Gemstone getGemstone(IBlockState block) {
-        if(!(block.getBlock() == Blocks.stained_glass || block.getBlock() == Blocks.stained_glass_pane)) return null;
+        if(block.getBlock() != Blocks.stained_glass) return null;
+        if(Config.includeGlassPanes && block.getBlock() != Blocks.stained_glass_pane) return null;
 
         EnumDyeColor color = Utils.firstNotNull(block.getValue(BlockStainedGlass.COLOR), block.getValue(BlockStainedGlassPane.COLOR));
 
