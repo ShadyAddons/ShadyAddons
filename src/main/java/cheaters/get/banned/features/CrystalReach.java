@@ -2,6 +2,7 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
+import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.Utils;
@@ -10,7 +11,6 @@ import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -40,8 +40,8 @@ public class CrystalReach {
     }
 
     @SubscribeEvent
-    public void onInteract(PlayerInteractEvent event) {
-        if(isEnabled() && Shady.mc.thePlayer.isSneaking() && crystal != null && (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
+    public void onRightClick(ClickEvent.Right event) {
+        if(isEnabled() && Shady.mc.thePlayer.isSneaking() && crystal != null) {
             List<Entity> armorStand = Shady.mc.theWorld.getEntitiesInAABBexcluding(crystal, crystal.getEntityBoundingBox(), entity -> entity instanceof EntityArmorStand && entity.getCustomNameTag().contains("CLICK HERE"));
             if(!armorStand.isEmpty() && armorStand.get(0) != null) {
                 Shady.mc.playerController.interactWithEntitySendPacket(Shady.mc.thePlayer, armorStand.get(0));

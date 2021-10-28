@@ -2,12 +2,12 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
+import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
 
@@ -31,11 +31,11 @@ public class GhostBlocks {
     }
 
     @SubscribeEvent
-    public void onInteract(PlayerInteractEvent event) {
-        if(Utils.inSkyBlock && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && Config.stonkGhostBlock && !Utils.isInteractable(Shady.mc.theWorld.getBlockState(event.pos).getBlock())) {
+    public void onRightClick(ClickEvent.Right event) {
+        if(Utils.inSkyBlock && Config.stonkGhostBlock && !Utils.isInteractable(Shady.mc.theWorld.getBlockState(Shady.mc.objectMouseOver.getBlockPos()).getBlock())) {
             String itemId = Utils.getSkyBlockID(Shady.mc.thePlayer.getHeldItem());
             if(itemId.equals("STONK_PICKAXE") || itemId.equals("GOLD_PICKAXE")) {
-                Shady.mc.theWorld.setBlockToAir(event.pos);
+                Shady.mc.theWorld.setBlockToAir(Shady.mc.objectMouseOver.getBlockPos());
                 event.setCanceled(true);
             }
         }
