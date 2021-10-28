@@ -6,8 +6,8 @@ import net.minecraft.client.gui.GuiButton;
 
 public class Scrollbar extends GuiButton {
 
-    public Scrollbar(int viewport, int contentHeight, int scrollOffset, int x, boolean hovered) {
-        super(0, x, 100, "");
+    public Scrollbar(int y, int viewport, int contentHeight, int scrollOffset, int x, boolean hovered) {
+        super(0, x, y, "");
         yPosition += Math.round((scrollOffset/(float)contentHeight)*viewport);
         width = 5;
         height = contentHeight > viewport ? Math.round((viewport/(float)contentHeight)*viewport) : 0;

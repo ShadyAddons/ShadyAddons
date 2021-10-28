@@ -3,6 +3,7 @@ package cheaters.get.banned.config;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.components.ConfigInput;
 import cheaters.get.banned.config.components.Scrollbar;
+import cheaters.get.banned.config.components.SearchComponent;
 import cheaters.get.banned.config.settings.BooleanSetting;
 import cheaters.get.banned.config.settings.FolderSetting;
 import cheaters.get.banned.config.settings.Setting;
@@ -21,25 +22,32 @@ import java.util.ArrayList;
 
 public class ConfigGui extends GuiScreen {
 
-    private int columnWidth = 300;
-    public static ArrayList<Setting> settings = filterSettings();
+    public static ArrayList<Setting> settings = new ArrayList<>();
 
     private int prevMouseY;
     private int scrollOffset = 0;
     private boolean scrolling = false;
+
     private ResourceLocation logo;
     private Scrollbar scrollbar;
+    private SearchComponent search = new SearchComponent(0, 0, 0, "");
+
+    private final int columnWidth = 300;
+    private final int headerHeight = 100 + 9 + search.height + 9;
+
+    private String initSearchText; // Stored to preserve search between GUI refreshes
 
     private Integer prevWidth = null;
     private Integer prevHeight = null;
 
-    public ConfigGui() {
-        this(new ResourceLocation("shadyaddons:logo.png"));
+    public ConfigGui(ResourceLocation logo, String searchText) {
+        this.logo = logo;
+        this.initSearchText = searchText;
+        settings = getFilteredSettings();
     }
 
     public ConfigGui(ResourceLocation logo) {
-        this.logo = logo;
-        settings = filterSettings();
+        this(logo, "");
     }
 
     @Override
@@ -53,7 +61,7 @@ public class ConfigGui extends GuiScreen {
         // Logo + Version
         GlStateManager.color(255, 255, 255);
         Shady.mc.getTextureManager().bindTexture(logo);
-        drawModalRectWithCustomSizedTexture(width / 2 - 143, 24-scrollOffset, 0, 0, 286, 40, 286, 40);
+        drawModalRectWithCustomSizedTexture(width / 2 - 143, 24 - scrollOffset, 0, 0, 286, 40, 286, 40);
         drawCenteredString(Shady.mc.fontRendererObj, (Shady.BETA ? "Beta ✦ " : "Stable ✦ ") + Shady.VERSION, width / 2, 67-scrollOffset, -1);
 
         // Settings
@@ -61,7 +69,7 @@ public class ConfigGui extends GuiScreen {
             Setting setting = settings.get(i);
 
             int x = getOffset();
-            int y = (columnWidth / 3) + (i * 15) - scrollOffset;
+            int y = headerHeight + (i * 15) - scrollOffset;
 
             x += setting.getIndent(0);
 
@@ -90,7 +98,7 @@ public class ConfigGui extends GuiScreen {
         }
 
         if(prevHeight != null && prevWidth != null && (prevWidth != width || prevHeight != height)) {
-            Shady.mc.displayGuiScreen(new ConfigGui(logo));
+            Shady.mc.displayGuiScreen(new ConfigGui(logo, search.text));
         }
 
         prevWidth = width;
@@ -101,20 +109,23 @@ public class ConfigGui extends GuiScreen {
     public void initGui() {
         buttonList.clear();
 
+        int x = getOffset() + columnWidth;
+        int y = headerHeight - scrollOffset;
+
+        search = new SearchComponent(x - columnWidth, y - search.height - 9, columnWidth, "");
+        search.text = initSearchText;
+        buttonList.add(search);
+
         for(int i = 0; i < settings.size(); i++) {
             Setting setting = settings.get(i);
-
-            int x = getOffset() + columnWidth;
-            int y = (columnWidth / 3) + (i * 15) - scrollOffset;
-
-            buttonList.add(ConfigInput.buttonFromSetting(setting, x, y));
+            buttonList.add(ConfigInput.buttonFromSetting(setting, x, y + (i * 15)));
         }
 
-        int viewport = height - 100 - 10;
+        int viewport = height - headerHeight - 9;
         int contentHeight = settings.size() * 15;
         int scrollbarX = getOffset() + columnWidth + 10;
 
-        scrollbar = new Scrollbar(viewport, contentHeight, scrollOffset, scrollbarX, scrolling);
+        scrollbar = new Scrollbar(headerHeight, viewport, contentHeight, scrollOffset, scrollbarX, scrolling);
         buttonList.add(scrollbar);
     }
 
@@ -124,7 +135,7 @@ public class ConfigGui extends GuiScreen {
             scrolling = true;
         } else {
             settings.clear();
-            settings = filterSettings();
+            settings = getFilteredSettings();
         }
         initGui();
     }
@@ -137,7 +148,7 @@ public class ConfigGui extends GuiScreen {
 
     // pixels - Whether to scroll that amount, or to convert to a percentage
     private void scrollScreen(int scrollAmount, boolean pixels) {
-        int viewport = height - 100 - 10;
+        int viewport = height - headerHeight - 9;
         int contentHeight = settings.size() * 15;
 
         if(!pixels) scrollAmount = (int) ((scrollAmount/(float)viewport) * contentHeight);
@@ -153,7 +164,7 @@ public class ConfigGui extends GuiScreen {
         prevMouseY = mouseY;
     }
 
-    private static ArrayList<Setting> filterSettings() {
+    private ArrayList<Setting> getFilteredSettings() {
         ArrayList<Setting> newSettings = new ArrayList<>();
 
         for(Setting setting : Shady.settings) {
@@ -167,10 +178,34 @@ public class ConfigGui extends GuiScreen {
                 continue;
             }
 
+            if(setting.parent instanceof FolderSetting && !newSettings.contains(setting.parent)) {
+                continue;
+            }
+
             if(setting.parent.get(Boolean.class)) {
                 newSettings.add(setting);
             }
         }
+
+        ArrayList<Setting> settingsToAdd = new ArrayList<>();
+
+        if(!search.text.isEmpty()) {
+            for(Setting setting : newSettings) {
+                if(setting instanceof FolderSetting && !setting.get(Boolean.class)) {
+                    for(Setting child : ((FolderSetting) setting).children) {
+                        if(child.name.toLowerCase().contains(search.text.toLowerCase())) {
+                            if(!settingsToAdd.contains(setting)) settingsToAdd.add(setting);
+                            settingsToAdd.add(child);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        newSettings.removeIf(setting -> !setting.name.toLowerCase().contains(search.text.toLowerCase()));
+
+        newSettings.addAll(settingsToAdd);
 
         return newSettings;
     }
@@ -195,6 +230,15 @@ public class ConfigGui extends GuiScreen {
 
     private int getOffset() {
         return (width - columnWidth) / 2;
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        super.keyTyped(typedChar, keyCode);
+        search.onKeyTyped(typedChar, keyCode);
+        initSearchText = search.text;
+        settings = getFilteredSettings();
+        initGui();
     }
 
 }

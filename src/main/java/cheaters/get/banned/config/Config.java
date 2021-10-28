@@ -528,6 +528,13 @@ public class Config {
     public static boolean gemstoneEsp = false;
 
         @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Include Glass Panes",
+                parent = "Gemstone ESP"
+        )
+        public static boolean includeGlassPanes = false;
+
+        @Property(
                 type = Property.Type.NUMBER,
                 name = "Scan Radius",
                 parent = "Gemstone ESP",
