@@ -11,8 +11,10 @@ import cheaters.get.banned.features.*;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.DungeonScanner;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
-import cheaters.get.banned.features.jokes.CatGirls;
+import cheaters.get.banned.features.jokes.CatPeople;
 import cheaters.get.banned.features.jokes.FakeBan;
+import cheaters.get.banned.features.jokes.Grapefruit;
+import cheaters.get.banned.features.jokes.MissingItem;
 import cheaters.get.banned.remote.Analytics;
 import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.remote.UpdateGui;
@@ -103,10 +105,13 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new AutoTerminals());
         MinecraftForge.EVENT_BUS.register(new AutoMelody());
         MinecraftForge.EVENT_BUS.register(new DungeonMap());
-        MinecraftForge.EVENT_BUS.register(new CatGirls());
+        MinecraftForge.EVENT_BUS.register(new CatPeople());
         MinecraftForge.EVENT_BUS.register(new FakeBan());
+        MinecraftForge.EVENT_BUS.register(new MissingItem());
         MinecraftForge.EVENT_BUS.register(new AutoReadyUp());
         MinecraftForge.EVENT_BUS.register(new CrystalReach());
+        MinecraftForge.EVENT_BUS.register(new AutoSalvage());
+        MinecraftForge.EVENT_BUS.register(new Grapefruit());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);

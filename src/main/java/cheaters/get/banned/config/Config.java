@@ -102,6 +102,19 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "Auto Salvage"
+    )
+    public static boolean autoSalvage = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Automatically Start Salvaging"
+        )
+        public static boolean automaticallyStartSalvaging = false;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "Crystal Reach",
             note = "Sneak to activate",
             warning = true
@@ -464,7 +477,8 @@ public class Config {
 
     @Property(
             type = Property.Type.FOLDER,
-            name = "Mob ESP"
+            name = "Mob ESP",
+            note = "Disable Entity Culling in Patcher"
     )
     public static boolean mobEsp = false;
 

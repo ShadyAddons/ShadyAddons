@@ -15,7 +15,6 @@ import java.util.Arrays;
 
 /**
  * Modified from AlonAddons
- * https://github.com/Moulberry/NotEnoughUpdates/blob/master/LICENSE
  */
 public class DisableSwordAnimation {
 

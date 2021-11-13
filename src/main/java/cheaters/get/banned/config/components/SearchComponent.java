@@ -26,13 +26,13 @@ public class SearchComponent extends GuiButton {
         drawRect(
                 xPosition + 20,
                 yPosition,
-                xPosition + width,
+                xPosition + width + 15,
                 yPosition + height,
                 ConfigInput.transparent.getRGB()
         );
 
         // Search Text
-        FontUtils.drawScaledString(text, 1.25f, xPosition + 24, yPosition + 4, true);
+        FontUtils.drawScaledString(text, 1.25f, xPosition + 26, yPosition + 4, false);
 
         int textWidth = (int) (FontUtils.getStringWidth(text) * 1.25f);
 
@@ -41,7 +41,7 @@ public class SearchComponent extends GuiButton {
             drawRect(
                     xPosition+ textWidth +20+1,
                     yPosition + 2,
-                    xPosition+ textWidth +20+2,
+                    xPosition+ textWidth +26+2,
                     yPosition+height - 2,
                     ConfigInput.white.getRGB()
             );

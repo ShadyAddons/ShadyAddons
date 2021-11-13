@@ -3,11 +3,10 @@ package cheaters.get.banned.config;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.components.ConfigInput;
 import cheaters.get.banned.config.components.Scrollbar;
-import cheaters.get.banned.config.components.SearchComponent;
 import cheaters.get.banned.config.settings.BooleanSetting;
 import cheaters.get.banned.config.settings.FolderSetting;
 import cheaters.get.banned.config.settings.Setting;
-import cheaters.get.banned.features.jokes.CatGirls;
+import cheaters.get.banned.features.jokes.CatPeople;
 import cheaters.get.banned.utils.FontUtils;
 import cheaters.get.banned.utils.RenderUtils;
 import net.minecraft.client.gui.GuiButton;
@@ -30,24 +29,16 @@ public class ConfigGui extends GuiScreen {
 
     private ResourceLocation logo;
     private Scrollbar scrollbar;
-    private SearchComponent search = new SearchComponent(0, 0, 0, "");
 
     private final int columnWidth = 300;
-    private final int headerHeight = 100 + 9 + search.height + 9;
-
-    private String initSearchText; // Stored to preserve search between GUI refreshes
+    private final int headerHeight = 100 + 9;
 
     private Integer prevWidth = null;
     private Integer prevHeight = null;
 
-    public ConfigGui(ResourceLocation logo, String searchText) {
-        this.logo = logo;
-        this.initSearchText = searchText;
-        settings = getFilteredSettings();
-    }
-
     public ConfigGui(ResourceLocation logo) {
-        this(logo, "");
+        this.logo = logo;
+        settings = getFilteredSettings();
     }
 
     @Override
@@ -98,7 +89,7 @@ public class ConfigGui extends GuiScreen {
         }
 
         if(prevHeight != null && prevWidth != null && (prevWidth != width || prevHeight != height)) {
-            Shady.mc.displayGuiScreen(new ConfigGui(logo, search.text));
+            Shady.mc.displayGuiScreen(new ConfigGui(logo));
         }
 
         prevWidth = width;
@@ -111,10 +102,6 @@ public class ConfigGui extends GuiScreen {
 
         int x = getOffset() + columnWidth;
         int y = headerHeight - scrollOffset;
-
-        search = new SearchComponent(x - columnWidth, y - search.height - 9, columnWidth, "");
-        search.text = initSearchText;
-        buttonList.add(search);
 
         for(int i = 0; i < settings.size(); i++) {
             Setting setting = settings.get(i);
@@ -165,49 +152,34 @@ public class ConfigGui extends GuiScreen {
     }
 
     private ArrayList<Setting> getFilteredSettings() {
-        ArrayList<Setting> newSettings = new ArrayList<>();
+        ArrayList<Setting> newSetttings = new ArrayList<>();
 
         for(Setting setting : Shady.settings) {
-            if(!CatGirls.imagesLoaded) {
+            if(!CatPeople.usingPack) {
                 if(setting.name.equals("Catgirls")) continue;
                 if(setting.parent != null && setting.parent.name.equals("Catgirls")) continue;
             }
 
+            /*
+            - top level settings
+            - child settings of enabled parent BooleanSettings
+            - child settings of opened parent FolderSettings
+            */
+
             if(setting.parent == null) {
-                newSettings.add(setting);
-                continue;
-            }
+                newSetttings.add(setting);
+            } else {
+                if(setting.parent instanceof FolderSetting && !newSetttings.contains(setting.parent)) {
+                    continue;
+                }
 
-            if(setting.parent instanceof FolderSetting && !newSettings.contains(setting.parent)) {
-                continue;
-            }
-
-            if(setting.parent.get(Boolean.class)) {
-                newSettings.add(setting);
-            }
-        }
-
-        ArrayList<Setting> settingsToAdd = new ArrayList<>();
-
-        if(!search.text.isEmpty()) {
-            for(Setting setting : newSettings) {
-                if(setting instanceof FolderSetting && !setting.get(Boolean.class)) {
-                    for(Setting child : ((FolderSetting) setting).children) {
-                        if(child.name.toLowerCase().contains(search.text.toLowerCase())) {
-                            if(!settingsToAdd.contains(setting)) settingsToAdd.add(setting);
-                            settingsToAdd.add(child);
-                            break;
-                        }
-                    }
+                if(setting.parent.get(Boolean.class)) {
+                    newSetttings.add(setting);
                 }
             }
         }
 
-        newSettings.removeIf(setting -> !setting.name.toLowerCase().contains(search.text.toLowerCase()));
-
-        newSettings.addAll(settingsToAdd);
-
-        return newSettings;
+        return newSetttings;
     }
 
     @Override
@@ -230,15 +202,6 @@ public class ConfigGui extends GuiScreen {
 
     private int getOffset() {
         return (width - columnWidth) / 2;
-    }
-
-    @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        super.keyTyped(typedChar, keyCode);
-        search.onKeyTyped(typedChar, keyCode);
-        initSearchText = search.text;
-        settings = getFilteredSettings();
-        initGui();
     }
 
 }

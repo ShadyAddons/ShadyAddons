@@ -6,6 +6,7 @@
     "mixins": [
         "MixinChunk",
         "MixinGuiButton",
+        "MixinGuiContainer",
         "MixinGuiMainMenu",
         "MixinMinecraft",
         "MixinModelEnderCrystal",

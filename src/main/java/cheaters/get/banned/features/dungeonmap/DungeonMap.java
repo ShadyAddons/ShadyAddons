@@ -74,7 +74,7 @@ public class DungeonMap {
             } else if(Config.announceScore && !activeDungeonLayout.sentScoreMessage && DungeonUtils.calculateScore() >= Config.announceScoreNumber) {
                 activeDungeonLayout.sentScoreMessage = true;
                 String chatPrefix = new String[]{"/pc", "/ac", "/gc", "/r"}[Config.announceScoreChat];
-                Utils.sendMessageAsPlayer(chatPrefix + " ShadyAddons: " + Config.announceScoreNumber + " score reached");
+                Utils.sendMessageAsPlayer(chatPrefix + Config.announceScoreNumber + " score reached");
             }
         }
     }

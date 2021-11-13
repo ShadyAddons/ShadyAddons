@@ -22,11 +22,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-public class CatGirls {
+public class CatPeople {
 
-    public static ArrayList<CatPerson> currentCatPeople = new ArrayList<>();
+    public static ArrayList<CatPerson> catPeople = new ArrayList<>();
     private static ArrayList<ResourceLocation> images = new ArrayList<>();
-    public static boolean imagesLoaded = false;
+    public static boolean usingPack = false;
 
     private static class CatPerson {
         float percentage;
@@ -43,30 +43,39 @@ public class CatGirls {
     }
 
     public static void load() {
+        usingPack = false;
+        catPeople.clear();
+
         for(ResourcePackRepository.Entry pack : Shady.mc.getResourcePackRepository().getRepositoryEntries()) {
             Set<String> domains = pack.getResourcePack().getResourceDomains();
             if(domains != null && domains.contains("shadyaddons")) {
-                File file = (File) ReflectionUtils.field(pack, "resourcePackFile");
-                if(file != null) {
-                    Collection<File> pngs = FileUtils.listFiles(file, new String[]{"png"}, true);
-                    pngs.removeIf(png -> png.getName().equals("pack.png"));
-                    images.clear();
-                    for(File png : pngs) {
-                        images.add(new ResourceLocation("shadyaddons", png.getParentFile().getName()+"/"+png.getName()));
+                System.out.println("RESOURCE PACK FOUND");
+                File directory = (File) ReflectionUtils.field(pack, "resourcePackFile");
+                if(directory != null) {
+                    System.out.println("DIRECTORY FOUND " + directory.getAbsolutePath());
+                    Collection<File> images = FileUtils.listFiles(directory, new String[]{"png"}, true);
+                    images.removeIf(image -> image.getName().equals("pack.png"));
+                    CatPeople.images.clear();
+                    for(File image : images) {
+                        CatPeople.images.add(new ResourceLocation("shadyaddons", image.getParentFile().getName()+"/"+image.getName()));
                     }
-                    imagesLoaded = true;
+                    System.out.println("IMAGES " + images);
+                    usingPack = true;
+                    return;
                 }
             }
         }
+
+        Config.catGirls = false;
     }
 
     public static void addRandomCatPerson(int type) {
         CatPerson catPerson = new CatPerson();
-        catPerson.percentage = MathUtils.random(20, 80) / 100f;
+        catPerson.percentage = MathUtils.random(10, 80) / 100f;
 
         Collections.shuffle(images);
         switch(type) {
-            case 0: // Girl
+            case 0: // girl
                 catPerson.image = ArrayUtils.getFirstMatch(images, image -> image.getResourcePath().contains("catgirl"));
                 break;
 
@@ -86,13 +95,13 @@ public class CatGirls {
         catPerson.side = CatPerson.Side.values()[MathUtils.random(0, 3)];
         catPerson.size = MathUtils.random(75, 200);
 
-        currentCatPeople.add(catPerson);
+        catPeople.add(catPerson);
     }
 
     private int counter = 0;
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
-        if(Config.catGirls && imagesLoaded) {
+        if(Config.catGirls && usingPack) {
             if(counter % 20 == 0) {
                 if(MathUtils.random(1, 5) == 5) {
                     addRandomCatPerson(Config.catGirlsMode);
@@ -101,23 +110,26 @@ public class CatGirls {
             }
             counter++;
         } else {
-            currentCatPeople.clear();
+            catPeople.clear();
         }
     }
 
     @SubscribeEvent
-    public void onResourcePackLoad(ResourcePackRefreshEvent.Post event) {
-        imagesLoaded = false;
-        currentCatPeople.clear();
-        load();
-        Analytics.collect("using_pack", imagesLoaded ? "1" : "0");
+    public void onResourcePackRefresh(ResourcePackRefreshEvent.Post event) {
+        for(ResourcePackRepository.Entry pack : Shady.mc.getResourcePackRepository().getRepositoryEntries()) {
+            Set<String> resourceDomains = pack.getResourcePack().getResourceDomains();
+            if(resourceDomains != null && resourceDomains.contains("shadyaddons")) {
+                load();
+                Analytics.collect("using_pack", usingPack ? "1" : "0");
+            }
+        }
     }
 
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent.Pre event) {
         if(event.type == RenderGameOverlayEvent.ElementType.HOTBAR && Config.catGirls) {
             ScaledResolution scaledResolution = new ScaledResolution(Shady.mc);
-            for(CatPerson catPerson : currentCatPeople) {
+            for(CatPerson catPerson : catPeople) {
                 int x = 0;
                 int y = 0;
                 int angle = 0;

@@ -5,7 +5,7 @@ import cheaters.get.banned.features.AutoTerminals;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.Room;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
-import cheaters.get.banned.features.jokes.CatGirls;
+import cheaters.get.banned.features.jokes.CatPeople;
 import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.MathUtils;
@@ -72,7 +72,7 @@ public class MainCommand extends CommandBase {
 
                             case "catperson":
                             case "cat":
-                                CatGirls.addRandomCatPerson(MathUtils.random(0, 3));
+                                CatPeople.addRandomCatPerson(MathUtils.random(0, 3));
                                 Utils.sendModMessage("rawr");
                                 break;
 
