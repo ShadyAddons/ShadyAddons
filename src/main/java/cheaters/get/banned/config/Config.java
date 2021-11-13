@@ -108,9 +108,31 @@ public class Config {
 
         @Property(
                 type = Property.Type.BOOLEAN,
-                name = "Automatically Start Salvaging"
+                name = "Automatically Start Salvaging",
+                parent = "Auto Salvage"
         )
         public static boolean automaticallyStartSalvaging = false;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto Sell"
+    )
+    public static boolean autoSell = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Sell Salvageable Items",
+                parent = "Auto Sell"
+        )
+        public static boolean autoSellSalvageable = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Sell Superboom",
+                parent = "Auto Sell"
+        )
+        public static boolean autoSellSuperboom = false;
 
 
     @Property(

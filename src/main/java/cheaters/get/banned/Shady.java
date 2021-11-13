@@ -112,6 +112,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new CrystalReach());
         MinecraftForge.EVENT_BUS.register(new AutoSalvage());
         MinecraftForge.EVENT_BUS.register(new Grapefruit());
+        MinecraftForge.EVENT_BUS.register(new AutoSell());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);

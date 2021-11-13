@@ -23,7 +23,7 @@ public class UpdateGui extends GuiScreen {
     @Override
     public void actionPerformed(GuiButton button) {
         if(button.id == 0) {
-            Utils.openUrl("https://cheatersgetbanned.me/latest");
+            Utils.openUrl("https://cheatersgetbanned.me/");
         }
         Shady.guiToOpen = new GuiMainMenu();
     }
@@ -32,7 +32,19 @@ public class UpdateGui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawDefaultBackground();
 
-        RenderUtils.drawTexture(new ResourceLocation("shadyaddons:background.jpg"), 0, 0, width, height);
+        float ratio = 1.77272727273f;
+        float bgWidth = width;
+        float bgHeight = height;
+
+        if(width / ratio < height) {
+            bgHeight = height;
+            bgWidth = height * ratio;
+        } else {
+            bgHeight = width / ratio;
+            bgWidth = width;
+        }
+
+        RenderUtils.drawTexture(new ResourceLocation("shadyaddons:background.jpg"), 0, 0, Math.round(bgWidth), Math.round(bgHeight));
 
         String title = "ShadyAddons " + FontUtils.getRainbowCode('c') + Updater.update.version + "§f is available!";
         FontUtils.drawScaledCenteredString(title, 1.5f, width/2, height/2-15-5, true);
