@@ -57,6 +57,7 @@ public class Shady {
     public static boolean usingSkyBlockAddons = false;
     public static boolean usingPatcher = false;
     public static boolean usingSkytils = false;
+    public static DiscordRPC discordRpc;
 
     public static GuiScreen guiToOpen = null;
     public static boolean enabled = true;
@@ -74,12 +75,14 @@ public class Shady {
         Updater.check();
         MayorAPI.fetch();
         Analytics.collect("version", VERSION);
+        discordRpc = new DiscordRPC();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new TickEndEvent());
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(discordRpc);
         MinecraftForge.EVENT_BUS.register(new Utils());
         MinecraftForge.EVENT_BUS.register(new LocationUtils());
         MinecraftForge.EVENT_BUS.register(new DungeonUtils());

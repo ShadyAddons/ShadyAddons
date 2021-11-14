@@ -13,11 +13,13 @@ public class Updater {
         public String version;
         public String download;
         public String description;
+        public int users;
 
-        public Update(String version, String download, String description) {
+        public Update(String version, String download, String description, int users) {
             this.version = version;
             this.download = download;
             this.description = description;
+            this.users = users;
         }
     }
 

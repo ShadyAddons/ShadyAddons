@@ -44,17 +44,17 @@ public class AutoSalvage {
                 List<Slot> chestInventory = ((GuiChest) Shady.mc.currentScreen).inventorySlots.inventorySlots;
                 if(chestInventory.get(31).getStack() != null && chestInventory.get(31).getStack().getItem() == Items.skull) {
                     // Confirm salvaging legendary items
-                    if(chestInventory.get(22).getStack() != null & chestInventory.get(22).getStack().getItem() == Item.getItemFromBlock(Blocks.stained_hardened_clay)) {
+                    if(chestInventory.get(22) != null && chestInventory.get(22).getStack() != null & chestInventory.get(22).getStack().getItem() == Item.getItemFromBlock(Blocks.stained_hardened_clay)) {
                         Shady.mc.playerController.windowClick(Shady.mc.thePlayer.openContainer.windowId, 22, 2, 0, Shady.mc.thePlayer);
                     }
 
-                    if(chestInventory.get(13).getStack() != null) {
-                        if(chestInventory.get(22).getStack() != null && chestInventory.get(22).getStack().getItem() == Item.getItemFromBlock(Blocks.anvil)) {
+                    if(chestInventory.get(13) != null && chestInventory.get(13).getStack() != null) {
+                        if(chestInventory.get(22) != null && chestInventory.get(22).getStack() != null && chestInventory.get(22).getStack().getItem() == Item.getItemFromBlock(Blocks.anvil)) {
                             // Click anvil to salvage the item
                             Shady.mc.playerController.windowClick(Shady.mc.thePlayer.openContainer.windowId, 22, 2, 0, Shady.mc.thePlayer);
                         }
                     }
-                } else if(chestInventory.get(13).getStack() == null) { // If no item is waiting to be salvaged
+                } else if(chestInventory.get(13) != null && chestInventory.get(13).getStack() == null) { // If no item is waiting to be salvaged
                     List<Slot> itemsToSalvage = Shady.mc.thePlayer.inventoryContainer.inventorySlots;
                     itemsToSalvage.removeIf(slot -> !shouldSalvage(slot.getStack()));
                     if(itemsToSalvage.isEmpty()) {

@@ -1,6 +1,8 @@
 package cheaters.get.banned.config.settings;
 
 import cheaters.get.banned.config.Property;
+import cheaters.get.banned.events.SettingChangeEvent;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.lang.reflect.Field;
 
@@ -43,7 +45,9 @@ public abstract class Setting {
 
     public boolean set(Object value) {
         try {
+            Object oldValue = get(Object.class);
             field.set(value.getClass(), value);
+            MinecraftForge.EVENT_BUS.post(new SettingChangeEvent(this, oldValue, value));
             return true;
         } catch(Exception ignored) {}
         return false;

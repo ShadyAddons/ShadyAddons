@@ -189,6 +189,13 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "Discord Rich Presence"
+    )
+    public static boolean discordRpc = false;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "Disable Block Animation"
     )
     public static boolean disableBlockAnimation = false;

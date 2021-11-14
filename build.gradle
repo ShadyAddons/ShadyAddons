@@ -4,7 +4,15 @@ plugins {
     id "org.spongepowered.mixin" version "d5f9873d60"
 }
 
-version = "2.2.0-pre2"
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+version = "2.2.0-pre2.1"
 group = "cheaters.get.banned"
 archivesBaseName = "ShadyAddons"
 
@@ -36,6 +44,10 @@ configurations {
 
 
 dependencies {
+    packageLib('com.github.jagrosh:DiscordIPC:e29d6d8') {
+        exclude module: 'log4j'
+    }
+
     annotationProcessor("org.spongepowered:mixin:0.7.11-SNAPSHOT")
 
     packageLib("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
