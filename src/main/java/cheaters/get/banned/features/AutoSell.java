@@ -22,13 +22,13 @@ public class AutoSell {
 
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
-        if(tickCount % 4 == 0) {
+        if(tickCount % 3 == 0) {
             if(Utils.inSkyBlock && Config.autoSell && inTradeMenu && Shady.mc.currentScreen instanceof GuiChest) {
                 List<Slot> chestInventory = ((GuiChest) Shady.mc.currentScreen).inventorySlots.inventorySlots;
                 if(chestInventory.get(49).getStack() != null && chestInventory.get(49).getStack().getItem() != Item.getItemFromBlock(Blocks.barrier)) {
                     for(Slot slot : Shady.mc.thePlayer.inventoryContainer.inventorySlots) {
                         if(shouldSell(slot.getStack())) {
-                            Shady.mc.playerController.windowClick(Shady.mc.thePlayer.openContainer.windowId, slot.slotNumber, 2, 0, Shady.mc.thePlayer);
+                            Shady.mc.playerController.windowClick(Shady.mc.thePlayer.openContainer.windowId, 45 + slot.slotNumber, 2, 0, Shady.mc.thePlayer);
                             break;
                         }
                     }
@@ -42,7 +42,6 @@ public class AutoSell {
     public void onBackgroundRender(GuiScreenEvent.BackgroundDrawnEvent event) {
         String chestName = Utils.getGuiName(event.gui);
         inTradeMenu = chestName.equals("Trades");
-        System.out.println(chestName);
     }
 
     private boolean shouldSell(ItemStack item) {

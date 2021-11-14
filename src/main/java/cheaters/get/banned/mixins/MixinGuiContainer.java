@@ -21,10 +21,15 @@ public abstract class MixinGuiContainer {
     @Shadow public Container inventorySlots;
 
     @Inject(method = "drawSlot", at = @At("HEAD"), cancellable = true)
-    private void onDrawSlot(Slot slot, CallbackInfo callbackInfo) {
-        if(MinecraftForge.EVENT_BUS.post(new DrawSlotEvent(inventorySlots, slot))) {
+    private void beforeDrawSlot(Slot slot, CallbackInfo callbackInfo) {
+        if(MinecraftForge.EVENT_BUS.post(new DrawSlotEvent.Pre(inventorySlots, slot))) {
             callbackInfo.cancel();
         }
+    }
+
+    @Inject(method = "drawSlot", at = @At("RETURN"))
+    private void afterDrawSlot(Slot slot, CallbackInfo callbackInfo) {
+        MinecraftForge.EVENT_BUS.post(new DrawSlotEvent.Post(inventorySlots, slot));
     }
 
 }

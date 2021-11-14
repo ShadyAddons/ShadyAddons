@@ -152,7 +152,7 @@ public class ConfigGui extends GuiScreen {
     }
 
     private ArrayList<Setting> getFilteredSettings() {
-        ArrayList<Setting> newSetttings = new ArrayList<>();
+        ArrayList<Setting> newSettings = new ArrayList<>();
 
         for(Setting setting : Shady.settings) {
             if(!CatPeople.usingPack) {
@@ -167,19 +167,19 @@ public class ConfigGui extends GuiScreen {
             */
 
             if(setting.parent == null) {
-                newSetttings.add(setting);
+                newSettings.add(setting);
             } else {
-                if(setting.parent instanceof FolderSetting && !newSetttings.contains(setting.parent)) {
+                if(setting.parent instanceof FolderSetting && !newSettings.contains(setting.parent)) {
                     continue;
                 }
 
                 if(setting.parent.get(Boolean.class)) {
-                    newSetttings.add(setting);
+                    newSettings.add(setting);
                 }
             }
         }
 
-        return newSetttings;
+        return newSettings;
     }
 
     @Override

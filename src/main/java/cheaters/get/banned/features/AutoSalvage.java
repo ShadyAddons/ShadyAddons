@@ -89,7 +89,7 @@ public class AutoSalvage {
     }
 
     @SubscribeEvent
-    public void onDrawSlot(DrawSlotEvent event) {
+    public void onDrawSlot(DrawSlotEvent.Pre event) {
         if(Config.autoSalvage && inSalvageGui && button.isMouseOver() && shouldSalvage(event.slot.getStack())) {
             int x = event.slot.xDisplayPosition;
             int y = event.slot.yDisplayPosition;

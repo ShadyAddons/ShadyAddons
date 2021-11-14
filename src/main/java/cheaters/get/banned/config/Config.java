@@ -134,6 +134,42 @@ public class Config {
         )
         public static boolean autoSellSuperboom = false;
 
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Sell Health Potions",
+                parent = "Auto Sell"
+        )
+        public static boolean autoSellHealthPotions = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Sell Training Weights",
+                parent = "Auto Sell"
+        )
+        public static boolean autoSellTrainingWeights = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Sell Junk Reforge Stones",
+                parent = "Auto Sell"
+        )
+        public static boolean autoSellReforgeStones = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Sell Glitched Materials",
+                note = "Signs, carpets, etc",
+                parent = "Auto Sell"
+        )
+        public static boolean autoSellGlitchedMaterials = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Sell Speed/Weakness Potions",
+                parent = "Auto Sell"
+        )
+        public static boolean autoSellPotions = false;
+
 
     @Property(
             type = Property.Type.BOOLEAN,
