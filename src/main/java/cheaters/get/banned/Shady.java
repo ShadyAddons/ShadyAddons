@@ -13,7 +13,6 @@ import cheaters.get.banned.features.dungeonmap.DungeonScanner;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
 import cheaters.get.banned.features.jokes.CatPeople;
 import cheaters.get.banned.features.jokes.FakeBan;
-import cheaters.get.banned.features.jokes.Grapefruit;
 import cheaters.get.banned.features.jokes.MissingItem;
 import cheaters.get.banned.remote.Analytics;
 import cheaters.get.banned.remote.MayorAPI;
@@ -57,7 +56,6 @@ public class Shady {
     public static boolean usingSkyBlockAddons = false;
     public static boolean usingPatcher = false;
     public static boolean usingSkytils = false;
-    public static DiscordRPC discordRpc;
 
     public static GuiScreen guiToOpen = null;
     public static boolean enabled = true;
@@ -75,14 +73,12 @@ public class Shady {
         Updater.check();
         MayorAPI.fetch();
         Analytics.collect("version", VERSION);
-        discordRpc = new DiscordRPC();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new TickEndEvent());
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(discordRpc);
         MinecraftForge.EVENT_BUS.register(new Utils());
         MinecraftForge.EVENT_BUS.register(new LocationUtils());
         MinecraftForge.EVENT_BUS.register(new DungeonUtils());
@@ -114,7 +110,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new AutoReadyUp());
         MinecraftForge.EVENT_BUS.register(new CrystalReach());
         MinecraftForge.EVENT_BUS.register(new AutoSalvage());
-        MinecraftForge.EVENT_BUS.register(new Grapefruit());
+        MinecraftForge.EVENT_BUS.register(new TerminalReach());
         MinecraftForge.EVENT_BUS.register(new AutoSell());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {

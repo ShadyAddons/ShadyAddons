@@ -5,6 +5,7 @@ import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.utils.DungeonUtils;
+import cheaters.get.banned.utils.RayCastUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -33,7 +34,13 @@ public class CrystalReach {
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
         if(isEnabled() && Shady.mc.thePlayer.isSneaking()) {
-            crystal = lookingAtCrystal();
+            // crystal = lookingAtCrystal();
+            List<EntityEnderCrystal> crystals = RayCastUtils.getFacedEntityOfType(EntityEnderCrystal.class, 32);
+            if(crystals != null) {
+                crystal = crystals.get(0);
+            } else {
+                crystal = null;
+            }
         } else {
             crystal = null;
         }

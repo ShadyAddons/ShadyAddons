@@ -1,9 +1,7 @@
 package cheaters.get.banned.features.jokes;
 
 import cheaters.get.banned.Shady;
-import net.minecraft.client.gui.GuiDisconnected;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiMultiplayer;
+import cheaters.get.banned.utils.Utils;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -14,12 +12,13 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 public class FakeBan {
 
     private static boolean permBan = false;
-    private static long banTime = 0;
+    private static long banStart = 0;
+    private static boolean usernameBan = false;
 
     @SubscribeEvent
     public void onMessage(ClientChatReceivedEvent event) {
         String message = event.message.getUnformattedText();
-        if(message.contains("!BANNED!") || message.contains("!PERMBAN!")) {
+        if(message.contains("!BANNED!") || message.contains("!PERMBAN!") || message.contains("!BADNAME!")) {
             switch(message.hashCode()) {
                 case 870570787:
                 case -1778728484:
@@ -27,9 +26,20 @@ public class FakeBan {
 
                 case -1292812670:
                 case 561388713:
-                    banTime = System.currentTimeMillis() - 1000;
+                    banStart = System.currentTimeMillis() - 1000;
                     event.setCanceled(true);
                     fakeGenericBan(Shady.mc.getNetHandler().getNetworkManager());
+                    break;
+
+                case -1708887982:
+                case -63219957:
+                    usernameBan = true;
+                    event.setCanceled(true);
+                    fakeUsernameBan(Shady.mc.getNetHandler().getNetworkManager());
+                    break;
+
+                default:
+                    Utils.sendMessageAsPlayer("/r Nice try bozo");
             }
         }
     }
@@ -37,20 +47,13 @@ public class FakeBan {
     @SubscribeEvent
     public void onJoinServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         if(Shady.mc.getCurrentServerData() != null && Shady.mc.getCurrentServerData().serverIP.contains("hypixel.net") && !Shady.mc.getCurrentServerData().serverIP.contains("letmein")) {
-            /*switch(Shady.mc.getSession().getProfile().getName().hashCode()) {
-                case -1224839552:
-                case -45179611:
-                        fakeUsernameBan(event.manager);
-            }*/
-
-            if(permBan) {
-                fakeGenericBan(event.manager);
-            }
+            if(usernameBan) fakeUsernameBan(event.manager);
+            if(permBan) fakeGenericBan(event.manager);
         }
     }
 
     public static void fakeGenericBan(NetworkManager manager) {
-        long banDuration = banTime + 2592000000L - System.currentTimeMillis();
+        long banDuration = banStart + 2592000000L - System.currentTimeMillis();
         String formattedDuration = DurationFormatUtils.formatDuration(banDuration, "d'd' H'h' m'm' s's'", false);
 
         ChatComponentText component = new ChatComponentText("§cYou are temporarily banned for §f" + formattedDuration + " §cfrom this server!");
@@ -66,12 +69,12 @@ public class FakeBan {
     public static void fakeUsernameBan(NetworkManager manager) {
         ChatComponentText component = new ChatComponentText("\n§cYou are currently blocked from joining this server!");
         component.appendText("\n");
-        component.appendText("\n§7Reason: §fYour username, " + Shady.mc.getSession().getProfile().getName() + ", is not allowed on the server and is breaking our rules.");
+        component.appendText("\n§7Reason: §fYour username, " + Shady.mc.getSession().getUsername() + ", is not allowed on the server and is breaking our rules.");
         component.appendText("\n§7Find out more: §b§nhttps://www.hypixel.net/rules");
         component.appendText("\n");
         component.appendText("\n§cPlease change your Minecraft username before trying to join again.");
         manager.closeChannel(component);
-        Shady.guiToOpen = new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "Failed to connect to the server", component);
+        // Shady.guiToOpen = new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "Failed to connect to the server", component);
     }
 
 }

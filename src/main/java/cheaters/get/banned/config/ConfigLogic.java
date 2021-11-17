@@ -2,6 +2,7 @@ package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.settings.*;
+import cheaters.get.banned.remote.DisableFeatures;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -14,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ConfigLogic {
@@ -48,13 +50,28 @@ public class ConfigLogic {
             }
         }
 
+        List<String> disabledFeatures = DisableFeatures.load();
+        ArrayList<Setting> settingsToRemove = new ArrayList<>();
+
         // Relationships that need to be set after all settings have been collected
         for(Setting setting : settings) {
+            if(disabledFeatures.contains(setting.name)) {
+                settingsToRemove.add(setting);
+                continue;
+            }
+
+            if(settingsToRemove.contains(setting.parent)) {
+                settingsToRemove.add(setting);
+                continue;
+            }
+
             if(!setting.annotation.parent().equals("")) {
-                setting.parent = (ParentSetting)ConfigLogic.getSetting(setting.annotation.parent(), settings);
+                setting.parent = (ParentSetting) ConfigLogic.getSetting(setting.annotation.parent(), settings);
                 if(setting.parent != null) setting.parent.children.add(setting);
             }
         }
+
+        settings.removeAll(settingsToRemove);
 
         return settings;
     }

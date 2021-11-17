@@ -17,8 +17,27 @@ import java.util.List;
 public class AutoSell {
 
     private boolean inTradeMenu = false;
-
     private int tickCount = 0;
+
+    private static final String[] salable = new String[]{
+            "Training Weight",
+            "Healing Potion VIII",
+            "Healing Potion 8",
+            "Beating Heart",
+            "Premium Flesh",
+            "Mimic Fragment",
+            "Enchanted Rotten Flesh",
+            "Enchanted Bone",
+            "Defuse Kit",
+            "Enchanted Ice",
+            "Optic Lense",
+            "Tripwire Hook",
+            "Button",
+            "Carpet",
+            "Lever",
+            "Rune",
+            "Journal Entry"
+    };
 
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
@@ -45,12 +64,24 @@ public class AutoSell {
     }
 
     private boolean shouldSell(ItemStack item) {
-        if(Config.autoSellSalvageable && AutoSalvage.shouldSalvage(item)) {
-            return true;
-        }
+        if(item != null) {
+            if(Config.autoSellSalvageable && AutoSalvage.shouldSalvage(item)) return true;
 
-        if(Config.autoSellSuperboom && Utils.getSkyBlockID(item).equals("SUPERBOOM_TNT")) {
-            return true;
+            if(Config.autoSellSuperboom && Utils.getSkyBlockID(item).equals("SUPERBOOM_TNT")) return true;
+
+            if(Config.autoSellPotions && item.getDisplayName().contains("Potion")) {
+                if(item.getDisplayName().contains("Speed") || item.getDisplayName().contains("Weakness")) {
+                    return true;
+                }
+            }
+
+            if(Config.autoSellDungeonsJunk) {
+                for(String name : salable) {
+                    if(item.getDisplayName().contains(name)) {
+                        return true;
+                    }
+                }
+            }
         }
 
         return false;
