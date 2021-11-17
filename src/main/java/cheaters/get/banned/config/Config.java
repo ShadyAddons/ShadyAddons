@@ -22,6 +22,14 @@ public class Config {
         )
         public static boolean disableInBoss = false;
 
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Secret Aura",
+                parent = "Stonkless Stonk",
+                warning = true
+        )
+        public static boolean secretAura = false;
+
 
     @Property(
             type = Property.Type.BOOLEAN,
@@ -136,32 +144,10 @@ public class Config {
 
         @Property(
                 type = Property.Type.CHECKBOX,
-                name = "Sell Health Potions",
+                name = "Sell Dungeons Junk",
                 parent = "Auto Sell"
         )
-        public static boolean autoSellHealthPotions = false;
-
-        @Property(
-                type = Property.Type.CHECKBOX,
-                name = "Sell Training Weights",
-                parent = "Auto Sell"
-        )
-        public static boolean autoSellTrainingWeights = false;
-
-        @Property(
-                type = Property.Type.CHECKBOX,
-                name = "Sell Junk Reforge Stones",
-                parent = "Auto Sell"
-        )
-        public static boolean autoSellReforgeStones = false;
-
-        @Property(
-                type = Property.Type.CHECKBOX,
-                name = "Sell Glitched Materials",
-                note = "Signs, carpets, etc",
-                parent = "Auto Sell"
-        )
-        public static boolean autoSellGlitchedMaterials = false;
+        public static boolean autoSellDungeonsJunk = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
@@ -182,16 +168,32 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Renew Crystal Hollows Pass"
+            name = "Terminal Reach",
+            note = "Sneak to activate",
+            warning = true
     )
-    public static boolean renewCrystalHollowsPass = false;
+    public static boolean terminalReach = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Include Terminals Outside of Section"
+        )
+        public static boolean outsideTerms = false;
+
+        @Property(
+                type = Property.Type.NUMBER,
+                name = "Terminal Reach Range",
+                min = 5,
+                max = 64
+        )
+        public static int terminalReachRange = 32;
 
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Discord Rich Presence"
+            name = "Auto Renew Crystal Hollows Pass"
     )
-    public static boolean discordRpc = false;
+    public static boolean renewCrystalHollowsPass = false;
 
 
     @Property(

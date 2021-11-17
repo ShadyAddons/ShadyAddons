@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AutoSalvage {
@@ -55,7 +56,7 @@ public class AutoSalvage {
                         }
                     }
                 } else if(chestInventory.get(13) != null && chestInventory.get(13).getStack() == null) { // If no item is waiting to be salvaged
-                    List<Slot> itemsToSalvage = Shady.mc.thePlayer.inventoryContainer.inventorySlots;
+                    ArrayList<Slot> itemsToSalvage = new ArrayList<>(Shady.mc.thePlayer.inventoryContainer.inventorySlots);
                     itemsToSalvage.removeIf(slot -> !shouldSalvage(slot.getStack()));
                     if(itemsToSalvage.isEmpty()) {
                         salvaging = false;

@@ -10,12 +10,9 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.scoreboard.ScoreObjective;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.util.vector.Vector3f;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -93,25 +90,6 @@ public class Utils {
             }
         }
         return "";
-    }
-
-    public static boolean facingBlock(BlockPos block, float range) {
-        float stepSize = 0.15f;
-        if(Shady.mc.thePlayer != null && Shady.mc.theWorld != null) {
-            Vector3f position = new Vector3f((float) Shady.mc.thePlayer.posX, (float) Shady.mc.thePlayer.posY+ Shady.mc.thePlayer.getEyeHeight(), (float) Shady.mc.thePlayer.posZ);
-
-            Vec3 look = Shady.mc.thePlayer.getLook(0);
-
-            Vector3f step = new Vector3f((float) look.xCoord, (float) look.yCoord, (float) look.zCoord);
-            step.scale(stepSize/step.length());
-
-            for(int i = 0; i < Math.floor(range/stepSize)-2; i++) {
-                BlockPos blockAtPos = new BlockPos(position.x, position.y, position.z);
-                if(blockAtPos.equals(block)) return true;
-                position.translate(step.x, step.y, step.z);
-            }
-        }
-        return false;
     }
 
     public static List<String> getLore(ItemStack item) {

@@ -4,10 +4,7 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.BlockChangeEvent;
 import cheaters.get.banned.events.TickEndEvent;
-import cheaters.get.banned.utils.ArrayUtils;
-import cheaters.get.banned.utils.DungeonUtils;
-import cheaters.get.banned.utils.RenderUtils;
-import cheaters.get.banned.utils.Utils;
+import cheaters.get.banned.utils.*;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
@@ -78,11 +75,11 @@ public class StonklessStonk {
                 if(usedBlocks.contains(block.getKey())) continue;
 
                 if(selectedBlock == null) {
-                    if(Utils.facingBlock(block.getKey(), range)) {
+                    if(RayCastUtils.isFacingBlock(block.getKey(), range)) {
                         selectedBlock = block.getKey();
                     }
                 } else {
-                    if(!Utils.facingBlock(selectedBlock, range)) {
+                    if(!RayCastUtils.isFacingBlock(selectedBlock, range)) {
                         selectedBlock = null;
                     }
                 }
