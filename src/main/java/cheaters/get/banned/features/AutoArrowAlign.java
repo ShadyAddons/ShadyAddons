@@ -2,8 +2,8 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
-import cheaters.get.banned.utils.Utils;
-import net.minecraft.client.Minecraft;
+import cheaters.get.banned.events.TickEndEvent;
+import cheaters.get.banned.utils.KeybindUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.item.ItemStack;
@@ -11,30 +11,22 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AutoArrowAlign {
+
     private static final ArrayList<Entity> itemFrames = new ArrayList<>();
     private static final Map<BlockPos, Integer> clicksPerFrame = new HashMap<>();
     private Thread thread;
 
-    private static final int[][][] sections = new int[][][]{
-            { // Section 3
-                    {218, 251}, // NE
-                    {196, 319} // SW
-            },
-    };
-
     @SubscribeEvent
-    public void onTick(TickEvent.PlayerTickEvent event) {
+    public void onTick(TickEndEvent event) {
         if (!Config.autoArrowAlign) return;
-        if(!isInSection3(Shady.mc.thePlayer.playerLocation)) return;
-        if (thread == null || !thread.isAlive()) {
+        if(!isInSection3(Shady.mc.thePlayer.getPosition())) return;
+        if(thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
                 try {
                     initFrame();
@@ -59,7 +51,7 @@ public class AutoArrowAlign {
                                         toClick = endRotationAmount - currRotationAmount;
                                     }
                                     for (int i = 0; i < toClick; i++) {
-                                        rightClick();
+                                        KeybindUtils.rightClick();
                                         Thread.sleep(Config.autoArrowAlignDelay);
                                     }
                                     Thread.sleep(200);
@@ -70,7 +62,7 @@ public class AutoArrowAlign {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }, "Legit Mode");
+            }, "ShadyAddons-Alignment");
             thread.start();
         }
     }
@@ -86,7 +78,7 @@ public class AutoArrowAlign {
     }
 
     private static String findPattern() {
-        BlockPos topLeft = new BlockPos(196, 126, 278);
+        BlockPos topLeft = new BlockPos(196, 124, 278);
         ArrayList<Entity> redWools = new ArrayList<>();
         ArrayList<Entity> greenWools = new ArrayList<>();
 
@@ -130,7 +122,7 @@ public class AutoArrowAlign {
     }
 
     private static void initFrame() {
-        BlockPos topLeft = new BlockPos(196, 126, 278);
+        BlockPos topLeft = new BlockPos(196, 124, 278);
         String pattern = findPattern();
         switch (pattern) {
             case "legs":
@@ -253,43 +245,9 @@ public class AutoArrowAlign {
     }
 
     private static boolean isInSection3(BlockPos blockPos) {
-        boolean inSection = false;
-
-        int x = blockPos.getX();
-        int z = blockPos.getZ();
-
-        for(int[][] s : sections) {
-            if(x < s[0][0] && x > s[0][1] && z < s[1][0] && z > s[1][1]) {
-                inSection = true;
-                break;
-            }
-        }
-
-        x = Shady.mc.thePlayer.getPosition().getX();
-        z = Shady.mc.thePlayer.getPosition().getZ();
-
-        for(int[][] s : sections) {
-            if(x > s[0][0] || x < s[0][1] || z > s[1][0] || z < s[1][1]) {
-                inSection = false;
-                break;
-            }
-        }
-
-        return inSection;
+        int x = Shady.mc.thePlayer.getPosition().getX();
+        int z = Shady.mc.thePlayer.getPosition().getZ();
+        return x < 218 && z > 251 && x > 196 && z < 319;
     }
 
-    public static void rightClick() {
-        try {
-            Method rightClickMouse;
-            try {
-                rightClickMouse = Minecraft.class.getDeclaredMethod("rightClickMouse");
-            } catch (NoSuchMethodException e) {
-                rightClickMouse = Minecraft.class.getDeclaredMethod("func_147121_ag");
-            }
-            rightClickMouse.setAccessible(true);
-            rightClickMouse.invoke(Shady.mc);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
