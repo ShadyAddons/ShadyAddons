@@ -764,4 +764,21 @@ public class Config {
     )
     public static boolean useCleanButtons = false;
 
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto Arrow Align",
+            note = "by RoseGold"
+    )
+    public static boolean autoArrowAlign = false;
+
+        @Property(
+                type = Property.Type.NUMBER,
+                name = "Click Delay",
+                parent = "Auto Arrow Align",
+                step =  10,
+                suffix = "ms",
+                max = 500
+        )
+        public static int autoArrowAlignDelay = 100;
+
 }
