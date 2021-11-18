@@ -112,6 +112,8 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new AutoSalvage());
         MinecraftForge.EVENT_BUS.register(new TerminalReach());
         MinecraftForge.EVENT_BUS.register(new AutoSell());
+        // By RoseGold: MinecraftForge.EVENT_BUS.register(new AutoArrowAlign());
+        MinecraftForge.EVENT_BUS.register(new AutoAlignArrows());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);
