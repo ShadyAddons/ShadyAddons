@@ -766,19 +766,27 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Arrow Align",
+            name = "Block Arrow Align Misclicks",
             note = "by RoseGold"
     )
-    public static boolean autoArrowAlign = false;
+    public static boolean blockArrowAlign = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Auto Arrow Align",
+                parent = "Block Arrow Align Misclicks"
+        )
+        public static boolean autoArrowAlign = false;
 
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Click Delay",
-                parent = "Auto Arrow Align",
+                parent = "Block Arrow Align Misclicks",
                 step =  10,
                 suffix = "ms",
                 max = 500
         )
-        public static int autoArrowAlignDelay = 100;
+        public static int autoArrowAlignDelay = 20;
+
 
 }

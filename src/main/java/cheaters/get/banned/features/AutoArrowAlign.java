@@ -2,6 +2,7 @@ package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
+import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -9,7 +10,9 @@ import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.client.event.RenderWorldEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -20,73 +23,165 @@ import java.util.Map;
 
 public class AutoArrowAlign {
     private static final ArrayList<Entity> itemFrames = new ArrayList<>();
+    private static final ArrayList<Entity> arrowItemFrames = new ArrayList<>();
+    private static final ArrayList<Entity> doneClicking = new ArrayList<>();
     private static final Map<BlockPos, Integer> clicksPerFrame = new HashMap<>();
+    private static final Map<BlockPos, Integer> trackClicks = new HashMap<>();
+    private static final Map<BlockPos, Integer> toClickMap = new HashMap<>();
+    private static boolean start = false;
+    private static boolean init = false;
+    private static boolean accurate = false;
+    private static final BlockPos topLeft = new BlockPos(196, 125, 278);
     private Thread thread;
-
-    private static final int[][][] sections = new int[][][]{
-            { // Section 3
-                    {218, 251}, // NE
-                    {196, 319} // SW
-            },
-    };
 
     @SubscribeEvent
     public void onTick(TickEvent.PlayerTickEvent event) {
         if (!Config.autoArrowAlign) return;
-        if(!isInSection3(Shady.mc.thePlayer.playerLocation)) return;
-        if (thread == null || !thread.isAlive()) {
-            thread = new Thread(() -> {
-                try {
-                    initFrame();
-                    MovingObjectPosition objectMouseOver = Shady.mc.objectMouseOver;
-                    if (objectMouseOver != null && objectMouseOver.entityHit != null) {
-                        Entity entity = objectMouseOver.entityHit;
-                        if (entity instanceof EntityItemFrame) {
-                            ItemStack itemStack = ((EntityItemFrame) entity).getDisplayedItem();
-                            if (itemStack != null) {
-                                String itemString = itemStack.toString();
-                                if (itemString.contains("arrow@0")) {
-                                    int endRotationAmount = 0;
-                                    if(clicksPerFrame.containsKey(new BlockPos(196, entity.getPosition().getY(), entity.getPosition().getZ()))) {
-                                        endRotationAmount = clicksPerFrame.get(new BlockPos(196, entity.getPosition().getY(), entity.getPosition().getZ()));
-                                    }
-                                    int currRotationAmount = ((EntityItemFrame) entity).getRotation();
-                                    int toClick = 0;
-                                    if (currRotationAmount < endRotationAmount) {
-                                        toClick = endRotationAmount - currRotationAmount;
-                                    } else if (currRotationAmount > endRotationAmount) {
-                                        currRotationAmount = currRotationAmount - 8;
-                                        toClick = endRotationAmount - currRotationAmount;
-                                    }
-                                    for (int i = 0; i < toClick; i++) {
-                                        rightClick();
-                                        Thread.sleep(Config.autoArrowAlignDelay);
-                                    }
-                                    Thread.sleep(200);
-                                }
-                            }
+        //if (!isInSection3(Shady.mc.thePlayer.getPosition())) return;
+        MovingObjectPosition objectMouseOver = Shady.mc.objectMouseOver;
+        if (objectMouseOver != null && objectMouseOver.entityHit != null) {
+            Entity entity = objectMouseOver.entityHit;
+            BlockPos BP = new BlockPos(topLeft.getX(), entity.getPosition().getY(), entity.getPosition().getZ());
+            if (doneClicking.contains(entity)) return;
+            if (toClickMap.containsKey(BP)) {
+                if (thread == null || !thread.isAlive()) {
+                    thread = new Thread(() -> {
+                        try {
+                            rightClick();
+                            Thread.sleep(Config.autoArrowAlignDelay);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    }, "Auto Arrow Aligner");
+                    thread.start();
                 }
-            }, "Legit Mode");
-            thread.start();
+            }
         }
     }
 
     @SubscribeEvent
-    public void renderWorld(RenderWorldLastEvent event) {
+    public void onRender2(RenderWorldLastEvent event) {
+        if (!Config.autoArrowAlign && !Config.blockArrowAlign) return;
+        if(start) {
+            //if (!isInSection3(Shady.mc.thePlayer.getPosition())) return;
+            initFrame();
+            if (init && !accurate) {
+                arrowItemFrames.forEach(itemFrame -> {
+                    BlockPos BP = new BlockPos(topLeft.getX(), itemFrame.getPosition().getY(), itemFrame.getPosition().getZ());
+                    int endRotationAmount = 0;
+                    if (clicksPerFrame.containsKey(BP)) {
+                        endRotationAmount = clicksPerFrame.get(BP);
+                    }
+                    int currRotationAmount = ((EntityItemFrame) itemFrame).getRotation();
+                    int toClick = 0;
+                    if (currRotationAmount < endRotationAmount) {
+                        toClick = endRotationAmount - currRotationAmount;
+                    } else if (currRotationAmount > endRotationAmount) {
+                        currRotationAmount = currRotationAmount - 8;
+                        toClick = endRotationAmount - currRotationAmount;
+                    }
+                    //Utils.sendMessage("Inserting: " + BP + " with click amount: " + toClick);
+                    toClickMap.put(BP, toClick);
+                });
+                accurate = true;
+            }
+        }
+    }
+
+    /*@SubscribeEvent
+    public void debugging(RenderWorldLastEvent event) {
+        if (!Config.autoArrowAlign && !Config.blockArrowAlign) return;
+        if (init) {
+            for (int y = 126; y > 119; y--) {
+                String line = "";
+                for (int z = 278; z < 283; z++) {
+                    BlockPos BP = new BlockPos(topLeft.getX(), y, z);
+                    int toClick = -1;
+                    if (toClickMap.containsKey(BP)) {
+                        toClick = toClickMap.get(BP);
+                    }
+                    line += (toClick + " ");
+                }
+                Utils.sendMessage(y + ": " + line);
+            }
+        }
+    }*/
+
+
+    @SubscribeEvent
+    public void onInteract(ClickEvent.Right event) {
+        if (!Config.autoArrowAlign && !Config.blockArrowAlign) return;
+        MovingObjectPosition objectMouseOver = Shady.mc.objectMouseOver;
+        if (objectMouseOver != null && objectMouseOver.entityHit != null) {
+            Entity entity = objectMouseOver.entityHit;
+            BlockPos BP = new BlockPos(topLeft.getX(), entity.getPosition().getY(), entity.getPosition().getZ());
+            if (doneClicking.contains(entity)) {
+                if (Config.blockArrowAlign) {
+                    event.setCanceled(true);
+                    return;
+                }
+            }
+            if (toClickMap.containsKey(BP)) {
+                if (trackClicks.containsKey(BP)) {
+                    trackClicks.put(BP, trackClicks.get(BP) + 1);
+                } else {
+                    trackClicks.put(BP, 1);
+                }
+                if ((trackClicks.get(BP)) > toClickMap.get(BP)) {
+                    if (Config.blockArrowAlign) {
+                        event.setCanceled(true);
+                        trackClicks.put(BP, trackClicks.get(BP) - 1);
+                        doneClicking.add(entity);
+                        //accurate = false;
+                    }
+                }
+                //Utils.sendMessage("Clicks To Solve: " + toClickMap.get(BP) + " Clicks Tracked: " + trackClicks.get(BP));
+            }
+        }
+    }
+
+
+    @SubscribeEvent
+    public void onRender(RenderWorldLastEvent event) {
+        if (!Config.autoArrowAlign && !Config.blockArrowAlign) return;
+        if(!start) {
+            MovingObjectPosition objectMouseOver = Shady.mc.objectMouseOver;
+            if (objectMouseOver != null && objectMouseOver.entityHit != null) {
+                Entity entity = objectMouseOver.entityHit;
+                if (entity instanceof EntityItemFrame) {
+                    start = true;
+                }
+            }
+        }
         itemFrames.clear();
         for (Entity entity1 : (Shady.mc.theWorld.loadedEntityList)) {
             if (entity1 instanceof EntityItemFrame) {
                 itemFrames.add(entity1);
             }
         }
+        arrowItemFrames.clear();
+        itemFrames.forEach(itemFrame -> {
+            ItemStack itemStack = ((EntityItemFrame) itemFrame).getDisplayedItem();
+            if (itemStack != null) {
+                String itemString = itemStack.toString();
+                if (itemString.contains("arrow@0")) { //shut up jerome i know
+                    arrowItemFrames.add(itemFrame);
+                }
+            }
+        });
+    }
+
+    @SubscribeEvent
+    public void worldUnload(WorldEvent.Unload event) {
+        init = false;
+        accurate = false;
+        start = false;
+        trackClicks.clear();
+        toClickMap.clear();
+        clicksPerFrame.clear();
     }
 
     private static String findPattern() {
-        BlockPos topLeft = new BlockPos(196, 126, 278);
         ArrayList<Entity> redWools = new ArrayList<>();
         ArrayList<Entity> greenWools = new ArrayList<>();
 
@@ -101,37 +196,40 @@ public class AutoArrowAlign {
                 }
             }
         });
-        int relativeR1 = topLeft.getY() - (((Entity) redWools.toArray()[0]).getPosition()).getY();
-        switch (redWools.size()) {
-            case 1:
-                switch (greenWools.size()) {
-                    case 1:
-                        if (relativeR1 == 4) {
-                            return "legs";
-                        }
-                        if (relativeR1 == 0) {
-                            return "N";
-                        }
-                        return "spiral";
-                    case 2:
-                        if (relativeR1 == 2) {
-                            return "W";
-                        }
-                        return "bottleneck";
-                }
-                break;
-            case 2:
-                if (greenWools.size() > 1) return "zigzag";
-                return "S";
-            case 3:
-                return "lines";
+        if (redWools.size() != 0 && greenWools.size() != 0) {
+            int relativeR1 = topLeft.getY() - (((Entity) redWools.toArray()[0]).getPosition()).getY();
+            switch (redWools.size()) {
+                case 1:
+                    switch (greenWools.size()) {
+                        case 1:
+                            if (relativeR1 == 4) {
+                                return "legs";
+                            }
+                            if (relativeR1 == 0) {
+                                return "N";
+                            }
+                            return "spiral";
+                        case 2:
+                            if (relativeR1 == 2) {
+                                return "W";
+                            }
+                            return "bottleneck";
+                    }
+                    break;
+                case 2:
+                    if (greenWools.size() > 1) return "zigzag";
+                    return "S";
+                case 3:
+                    return "lines";
+            }
         }
         return "Unrecognized";
     }
 
     private static void initFrame() {
-        BlockPos topLeft = new BlockPos(196, 126, 278);
+        if (init) return;
         String pattern = findPattern();
+        //Utils.sendMessage(pattern);
         switch (pattern) {
             case "legs":
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY(), topLeft.getZ() + 1), 3);
@@ -145,6 +243,7 @@ public class AutoArrowAlign {
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 3, topLeft.getZ() + 3), 7);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 1), 5);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 3), 7);
+                init = true;
                 break;
             case "N":
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY(), topLeft.getZ() + 2), 3);
@@ -162,7 +261,7 @@ public class AutoArrowAlign {
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ()), 7);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 1), 5);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 2), 5);
-
+                init = true;
                 break;
             case "spiral":
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY(), topLeft.getZ()), 3);
@@ -180,7 +279,7 @@ public class AutoArrowAlign {
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ()), 1);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 1), 1);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 2), 7);
-
+                init = true;
                 break;
             case "W":
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 1, topLeft.getZ()), 3);
@@ -195,7 +294,7 @@ public class AutoArrowAlign {
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 2), 7);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 3), 5);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 4), 5);
-
+                init = true;
                 break;
             case "bottleneck":
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY(), topLeft.getZ()), 1);
@@ -210,7 +309,7 @@ public class AutoArrowAlign {
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 2, topLeft.getZ() + 4), 7);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 3, topLeft.getZ() + 1), 7);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 3, topLeft.getZ() + 3), 7);
-
+                init = true;
                 break;
             case "S":
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY(), topLeft.getZ() + 1), 1);
@@ -235,6 +334,7 @@ public class AutoArrowAlign {
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 1), 5);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 2), 5);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 3), 5);
+                init = true;
                 break;
             case "zigzag":
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY(), topLeft.getZ() + 2), 3);
@@ -247,35 +347,10 @@ public class AutoArrowAlign {
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 3, topLeft.getZ() + 2), 5);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 2), 7);
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY() - 4, topLeft.getZ() + 3), 5);
+                init = true;
                 break;
         }
 
-    }
-
-    private static boolean isInSection3(BlockPos blockPos) {
-        boolean inSection = false;
-
-        int x = blockPos.getX();
-        int z = blockPos.getZ();
-
-        for(int[][] s : sections) {
-            if(x < s[0][0] && x > s[0][1] && z < s[1][0] && z > s[1][1]) {
-                inSection = true;
-                break;
-            }
-        }
-
-        x = Shady.mc.thePlayer.getPosition().getX();
-        z = Shady.mc.thePlayer.getPosition().getZ();
-
-        for(int[][] s : sections) {
-            if(x > s[0][0] || x < s[0][1] || z > s[1][0] || z < s[1][1]) {
-                inSection = false;
-                break;
-            }
-        }
-
-        return inSection;
     }
 
     public static void rightClick() {
