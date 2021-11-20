@@ -3,14 +3,12 @@ package cheaters.get.banned.features;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.ClickEvent;
-import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.client.event.RenderWorldEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -63,7 +61,6 @@ public class AutoArrowAlign {
     public void onRender2(RenderWorldLastEvent event) {
         if (!Config.autoArrowAlign && !Config.blockArrowAlign) return;
         if(start) {
-            //if (!isInSection3(Shady.mc.thePlayer.getPosition())) return;
             initFrame();
             if (init && !accurate) {
                 arrowItemFrames.forEach(itemFrame -> {
@@ -80,7 +77,6 @@ public class AutoArrowAlign {
                         currRotationAmount = currRotationAmount - 8;
                         toClick = endRotationAmount - currRotationAmount;
                     }
-                    //Utils.sendMessage("Inserting: " + BP + " with click amount: " + toClick);
                     toClickMap.put(BP, toClick);
                 });
                 accurate = true;
@@ -132,10 +128,9 @@ public class AutoArrowAlign {
                         event.setCanceled(true);
                         trackClicks.put(BP, trackClicks.get(BP) - 1);
                         doneClicking.add(entity);
-                        //accurate = false;
+                        //accurate = false; keyed out because it caused errors but might be implementable
                     }
                 }
-                //Utils.sendMessage("Clicks To Solve: " + toClickMap.get(BP) + " Clicks Tracked: " + trackClicks.get(BP));
             }
         }
     }
@@ -229,7 +224,6 @@ public class AutoArrowAlign {
     private static void initFrame() {
         if (init) return;
         String pattern = findPattern();
-        //Utils.sendMessage(pattern);
         switch (pattern) {
             case "legs":
                 clicksPerFrame.put(new BlockPos(topLeft.getX(), topLeft.getY(), topLeft.getZ() + 1), 3);
