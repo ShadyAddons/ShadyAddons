@@ -358,7 +358,8 @@ public class Config {
     @Property(
             type = Property.Type.BOOLEAN,
             name = "Dungeon Map",
-            note = "based on IllegalMap by UnclaimedBloom6"
+            note = "based on IllegalMap by UnclaimedBloom6",
+            beta = true
     )
     public static boolean dungeonMap = false;
 
@@ -490,27 +491,36 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Connect Four AI"
-    )
-    public static boolean connectFourAI = false;
-
-
-    @Property(
-            type = Property.Type.BOOLEAN,
-            name = "/social quickmaths Solver"
+            name = "Quick Math(s) Solver"
     )
     public static boolean socialQuickMathsSolver = false;
 
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Answer Delay",
-                parent = "/social quickmaths Solver",
+                parent = "Quick Math(s) Solver",
                 suffix = "ms",
                 min = 50,
-                max = 1000,
+                max = 3000,
                 step = 50
         )
         public static int quickMathsAnswerDelay = 100;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Enable Outside of SkyBlock",
+                parent = "Quick Math(s) Solver"
+        )
+        public static boolean enableMathsOutsideSkyBlock = false;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Connect Four AI",
+            beta = true
+    )
+    public static boolean connectFourAI = false;
+
 
     @Property(
             type = Property.Type.FOLDER,

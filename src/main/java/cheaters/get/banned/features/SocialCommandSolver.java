@@ -12,7 +12,7 @@ public class SocialCommandSolver {
 
     @SubscribeEvent
     public void onChat(ClientChatReceivedEvent event) {
-        if(Config.socialQuickMathsSolver && event.type == 0 && Utils.inSkyBlock && LocationUtils.onIsland(LocationUtils.Island.PRIVATE_ISLAND)) {
+        if(Config.socialQuickMathsSolver && event.type == 0 && ((Utils.inSkyBlock && LocationUtils.onIsland(LocationUtils.Island.PRIVATE_ISLAND)) || Config.enableMathsOutsideSkyBlock)) {
             String message = event.message.getUnformattedText();
             if(message.startsWith("QUICK MATHS! Solve: ")) {
                 message = message.replace("QUICK MATHS! Solve: ", "").replace("x", "*");

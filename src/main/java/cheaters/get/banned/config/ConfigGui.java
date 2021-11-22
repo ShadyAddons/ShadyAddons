@@ -69,8 +69,14 @@ public class ConfigGui extends GuiScreen {
                 drawRect(x, y-3, getOffset() + columnWidth, y-2, ConfigInput.transparent.getRGB());
             }
 
-            if(setting.warning) {
-                RenderUtils.drawTexture(new ResourceLocation("shadyaddons:warning.png"), x, y, 9, 9);
+            if(setting.warning || setting.beta) {
+                if(setting.warning) {
+                    int textureX = (int) ((System.currentTimeMillis() / 1000) % 2 * 9);
+                    RenderUtils.drawTexture(new ResourceLocation("shadyaddons:warning.png"), x, y, 9, 9, 18, 9, textureX, 0);
+                } else {
+                    int textureX = (int) ((System.currentTimeMillis() / 100) % 10 * 9);
+                    RenderUtils.drawTexture(new ResourceLocation("shadyaddons:beta.png"), x, y, 9, 9, 90, 9, textureX, 0);
+                }
                 x += 13;
             }
 

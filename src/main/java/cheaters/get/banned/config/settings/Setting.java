@@ -12,6 +12,7 @@ public abstract class Setting {
     public ParentSetting parent = null;
     public String note;
     public boolean warning;
+    public boolean beta;
     public Field field;
     public Property annotation;
 
@@ -19,6 +20,7 @@ public abstract class Setting {
         this.annotation = annotation;
         name = annotation.name();
         warning = annotation.warning();
+        beta = annotation.beta();
         if(!annotation.note().equals("")) note = annotation.note();
         this.field = field;
     }
