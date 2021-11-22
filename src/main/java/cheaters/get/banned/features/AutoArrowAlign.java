@@ -36,7 +36,7 @@ public class AutoArrowAlign {
 
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
-        if (!Config.autoArrowAlign) return;
+        if (!Config.autoArrowAlign || Shady.mc.thePlayer == null) return;
         MovingObjectPosition objectMouseOver = Shady.mc.objectMouseOver;
         if (objectMouseOver != null && objectMouseOver.entityHit != null) {
             Entity entity = objectMouseOver.entityHit;
