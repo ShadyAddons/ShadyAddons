@@ -16,7 +16,8 @@ public class FakeBan {
     private static boolean usernameBan = false;
 
     @SubscribeEvent
-    public void onMessage(ClientChatReceivedEvent event) {
+    public void onChat(ClientChatReceivedEvent event) {
+        if(event.type != 0) return;
         String message = event.message.getUnformattedText();
         if(message.contains("!BANNED!") || message.contains("!PERMBAN!") || message.contains("!BADNAME!")) {
             switch(message.hashCode()) {
