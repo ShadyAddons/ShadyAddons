@@ -66,7 +66,7 @@ public class ConfigLogic {
             }
 
             if(!setting.annotation.parent().equals("")) {
-                setting.parent = (ParentSetting) ConfigLogic.getSetting(setting.annotation.parent(), settings);
+                setting.parent = (ParentSetting) ConfigLogic.getSettingByName(setting.annotation.parent(), settings);
                 if(setting.parent != null) setting.parent.children.add(setting);
             }
         }
@@ -76,14 +76,21 @@ public class ConfigLogic {
         return settings;
     }
 
-    public static Setting getSetting(String name, ArrayList<Setting> settings) {
+    public static Setting getSettingByName(String name, ArrayList<Setting> settings) {
         for(Setting setting : settings) {
             if(setting.name.equals(name)) return setting;
         }
         return null;
     }
 
-    public static void save() {
+    public static Setting getSettingByFieldName(String fieldName, ArrayList<Setting> settings) {
+        for(Setting setting : settings) {
+            if(setting.field.getName().equals(fieldName)) return setting;
+        }
+        return null;
+    }
+
+    public static void legacySave() {
         try {
             HashMap<String, Object> convertedSettings = new HashMap<>();
             for(Setting setting : Shady.settings) {
@@ -91,6 +98,21 @@ public class ConfigLogic {
                 convertedSettings.put(setting.name, setting.get(Object.class));
             }
             String json = new Gson().toJson(convertedSettings);
+            Files.write(Paths.get(fileName), json.getBytes(StandardCharsets.UTF_8));
+        } catch(Exception error) {
+            System.out.println("Error saving config file");
+            error.printStackTrace();
+        }
+    }
+
+    public static void save() {
+        try {
+            HashMap<String, Object> settingsToSave = new HashMap<>();
+            for(Setting setting : Shady.settings) {
+                if(setting instanceof FolderSetting) continue;
+                settingsToSave.put(setting.field.getName(), setting.get(Object.class));
+            }
+            String json = new Gson().toJson(settingsToSave);
             Files.write(Paths.get(fileName), json.getBytes(StandardCharsets.UTF_8));
         } catch(Exception error) {
             System.out.println("Error saving config file");
@@ -108,7 +130,43 @@ public class ConfigLogic {
                 HashMap<String, Object> settingsFromConfig = new Gson().fromJson(reader, type);
 
                 for(Map.Entry<String, Object> fromConfig : settingsFromConfig.entrySet()) {
-                    Setting beingUpdated = getSetting(fromConfig.getKey(), Shady.settings);
+                    Setting beingUpdated = getSettingByFieldName(fromConfig.getKey(), Shady.settings);
+                    if(beingUpdated != null) {
+                        if(beingUpdated instanceof NumberSetting || beingUpdated instanceof SelectSetting) {
+                            beingUpdated.set(((Double)fromConfig.getValue()).intValue());
+                        } else {
+                            beingUpdated.forceSet(fromConfig.getValue());
+                        }
+                    } else {
+                        // This is gross, remove it after most config files have been migrated!
+                        beingUpdated = getSettingByName(fromConfig.getKey(), Shady.settings);
+                        if(beingUpdated != null) {
+                            if(beingUpdated instanceof NumberSetting || beingUpdated instanceof SelectSetting) {
+                                beingUpdated.set(((Double)fromConfig.getValue()).intValue());
+                            } else {
+                                beingUpdated.forceSet(fromConfig.getValue());
+                            }
+                        }
+                    }
+                }
+            }
+        } catch(Exception error) {
+            System.out.println("Error while loading config file");
+            error.printStackTrace();
+        }
+    }
+
+    public static void legacyLoad() {
+        try {
+            File file = new File(fileName);
+            if(file.exists()) {
+                Reader reader = Files.newBufferedReader(Paths.get(fileName));
+                Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
+
+                HashMap<String, Object> settingsFromConfig = new Gson().fromJson(reader, type);
+
+                for(Map.Entry<String, Object> fromConfig : settingsFromConfig.entrySet()) {
+                    Setting beingUpdated = getSettingByName(fromConfig.getKey(), Shady.settings);
                     if(beingUpdated != null) {
                         if(beingUpdated instanceof NumberSetting || beingUpdated instanceof SelectSetting) {
                             beingUpdated.set(((Double)fromConfig.getValue()).intValue());

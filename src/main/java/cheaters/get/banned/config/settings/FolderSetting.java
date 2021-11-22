@@ -21,7 +21,7 @@ public class FolderSetting extends ParentSetting {
     }
 
     public static boolean isEnabled(String name) {
-        Setting setting = ConfigLogic.getSetting(name, Shady.settings);
+        Setting setting = ConfigLogic.getSettingByName(name, Shady.settings);
         if(setting == null) return false;
         return ((FolderSetting) setting).isChildEnabled();
     }
