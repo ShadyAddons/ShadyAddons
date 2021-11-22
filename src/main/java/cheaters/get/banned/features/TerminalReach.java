@@ -21,24 +21,6 @@ public class TerminalReach {
     private BlockPos selectedTerminal = null;
     private EntityArmorStand selectedTerminalStand = null;
 
-    private static final int[][][] sections = new int[][][]{
-            { // Section 1
-                {310, 251}, // NE
-                {288, 319} // SW
-            },
-            { // Section 2
-                {287, 320}, // NE
-                {219, 342} // SW
-            },
-            { // Section 3
-                {218, 251}, // NE
-                {196, 319} // SW
-            },
-            { // Section 4
-                {287, 228}, // NE
-                {219, 250} // SW
-            }
-    };
     private static List<BlockPos> terminals = Arrays.asList(
             new BlockPos(310, 113, 272),
             new BlockPos(310, 119, 278),
@@ -60,6 +42,24 @@ public class TerminalReach {
             new BlockPos(266, 109, 228),
             new BlockPos(271, 115, 247)
     );
+    private static final int[][][] sections = new int[][][]{
+            { // Section 1
+                    {310, 251}, // NE
+                    {288, 319} // SW
+            },
+            { // Section 2
+                    {287, 320}, // NE
+                    {219, 342} // SW
+            },
+            { // Section 3
+                    {218, 251}, // NE
+                    {196, 319} // SW
+            },
+            { // Section 4
+                    {287, 228}, // NE
+                    {219, 250} // SW
+            }
+    };
 
     private boolean isEnabled() {
         return Config.terminalReach &&
@@ -85,7 +85,7 @@ public class TerminalReach {
     public void onWorldRender(RenderWorldLastEvent event) {
         if(isEnabled()) {
             for(BlockPos terminal : terminals) {
-                if(!Config.outsideTerms && isInSection(terminal)) {
+                if(Config.outsideTerms || isInSection(terminal)) {
                     RenderUtils.highlightBlock(terminal, terminal.equals(selectedTerminal) ? Color.MAGENTA : Color.WHITE, event.partialTicks);
                 }
             }
@@ -99,7 +99,7 @@ public class TerminalReach {
             if(armorStands != null) {
                 for(EntityArmorStand armorStand : armorStands) {
                     if(armorStand.getCustomNameTag().equals("§cInactive Terminal")) {
-                        if(!Config.outsideTerms && isInSection(armorStand.getPosition())) break;
+                        if(!Config.outsideTerms && !isInSection(armorStand.getPosition())) break;
                         terminals.sort(Comparator.comparingDouble(armorStand::getDistanceSq));
                         selectedTerminal = terminals.get(0);
                         selectedTerminalStand = armorStand;
@@ -118,7 +118,7 @@ public class TerminalReach {
         int z = blockPos.getZ();
 
         for(int[][] s : sections) {
-            if(x < s[0][0] && x > s[0][1] && z < s[1][0] && z > s[1][1]) {
+            if(x < s[0][0] && z > s[0][1] && x > s[1][0] && z < s[1][1]) {
                 inSection = true;
                 break;
             }
@@ -128,7 +128,7 @@ public class TerminalReach {
         z = Shady.mc.thePlayer.getPosition().getZ();
 
         for(int[][] s : sections) {
-            if(x > s[0][0] || x < s[0][1] || z > s[1][0] || z < s[1][1]) {
+            if(x > s[0][0] || z < s[0][1] || x < s[1][0] || z > s[1][1]) {
                 inSection = false;
                 break;
             }
