@@ -38,10 +38,10 @@ public class Config {
     public static boolean autoSimonSays = false;
 
 
-    @Property(
+    /*@Property(
             type = Property.Type.BOOLEAN,
             name = "Auto Align Arrows"
-    )
+    )*/
     public static boolean autoArrowAlign = false;
 
 
@@ -173,28 +173,28 @@ public class Config {
     public static boolean crystalReach = false;
 
 
-    @Property(
+    /*@Property(
             type = Property.Type.BOOLEAN,
             name = "Terminal Reach",
             note = "Sneak to activate",
             warning = true
-    )
+    )*/
     public static boolean terminalReach = false;
 
-        @Property(
+        /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "Include Terminals Outside of Section",
                 parent = "Terminal Reach"
-        )
+        )*/
         public static boolean outsideTerms = false;
 
-        @Property(
+        /*@Property(
                 type = Property.Type.NUMBER,
                 name = "Range",
                 parent = "Terminal Reach",
                 min = 5,
                 max = 64
-        )
+        )*/
         public static int terminalReachRange = 32;
 
 

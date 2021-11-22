@@ -27,6 +27,7 @@ public class ConnectFourSolver {
 
     private boolean isOurTurn = false;
     private boolean inGame = false;
+    private Thread thread = null;
 
     private static final int EMPTY = 0;
     private static final int COMPUTER = 1;
@@ -45,11 +46,12 @@ public class ConnectFourSolver {
                 }
             }
 
-            if(!isOurTurn) solutionSlot = -1;
+            if(!isOurTurn || !inGame) solutionSlot = -1;
+            if(!inGame && thread != null && thread.isAlive()) thread.stop(); // Forgive me Father for I have sinned
 
-            if(isOurTurn && !calculating && solutionSlot == -1) {
+            if(isOurTurn && !calculating && inGame && solutionSlot == -1) {
                 calculating = true;
-                new Thread(() -> {
+                thread = new Thread(() -> {
                     ConnectFourAlgorithm.Board board = serializeInventory(Shady.mc.thePlayer.openContainer);
                     ConnectFourAlgorithm algorithm = new ConnectFourAlgorithm(board);
 
@@ -63,7 +65,8 @@ public class ConnectFourSolver {
                         }
                     }
                     calculating = false;
-                }, "ShadyAddons-ConnectFour").start();
+                }, "ShadyAddons-ConnectFour");
+                thread.start();
             }
         }
     }
@@ -101,9 +104,11 @@ public class ConnectFourSolver {
             int y = event.gui.height / 2 - 105;
             int x = event.gui.width / 2 + 73;
             int textureX = (int) ((System.currentTimeMillis() / 10) % 20 * 8);
+            GlStateManager.pushMatrix();
             GlStateManager.translate(0, 0, 1000);
+            GlStateManager.color(64, 64, 64);
             RenderUtils.drawTexture(new ResourceLocation("shadyaddons:loader.png"), x, y, 8, 8, 160, 8, textureX, 0);
-            GlStateManager.translate(0, 0, -1000);
+            GlStateManager.popMatrix();
         }
     }
 
