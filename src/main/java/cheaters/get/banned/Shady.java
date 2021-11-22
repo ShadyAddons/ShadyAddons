@@ -8,12 +8,14 @@ import cheaters.get.banned.config.settings.SelectSetting;
 import cheaters.get.banned.config.settings.Setting;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.*;
+import cheaters.get.banned.features.connectfoursolver.ConnectFourSolver;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.DungeonScanner;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
 import cheaters.get.banned.features.jokes.CatPeople;
 import cheaters.get.banned.features.jokes.FakeBan;
 import cheaters.get.banned.features.jokes.MissingItem;
+import cheaters.get.banned.features.jokes.ByeEntities;
 import cheaters.get.banned.remote.Analytics;
 import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.remote.UpdateGui;
@@ -82,8 +84,8 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new Utils());
         MinecraftForge.EVENT_BUS.register(new LocationUtils());
         MinecraftForge.EVENT_BUS.register(new DungeonUtils());
-        MinecraftForge.EVENT_BUS.register(new DungeonScanner());
 
+        MinecraftForge.EVENT_BUS.register(new DungeonScanner());
         MinecraftForge.EVENT_BUS.register(new BlockAbilities());
         MinecraftForge.EVENT_BUS.register(new StonklessStonk());
         MinecraftForge.EVENT_BUS.register(new GhostBlocks());
@@ -112,8 +114,11 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new AutoSalvage());
         MinecraftForge.EVENT_BUS.register(new TerminalReach());
         MinecraftForge.EVENT_BUS.register(new AutoSell());
+        MinecraftForge.EVENT_BUS.register(new ByeEntities());
         // By RoseGold: MinecraftForge.EVENT_BUS.register(new AutoArrowAlign());
         MinecraftForge.EVENT_BUS.register(new AutoAlignArrows());
+        MinecraftForge.EVENT_BUS.register(new SocialCommandSolver());
+        MinecraftForge.EVENT_BUS.register(new ConnectFourSolver());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);
