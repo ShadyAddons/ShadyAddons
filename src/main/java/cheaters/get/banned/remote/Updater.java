@@ -34,6 +34,8 @@ public class Updater {
             if(response != null) {
                 update = new Gson().fromJson(response, Update.class);
                 shouldUpdate = !update.version.equals(Shady.VERSION);
+                // int comparison = new DefaultArtifactVersion(update.version).compareTo(new DefaultArtifactVersion(Shady.VERSION));
+                // shouldUpdate = comparison > 0;
             } else {
                 System.out.println("Error checking for updates");
             }
