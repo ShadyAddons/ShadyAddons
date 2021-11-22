@@ -17,7 +17,7 @@ public class LocationUtils {
     }};
 
     public enum Island {
-        PRIVATE_ISLAND("Private World"),
+        PRIVATE_ISLAND("Private Island"),
         HUB("Hub"),
         SPIDERS_DEN("Spider's Den"),
         BLAZING_FORTRESS("Blazing Fortress"),
