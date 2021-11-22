@@ -22,13 +22,13 @@ public class Config {
         )
         public static boolean disableInBoss = false;
 
-        @Property(
+        /*@Property(
                 type = Property.Type.BOOLEAN,
                 name = "Secret Aura",
                 parent = "Stonkless Stonk",
                 warning = true
         )
-        public static boolean secretAura = false;
+        public static boolean secretAura = false;*/
 
 
     @Property(
@@ -36,6 +36,13 @@ public class Config {
             name = "Auto Simon-Says"
     )
     public static boolean autoSimonSays = false;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto Align Arrows"
+    )
+    public static boolean autoArrowAlign = false;
 
 
     @Property(
@@ -130,28 +137,28 @@ public class Config {
 
         @Property(
                 type = Property.Type.CHECKBOX,
-                name = "Sell Salvageable Items",
+                name = "Salvageable Items",
                 parent = "Auto Sell"
         )
         public static boolean autoSellSalvageable = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
-                name = "Sell Superboom",
+                name = "Superboom",
                 parent = "Auto Sell"
         )
         public static boolean autoSellSuperboom = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
-                name = "Sell Dungeons Junk",
+                name = "Dungeons Junk",
                 parent = "Auto Sell"
         )
         public static boolean autoSellDungeonsJunk = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
-                name = "Sell Speed/Weakness Potions",
+                name = "Speed/Weakness Potions",
                 parent = "Auto Sell"
         )
         public static boolean autoSellPotions = false;
@@ -176,13 +183,15 @@ public class Config {
 
         @Property(
                 type = Property.Type.BOOLEAN,
-                name = "Include Terminals Outside of Section"
+                name = "Include Terminals Outside of Section",
+                parent = "Terminal Reach"
         )
         public static boolean outsideTerms = false;
 
         @Property(
                 type = Property.Type.NUMBER,
-                name = "Terminal Reach Range",
+                name = "Range",
+                parent = "Terminal Reach",
                 min = 5,
                 max = 64
         )
@@ -478,6 +487,30 @@ public class Config {
         )*/
         public static int mapCheckmarkStyle = 0;
 
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Connect Four AI"
+    )
+    public static boolean connectFourAI = false;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "/social quickmaths Solver"
+    )
+    public static boolean socialQuickMathsSolver = false;
+
+        @Property(
+                type = Property.Type.NUMBER,
+                name = "Answer Delay",
+                parent = "/social quickmaths Solver",
+                suffix = "ms",
+                min = 50,
+                max = 1000,
+                step = 50
+        )
+        public static int quickMathsAnswerDelay = 100;
 
     @Property(
             type = Property.Type.FOLDER,
