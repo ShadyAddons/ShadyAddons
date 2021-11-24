@@ -175,11 +175,7 @@ public class ConfigGui extends GuiScreen {
             if(setting.parent == null) {
                 newSettings.add(setting);
             } else {
-                if(setting.parent instanceof FolderSetting && !newSettings.contains(setting.parent)) {
-                    continue;
-                }
-
-                if(setting.parent.get(Boolean.class)) {
+                if(newSettings.contains(setting.parent) && setting.parent.get(Boolean.class)) {
                     newSettings.add(setting);
                 }
             }
