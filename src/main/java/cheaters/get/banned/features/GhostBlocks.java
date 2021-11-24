@@ -7,6 +7,7 @@ import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
@@ -32,7 +33,7 @@ public class GhostBlocks {
 
     @SubscribeEvent
     public void onRightClick(ClickEvent.Right event) {
-        if(Utils.inSkyBlock && Config.stonkGhostBlock && Shady.mc.objectMouseOver != null && !Utils.isInteractable(Shady.mc.theWorld.getBlockState(Shady.mc.objectMouseOver.getBlockPos()).getBlock())) {
+        if(Utils.inSkyBlock && Config.stonkGhostBlock && Shady.mc.objectMouseOver != null && Shady.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && !Utils.isInteractable(Shady.mc.theWorld.getBlockState(Shady.mc.objectMouseOver.getBlockPos()).getBlock())) {
             String itemId = Utils.getSkyBlockID(Shady.mc.thePlayer.getHeldItem());
             if(itemId.equals("STONK_PICKAXE") || itemId.equals("GOLD_PICKAXE")) {
                 Shady.mc.theWorld.setBlockToAir(Shady.mc.objectMouseOver.getBlockPos());
