@@ -11,7 +11,7 @@ public abstract class MixinModList {
     // @ModifyArg(method = "<init>(Ljava/util/List;)V", at = @At("INVOKE"))
     private static List<ModContainer> modifyModList(List<ModContainer> modList) {
         System.out.println("Before: "+modList);
-        modList.removeIf(mod -> mod.getName().equals(Shady.MODNAME));
+        modList.removeIf(mod -> mod.getName().equals(Shady.MOD_NAME));
         System.out.println("After: "+modList);
         return modList;
     }

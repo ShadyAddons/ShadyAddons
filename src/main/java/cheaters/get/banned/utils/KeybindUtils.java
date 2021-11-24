@@ -10,7 +10,7 @@ public class KeybindUtils {
     public static HashMap<String, KeyBinding> keyBindings = new HashMap<>();
 
     public static void register(String name, int key) {
-        keyBindings.put(name, new KeyBinding(name, key, Shady.MODNAME));
+        keyBindings.put(name, new KeyBinding(name, key, Shady.MOD_NAME));
     }
 
     public static boolean isPressed(String name) {

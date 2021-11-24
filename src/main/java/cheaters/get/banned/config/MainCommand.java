@@ -70,6 +70,9 @@ public class MainCommand extends CommandBase {
                                 if(Utils.inDungeon) DungeonUtils.debug();
                                 break;
 
+                            case "crash":
+                                Shady.mc.renderEngine = null;
+
                             case "copylook":
                                 if(Shady.mc.objectMouseOver != null) {
                                     Utils.copyToClipboard(Shady.mc.objectMouseOver.getBlockPos().getX() + ", " + Shady.mc.objectMouseOver.getBlockPos().getY() + ", " + Shady.mc.objectMouseOver.getBlockPos().getZ());

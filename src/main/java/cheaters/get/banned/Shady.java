@@ -16,10 +16,7 @@ import cheaters.get.banned.features.jokes.CatPeople;
 import cheaters.get.banned.features.jokes.FakeBan;
 import cheaters.get.banned.features.jokes.MissingItem;
 import cheaters.get.banned.features.jokes.ByeEntities;
-import cheaters.get.banned.remote.Analytics;
-import cheaters.get.banned.remote.MayorAPI;
-import cheaters.get.banned.remote.UpdateGui;
-import cheaters.get.banned.remote.Updater;
+import cheaters.get.banned.remote.*;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.LocationUtils;
@@ -45,11 +42,11 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Mod(modid = Shady.MODID, name = Shady.MODNAME, version = "4.1.3", clientSideOnly = true)
+@Mod(modid = Shady.MOD_ID, name = Shady.MOD_NAME, version = "4.1.3", clientSideOnly = true)
 public class Shady {
 
-    public static final String MODNAME = "ShadyAddons";
-    public static final String MODID = "autogg";
+    public static final String MOD_NAME = "ShadyAddons";
+    public static final String MOD_ID = "autogg";
     public static final String VERSION = "@VERSION@";
     public static final boolean BETA = VERSION.contains("-pre") || VERSION.equals("@VER"+"SION@");
 
@@ -131,6 +128,7 @@ public class Shady {
         usingSkyBlockAddons = Loader.isModLoaded("skyblockaddons");
         usingPatcher = Loader.isModLoaded("patcher");
         usingSkytils = Loader.isModLoaded("skytils");
+        Analytics.collect("hash", CrashReporter.hashMod());
     }
 
     @SubscribeEvent

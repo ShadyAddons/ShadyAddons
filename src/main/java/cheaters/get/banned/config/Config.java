@@ -774,4 +774,12 @@ public class Config {
     )
     public static boolean useCleanButtons = false;
 
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Send Crash Reports",
+            note = "to the Powers That Be"
+    )
+    public static boolean sendCrashReports = false;
+
 }
