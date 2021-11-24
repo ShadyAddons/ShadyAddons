@@ -83,23 +83,7 @@ public class AutoTerminals {
                     // Click if delay is up
                     if(!clickQueue.isEmpty()) {
                         if(Config.autoTerminals && System.currentTimeMillis() - lastClickTime > Config.terminalClickDelay) {
-                            switch(currentTerminal) {
-                                case MAZE:
-                                    if(Config.autoMaze) clickSlot(clickQueue.get(0));
-                                    break;
-                                case NUMBERS:
-                                    if(Config.autoNumbers) clickSlot(clickQueue.get(0));
-                                    break;
-                                case CORRECT_ALL:
-                                    if(Config.autoCorrectAll) clickSlot(clickQueue.get(0));
-                                    break;
-                                case LETTER:
-                                    if(Config.autoLetter) clickSlot(clickQueue.get(0));
-                                    break;
-                                case COLOR:
-                                    if(Config.autoColor) clickSlot(clickQueue.get(0));
-                                    break;
-                            }
+                            clickSlot(clickQueue.get(0));
                         }
                     }
                 }

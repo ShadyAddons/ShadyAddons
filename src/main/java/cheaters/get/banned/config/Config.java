@@ -748,41 +748,6 @@ public class Config {
     public static boolean autoTerminals = false;
 
         @Property(
-                type = Property.Type.CHECKBOX,
-                name = "Maze",
-                parent = "Auto Terminals"
-        )
-        public static boolean autoMaze = false;
-
-        @Property(
-                type = Property.Type.CHECKBOX,
-                name = "Click in Order",
-                parent = "Auto Terminals"
-        )
-        public static boolean autoNumbers = false;
-
-        @Property(
-                type = Property.Type.CHECKBOX,
-                name = "Correct the Panes",
-                parent = "Auto Terminals"
-        )
-        public static boolean autoCorrectAll = false;
-
-        @Property(
-                type = Property.Type.CHECKBOX,
-                name = "Name Starts With",
-                parent = "Auto Terminals"
-        )
-        public static boolean autoLetter = false;
-
-        @Property(
-                type = Property.Type.CHECKBOX,
-                name = "Color",
-                parent = "Auto Terminals"
-        )
-        public static boolean autoColor = false;
-
-        @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Pingless",
                 note = "Send clicks before window is updated",
