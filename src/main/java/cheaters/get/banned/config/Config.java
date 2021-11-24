@@ -516,7 +516,7 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Connect Four AI",
+            name = "Connect Four Helper",
             beta = true
     )
     public static boolean connectFourAI = false;

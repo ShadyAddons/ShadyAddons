@@ -19,7 +19,8 @@ public class SocialCommandSolver {
                 int answer = (int) ExpressionParser.eval(message);
                 new Thread(() -> {
                     ThreadUtils.sleep(Config.quickMathsAnswerDelay);
-                    Utils.sendMessageAsPlayer(String.valueOf(answer));
+                    Utils.sendModMessage("The answer is " + answer);
+                    Utils.sendMessageAsPlayer("/ac " + answer);
                 }).start();
             }
         }

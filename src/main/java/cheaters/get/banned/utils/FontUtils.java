@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class FontUtils {
 
-    public static String getRainbowCode(char fallback) {
-        return (Shady.usingSkyBlockAddons && (!Shady.usingPatcher || Shady.usingSkytils) ? "§z" : "§"+fallback);
+    public static char getRainbowCode(char fallback) {
+        return (Shady.usingSkyBlockAddons && (!Shady.usingPatcher || Shady.usingSkytils) ? 'z' : fallback);
     }
 
     public static String enforceWidth(String text, int width) {

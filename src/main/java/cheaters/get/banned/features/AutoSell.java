@@ -36,7 +36,8 @@ public class AutoSell {
             "Carpet",
             "Lever",
             "Rune",
-            "Journal Entry"
+            "Journal Entry",
+            "Sign"
     };
 
     @SubscribeEvent

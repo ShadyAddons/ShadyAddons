@@ -46,7 +46,7 @@ public class UpdateGui extends GuiScreen {
 
         RenderUtils.drawTexture(new ResourceLocation("shadyaddons:background.jpg"), 0, 0, Math.round(bgWidth), Math.round(bgHeight));
 
-        String title = "ShadyAddons " + FontUtils.getRainbowCode('c') + Updater.update.version + "§f is available!";
+        String title = "ShadyAddons §" + FontUtils.getRainbowCode('c') + Updater.update.version + "§f is available!";
         FontUtils.drawScaledCenteredString(title, 1.5f, width/2, height/2-15-5, true);
 
         if(Updater.update.description == null) Updater.update.description = "§7§oNo update description";

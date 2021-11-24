@@ -18,7 +18,7 @@ public abstract class MixinGuiMainMenu {
     @Inject(method = "<init>", at = @At("RETURN"))
     public void initMainMenu(CallbackInfo callbackInfo) {
         if(Updater.update != null && !Updater.update.version.equals(Shady.VERSION)) {
-            splashText = "Update to " + FontUtils.getRainbowCode('e') + Updater.update.version + "§e!";
+            splashText = "Update to §" + FontUtils.getRainbowCode('e') + Updater.update.version + "§e!";
         }
     }
 
