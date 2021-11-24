@@ -28,7 +28,7 @@ public class CrashReporter {
         try {
             String serverId = UUID.randomUUID().toString().replace("-", "");
             String hash = hashMod();
-            String report = IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
+            String report = IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8).replace(Shady.mc.getSession().getProfile().getName(), "<USERNAME>");
             report = Base64.getEncoder().encodeToString(report.getBytes(StandardCharsets.UTF_8));
             reason = Base64.getEncoder().encodeToString(reason.getBytes(StandardCharsets.UTF_8));
 

@@ -777,9 +777,9 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Send Crash Reports",
-            note = "to the Powers That Be"
+            name = "Send Anonymous Crash Reports",
+            note = "Improve ShadyAddons"
     )
-    public static boolean sendCrashReports = false;
+    public static boolean sendCrashReports = true;
 
 }
