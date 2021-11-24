@@ -107,18 +107,19 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new AutoMelody());
         MinecraftForge.EVENT_BUS.register(new DungeonMap());
         MinecraftForge.EVENT_BUS.register(new CatPeople());
-        MinecraftForge.EVENT_BUS.register(new FakeBan());
-        MinecraftForge.EVENT_BUS.register(new MissingItem());
         MinecraftForge.EVENT_BUS.register(new AutoReadyUp());
         MinecraftForge.EVENT_BUS.register(new CrystalReach());
         MinecraftForge.EVENT_BUS.register(new AutoSalvage());
-        MinecraftForge.EVENT_BUS.register(new TerminalReach());
+        // MinecraftForge.EVENT_BUS.register(new TerminalReach());
         MinecraftForge.EVENT_BUS.register(new AutoSell());
-        MinecraftForge.EVENT_BUS.register(new ByeEntities());
         // By RoseGold: MinecraftForge.EVENT_BUS.register(new AutoArrowAlign());
         // By Not-RoseGold: MinecraftForge.EVENT_BUS.register(new AutoAlignArrows());
         MinecraftForge.EVENT_BUS.register(new SocialCommandSolver());
         MinecraftForge.EVENT_BUS.register(new ConnectFourSolver());
+
+        MinecraftForge.EVENT_BUS.register(new FakeBan());
+        MinecraftForge.EVENT_BUS.register(new ByeEntities());
+        MinecraftForge.EVENT_BUS.register(new MissingItem());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);
