@@ -2,6 +2,7 @@ package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.AutoTerminals;
+import cheaters.get.banned.features.AutoWardrobe;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.Room;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
@@ -48,6 +49,42 @@ public class MainCommand extends CommandBase {
 
         if(args.length > 0) {
             switch(args[0]) {
+                case "wardrobe":
+                    if(!Config.autoWardrobeGlobal) return;
+                    if(args.length == 1) {
+                        AutoWardrobe.execute();
+                        return;
+                    }
+                    if(!isNumeric(args[1])) {
+                        Utils.sendModMessage("Invalid Arguments");
+                        return;
+                    }
+                    if(args.length == 2) {
+                        int slot = Integer.parseInt(args[1]);
+                        if(slot > 0 && slot <= 9) {
+                            AutoWardrobe.execute(slot);
+                            return;
+                        } else if(slot <= 18) {
+                            AutoWardrobe.execute(2, slot%9);
+                            return;
+                        }
+                        Utils.sendModMessage("Invalid Arguments");
+                        return;
+                    }
+                    if(args.length == 3) {
+                        if(!isNumeric(args[2])) {
+                            Utils.sendModMessage("Invalid Arguments");
+                            return;
+                        }
+                        int page = Integer.parseInt(args[1]);
+                        int slot = Integer.parseInt(args[2]);
+                        if(page > 2) {
+                            page = 2;
+                        }
+                        AutoWardrobe.execute(page, slot%9);
+                    }
+                    break;
+
                 case "force_dungeon":
                     Utils.forceDungeon = !Utils.forceDungeon;
                     Utils.sendModMessage("Toggled forcing dungeon to "+Utils.forceDungeon);
@@ -140,6 +177,15 @@ public class MainCommand extends CommandBase {
             }
         } else {
             Shady.guiToOpen = new ConfigGui(new ResourceLocation("shadyaddons:"+Utils.getLogo()+".png"));
+        }
+    }
+
+    private boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
         }
     }
 

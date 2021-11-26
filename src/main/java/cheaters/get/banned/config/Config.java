@@ -766,6 +766,13 @@ public class Config {
         )
         public static int terminalClickDelay = 100;
 
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Auto Wardrobe Command: /sh wardrobe [slot]",
+            note = "By RoseGold"
+    )
+    public static boolean autoWardrobeGlobal = true;
+
 
     @Property(
             type = Property.Type.BOOLEAN,

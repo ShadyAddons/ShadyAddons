@@ -113,6 +113,7 @@ public class Shady {
         // By Not-RoseGold: MinecraftForge.EVENT_BUS.register(new AutoAlignArrows());
         MinecraftForge.EVENT_BUS.register(new SocialCommandSolver());
         MinecraftForge.EVENT_BUS.register(new ConnectFourSolver());
+        MinecraftForge.EVENT_BUS.register(new AutoWardrobe());
 
         MinecraftForge.EVENT_BUS.register(new FakeBan());
         MinecraftForge.EVENT_BUS.register(new ByeEntities());
