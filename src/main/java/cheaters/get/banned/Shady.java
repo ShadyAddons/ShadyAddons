@@ -12,10 +12,7 @@ import cheaters.get.banned.features.connectfoursolver.ConnectFourSolver;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.DungeonScanner;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
-import cheaters.get.banned.features.jokes.CatPeople;
-import cheaters.get.banned.features.jokes.FakeBan;
-import cheaters.get.banned.features.jokes.MissingItem;
-import cheaters.get.banned.features.jokes.ByeEntities;
+import cheaters.get.banned.features.jokes.*;
 import cheaters.get.banned.remote.*;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.KeybindUtils;
@@ -51,6 +48,7 @@ public class Shady {
     public static final boolean BETA = VERSION.contains("-pre") || VERSION.equals("@VER"+"SION@");
 
     public static final Minecraft mc = Minecraft.getMinecraft();
+    public static boolean shouldCrash = false;
 
     public static boolean usingSkyBlockAddons = false;
     public static boolean usingPatcher = false;
@@ -114,8 +112,8 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new SocialCommandSolver());
         MinecraftForge.EVENT_BUS.register(new ConnectFourSolver());
 
+        MinecraftForge.EVENT_BUS.register(new Jokes());
         MinecraftForge.EVENT_BUS.register(new FakeBan());
-        MinecraftForge.EVENT_BUS.register(new ByeEntities());
         MinecraftForge.EVENT_BUS.register(new MissingItem());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
@@ -136,6 +134,10 @@ public class Shady {
         if(guiToOpen != null) {
             mc.displayGuiScreen(guiToOpen);
             guiToOpen = null;
+        }
+
+        if(shouldCrash) {
+            throw new NullPointerException("You did this to yourself! Isn't it wonderful?");
         }
 
         if(Utils.inSkyBlock && !sentPlayTimeCommand) {

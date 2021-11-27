@@ -11,9 +11,9 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public class FakeBan {
 
-    private static boolean permBan = false;
-    private static long banStart = 0;
-    private static boolean usernameBan = false;
+    public static boolean permBan = false;
+    public static long banStart = 0;
+    public static boolean usernameBan = false;
 
     @SubscribeEvent
     public void onChat(ClientChatReceivedEvent event) {

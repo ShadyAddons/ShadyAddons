@@ -71,7 +71,8 @@ public class MainCommand extends CommandBase {
                                 break;
 
                             case "crash":
-                                Shady.mc.renderEngine = null;
+                                Shady.shouldCrash = true;
+                                break;
 
                             case "copylook":
                                 if(Shady.mc.objectMouseOver != null) {
