@@ -114,7 +114,6 @@ public class Shady {
 
         MinecraftForge.EVENT_BUS.register(new Jokes());
         MinecraftForge.EVENT_BUS.register(new FakeBan());
-        MinecraftForge.EVENT_BUS.register(new MissingItem());
 
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);

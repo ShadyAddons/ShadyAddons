@@ -6,7 +6,6 @@ import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.block.Block;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -21,11 +20,13 @@ public class GhostBlocks {
     @SubscribeEvent
     public void onRenderWorld(RenderWorldLastEvent event) {
         if(Config.ghostBlockKeybind && KeybindUtils.get("Create Ghost Block").isKeyDown()) {
-            BlockPos lookingAtPos = Shady.mc.thePlayer.rayTrace(Shady.mc.playerController.getBlockReachDistance(), 1).getBlockPos();
-            if(lookingAtPos != null) {
-                Block lookingAtblock = Shady.mc.theWorld.getBlockState(lookingAtPos).getBlock();
-                if(!Utils.isInteractable(lookingAtblock)) {
-                    Shady.mc.theWorld.setBlockToAir(lookingAtPos);
+            MovingObjectPosition object = Shady.mc.thePlayer.rayTrace(Shady.mc.playerController.getBlockReachDistance(), 1);
+            if(object != null) {
+                if(object.getBlockPos() != null) {
+                    Block lookingAtblock = Shady.mc.theWorld.getBlockState(object.getBlockPos()).getBlock();
+                    if(!Utils.isInteractable(lookingAtblock)) {
+                        Shady.mc.theWorld.setBlockToAir(object.getBlockPos());
+                    }
                 }
             }
         }
