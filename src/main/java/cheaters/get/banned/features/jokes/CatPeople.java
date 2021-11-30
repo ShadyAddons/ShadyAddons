@@ -50,7 +50,7 @@ public class CatPeople {
             Set<String> domains = pack.getResourcePack().getResourceDomains();
             if(domains != null && domains.contains("shadyaddons")) {
                 File directory = (File) ReflectionUtils.field(pack, "field_110523_b");
-                if (directory == null) directory = (File) ReflectionUtils.field(pack, "resourcePackFile");
+                if(directory == null) directory = (File) ReflectionUtils.field(pack, "resourcePackFile");
                 if(directory != null) {
                     Collection<File> images = FileUtils.listFiles(directory, new String[]{"png"}, true);
                     images.removeIf(image -> image.getName().equals("pack.png"));
@@ -58,7 +58,6 @@ public class CatPeople {
                     for(File image : images) {
                         CatPeople.images.add(new ResourceLocation("shadyaddons", image.getParentFile().getName()+"/"+image.getName()));
                     }
-                    System.out.println("IMAGES " + images);
                     usingPack = true;
                     return;
                 }
