@@ -56,7 +56,7 @@ public class CatPeople {
                     images.removeIf(image -> image.getName().equals("pack.png"));
                     CatPeople.images.clear();
                     for(File image : images) {
-                        CatPeople.images.add(new ResourceLocation("shadyaddons", image.getParentFile().getName()+"/"+image.getName()));
+                        CatPeople.images.add(new ResourceLocation("shadyaddons", image.getParentFile().getName() + "/" + image.getName()));
                     }
                     usingPack = true;
                     return;
@@ -97,6 +97,7 @@ public class CatPeople {
     }
 
     private int counter = 0;
+
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
         if(Config.catGirls && usingPack) {
