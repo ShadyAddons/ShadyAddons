@@ -6,7 +6,10 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.util.ChatComponentText;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.CRC32;
 
 public class FakeBan {
 
@@ -18,7 +21,7 @@ public class FakeBan {
     public BanType type;
 
     enum BanType {
-        USERNAME, GENERIC, BOOSTING
+        USERNAME, CHEATING_TIMED, BOOSTING, CHEATING_PERM
     }
 
     public FakeBan() {
@@ -39,12 +42,17 @@ public class FakeBan {
 
         try {
             switch(type) {
-                case GENERIC:
+                case CHEATING_TIMED:
                     fakeGenericBan(Shady.mc.getNetHandler().getNetworkManager());
                     break;
 
                 case USERNAME:
                     fakeUsernameBan(Shady.mc.getNetHandler().getNetworkManager());
+                    break;
+
+                case CHEATING_PERM:
+                    duration = Long.MAX_VALUE;
+                    fakePermBan(Shady.mc.getNetHandler().getNetworkManager());
                     break;
 
                 case BOOSTING:
@@ -72,8 +80,21 @@ public class FakeBan {
         component.appendText("\n§7Reason: §rCheating through the use of unfair game advantages.");
         component.appendText("\n§7Find out more: §b§nhttps://www.hypixel.net/appeal");
         component.appendText("\n");
-        component.appendText("\n§7Ban ID: §r#"+Math.abs(Shady.mc.getSession().getProfile().getId().toString().hashCode()));
+        component.appendText("\n§7Ban ID: §r#" + getBanId());
         component.appendText("\n§7Sharing your Ban ID may affect the processing of your appeal!");
+
+        fakeBan(component, manager);
+    }
+
+    private void fakePermBan(NetworkManager manager) {
+        ChatComponentText component = new ChatComponentText("§cYou are permanently banned from this server!");
+        component.appendText("\n");
+        component.appendText("\n§7Reason: §rCheating through the use of unfair game advantages.");
+        component.appendText("\n§7Find out more: §b§nhttps://www.hypixel.net/appeal");
+        component.appendText("\n");
+        component.appendText("\n§7Ban ID: §r#" + getBanId());
+        component.appendText("\n§7Sharing your Ban ID may affect the processing of your appeal!");
+
         fakeBan(component, manager);
     }
 
@@ -84,6 +105,7 @@ public class FakeBan {
         component.appendText("\n§7Find out more: §b§nhttps://www.hypixel.net/rules");
         component.appendText("\n");
         component.appendText("\n§cPlease change your Minecraft username before trying to join again.");
+
         fakeBan(component, manager);
         // Shady.guiToOpen = new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "Failed to connect to the server", component);
     }
@@ -96,13 +118,20 @@ public class FakeBan {
         component.appendText("\n§7Reason: §rBoosting detected on one or multiple SkyBlock profiles.");
         component.appendText("\n§7Find out more: §b§nhttps://www.hypixel.net/appeal");
         component.appendText("\n");
-        component.appendText("\n§7Ban ID: §r#"+Math.abs(Shady.mc.getSession().getProfile().getId().toString().hashCode()));
+        component.appendText("\n§7Ban ID: §r#" + getBanId());
         component.appendText("\n§7Sharing your Ban ID may affect the processing of your appeal!");
+
         fakeBan(component, manager);
     }
 
     public long getTimeLeft() {
         return startTime + duration - System.currentTimeMillis();
+    }
+
+    private static String getBanId() {
+        CRC32 hash = new CRC32();
+        hash.update(UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
+        return Long.toHexString(hash.getValue()).toUpperCase();
     }
 
 }

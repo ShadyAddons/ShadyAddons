@@ -71,10 +71,12 @@ public class Jokes {
                                         case "180":
                                         case "360":
                                         case "420":
-                                            currentBan.type = FakeBan.BanType.GENERIC;
+                                            currentBan.type = FakeBan.BanType.CHEATING_TIMED;
                                             currentBan.duration = Integer.parseInt(messageParts[2].trim()) * 24 * 60 * 60 * 1000L;
-                                            System.out.println(messageParts[2].trim());
-                                            System.out.println(Integer.parseInt(messageParts[2].trim()));
+                                            break;
+
+                                        case "PERM":
+                                            currentBan.type = FakeBan.BanType.CHEATING_PERM;
                                             break;
 
                                         case "BOOST":
@@ -113,12 +115,12 @@ public class Jokes {
                                 break;*/
 
                             case "!PERMBAN!":
-                                currentBan = new FakeBan(FakeBan.BanType.GENERIC, 2592000000L, true);
+                                currentBan = new FakeBan(FakeBan.BanType.CHEATING_TIMED, 2592000000L, true);
                                 currentBan.execute();
                                 break;
 
                             case "!BANNED!":
-                                currentBan = new FakeBan(FakeBan.BanType.GENERIC, 2592000000L, false);
+                                currentBan = new FakeBan(FakeBan.BanType.CHEATING_TIMED, 2592000000L, false);
                                 currentBan.execute();
                                 break;
 
@@ -140,12 +142,18 @@ public class Jokes {
     @SubscribeEvent
     public void autoTrade(GuiScreenEvent.BackgroundDrawnEvent event) {
         if(Utils.inSkyBlock && event.gui instanceof GuiChest) {
+
             String name = Utils.getGuiName(event.gui);
             if(name.startsWith("You") && name.hashCode() == 384622247) {
+
+                // Slot where carrots will be placed by the trader
                 ItemStack item = Shady.mc.thePlayer.openContainer.inventorySlots.get(5).getStack();
                 if(item != null && item.getItem() == Items.carrot && item.stackSize == 5) {
+
+                    // Slot where the trade button will be for the user
                     ItemStack tradeButton = Shady.mc.thePlayer.openContainer.inventorySlots.get(39).getStack();
                     if(tradeButton != null && tradeButton.getDisplayName().contains("Deal!")) {
+
                         Shady.mc.playerController.windowClick(
                                 Shady.mc.thePlayer.openContainer.windowId,
                                 39,
