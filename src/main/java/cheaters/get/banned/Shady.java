@@ -12,7 +12,9 @@ import cheaters.get.banned.features.connectfoursolver.ConnectFourSolver;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.DungeonScanner;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
-import cheaters.get.banned.features.jokes.*;
+import cheaters.get.banned.features.jokes.CatPeople;
+import cheaters.get.banned.features.jokes.FakeBan;
+import cheaters.get.banned.features.jokes.Jokes;
 import cheaters.get.banned.remote.*;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.KeybindUtils;
@@ -36,6 +38,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +63,8 @@ public class Shady {
     private static boolean sentPlayTimeData = false;
     private static Pattern playTimePattern = Pattern.compile("You have (\\d*) hours and \\d* minutes playtime!");
 
-    public static ArrayList<Setting> settings = ConfigLogic.collect(Config.class);
+    public static List<String> disabledSettings = DisableFeatures.load();
+    public static ArrayList<Setting> settings = ConfigLogic.collect(Config.class, disabledSettings);
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {

