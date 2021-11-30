@@ -51,6 +51,7 @@ public class CatPeople {
             if(domains != null && domains.contains("shadyaddons")) {
                 System.out.println("RESOURCE PACK FOUND");
                 File directory = (File) ReflectionUtils.field(pack, "resourcePackFile");
+                if (directory == null) directory = (File) ReflectionUtils.field(pack, "field_110523_b");
                 if(directory != null) {
                     System.out.println("DIRECTORY FOUND " + directory.getAbsolutePath());
                     Collection<File> images = FileUtils.listFiles(directory, new String[]{"png"}, true);
