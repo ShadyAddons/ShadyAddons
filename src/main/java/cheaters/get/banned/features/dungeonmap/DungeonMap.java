@@ -63,13 +63,16 @@ public class DungeonMap {
                             zCorner = 191;
                     }
 
-                    if(Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(xCorner, 70, zCorner)).isLoaded() && Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(0, 70, 0)).isLoaded()) {
-                        scanning = true;
-                        new Thread(() -> {
-                            activeDungeonLayout = DungeonScanner.scan(xCorner, zCorner);
-                            scanning = false;
-                        }, "ShadyAddons-DungeonScanner").start();
-                    }
+                    // TODO: This also makes me want to vomit
+                    try {
+                        if(Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(xCorner, 70, zCorner)).isLoaded() && Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(0, 70, 0)).isLoaded()) {
+                            scanning = true;
+                            new Thread(() -> {
+                                activeDungeonLayout = DungeonScanner.scan(xCorner, zCorner);
+                                scanning = false;
+                            }, "ShadyAddons-DungeonScanner").start();
+                        }
+                    } catch(Exception ignored) {}
                 }
             } else if(Config.announceScore && !activeDungeonLayout.sentScoreMessage && DungeonUtils.calculateScore() >= Config.announceScoreNumber) {
                 activeDungeonLayout.sentScoreMessage = true;
