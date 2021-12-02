@@ -7,8 +7,10 @@ import java.awt.*;
 
 public class FontUtils {
 
+    public static final int LINE_HEIGHT = Shady.mc.fontRendererObj.FONT_HEIGHT;
+
     public static char getRainbowCode(char fallback) {
-        return (Shady.usingSkyBlockAddons && (!Shady.usingPatcher || Shady.usingSkytils) ? 'z' : fallback);
+        return (Shady.USING_SBA && (!Shady.USING_PATCHER || Shady.USING_SKYTILS) ? 'z' : fallback);
     }
 
     public static String enforceWidth(String text, int width) {
@@ -33,7 +35,7 @@ public class FontUtils {
         String[] lines = text.split("\n");
         for(String line : lines) {
             drawString(line, x-getStringWidth(line)/2, y, shadow);
-            y += getLineHeight() + 1;
+            y += LINE_HEIGHT + 1;
         }
     }
 
@@ -45,13 +47,13 @@ public class FontUtils {
         String[] lines = text.split("\n");
         for(String line : lines) {
             Shady.mc.fontRendererObj.drawString(line, x, y, Color.WHITE.getRGB(), shadow);
-            y += getLineHeight() + 1;
+            y += LINE_HEIGHT + 1;
         }
     }
 
     public static int getStringHeight(String text) {
         int lines = text.split("\n").length;
-        return lines > 1 ? lines * (getLineHeight() + 1) - 1 : getLineHeight();
+        return lines > 1 ? lines * (LINE_HEIGHT + 1) - 1 : LINE_HEIGHT;
     }
 
     public static int getStringWidth(String text) {
@@ -62,10 +64,6 @@ public class FontUtils {
             if(lineWidth > longestLine) longestLine = lineWidth;
         }
         return longestLine;
-    }
-
-    public static int getLineHeight() {
-        return Shady.mc.fontRendererObj.FONT_HEIGHT;
     }
 
     public static void drawScaledString(String string, float scale, int x, int y, boolean shadow) {

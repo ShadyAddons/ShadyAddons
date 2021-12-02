@@ -8,6 +8,7 @@ import cheaters.get.banned.config.settings.SelectSetting;
 import cheaters.get.banned.config.settings.Setting;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.*;
+import cheaters.get.banned.features.commandpalette.CommandPalette;
 import cheaters.get.banned.features.connectfoursolver.ConnectFourSolver;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.DungeonScanner;
@@ -36,6 +37,9 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import org.apache.commons.lang3.SystemUtils;
+import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +57,10 @@ public class Shady {
     public static final Minecraft mc = Minecraft.getMinecraft();
     public static boolean shouldCrash = false;
 
-    public static boolean usingSkyBlockAddons = false;
-    public static boolean usingPatcher = false;
-    public static boolean usingSkytils = false;
+    public static boolean USING_SBA = false;
+    public static boolean USING_PATCHER = false;
+    public static boolean USING_SKYTILS = false;
+    public static boolean USING_SBE = false;
 
     public static GuiScreen guiToOpen = null;
     public static boolean enabled = true;
@@ -63,14 +68,18 @@ public class Shady {
     private static boolean sentPlayTimeData = false;
     private static Pattern playTimePattern = Pattern.compile("You have (\\d*) hours and \\d* minutes playtime!");
 
-    public static List<String> disabledSettings = DisableFeatures.load();
+    public static List<String> disabledSettings = DisableFeatures.load(); // Blocking
     public static ArrayList<Setting> settings = ConfigLogic.collect(Config.class, disabledSettings);
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         ClientCommandHandler.instance.registerCommand(new MainCommand());
+
+        // Read JSON Files
         ConfigLogic.load();
         RoomLoader.load();
+
+        // Do Remote Things
         Updater.check();
         MayorAPI.fetch();
         Analytics.collect("version", VERSION);
@@ -119,6 +128,8 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new Jokes());
         MinecraftForge.EVENT_BUS.register(new FakeBan());
 
+        KeybindUtils.register("Command Palette", Keyboard.KEY_K);
+
         for(KeyBinding keyBinding : KeybindUtils.keyBindings.values()) {
             ClientRegistry.registerKeyBinding(keyBinding);
         }
@@ -126,9 +137,12 @@ public class Shady {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        usingSkyBlockAddons = Loader.isModLoaded("skyblockaddons");
-        usingPatcher = Loader.isModLoaded("patcher");
-        usingSkytils = Loader.isModLoaded("skytils");
+        USING_SBA = Loader.isModLoaded("skyblockaddons");
+        USING_PATCHER = Loader.isModLoaded("patcher");
+        USING_SKYTILS = Loader.isModLoaded("skytils");
+        USING_SKYTILS = Loader.isModLoaded("skytils");
+        USING_SBE = Loader.isModLoaded("skyblockextras");
+
         Analytics.collect("hash", CrashReporter.hashMod());
     }
 
@@ -158,6 +172,21 @@ public class Shady {
                 event.setCanceled(true);
                 sentPlayTimeData = true;
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onInput(InputEvent.KeyInputEvent event) {
+        if(Config.commandPalette && KeybindUtils.isPressed("Command Palette")) {
+            if(SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
+                if(!Keyboard.isKeyDown(Keyboard.KEY_LMETA) && !Keyboard.isKeyDown(Keyboard.KEY_RMETA)) {
+                    return;
+                }
+            } else if(!Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && !Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
+                return;
+            }
+
+            Shady.guiToOpen = new CommandPalette();
         }
     }
 
