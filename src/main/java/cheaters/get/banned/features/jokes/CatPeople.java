@@ -51,7 +51,7 @@ public class CatPeople {
             if(domains != null && domains.contains("shadyaddons")) {
                 File directory = (File) ReflectionUtils.field(pack, "field_110523_b");
                 if(directory == null) directory = (File) ReflectionUtils.field(pack, "resourcePackFile");
-                if(directory != null) {
+                if(directory != null && directory.isDirectory()) {
                     Collection<File> images = FileUtils.listFiles(directory, new String[]{"png"}, true);
                     images.removeIf(image -> image.getName().equals("pack.png"));
                     CatPeople.images.clear();
