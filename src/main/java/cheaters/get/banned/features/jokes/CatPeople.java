@@ -119,7 +119,6 @@ public class CatPeople {
             Set<String> resourceDomains = pack.getResourcePack().getResourceDomains();
             if(resourceDomains != null && resourceDomains.contains("shadyaddons")) {
                 load();
-                Analytics.collect("using_pack", usingPack ? "1" : "0");
             }
         }
     }
