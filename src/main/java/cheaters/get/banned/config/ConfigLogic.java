@@ -2,7 +2,6 @@ package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.settings.*;
-import cheaters.get.banned.remote.DisableFeatures;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -22,7 +21,7 @@ public class ConfigLogic {
     
     private static String fileName = "config/ShadyAddons.cfg";
 
-    public static ArrayList<Setting> collect(Class<Config> instance) {
+    public static ArrayList<Setting> collect(Class<Config> instance, List<String> disabledFeatures) {
         Field[] fields = instance.getDeclaredFields();
         ArrayList<Setting> settings = new ArrayList<>();
 
@@ -50,7 +49,6 @@ public class ConfigLogic {
             }
         }
 
-        List<String> disabledFeatures = DisableFeatures.load();
         ArrayList<Setting> settingsToRemove = new ArrayList<>();
 
         // Relationships that need to be set after all settings have been collected

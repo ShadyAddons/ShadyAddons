@@ -126,8 +126,8 @@ public class AutoTerminals {
                     }
                 }
                 // Plan route for maze from start to end
-                for (int slot = 0; slot < 54; slot++) {
-                    if (isStartSlot[slot]) {
+                for(int slot = 0; slot < 54; slot++) {
+                    if(isStartSlot[slot]) {
                         boolean[] mazeVisited = new boolean[54];
                         int startSlot = slot;
                         while(startSlot != endSlot) {
@@ -135,7 +135,7 @@ public class AutoTerminals {
                             for(int i : mazeDirection) {
                                 int nextSlot = startSlot + i;
                                 if(nextSlot < 0 || nextSlot > 53 || i == -1 && startSlot % 9 == 0 || i == 1 && startSlot % 9 == 8) continue;
-                                if (nextSlot == endSlot) return false;
+                                if(nextSlot == endSlot) return false;
                                 if(mazeVisited[nextSlot]) continue;
                                 ItemStack itemStack = invSlots.get(nextSlot).getStack();
                                 if(itemStack == null) continue;
@@ -165,17 +165,17 @@ public class AutoTerminals {
                     ItemStack itemStack = invSlots.get(i).getStack();
                     if(itemStack == null) continue;
                     if(itemStack.getItem() == Item.getItemFromBlock(Blocks.stained_glass_pane) && itemStack.stackSize < 15) {
-                        if (itemStack.getItemDamage() == 14) {
+                        if(itemStack.getItemDamage() == 14) {
                             temp[itemStack.stackSize - 1] = invSlots.get(i);
-                        } else if (itemStack.getItemDamage() == 5) {
-                            if (min < itemStack.stackSize) {
+                        } else if(itemStack.getItemDamage() == 5) {
+                            if(min < itemStack.stackSize) {
                                 min = itemStack.stackSize;
                             }
                         }
                     }
                 }
                 clickQueue.addAll(Arrays.stream(temp).filter(Objects::nonNull).collect(Collectors.toList()));
-                if (clickQueue.size() != 14 - min) return true;
+                if(clickQueue.size() != 14 - min) return true;
                 break;
 
             case CORRECT_ALL:
@@ -192,7 +192,7 @@ public class AutoTerminals {
                 break;
 
             case LETTER:
-                if (chestName.length() > chestName.indexOf("'") + 1) {
+                if(chestName.length() > chestName.indexOf("'") + 1) {
                     char letterNeeded = chestName.charAt(chestName.indexOf("'") + 1);
                     for(Slot slot : invSlots) {
                         if(slot.inventory == Shady.mc.thePlayer.inventory) continue;

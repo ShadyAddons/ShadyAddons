@@ -24,8 +24,8 @@ public class ScoreboardUtils {
         char[] nvString = StringUtils.stripControlCodes(scoreboard).toCharArray();
         StringBuilder cleaned = new StringBuilder();
 
-        for (char c : nvString) {
-            if ((int) c > 20 && (int) c < 127) {
+        for(char c : nvString) {
+            if((int) c > 20 && (int) c < 127) {
                 cleaned.append(c);
             }
         }
@@ -36,12 +36,12 @@ public class ScoreboardUtils {
     @SuppressWarnings({"ExecutionException", "IllegalArgumentException"})
     public static List<String> getScoreboard() {
         List<String> lines = new ArrayList<>();
-        if (Minecraft.getMinecraft().theWorld == null) return lines;
+        if(Minecraft.getMinecraft().theWorld == null) return lines;
         Scoreboard scoreboard = Minecraft.getMinecraft().theWorld.getScoreboard();
-        if (scoreboard == null) return lines;
+        if(scoreboard == null) return lines;
 
         ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
-        if (objective == null) return lines;
+        if(objective == null) return lines;
 
         Collection<Score> scores = scoreboard.getSortedScores(objective);
         List<Score> list = scores.stream()
@@ -49,13 +49,13 @@ public class ScoreboardUtils {
                         .startsWith("#"))
                 .collect(Collectors.toList());
 
-        if (list.size() > 15) {
+        if(list.size() > 15) {
             scores = Lists.newArrayList(Iterables.skip(list, scores.size() - 15));
         } else {
             scores = list;
         }
 
-        for (Score score : scores) {
+        for(Score score : scores) {
             ScorePlayerTeam team = scoreboard.getPlayersTeam(score.getPlayerName());
             lines.add(ScorePlayerTeam.formatPlayerName(team, score.getPlayerName()));
         }
@@ -66,7 +66,7 @@ public class ScoreboardUtils {
     public static boolean scoreboardContains(String string) {
         boolean result = false;
         List<String> scoreboard = getScoreboard();
-        for (String line : scoreboard) {
+        for(String line : scoreboard) {
             line = cleanSB(line);
             line = Utils.removeFormatting(line);
             if(line.contains(string)) {
@@ -80,7 +80,7 @@ public class ScoreboardUtils {
     public static String getLineThatContains(String string) {
         String result = null;
         List<String> scoreboard = getScoreboard();
-        for (String line : scoreboard) {
+        for(String line : scoreboard) {
             line = cleanSB(line);
             if(line.contains(string)) {
                 result = line;

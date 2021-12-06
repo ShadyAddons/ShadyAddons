@@ -3,6 +3,7 @@ package cheaters.get.banned.config;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.AutoTerminals;
 import cheaters.get.banned.features.AutoWardrobe;
+import cheaters.get.banned.features.commandpalette.CommandPalette;
 import cheaters.get.banned.features.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.dungeonmap.Room;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
@@ -107,8 +108,13 @@ public class MainCommand extends CommandBase {
                                 if(Utils.inDungeon) DungeonUtils.debug();
                                 break;
 
+                            case "palette":
+                                Shady.guiToOpen = new CommandPalette();
+                                break;
+
                             case "crash":
-                                Shady.mc.renderEngine = null;
+                                Shady.shouldCrash = true;
+                                break;
 
                             case "copylook":
                                 if(Shady.mc.objectMouseOver != null) {
@@ -126,7 +132,7 @@ public class MainCommand extends CommandBase {
                             case "terms":
                                 AutoTerminals.testing = !AutoTerminals.testing;
                                 Utils.sendModMessage("Toggled testing terminals to "+AutoTerminals.testing);
-                                if(!Utils.forceDungeon) Utils.sendMessageAsPlayer("sh force_dungeon");
+                                if(!Utils.forceDungeon) Utils.executeCommand("/sh force_dungeon");
                                 break;
 
                             case "rooms":
@@ -158,7 +164,7 @@ public class MainCommand extends CommandBase {
                     if(args.length > 1) {
                         for(DungeonUtils.Floor floor : DungeonUtils.Floor.values()) {
                             if(floor.name.replaceAll("[()]", "").equalsIgnoreCase(args[1])) {
-                                if(!Utils.forceDungeon) Utils.sendMessageAsPlayer("sh force_dungeon");
+                                if(!Utils.forceDungeon) Utils.executeCommand("/sh force_dungeon");
                                 DungeonUtils.dungeonRun.floor = floor;
                                 Utils.sendModMessage("Set floor to "+DungeonUtils.dungeonRun.floor);
                                 return;

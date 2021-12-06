@@ -49,17 +49,15 @@ public class CatPeople {
         for(ResourcePackRepository.Entry pack : Shady.mc.getResourcePackRepository().getRepositoryEntries()) {
             Set<String> domains = pack.getResourcePack().getResourceDomains();
             if(domains != null && domains.contains("shadyaddons")) {
-                System.out.println("RESOURCE PACK FOUND");
-                File directory = (File) ReflectionUtils.field(pack, "resourcePackFile");
-                if(directory != null) {
-                    System.out.println("DIRECTORY FOUND " + directory.getAbsolutePath());
+                File directory = (File) ReflectionUtils.field(pack, "field_110523_b");
+                if(directory == null) directory = (File) ReflectionUtils.field(pack, "resourcePackFile");
+                if(directory != null && directory.isDirectory()) {
                     Collection<File> images = FileUtils.listFiles(directory, new String[]{"png"}, true);
                     images.removeIf(image -> image.getName().equals("pack.png"));
                     CatPeople.images.clear();
                     for(File image : images) {
-                        CatPeople.images.add(new ResourceLocation("shadyaddons", image.getParentFile().getName()+"/"+image.getName()));
+                        CatPeople.images.add(new ResourceLocation("shadyaddons", image.getParentFile().getName() + "/" + image.getName()));
                     }
-                    System.out.println("IMAGES " + images);
                     usingPack = true;
                     return;
                 }
@@ -99,6 +97,7 @@ public class CatPeople {
     }
 
     private int counter = 0;
+
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
         if(Config.catGirls && usingPack) {
@@ -120,7 +119,6 @@ public class CatPeople {
             Set<String> resourceDomains = pack.getResourcePack().getResourceDomains();
             if(resourceDomains != null && resourceDomains.contains("shadyaddons")) {
                 load();
-                Analytics.collect("using_pack", usingPack ? "1" : "0");
             }
         }
     }

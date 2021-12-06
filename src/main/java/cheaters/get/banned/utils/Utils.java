@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -123,6 +124,12 @@ public class Utils {
 
     public static void sendMessageAsPlayer(String message) {
         Shady.mc.thePlayer.sendChatMessage(message);
+    }
+
+    public static void executeCommand(String command) {
+        if(ClientCommandHandler.instance.executeCommand(Shady.mc.thePlayer, command) == 0) {
+            sendMessageAsPlayer(command);
+        }
     }
 
     public static void sendModMessage(String message) {

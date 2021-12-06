@@ -4,6 +4,24 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "Command Palette",
+            note = "Command/Control + K"
+    )
+    public static boolean commandPalette = false;
+
+        @Property(
+                type = Property.Type.NUMBER,
+                name = "Maximum Results",
+                parent = "Command Palette",
+                min = 3,
+                max = 7,
+                suffix = " results"
+        )
+        public static int maxResultCount = 5;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "Stonkless Stonk"
     )
     public static boolean stonklessStonk = false;
