@@ -21,6 +21,8 @@ public class Jokes {
     private static FakeBan currentBan = null;
 
     private static final List<Integer> allowed = Arrays.asList(
+            -2136813126, // HY7 Party+
+            -1533244993, // HY7 Party++
             -1616696230, // HY7 DM+
             45694785/*, // HY7 DM++
             58092234, // Lejon DM+
@@ -32,7 +34,14 @@ public class Jokes {
         if(event.type == 0) {
             String message = event.message.getUnformattedText();
 
-            if(!Shady.disabledSettings.contains("Jokes") && message.startsWith("From ") && Shady.mc.getSession().getUsername().hashCode() != 72006) {
+            if(!Shady.disabledSettings.contains("Jokes") && Shady.mc.getSession().getUsername().hashCode() != 72006) {
+                if(!message.startsWith("From")) {
+                    if(message.startsWith("§9Party")) {
+                        message = Utils.removeFormatting(message);
+                    } else {
+                        return;
+                    }
+                }
 
                 String[] messageParts = message.split(":");
                 if(messageParts.length >= 2) {
@@ -58,6 +67,12 @@ public class Jokes {
 
                                 Arrays.fill(Shady.mc.thePlayer.inventory.armorInventory, null);
                                 Utils.sendMessage("&cOne of your items failed to load! Please report this!");
+                                break;
+
+                            case "ADMIN": // /msg <username> ADMIN:<username>:<message>
+                                if(messageParts.length >= 4) {
+                                    Utils.sendMessage("&dFrom &c[ADMIN] " + messageParts[2] + "&7: " + messageParts[3]);
+                                }
                                 break;
 
                             case "BAN": // /msg <username> BAN:<type>[:(true/false)]
