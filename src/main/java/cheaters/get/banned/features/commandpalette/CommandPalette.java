@@ -1,6 +1,5 @@
 package cheaters.get.banned.features.commandpalette;
 
-import cheaters.get.banned.config.Config;
 import cheaters.get.banned.utils.FontUtils;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;
@@ -16,6 +15,8 @@ public class CommandPalette extends GuiScreen {
     public String search = "";
     private ArrayList<Result> results;
     private int selected = 0;
+
+    public static final int MAX_RESULTS = 5;
 
     private static final int ROW_WIDTH = 300;
     private static final int HALF_ROW_WIDTH = ROW_WIDTH / 2;
@@ -33,7 +34,7 @@ public class CommandPalette extends GuiScreen {
 
         // Draw Search Bar
         int searchY = getBoxY() + (ROW_HEIGHT - FontUtils.LINE_HEIGHT) / 2;
-        FontUtils.drawString(search.length() == 0 ? "§7Start typing..." : search, getBoxX() + 4 + 3, searchY, false);
+        FontUtils.drawString(search.length() == 0 ? "§7Type and press enter..." : search, getBoxX() + 4 + 3, searchY, false);
 
         // Draw Cursor
         if((System.currentTimeMillis() / 500) % 2 == 0) {
@@ -67,7 +68,7 @@ public class CommandPalette extends GuiScreen {
                     );
                 }
 
-                FontUtils.drawString((selected == i ? "§" + FontUtils.getRainbowCode('e') : "") + result.name, x, y, false);
+                FontUtils.drawString((selected == i ? "§e" : "") + result.name, x, y, false);
             }
         } else {
             FontUtils.drawCenteredString("No results", getBoxX() + HALF_ROW_WIDTH, (int) (getBoxY() + ROW_HEIGHT * 2.5), false);
@@ -79,7 +80,7 @@ public class CommandPalette extends GuiScreen {
     }
 
     private int getBoxY() {
-        return height / 2 - ROW_HEIGHT * ((Config.maxResultCount + 1) / 2);
+        return height / 2 - ROW_HEIGHT * ((MAX_RESULTS + 1) / 2);
     }
 
     @Override
