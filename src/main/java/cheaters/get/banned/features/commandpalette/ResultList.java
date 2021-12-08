@@ -1,7 +1,6 @@
 package cheaters.get.banned.features.commandpalette;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
 import cheaters.get.banned.features.commandpalette.actions.CommandAction;
 import cheaters.get.banned.features.commandpalette.actions.RunnableAction;
 import cheaters.get.banned.features.commandpalette.icons.ImageIcon;
@@ -439,14 +438,14 @@ public class ResultList {
         filter = filter.toLowerCase();
 
         if(filter.equals("")) {
-            filtered = results.values().stream().limit(Config.maxResultCount).collect(Collectors.toCollection(ArrayList::new));
+            filtered = results.values().stream().limit(CommandPalette.MAX_RESULTS).collect(Collectors.toCollection(ArrayList::new));
         } else {
             for(Map.Entry<String, Result> result : results.entrySet()) {
                 if(result.getKey().toLowerCase().contains(filter) || result.getValue().name.toLowerCase().contains(filter)) {
                     filtered.add(result.getValue());
                 }
 
-                if(filtered.size() == Config.maxResultCount) break;
+                if(filtered.size() == CommandPalette.MAX_RESULTS) break;
             }
         }
 
