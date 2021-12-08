@@ -22,8 +22,9 @@ public class ConfigLogic {
     private static String fileName = "config/ShadyAddons.cfg";
 
     public static ArrayList<Setting> collect(Class<Config> instance, List<String> disabledFeatures) {
-        Field[] fields = instance.getDeclaredFields();
         ArrayList<Setting> settings = new ArrayList<>();
+
+        Field[] fields = instance.getDeclaredFields();
 
         for(Field field : fields) {
             Property annotation = field.getAnnotation(Property.class);
@@ -31,19 +32,43 @@ public class ConfigLogic {
                 switch(annotation.type()) {
                     case BOOLEAN:
                     case CHECKBOX:
-                        settings.add(new BooleanSetting(annotation, field, annotation.type()));
+                        if(field.getType() == boolean.class || field.getType() == Boolean.class) {
+                            settings.add(new BooleanSetting(annotation, field, annotation.type()));
+                        } else {
+                            throw new TypeMismatchException("type boolean or Boolean", field.getType().getName());
+                        }
                         break;
 
                     case NUMBER:
-                        settings.add(new NumberSetting(annotation, field));
+                        if(field.getType() == int.class || field.getType() == Integer.class) {
+                            settings.add(new NumberSetting(annotation, field));
+                        } else {
+                            throw new TypeMismatchException("type int or Integer", field.getType().getName());
+                        }
                         break;
 
                     case SELECT:
-                        settings.add(new SelectSetting(annotation, field));
+                        if(field.getType() == int.class || field.getType() == Integer.class) {
+                            settings.add(new SelectSetting(annotation, field));
+                        } else {
+                            throw new TypeMismatchException("type int or Integer", field.getType().getName());
+                        }
+                        break;
+
+                    case BUTTON:
+                        if(field.getType() == Runnable.class) {
+                            settings.add(new ButtonSetting(annotation, field));
+                        } else {
+                            throw new TypeMismatchException("type Runnable", field.getType().getName());
+                        }
                         break;
 
                     case FOLDER:
-                        settings.add(new FolderSetting(annotation, field));
+                        if(field.getType() == boolean.class || field.getType() == Boolean.class) {
+                            settings.add(new FolderSetting(annotation, field));
+                        } else {
+                            throw new TypeMismatchException("type boolean or Boolean", field.getType().getName());
+                        }
                         break;
                 }
             }
@@ -83,7 +108,7 @@ public class ConfigLogic {
 
     public static Setting getSettingByFieldName(String fieldName, ArrayList<Setting> settings) {
         for(Setting setting : settings) {
-            if(setting.field.getName().equals(fieldName)) return setting;
+            if(!(setting instanceof ButtonSetting) && setting.field.getName().equals(fieldName)) return setting;
         }
         return null;
     }
@@ -92,7 +117,7 @@ public class ConfigLogic {
         try {
             HashMap<String, Object> convertedSettings = new HashMap<>();
             for(Setting setting : Shady.settings) {
-                if(setting instanceof FolderSetting) continue;
+                if(setting instanceof FolderSetting || setting instanceof ButtonSetting) continue;
                 convertedSettings.put(setting.name, setting.get(Object.class));
             }
             String json = new Gson().toJson(convertedSettings);
@@ -107,7 +132,7 @@ public class ConfigLogic {
         try {
             HashMap<String, Object> settingsToSave = new HashMap<>();
             for(Setting setting : Shady.settings) {
-                if(setting instanceof FolderSetting) continue;
+                if(setting instanceof FolderSetting || setting instanceof ButtonSetting) continue;
                 settingsToSave.put(setting.field.getName(), setting.get(Object.class));
             }
             String json = new Gson().toJson(settingsToSave);

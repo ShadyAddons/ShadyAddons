@@ -36,6 +36,9 @@ public abstract class ConfigInput extends GuiButton {
             case SELECT:
                 return new SelectInput((SelectSetting) setting, x, y);
 
+            case BUTTON:
+                return new ButtonInput((ButtonSetting) setting, x, y);
+
             default:
                 return null;
         }

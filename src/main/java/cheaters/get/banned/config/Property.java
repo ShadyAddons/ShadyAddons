@@ -15,6 +15,9 @@ public @interface Property {
     boolean warning() default false;
     boolean beta() default false;
 
+    // Type.BUTTOn
+    String button() default "";
+
     // Type.NUMBER
     int step() default 1;
     String prefix() default "";
@@ -41,10 +44,13 @@ public @interface Property {
 
     Type.CHECKBOX
         Functons the same as Type.BOOLEAN, just with a different appearance.
+
+    Type.BUTTON
+        Runs a method when clicked. Does not close the settings GUI.
     */
 
     enum Type {
-        BOOLEAN, FOLDER, NUMBER, SELECT, CHECKBOX
+        BOOLEAN, FOLDER, NUMBER, SELECT, CHECKBOX, BUTTON
     }
 
 }
