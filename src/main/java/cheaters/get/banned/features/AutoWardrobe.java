@@ -8,9 +8,10 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+// Contributed by RoseGold
 public class AutoWardrobe {
 
-    private static int page = 1;
+    private static int page = 0;
     private static int slot = 0;
     private static boolean shouldOpenWardrobe = false;
 
@@ -22,14 +23,14 @@ public class AutoWardrobe {
     }
 
     @SubscribeEvent
-    public void GuiDraw(GuiScreenEvent.BackgroundDrawnEvent event) {
+    public void onDrawGuiBackground(GuiScreenEvent.BackgroundDrawnEvent event) {
         if(Utils.inSkyBlock && shouldOpenWardrobe && event.gui instanceof GuiChest) {
 
             Container container = ((GuiChest) event.gui).inventorySlots;
             if(container instanceof ContainerChest) {
 
                 String chestName = Utils.getGuiName(event.gui);
-                if(chestName.equals("Pets")) {
+                if(chestName.endsWith("Pets")) {
 
                     clickSlot(48, 0, 0);
                     clickSlot(32, 0, 1);
@@ -39,15 +40,15 @@ public class AutoWardrobe {
                             clickSlot(slot + 35, 0, 2);
                             Shady.mc.thePlayer.closeScreen();
                         }
-                        shouldOpenWardrobe = false;
                     } else if(page == 2) {
                         clickSlot(53, 2, 2);
-                        if (slot > 0 && slot < 10) {
+                        if(slot > 0 && slot < 10) {
                             clickSlot(slot + 35, 0, 3);
                             Shady.mc.thePlayer.closeScreen();
                         }
-                        shouldOpenWardrobe = false;
                     }
+
+                    shouldOpenWardrobe = false;
                 }
             }
         }

@@ -9,7 +9,7 @@ public class Config {
 
     @Property(
             type = Property.Type.BUTTON,
-            button = "Open",
+            button = "Open Palette",
             name = "Command Palette",
             note = "Command/Control + K"
     )
@@ -112,14 +112,14 @@ public class Config {
 
     @Property(
             type = Property.Type.BUTTON,
-            button = "Test",
+            button = "Open Wardrobe",
             name = "Auto Wardrobe",
             note = "by RoseGold",
             warning = true // TODO: Does this deserve a warning?
     )
     public static Runnable openWardrobe = () -> {
         if(Utils.inSkyBlock) {
-            AutoWardrobe.open(0, 0);
+            AutoWardrobe.open(1, 0);
             Utils.sendModMessage("Use /sh wardrobe [slot] to equip a specific set!");
         } else {
             Utils.sendModMessage("You must be in SkyBlock to use this!");

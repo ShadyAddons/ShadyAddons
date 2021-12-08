@@ -60,7 +60,7 @@ public class MainCommand extends CommandBase {
                     }
 
                     if(args.length == 1) {
-                        AutoWardrobe.open(0, 0);
+                        AutoWardrobe.open(1, 0);
                         return;
                     }
 
@@ -73,10 +73,13 @@ public class MainCommand extends CommandBase {
                         int slot = Integer.parseInt(args[1]);
 
                         if(slot > 0 && slot <= 9) {
-                            AutoWardrobe.open(0, slot);
+                            AutoWardrobe.open(1, slot);
                             return;
-                        } else if(slot <= 18) {
+                        } else if(slot < 18) {
                             AutoWardrobe.open(2, slot % 9);
+                            return;
+                        } else if(slot == 18) {
+                            AutoWardrobe.open(2, 9);
                             return;
                         }
 

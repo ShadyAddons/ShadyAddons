@@ -43,7 +43,7 @@ public class AutoSalvage {
         if(tickCount % 5 == 0) {
             if(Config.autoSalvage && inSalvageGui && salvaging && Shady.mc.currentScreen instanceof GuiChest) {
                 List<Slot> chestInventory = ((GuiChest) Shady.mc.currentScreen).inventorySlots.inventorySlots;
-                if(chestInventory.get(31).getStack() != null && chestInventory.get(31).getStack().getItem() == Items.skull) {
+                if(chestInventory != null && chestInventory.get(31).getStack() != null && chestInventory.get(31).getStack().getItem() == Items.skull) {
                     // Confirm salvaging legendary items
                     if(chestInventory.get(22) != null && chestInventory.get(22).getStack() != null & chestInventory.get(22).getStack().getItem() == Item.getItemFromBlock(Blocks.stained_hardened_clay)) {
                         Shady.mc.playerController.windowClick(Shady.mc.thePlayer.openContainer.windowId, 22, 2, 0, Shady.mc.thePlayer);
