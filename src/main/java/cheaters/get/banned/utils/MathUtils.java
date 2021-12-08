@@ -10,4 +10,12 @@ public class MathUtils {
         return random.nextInt(max - min + 1) + min;
     }
 
+    public static boolean isNumber(String string) {
+        try {
+            Double.parseDouble(string);
+            return true;
+        } catch(Exception ignored) {}
+        return false;
+    }
+
 }

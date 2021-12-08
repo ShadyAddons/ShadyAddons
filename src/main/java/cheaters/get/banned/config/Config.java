@@ -1,23 +1,22 @@
 package cheaters.get.banned.config;
 
+import cheaters.get.banned.Shady;
+import cheaters.get.banned.features.AutoWardrobe;
+import cheaters.get.banned.features.commandpalette.CommandPalette;
+import cheaters.get.banned.utils.Utils;
+
 public class Config {
 
     @Property(
-            type = Property.Type.BOOLEAN,
+            type = Property.Type.BUTTON,
+            button = "Open",
             name = "Command Palette",
             note = "Command/Control + K"
     )
-    public static boolean commandPalette = false;
-
-        @Property(
-                type = Property.Type.NUMBER,
-                name = "Maximum Results",
-                parent = "Command Palette",
-                min = 3,
-                max = 7,
-                suffix = " results"
-        )
-        public static int maxResultCount = 5;
+    public static Runnable openCommandPalette = () -> {
+        Shady.guiToOpen = new CommandPalette();
+        Utils.sendModMessage("You can customize the shortcut in Minecraft controls (which you can open with the Command Palette!)");
+    };
 
 
     @Property(
@@ -109,6 +108,23 @@ public class Config {
                 parent = "Auto Clicker"
         )
         public static boolean stopAutoClickerInGui = false;
+
+
+    @Property(
+            type = Property.Type.BUTTON,
+            button = "Test",
+            name = "Auto Wardrobe",
+            note = "by RoseGold",
+            warning = true // TODO: Does this deserve a warning?
+    )
+    public static Runnable openWardrobe = () -> {
+        if(Utils.inSkyBlock) {
+            AutoWardrobe.open(0, 0);
+            Utils.sendModMessage("Use /sh wardrobe [slot] to equip a specific set!");
+        } else {
+            Utils.sendModMessage("You must be in SkyBlock to use this!");
+        }
+    };
 
 
     @Property(
@@ -783,13 +799,6 @@ public class Config {
                 max = 1000
         )
         public static int terminalClickDelay = 100;
-
-    @Property(
-            type = Property.Type.BOOLEAN,
-            name = "Auto Wardrobe Command: /sh wardrobe [slot]",
-            note = "By RoseGold"
-    )
-    public static boolean autoWardrobeGlobal = true;
 
 
     @Property(

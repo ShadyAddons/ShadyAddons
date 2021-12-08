@@ -23,6 +23,9 @@ import java.util.List;
 
 public class MainCommand extends CommandBase {
 
+    private static final String UNKNOWN_COMMAND = "Unrecognized command!";
+    private static final String INVALID_ARGUMENTS = "Invalid arguments!";
+
     @Override
     public String getCommandName() {
         return "sh";
@@ -44,45 +47,55 @@ public class MainCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         if(!Shady.enabled) {
-            Utils.sendMessageAsPlayer("/"+RandomStringUtils.random(10, true, false));
+            Utils.sendMessageAsPlayer("/" + RandomStringUtils.random(10, true, false));
             return;
         }
 
         if(args.length > 0) {
             switch(args[0]) {
                 case "wardrobe":
-                    if(!Config.autoWardrobeGlobal) return;
+                    if(!Utils.inSkyBlock) {
+                        Utils.sendModMessage("You must be in SkyBlock to use this command!");
+                        return;
+                    }
+
                     if(args.length == 1) {
-                        AutoWardrobe.execute();
+                        AutoWardrobe.open(0, 0);
                         return;
                     }
-                    if(!isNumeric(args[1])) {
-                        Utils.sendModMessage("Invalid Arguments");
+
+                    if(!MathUtils.isNumber(args[1])) {
+                        Utils.sendModMessage(INVALID_ARGUMENTS);
                         return;
                     }
+
                     if(args.length == 2) {
                         int slot = Integer.parseInt(args[1]);
+
                         if(slot > 0 && slot <= 9) {
-                            AutoWardrobe.execute(slot);
+                            AutoWardrobe.open(0, slot);
                             return;
                         } else if(slot <= 18) {
-                            AutoWardrobe.execute(2, slot%9);
+                            AutoWardrobe.open(2, slot % 9);
                             return;
                         }
-                        Utils.sendModMessage("Invalid Arguments");
+
+                        Utils.sendModMessage(INVALID_ARGUMENTS);
                         return;
                     }
+
                     if(args.length == 3) {
-                        if(!isNumeric(args[2])) {
-                            Utils.sendModMessage("Invalid Arguments");
+                        if(!MathUtils.isNumber(args[2])) {
+                            Utils.sendModMessage(INVALID_ARGUMENTS);
                             return;
                         }
+
                         int page = Integer.parseInt(args[1]);
                         int slot = Integer.parseInt(args[2]);
-                        if(page > 2) {
-                            page = 2;
-                        }
-                        AutoWardrobe.execute(page, slot%9);
+
+                        if(page > 2) page = 2;
+
+                        AutoWardrobe.open(page, slot % 9);
                     }
                     break;
 
@@ -179,19 +192,10 @@ public class MainCommand extends CommandBase {
                     break;
 
                 default:
-                    Utils.sendModMessage("Unrecognized command");
+                    Utils.sendModMessage(UNKNOWN_COMMAND);
             }
         } else {
             Shady.guiToOpen = new ConfigGui(new ResourceLocation("shadyaddons:"+Utils.getLogo()+".png"));
-        }
-    }
-
-    private boolean isNumeric(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch(NumberFormatException e){
-            return false;
         }
     }
 
