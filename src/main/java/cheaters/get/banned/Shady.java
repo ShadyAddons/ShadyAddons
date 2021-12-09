@@ -43,6 +43,8 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -146,9 +148,9 @@ public class Shady {
 
         Analytics.collect("hash", CrashReporter.hashMod());
 
-        /*Executors.newScheduledThreadPool(1).scheduleAtFixedRate(() -> {
+        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(() -> {
             Analytics.collect("heartbeat", String.valueOf(System.currentTimeMillis()));
-        }, 5, 5, TimeUnit.MINUTES);*/
+        }, 5, 5, TimeUnit.MINUTES);
     }
 
     @SubscribeEvent

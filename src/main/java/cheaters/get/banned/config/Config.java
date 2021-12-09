@@ -113,9 +113,8 @@ public class Config {
     @Property(
             type = Property.Type.BUTTON,
             button = "Open Wardrobe",
-            name = "Auto Wardrobe",
-            note = "by RoseGold",
-            warning = true // TODO: Does this deserve a warning?
+            name = "Instant Wardrobe",
+            note = "by RoseGold"
     )
     public static Runnable openWardrobe = () -> {
         if(Utils.inSkyBlock) {
