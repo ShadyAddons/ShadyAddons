@@ -9,16 +9,11 @@ import cheaters.get.banned.utils.Utils;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
 public class ItemMacro {
-
-    private static boolean sentMissingSoulWhipMessage = false;
-    private static boolean sentMissingAotsMessage = false;
-    private static boolean sentMissingTermMessage = false;
 
     public ItemMacro() {
         KeybindUtils.register("Use Ice Spray", Keyboard.KEY_NONE);
@@ -33,33 +28,11 @@ public class ItemMacro {
 
     @SubscribeEvent
     public void onLeftCLick(ClickEvent.Left event) {
-        if(Config.soulWhipWithAnything) {
-            if(!useSkyBlockItem("SOUL_WHIP", true) && !sentMissingSoulWhipMessage) {
-                sendMissingItemMessage("Soul Whip");
-                sentMissingSoulWhipMessage = true;
-            }
+        if(!Config.disableOutsideDungeons || Utils.inDungeon) {
+            if(Config.soulWhipWithAnything) useSkyBlockItem("SOUL_WHIP", true);
+            if(Config.aotsWithAnything) useSkyBlockItem("AXE_OF_THE_SHREDDED", true);
+            if(Config.termWithAnything) useSkyBlockItem("TERMINATOR", true);
         }
-
-        if(Config.aotsWithAnything) {
-            if(!useSkyBlockItem("AXE_OF_THE_SHREDDED", true) && !sentMissingAotsMessage) {
-                sendMissingItemMessage("Axe of the Shredded");
-                sentMissingAotsMessage = true;
-            }
-        }
-
-        if(Config.termWithAnything) {
-            if(!useSkyBlockItem("TERMINATOR", true) && !sentMissingTermMessage) {
-                sendMissingItemMessage("Terminator");
-                sentMissingTermMessage = true;
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onWorldLoad(WorldEvent.Load event) {
-        sentMissingSoulWhipMessage = false;
-        sentMissingAotsMessage = false;
-        sentMissingTermMessage = false;
     }
 
     @SubscribeEvent

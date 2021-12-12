@@ -1,6 +1,7 @@
 package cheaters.get.banned.features.commandpalette;
 
 import cheaters.get.banned.Shady;
+import cheaters.get.banned.config.Config;
 import cheaters.get.banned.features.commandpalette.actions.CommandAction;
 import cheaters.get.banned.features.commandpalette.actions.RunnableAction;
 import cheaters.get.banned.features.commandpalette.icons.ImageIcon;
@@ -373,6 +374,38 @@ public class ResultList {
                     )
             );
         }
+
+        results.put("toggle enable disable aots with anything axe of the shredded",
+                new Result(
+                        (Config.aotsWithAnything ? "Disable" : "Enable") + ": AOTS w/ Anything",
+                        new ItemIcon(new ItemStack(Items.diamond_axe)),
+                        new RunnableAction(() -> Config.aotsWithAnything = !Config.aotsWithAnything)
+                )
+        );
+
+        results.put("toggle enable disable teleport with anything aspect of the end aspect of the end aotv aote",
+                new Result(
+                        (Config.teleportWithAnything ? "Disable" : "Enable") + ": Teleport w/ Anything",
+                        new ItemIcon(new ItemStack(Items.diamond_sword)),
+                        new RunnableAction(() -> Config.teleportWithAnything = !Config.teleportWithAnything)
+                )
+        );
+
+        results.put("toggle enable disable soul whip with anything",
+                new Result(
+                        (Config.soulWhipWithAnything ? "Disable" : "Enable") + ": Soul Whip w/ Anything",
+                        new ItemIcon(new ItemStack(Items.fishing_rod)),
+                        new RunnableAction(() -> Config.soulWhipWithAnything = !Config.soulWhipWithAnything)
+                )
+        );
+
+        results.put("toggle enable disable terminator with anything",
+                new Result(
+                        (Config.termWithAnything ? "Disable" : "Enable") + ": Terinator w/ Anything",
+                        new ItemIcon(new ItemStack(Items.bow)),
+                        new RunnableAction(() -> Config.termWithAnything = !Config.termWithAnything)
+                )
+        );
 
         results.put("shadyaddons settings config options",
                 new Result(
