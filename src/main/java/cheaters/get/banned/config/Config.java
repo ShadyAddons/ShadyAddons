@@ -799,6 +799,42 @@ public class Config {
         )
         public static int terminalClickDelay = 100;
 
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Mithril Macro"
+    )
+
+    public static boolean mithrilMacro = false;
+
+        @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Don't look at blocks",
+            parent = "Mithril Macro",
+            warning = true
+        )
+
+        public static boolean dontLookAtMithrilBlock = false;
+
+        @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Mine Mithril Through Blocks",
+            parent = "Mithril Macro",
+            warning = true
+        )
+
+        public static boolean mineMithrilThroughBlocks = false;
+
+        @Property(
+            type = Property.Type.NUMBER,
+            name = "Head Movement Time",
+            parent = "Mithril Macro",
+            step =  10,
+            suffix = "ms",
+            min = 50,
+            max = 1000
+        )
+
+        public static int mithrilHeadMovement = 150;
 
     @Property(
             type = Property.Type.BOOLEAN,
