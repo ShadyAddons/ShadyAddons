@@ -347,32 +347,46 @@ public class Config {
 
             @Property(
                     type = Property.Type.CHECKBOX,
-                    name = "Soul Whip w/ Anything",
-                    note = "Whip whip nae nae",
-                    parent = "Item Macros"
-            )
-            public static boolean soulWhipWithAnything = false;
-
-            @Property(
-                    type = Property.Type.CHECKBOX,
-                    name = "Terminator w/ Anything",
-                    parent = "Item Macros"
-            )
-            public static boolean termWithAnything = false;
-
-            @Property(
-                    type = Property.Type.CHECKBOX,
-                    name = "AOTS w/ Anything",
-                    parent = "Item Macros"
-            )
-            public static boolean aotsWithAnything = false;
-
-            @Property(
-                    type = Property.Type.BOOLEAN,
                     name = "Teleport w/ Anything",
-                    parent = "Item Macros"
+                    parent = "Use Item w/ Anything"
             )
             public static boolean teleportWithAnything = false;
+
+            @Property(
+                    type = Property.Type.FOLDER,
+                    name = "Use Weapon w/ Anything",
+                    parent = "Item Macros"
+            )
+            public static boolean useItemsWithAnything;
+
+                @Property(
+                        type = Property.Type.BOOLEAN,
+                        name = "Disable Outside of Dungeons",
+                        parent = "Use Weapon w/ Anything"
+                )
+                public static boolean disableOutsideDungeons = false;
+
+                @Property(
+                        type = Property.Type.CHECKBOX,
+                        name = "Soul Whip w/ Anything",
+                        note = "Whip whip nae nae",
+                        parent = "Use Weapon w/ Anything"
+                )
+                public static boolean soulWhipWithAnything = false;
+
+                @Property(
+                        type = Property.Type.CHECKBOX,
+                        name = "Terminator w/ Anything",
+                        parent = "Use Weapon w/ Anything"
+                )
+                public static boolean termWithAnything = false;
+
+                @Property(
+                        type = Property.Type.CHECKBOX,
+                        name = "AOTS w/ Anything",
+                        parent = "Use Weapon w/ Anything"
+                )
+                public static boolean aotsWithAnything = false;
 
 
     @Property(

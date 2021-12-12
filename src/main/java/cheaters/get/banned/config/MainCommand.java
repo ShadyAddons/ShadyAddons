@@ -10,10 +10,7 @@ import cheaters.get.banned.features.dungeonmap.RoomLoader;
 import cheaters.get.banned.features.jokes.CatPeople;
 import cheaters.get.banned.remote.MayorAPI;
 import cheaters.get.banned.remote.YearInReview;
-import cheaters.get.banned.stats.MiscStats;
-import cheaters.get.banned.utils.DungeonUtils;
-import cheaters.get.banned.utils.MathUtils;
-import cheaters.get.banned.utils.Utils;
+import cheaters.get.banned.utils.*;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -142,6 +139,10 @@ public class MainCommand extends CommandBase {
                                 if(Shady.mc.objectMouseOver != null) {
                                     Utils.copyToClipboard(Shady.mc.objectMouseOver.getBlockPos().getX() + ", " + Shady.mc.objectMouseOver.getBlockPos().getY() + ", " + Shady.mc.objectMouseOver.getBlockPos().getZ());
                                 }
+                                break;
+
+                            case "left_click":
+                                KeybindUtils.leftClick();
                                 break;
 
                             case "catperson":
