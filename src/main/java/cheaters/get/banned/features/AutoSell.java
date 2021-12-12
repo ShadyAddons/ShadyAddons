@@ -3,6 +3,7 @@ package cheaters.get.banned.features;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.TickEndEvent;
+import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.init.Blocks;
@@ -49,6 +50,7 @@ public class AutoSell {
                     for(Slot slot : Shady.mc.thePlayer.inventoryContainer.inventorySlots) {
                         if(shouldSell(slot.getStack())) {
                             Shady.mc.playerController.windowClick(Shady.mc.thePlayer.openContainer.windowId, 45 + slot.slotNumber, 2, 0, Shady.mc.thePlayer);
+                            MiscStats.add(MiscStats.Metric.ITEMS_SOLD);
                             break;
                         }
                     }

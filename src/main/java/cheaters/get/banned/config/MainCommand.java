@@ -9,6 +9,8 @@ import cheaters.get.banned.features.dungeonmap.Room;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
 import cheaters.get.banned.features.jokes.CatPeople;
 import cheaters.get.banned.remote.MayorAPI;
+import cheaters.get.banned.remote.YearInReview;
+import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.MathUtils;
 import cheaters.get.banned.utils.Utils;
@@ -53,6 +55,10 @@ public class MainCommand extends CommandBase {
 
         if(args.length > 0) {
             switch(args[0]) {
+                case "2021":
+                    YearInReview.open();
+                    break;
+
                 case "wardrobe":
                     if(!Utils.inSkyBlock) {
                         Utils.sendModMessage("You must be in SkyBlock to use this command!");

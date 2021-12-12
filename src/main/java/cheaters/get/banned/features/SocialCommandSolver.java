@@ -1,6 +1,7 @@
 package cheaters.get.banned.features;
 
 import cheaters.get.banned.config.Config;
+import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.ExpressionParser;
 import cheaters.get.banned.utils.LocationUtils;
 import cheaters.get.banned.utils.ThreadUtils;
@@ -17,6 +18,7 @@ public class SocialCommandSolver {
             if(message.startsWith("QUICK MATHS! Solve: ")) {
                 message = message.replace("QUICK MATHS! Solve: ", "").replace("x", "*");
                 int answer = (int) ExpressionParser.eval(message);
+                MiscStats.add(MiscStats.Metric.MATH_PROBLEMS_SOLVED);
                 new Thread(() -> {
                     ThreadUtils.sleep(Config.quickMathsAnswerDelay);
                     Utils.sendModMessage("The answer is " + answer);

@@ -3,9 +3,11 @@ package cheaters.get.banned.features;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.ClickEvent;
+import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -24,8 +26,9 @@ public class GhostBlocks {
             if(object != null) {
                 if(object.getBlockPos() != null) {
                     Block lookingAtblock = Shady.mc.theWorld.getBlockState(object.getBlockPos()).getBlock();
-                    if(!Utils.isInteractable(lookingAtblock)) {
+                    if(!Utils.isInteractable(lookingAtblock) && lookingAtblock != Blocks.air) {
                         Shady.mc.theWorld.setBlockToAir(object.getBlockPos());
+                        MiscStats.add(MiscStats.Metric.BLOCKS_GHOSTED);
                     }
                 }
             }

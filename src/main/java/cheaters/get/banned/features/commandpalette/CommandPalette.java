@@ -1,5 +1,6 @@
 package cheaters.get.banned.features.commandpalette;
 
+import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.FontUtils;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;

@@ -3,6 +3,7 @@ package cheaters.get.banned.features;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.ClickEvent;
+import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.init.Items;
@@ -16,6 +17,8 @@ import org.lwjgl.input.Keyboard;
 public class ItemMacro {
 
     private static boolean sentMissingSoulWhipMessage = false;
+    private static boolean sentMissingAotsMessage = false;
+    private static boolean sentMissingTermMessage = false;
 
     public ItemMacro() {
         KeybindUtils.register("Use Ice Spray", Keyboard.KEY_NONE);
@@ -36,11 +39,27 @@ public class ItemMacro {
                 sentMissingSoulWhipMessage = true;
             }
         }
+
+        if(Config.aotsWithAnything) {
+            if(!useSkyBlockItem("AXE_OF_THE_SHREDDED", true) && !sentMissingAotsMessage) {
+                sendMissingItemMessage("Axe of the Shredded");
+                sentMissingAotsMessage = true;
+            }
+        }
+
+        if(Config.termWithAnything) {
+            if(!useSkyBlockItem("TERMINATOR", true) && !sentMissingTermMessage) {
+                sendMissingItemMessage("Terminator");
+                sentMissingTermMessage = true;
+            }
+        }
     }
 
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) {
         sentMissingSoulWhipMessage = false;
+        sentMissingAotsMessage = false;
+        sentMissingTermMessage = false;
     }
 
     @SubscribeEvent
@@ -106,6 +125,7 @@ public class ItemMacro {
                     KeybindUtils.leftClick();
                 }
                 Shady.mc.thePlayer.inventory.currentItem = previousItem;
+                MiscStats.add(MiscStats.Metric.ITEMS_MACROED);
                 return true;
             }
         }
@@ -123,6 +143,7 @@ public class ItemMacro {
                     Shady.mc.playerController.sendUseItem(Shady.mc.thePlayer, Shady.mc.theWorld, item);
                 }
                 Shady.mc.thePlayer.inventory.currentItem = previousItem;
+                MiscStats.add(MiscStats.Metric.ITEMS_MACROED);
                 return true;
             }
         }
@@ -137,6 +158,7 @@ public class ItemMacro {
                 Shady.mc.thePlayer.inventory.currentItem = i;
                 Shady.mc.playerController.sendUseItem(Shady.mc.thePlayer, Shady.mc.theWorld, itemStack);
                 Shady.mc.thePlayer.inventory.currentItem = previousItem;
+                MiscStats.add(MiscStats.Metric.ITEMS_MACROED);
                 return true;
             }
         }

@@ -17,6 +17,8 @@ import cheaters.get.banned.features.jokes.CatPeople;
 import cheaters.get.banned.features.jokes.FakeBan;
 import cheaters.get.banned.features.jokes.Jokes;
 import cheaters.get.banned.remote.*;
+import cheaters.get.banned.stats.Analytics;
+import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.LocationUtils;
@@ -94,6 +96,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new Utils());
         MinecraftForge.EVENT_BUS.register(new LocationUtils());
         MinecraftForge.EVENT_BUS.register(new DungeonUtils());
+        MinecraftForge.EVENT_BUS.register(new MiscStats());
 
         MinecraftForge.EVENT_BUS.register(new DungeonScanner());
         MinecraftForge.EVENT_BUS.register(new BlockAbilities());
@@ -148,9 +151,8 @@ public class Shady {
 
         Analytics.collect("hash", CrashReporter.hashMod());
 
-        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(() -> {
-            Analytics.collect("heartbeat", String.valueOf(System.currentTimeMillis()));
-        }, 5, 5, TimeUnit.MINUTES);
+        Executors.newScheduledThreadPool(1)
+                .scheduleAtFixedRate(MiscStats::send, 5, 5, TimeUnit.MINUTES);
     }
 
     @SubscribeEvent
@@ -194,6 +196,7 @@ public class Shady {
             }
 
             Shady.guiToOpen = new CommandPalette();
+            MiscStats.add(MiscStats.Metric.COMMAND_PALETTE_OPENS);
         }
     }
 

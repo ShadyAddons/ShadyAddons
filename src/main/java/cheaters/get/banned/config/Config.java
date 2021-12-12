@@ -3,21 +3,18 @@ package cheaters.get.banned.config;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.AutoWardrobe;
 import cheaters.get.banned.features.commandpalette.CommandPalette;
+import cheaters.get.banned.remote.YearInReview;
 import cheaters.get.banned.utils.Utils;
 
 public class Config {
 
     @Property(
             type = Property.Type.BUTTON,
-            button = "Open Palette",
-            name = "Command Palette",
-            note = "Command/Control + K"
+            button = "Open",
+            name = "§e2021 in Review",
+            note = "See where you rank!"
     )
-    public static Runnable openCommandPalette = () -> {
-        Shady.guiToOpen = new CommandPalette();
-        Utils.sendModMessage("You can customize the shortcut in Minecraft controls (which you can open with the Command Palette!)");
-    };
-
+    public static Runnable openYearInReview = YearInReview::open;
 
     @Property(
             type = Property.Type.BOOLEAN,
@@ -108,6 +105,18 @@ public class Config {
                 parent = "Auto Clicker"
         )
         public static boolean stopAutoClickerInGui = false;
+
+
+    @Property(
+            type = Property.Type.BUTTON,
+            button = "Open Palette",
+            name = "Command Palette",
+            note = "Command/Control + K"
+    )
+    public static Runnable openCommandPalette = () -> {
+        Shady.guiToOpen = new CommandPalette();
+        Utils.sendModMessage("You can customize the shortcut in Minecraft controls (which you can open with the Command Palette!)");
+    };
 
 
     @Property(
@@ -343,6 +352,20 @@ public class Config {
                     parent = "Item Macros"
             )
             public static boolean soulWhipWithAnything = false;
+
+            @Property(
+                    type = Property.Type.CHECKBOX,
+                    name = "Terminator w/ Anything",
+                    parent = "Item Macros"
+            )
+            public static boolean termWithAnything = false;
+
+            @Property(
+                    type = Property.Type.CHECKBOX,
+                    name = "AOTS w/ Anything",
+                    parent = "Item Macros"
+            )
+            public static boolean aotsWithAnything = false;
 
             @Property(
                     type = Property.Type.BOOLEAN,
