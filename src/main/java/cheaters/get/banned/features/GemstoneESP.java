@@ -111,7 +111,7 @@ public class GemstoneESP {
 
     private static Gemstone getGemstone(IBlockState block) {
         if(block.getBlock() != Blocks.stained_glass) return null;
-        if(Config.includeGlassPanes && block.getBlock() != Blocks.stained_glass_pane) return null;
+        if(!Config.includeGlassPanes && block.getBlock() != Blocks.stained_glass_pane) return null;
 
         EnumDyeColor color = Utils.firstNotNull(block.getValue(BlockStainedGlass.COLOR), block.getValue(BlockStainedGlassPane.COLOR));
 
