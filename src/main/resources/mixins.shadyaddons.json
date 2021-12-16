@@ -12,6 +12,6 @@
         "MixinMinecraft",
         "MixinModelEnderCrystal",
         "MixinRendererLivingEntity",
-        "MixinSplooshProgress"
+        "MixinSplashProgress"
     ]
 }

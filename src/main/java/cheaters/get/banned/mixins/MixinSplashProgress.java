@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(SplashProgress.class)
-public abstract class MixinSplooshProgress {
+public abstract class MixinSplashProgress {
 
     @ModifyVariable(method = "start", at = @At("STORE"), ordinal = 1, remap = false)
     private static ResourceLocation setSplash(ResourceLocation resourceLocation) {
