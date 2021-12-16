@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.File;
 
-@Mixin(CrashReport.class)
+@Mixin(value = CrashReport.class, priority = Integer.MIN_VALUE)
 public abstract class MixinCrashReport {
 
     @Shadow public abstract String getCauseStackTraceOrString();
@@ -20,6 +20,7 @@ public abstract class MixinCrashReport {
     public void onCrash(File file, CallbackInfoReturnable<Boolean> cir) {
         String reason = getCauseStackTraceOrString().split("\n")[0];
         if(Config.sendCrashReports && file.exists()) CrashReporter.send(file, reason);
+        if(file.exists()) CrashReporter.douse(file);
     }
 
 }
