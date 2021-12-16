@@ -9,6 +9,7 @@ import cheaters.get.banned.utils.Utils;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
@@ -31,7 +32,11 @@ public class ItemMacro {
         if(!Config.disableOutsideDungeons || Utils.inDungeon) {
             if(Config.soulWhipWithAnything) useSkyBlockItem("SOUL_WHIP", true);
             if(Config.aotsWithAnything) useSkyBlockItem("AXE_OF_THE_SHREDDED", true);
-            if(Config.termWithAnything) useSkyBlockItem("TERMINATOR", true);
+            if(Config.termWithAnything) {
+                if(!useSkyBlockItem("TERMINATOR", true)) {
+                    useSkyBlockItem("JUJU_SHORTBOW", true);
+                }
+            }
         }
     }
 
@@ -56,7 +61,7 @@ public class ItemMacro {
         }
 
         if(Config.gyrokineticWandHotkey && KeybindUtils.isPressed("Use Gyrokinetic Wand")) {
-            if(!useSkyBlockItem("GYROKINETIC_WAND", false)) {
+            if(!useSkyBlockItem("JUJU_SHORTBOW", false)) { // GYROKINETIC_WAND
                 sendMissingItemMessage("Gyrokinetic Wand");
             }
         }
@@ -95,7 +100,9 @@ public class ItemMacro {
                 if(rightClick) {
                     Shady.mc.playerController.sendUseItem(Shady.mc.thePlayer, Shady.mc.theWorld, item);
                 } else {
+                    Shady.mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(i));
                     KeybindUtils.leftClick();
+                    Shady.mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(previousItem));
                 }
                 Shady.mc.thePlayer.inventory.currentItem = previousItem;
                 MiscStats.add(MiscStats.Metric.ITEMS_MACROED);

@@ -348,7 +348,7 @@ public class Config {
             @Property(
                     type = Property.Type.CHECKBOX,
                     name = "Teleport w/ Anything",
-                    parent = "Use Item w/ Anything"
+                    parent = "Item Macros"
             )
             public static boolean teleportWithAnything = false;
 
@@ -377,6 +377,7 @@ public class Config {
                 @Property(
                         type = Property.Type.CHECKBOX,
                         name = "Terminator w/ Anything",
+                        note = "Also works with Juju Shortbow",
                         parent = "Use Weapon w/ Anything"
                 )
                 public static boolean termWithAnything = false;

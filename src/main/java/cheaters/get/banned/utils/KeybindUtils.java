@@ -22,20 +22,20 @@ public class KeybindUtils {
     }
 
     public static void rightClick() {
-        if(!ReflectionUtils.invoke(Shady.mc.getClass(), "func_147121_ag")) {
-            ReflectionUtils.invoke(Shady.mc.getClass(), "rightClickMouse");
+        if(!ReflectionUtils.invoke(Shady.mc, "func_147121_ag")) {
+            ReflectionUtils.invoke(Shady.mc, "rightClickMouse");
         }
     }
 
     public static void leftClick() {
-        if(!ReflectionUtils.invoke(Shady.mc.getClass(), "func_147116_af")) {
-            ReflectionUtils.invoke(Shady.mc.getClass(), "clickMouse");
+        if(!ReflectionUtils.invoke(Shady.mc, "func_147116_af")) {
+            ReflectionUtils.invoke(Shady.mc, "clickMouse");
         }
     }
 
     public static void middleClick() {
-        if(!ReflectionUtils.invoke(Shady.mc.getClass(), "func_147112_ai")) {
-            ReflectionUtils.invoke(Shady.mc.getClass(), "middleClickMouse");
+        if(!ReflectionUtils.invoke(Shady.mc, "func_147112_ai")) {
+            ReflectionUtils.invoke(Shady.mc, "middleClickMouse");
         }
     }
 
