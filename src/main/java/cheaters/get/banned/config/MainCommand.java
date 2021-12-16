@@ -141,8 +141,8 @@ public class MainCommand extends CommandBase {
                                 }
                                 break;
 
-                            case "left_click":
-                                KeybindUtils.leftClick();
+                            case "smart_look":
+                                RotationUtils.smartLook(0, 0, 40);
                                 break;
 
                             case "catperson":

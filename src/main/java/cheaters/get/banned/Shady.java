@@ -19,10 +19,7 @@ import cheaters.get.banned.features.jokes.Jokes;
 import cheaters.get.banned.remote.*;
 import cheaters.get.banned.stats.Analytics;
 import cheaters.get.banned.stats.MiscStats;
-import cheaters.get.banned.utils.DungeonUtils;
-import cheaters.get.banned.utils.KeybindUtils;
-import cheaters.get.banned.utils.LocationUtils;
-import cheaters.get.banned.utils.Utils;
+import cheaters.get.banned.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
@@ -96,6 +93,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new Utils());
         MinecraftForge.EVENT_BUS.register(new LocationUtils());
         MinecraftForge.EVENT_BUS.register(new DungeonUtils());
+        MinecraftForge.EVENT_BUS.register(new RotationUtils());
         MinecraftForge.EVENT_BUS.register(new MiscStats());
 
         MinecraftForge.EVENT_BUS.register(new DungeonScanner());
