@@ -1,8 +1,9 @@
-package cheaters.get.banned.remote;
+package cheaters.get.banned.stats;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.utils.HttpUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.http.client.utils.URIBuilder;
 
 import java.util.UUID;
 
@@ -22,14 +23,13 @@ public class Analytics {
                 return;
             }
 
-            StringBuilder url =
-                    new StringBuilder("https://cheatersgetbanned.me/api/analytics")
-                        .append("?username=").append(Shady.mc.getSession().getProfile().getName())
-                        .append("&server_id=").append(serverId)
-                        .append("&hashed_uuid=").append(DigestUtils.sha256Hex(Shady.mc.getSession().getProfile().getId().toString().replace("-", "")))
-                        .append("&").append(key).append("=").append(value);
-
             try {
+                URIBuilder url = new URIBuilder("https://cheatersgetbanned.me/api/analytics")
+                        .addParameter("username", Shady.mc.getSession().getUsername())
+                        .addParameter("server_id", serverId)
+                        .addParameter("hashed_uuid", DigestUtils.sha256Hex(Shady.mc.getSession().getProfile().getId().toString().replace("-", "")))
+                        .addParameter(key, value);
+
                 HttpUtils.fetch(url.toString());
             } catch(Exception ignored) {}
         }, "ShadyAddons-Analytics").start();

@@ -5,6 +5,7 @@ import cheaters.get.banned.config.Config;
 import cheaters.get.banned.config.components.ClearButton;
 import cheaters.get.banned.events.DrawSlotEvent;
 import cheaters.get.banned.events.TickEndEvent;
+import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -53,6 +54,7 @@ public class AutoSalvage {
                         if(chestInventory.get(22) != null && chestInventory.get(22).getStack() != null && chestInventory.get(22).getStack().getItem() == Item.getItemFromBlock(Blocks.anvil)) {
                             // Click anvil to salvage the item
                             Shady.mc.playerController.windowClick(Shady.mc.thePlayer.openContainer.windowId, 22, 2, 0, Shady.mc.thePlayer);
+                            MiscStats.add(MiscStats.Metric.ITEMS_SALVAGED);
                         }
                     }
                 } else if(chestInventory.get(13) != null && chestInventory.get(13).getStack() == null) { // If no item is waiting to be salvaged

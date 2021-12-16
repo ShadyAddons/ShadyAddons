@@ -9,9 +9,8 @@ import cheaters.get.banned.features.dungeonmap.Room;
 import cheaters.get.banned.features.dungeonmap.RoomLoader;
 import cheaters.get.banned.features.jokes.CatPeople;
 import cheaters.get.banned.remote.MayorAPI;
-import cheaters.get.banned.utils.DungeonUtils;
-import cheaters.get.banned.utils.MathUtils;
-import cheaters.get.banned.utils.Utils;
+import cheaters.get.banned.remote.YearInReview;
+import cheaters.get.banned.utils.*;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -53,6 +52,10 @@ public class MainCommand extends CommandBase {
 
         if(args.length > 0) {
             switch(args[0]) {
+                case "2021":
+                    YearInReview.open();
+                    break;
+
                 case "wardrobe":
                     if(!Utils.inSkyBlock) {
                         Utils.sendModMessage("You must be in SkyBlock to use this command!");
@@ -136,6 +139,10 @@ public class MainCommand extends CommandBase {
                                 if(Shady.mc.objectMouseOver != null) {
                                     Utils.copyToClipboard(Shady.mc.objectMouseOver.getBlockPos().getX() + ", " + Shady.mc.objectMouseOver.getBlockPos().getY() + ", " + Shady.mc.objectMouseOver.getBlockPos().getZ());
                                 }
+                                break;
+
+                            case "smart_look":
+                                RotationUtils.smartLook(0, 0, 40);
                                 break;
 
                             case "catperson":

@@ -9,7 +9,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import java.util.List;
 
-public class RayCastUtils {
+public class RayMarchUtils {
 
     public static boolean isFacingBlock(BlockPos block, float range) {
         float stepSize = 0.15f;

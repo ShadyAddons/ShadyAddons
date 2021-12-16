@@ -4,10 +4,7 @@ import cheaters.get.banned.Shady;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -288,6 +285,51 @@ public class RenderUtils {
                 Gui.drawScaledCustomSizeModalRect(x, y, 40f, 8f, 8, 8, size, size, 64f, 64f);
             }
         }
+    }
+
+    /**
+     * Taken from Danker's Skyblock Mod under GPL 3.0 license
+     * https://github.com/bowser0000/SkyblockMod/blob/master/LICENSE
+     */
+    public static void drawOutlinedBoundingBox(AxisAlignedBB aabb, int colourInt, float partialTicks) {
+        Entity render = Minecraft.getMinecraft().getRenderViewEntity();
+        Color colour = new Color(colourInt);
+
+        double realX = render.lastTickPosX + (render.posX - render.lastTickPosX) * partialTicks;
+        double realY = render.lastTickPosY + (render.posY - render.lastTickPosY) * partialTicks;
+        double realZ = render.lastTickPosZ + (render.posZ - render.lastTickPosZ) * partialTicks;
+
+        GlStateManager.disableCull();
+        GlStateManager.disableDepth();
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(-realX, -realY, -realZ);
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GL11.glLineWidth(2);
+
+        RenderGlobal.drawOutlinedBoundingBox(aabb, colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha());
+
+        GlStateManager.translate(realX, realY, realZ);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.popMatrix();
+        GlStateManager.enableDepth();
+        GlStateManager.enableCull();
+    }
+
+    public static void outlineBlock(BlockPos pos, Color color, float partialTicks) {
+        drawOutlinedBoundingBox(new AxisAlignedBB(
+                pos.getX(),
+                pos.getY(),
+                pos.getZ(),
+                pos.getX() + 1,
+                pos.getY() + 1,
+                pos.getZ() + 1
+        ), color.getRGB(), partialTicks);
     }
 
 }

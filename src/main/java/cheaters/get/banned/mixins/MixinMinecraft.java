@@ -2,6 +2,7 @@ package cheaters.get.banned.mixins;
 
 import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.events.ResourcePackRefreshEvent;
+import cheaters.get.banned.events.ShutdownEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
@@ -19,6 +20,11 @@ public abstract class MixinMinecraft {
 
     @Mutable @Shadow @Final
     private static ResourceLocation locationMojangPng;
+
+    @Inject(method = "shutdown", at = @At("HEAD"))
+    public void onShutdown(CallbackInfo ci) {
+        MinecraftForge.EVENT_BUS.post(new ShutdownEvent());
+    }
 
     @Inject(method = "drawSplashScreen", at = @At("HEAD"))
     public void modifyMojangLogo(TextureManager textureManagerInstance, CallbackInfo ci) {

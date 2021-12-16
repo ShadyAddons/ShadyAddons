@@ -37,13 +37,27 @@ public class GemstoneESP {
         SAPPHIRE(new Color(60, 121, 224), EnumDyeColor.LIGHT_BLUE),
         AMBER(new Color(237, 139, 35), EnumDyeColor.ORANGE),
         TOPAZ(new Color(249, 215, 36), EnumDyeColor.YELLOW),
-        JASPER(new Color(214, 15, 150), EnumDyeColor.MAGENTA);
+        JASPER(new Color(214, 15, 150), EnumDyeColor.MAGENTA),
+
+        RUBY_SHARD(RUBY),
+        AMETHYST_SHARD(AMETHYST),
+        JADE_SHARD(JADE),
+        SAPPHIRE_SHARD(SAPPHIRE),
+        AMBER_SHARD(AMBER),
+        TOPAZ_SHARD(TOPAZ),
+        JASPER_SHARD(JASPER);
 
         public Color color;
         public EnumDyeColor dyeColor;
+
         Gemstone(Color color, EnumDyeColor dyeColor) {
             this.color = color;
             this.dyeColor = dyeColor;
+        }
+
+        Gemstone(Gemstone gemstone) {
+            this.color = gemstone.color;
+            this.dyeColor = gemstone.dyeColor;
         }
     }
 
@@ -90,13 +104,14 @@ public class GemstoneESP {
         if(isEnabled()) {
             for(Map.Entry<BlockPos, Gemstone> gemstone : gemstones.entrySet()) {
                 if(!isGemstoneEnabled(gemstone.getValue())) continue;
-                double distance = Math.sqrt(gemstone.getKey().distanceSq(Shady.mc.thePlayer.posX, Shady.mc.thePlayer.posY, Shady.mc.thePlayer.posZ));
-                if(distance > Config.gemstoneRadius+2) continue;
+                double distanceSq = gemstone.getKey().distanceSq(Shady.mc.thePlayer.posX, Shady.mc.thePlayer.posY, Shady.mc.thePlayer.posZ);
+                if(distanceSq > Math.pow(Config.gemstoneRadius + 2, 2)) continue;
 
-                int alpha = (int) Math.abs(100-distance/Config.gemstoneRadius*100);
-                Color color = Utils.addAlpha(gemstone.getValue().color, alpha);
-
-                RenderUtils.highlightBlock(gemstone.getKey(), color, event.partialTicks);
+                if(Config.highlightMode == 0) { // Outlined
+                    RenderUtils.outlineBlock(gemstone.getKey(), gemstone.getValue().color, event.partialTicks);
+                } else { // Filled
+                    RenderUtils.highlightBlock(gemstone.getKey(), gemstone.getValue().color, event.partialTicks);
+                }
             }
         }
     }
@@ -110,8 +125,7 @@ public class GemstoneESP {
     }
 
     private static Gemstone getGemstone(IBlockState block) {
-        if(block.getBlock() != Blocks.stained_glass) return null;
-        if(Config.includeGlassPanes && block.getBlock() != Blocks.stained_glass_pane) return null;
+        if(block.getBlock() != Blocks.stained_glass && block.getBlock() != Blocks.stained_glass_pane) return null;
 
         EnumDyeColor color = Utils.firstNotNull(block.getValue(BlockStainedGlass.COLOR), block.getValue(BlockStainedGlassPane.COLOR));
 
@@ -127,6 +141,25 @@ public class GemstoneESP {
     }
 
     private static boolean isGemstoneEnabled(Gemstone gemstone) {
+        if(Config.includeGlassPanes) {
+            switch(gemstone) {
+                case RUBY_SHARD:
+                    return Config.rubyEsp;
+                case AMETHYST_SHARD:
+                    return Config.amethystEsp;
+                case JADE_SHARD:
+                    return Config.jadeEsp;
+                case SAPPHIRE_SHARD:
+                    return Config.sapphireEsp;
+                case AMBER_SHARD:
+                    return Config.amberEsp;
+                case TOPAZ_SHARD:
+                    return Config.topazEsp;
+                case JASPER_SHARD:
+                    return Config.jasperEsp;
+            }
+        }
+
         switch(gemstone) {
             case RUBY:
                 return Config.rubyEsp;

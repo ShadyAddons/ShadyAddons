@@ -1,6 +1,7 @@
 package cheaters.get.banned.features;
 
 import cheaters.get.banned.Shady;
+import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.inventory.Container;
@@ -20,6 +21,7 @@ public class AutoWardrobe {
         AutoWardrobe.slot = slot;
         shouldOpenWardrobe = true;
         Utils.executeCommand("/pets");
+        MiscStats.add(MiscStats.Metric.WARDROBES_OPENED);
     }
 
     @SubscribeEvent

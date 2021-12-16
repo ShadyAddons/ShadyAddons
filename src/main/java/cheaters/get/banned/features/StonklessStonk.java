@@ -75,11 +75,11 @@ public class StonklessStonk {
                 if(usedBlocks.contains(block.getKey())) continue;
 
                 if(selectedBlock == null) {
-                    if(RayCastUtils.isFacingBlock(block.getKey(), range)) {
+                    if(RayMarchUtils.isFacingBlock(block.getKey(), range)) {
                         selectedBlock = block.getKey();
                     }
                 } else {
-                    if(!RayCastUtils.isFacingBlock(selectedBlock, range)) {
+                    if(!RayMarchUtils.isFacingBlock(selectedBlock, range)) {
                         selectedBlock = null;
                     }
                 }

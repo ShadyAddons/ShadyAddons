@@ -4,6 +4,7 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.DrawSlotEvent;
 import cheaters.get.banned.events.TickEndEvent;
+import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.RenderUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.gui.Gui;
@@ -15,6 +16,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -32,6 +34,18 @@ public class ConnectFourSolver {
     private static final int EMPTY = 0;
     private static final int COMPUTER = 1;
     private static final int OPPONENT = 2;
+
+    @SubscribeEvent
+    public void onChat(ClientChatReceivedEvent event) {
+        if(Config.connectFourAI && Utils.inSkyBlock && event.type == 0) {
+            String message = event.message.getUnformattedText();
+            if(message.endsWith(" defeated you in Four in a Row!")) {
+                MiscStats.add(MiscStats.Metric.CONNECT_FOUR_LOSSES);
+            } else if(message.startsWith("You defeated ") && message.endsWith(" in Four in a Row!")) {
+                MiscStats.add(MiscStats.Metric.CONNECT_FOUR_WINS);
+            }
+        }
+    }
 
     @SubscribeEvent
     public void onTick(TickEndEvent event) {

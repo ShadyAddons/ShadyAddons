@@ -4,8 +4,9 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.events.TickEndEvent;
+import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.DungeonUtils;
-import cheaters.get.banned.utils.RayCastUtils;
+import cheaters.get.banned.utils.RayMarchUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -35,7 +36,7 @@ public class CrystalReach {
     public void onTick(TickEndEvent event) {
         if(isEnabled() && Shady.mc.thePlayer.isSneaking()) {
             // crystal = lookingAtCrystal();
-            List<EntityEnderCrystal> crystals = RayCastUtils.getFacedEntityOfType(EntityEnderCrystal.class, 32);
+            List<EntityEnderCrystal> crystals = RayMarchUtils.getFacedEntityOfType(EntityEnderCrystal.class, 32);
             if(crystals != null) {
                 crystal = crystals.get(0);
             } else {
@@ -52,6 +53,7 @@ public class CrystalReach {
             List<Entity> armorStand = Shady.mc.theWorld.getEntitiesInAABBexcluding(crystal, crystal.getEntityBoundingBox(), entity -> entity instanceof EntityArmorStand && entity.getCustomNameTag().contains("CLICK HERE"));
             if(!armorStand.isEmpty() && armorStand.get(0) != null) {
                 Shady.mc.playerController.interactWithEntitySendPacket(Shady.mc.thePlayer, armorStand.get(0));
+                MiscStats.add(MiscStats.Metric.CRYSTALS_REACHED);
                 event.setCanceled(true);
             }
         }
