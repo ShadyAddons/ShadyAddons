@@ -1,17 +1,15 @@
 package cheaters.get.banned.utils;
 
-import cheaters.get.banned.Shady;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class ReflectionUtils {
 
-    public static boolean invoke(Class<?> _class, String methodName) {
+    public static boolean invoke(Object object, String methodName) {
         try {
-            final Method method = _class.getDeclaredMethod(methodName);
+            final Method method = object.getClass().getDeclaredMethod(methodName);
             method.setAccessible(true);
-            method.invoke(Shady.mc);
+            method.invoke(object);
             return true;
         } catch(Exception ignored) {}
         return false;

@@ -4,7 +4,7 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.events.TickEndEvent;
-import cheaters.get.banned.utils.RayCastUtils;
+import cheaters.get.banned.utils.RayMarchUtils;
 import cheaters.get.banned.utils.RenderUtils;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.BlockPos;
@@ -95,7 +95,7 @@ public class TerminalReach {
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
         if(isEnabled()) {
-            List<EntityArmorStand> armorStands = RayCastUtils.getFacedEntityOfType(EntityArmorStand.class, Config.terminalReachRange);
+            List<EntityArmorStand> armorStands = RayMarchUtils.getFacedEntityOfType(EntityArmorStand.class, Config.terminalReachRange);
             if(armorStands != null) {
                 for(EntityArmorStand armorStand : armorStands) {
                     if(armorStand.getCustomNameTag().equals("§cInactive Terminal")) {
