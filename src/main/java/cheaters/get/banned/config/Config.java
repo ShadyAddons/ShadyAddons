@@ -729,6 +729,14 @@ public class Config {
         public static boolean includeGlassPanes = false;
 
         @Property(
+                type = Property.Type.SELECT,
+                name = "Highlight Mode",
+                parent = "Gemstone ESP",
+                options = {"Outlined", "Filled"}
+        )
+        public static int highlightMode = 0;
+
+        @Property(
                 type = Property.Type.NUMBER,
                 name = "Scan Radius",
                 parent = "Gemstone ESP",
