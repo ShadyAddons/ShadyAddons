@@ -246,6 +246,58 @@ public class Config {
     )
     public static boolean renewCrystalHollowsPass = false;
 
+    @Property(
+            type = Property.Type.FOLDER,
+            name = "Mining Macro",
+            warning = true
+    )
+    public static boolean miningMacro = false;
+
+        @Property(
+                type = Property.Type.SELECT,
+                name = "Mode",
+                note = "Gemstone support coming soon",
+                parent = "Mining Macro",
+                options = {"Disabled", "Mithril & Titanium", "Gold"}
+        )
+        public static int macroMode = 0;
+
+        @Property(
+                type = Property.Type.NUMBER,
+                name = "Head Movement Time",
+                parent = "Mining Macro",
+                suffix = "ms",
+                step =  100,
+                max = 1500
+        )
+        public static int headMovementTime = 500;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Mine Through Blocks",
+                parent = "Mining Macro",
+                warning = true
+        )
+        public static boolean mineThroughBlocks = false;
+
+        /*@Property(
+                type = Property.Type.BOOLEAN,
+                name = "Warp to Safety",
+                parent = "Mining Macro"
+        )
+        public static boolean warpToSafety = false;
+
+            @Property(
+                    type = Property.Type.NUMBER,
+                    name = "Detection Range",
+                    parent = "Warp to Safety",
+                    min = 5,
+                    max = 30,
+                    step = 5,
+                    suffix = " blocks"
+            )
+            public static int safetyRange = 15;*/
+
 
     @Property(
             type = Property.Type.BOOLEAN,
@@ -844,43 +896,6 @@ public class Config {
                 max = 1000
         )
         public static int terminalClickDelay = 100;
-
-    @Property(
-            type = Property.Type.BOOLEAN,
-            name = "Mithril Macro"
-    )
-
-    public static boolean mithrilMacro = false;
-
-        @Property(
-            type = Property.Type.BOOLEAN,
-            name = "Don't look at blocks",
-            parent = "Mithril Macro",
-            warning = true
-        )
-
-        public static boolean dontLookAtMithrilBlock = false;
-
-        @Property(
-            type = Property.Type.BOOLEAN,
-            name = "Mine Mithril Through Blocks",
-            parent = "Mithril Macro",
-            warning = true
-        )
-
-        public static boolean mineMithrilThroughBlocks = false;
-
-        @Property(
-            type = Property.Type.NUMBER,
-            name = "Head Movement Time",
-            parent = "Mithril Macro",
-            step =  10,
-            suffix = "ms",
-            min = 50,
-            max = 1000
-        )
-
-        public static int mithrilHeadMovement = 150;
 
     @Property(
             type = Property.Type.BOOLEAN,
