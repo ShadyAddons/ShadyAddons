@@ -61,7 +61,7 @@ public class ItemMacro {
         }
 
         if(Config.gyrokineticWandHotkey && KeybindUtils.isPressed("Use Gyrokinetic Wand")) {
-            if(!useSkyBlockItem("JUJU_SHORTBOW", false)) { // GYROKINETIC_WAND
+            if(!useSkyBlockItem("GYROKINETIC_WAND", false)) {
                 sendMissingItemMessage("Gyrokinetic Wand");
             }
         }

@@ -3,18 +3,9 @@ package cheaters.get.banned.config;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.AutoWardrobe;
 import cheaters.get.banned.features.commandpalette.CommandPalette;
-import cheaters.get.banned.remote.YearInReview;
 import cheaters.get.banned.utils.Utils;
 
 public class Config {
-
-    @Property(
-            type = Property.Type.BUTTON,
-            button = "Open",
-            name = "§e2021 in Review",
-            note = "See where you rank!"
-    )
-    public static Runnable openYearInReview = YearInReview::open;
 
     @Property(
             type = Property.Type.BOOLEAN,
@@ -320,7 +311,8 @@ public class Config {
             @Property(
                     type = Property.Type.CHECKBOX,
                     name = "Gyrokinetic Wand",
-                    parent = "Item Macros"
+                    parent = "Item Macros",
+                    warning = true
             )
             public static boolean gyrokineticWandHotkey = false;
 
