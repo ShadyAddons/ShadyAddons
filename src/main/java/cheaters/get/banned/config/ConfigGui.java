@@ -6,7 +6,7 @@ import cheaters.get.banned.config.components.Scrollbar;
 import cheaters.get.banned.config.settings.BooleanSetting;
 import cheaters.get.banned.config.settings.FolderSetting;
 import cheaters.get.banned.config.settings.Setting;
-import cheaters.get.banned.features.jokes.CatPeople;
+import cheaters.get.banned.features.include.jokes.CatPeople;
 import cheaters.get.banned.utils.FontUtils;
 import cheaters.get.banned.utils.RenderUtils;
 import net.minecraft.client.gui.GuiButton;

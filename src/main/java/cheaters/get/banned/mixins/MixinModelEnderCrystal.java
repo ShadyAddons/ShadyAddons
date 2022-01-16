@@ -1,7 +1,7 @@
 package cheaters.get.banned.mixins;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.features.CrystalReach;
+import cheaters.get.banned.features.include.CrystalReach;
 import cheaters.get.banned.utils.RenderUtils;
 import net.minecraft.client.model.ModelEnderCrystal;
 import net.minecraft.client.renderer.GlStateManager;

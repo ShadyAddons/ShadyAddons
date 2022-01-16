@@ -1,15 +1,13 @@
 package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.features.AutoTerminals;
-import cheaters.get.banned.features.AutoWardrobe;
-import cheaters.get.banned.features.commandpalette.CommandPalette;
-import cheaters.get.banned.features.dungeonmap.DungeonMap;
-import cheaters.get.banned.features.dungeonmap.Room;
-import cheaters.get.banned.features.dungeonmap.RoomLoader;
-import cheaters.get.banned.features.jokes.CatPeople;
-import cheaters.get.banned.remote.MayorAPI;
-import cheaters.get.banned.remote.YearInReview;
+import cheaters.get.banned.features.include.AutoTerminals;
+import cheaters.get.banned.features.include.AutoWardrobe;
+import cheaters.get.banned.features.include.commandpalette.CommandPalette;
+import cheaters.get.banned.features.include.dungeonmap.DungeonMap;
+import cheaters.get.banned.features.include.dungeonmap.Room;
+import cheaters.get.banned.features.include.dungeonmap.RoomLoader;
+import cheaters.get.banned.features.include.jokes.CatPeople;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.MathUtils;
 import cheaters.get.banned.utils.Utils;
@@ -55,7 +53,6 @@ public class MainCommand extends CommandBase {
         if(args.length > 0) {
             switch(args[0]) {
                 case "2021":
-                    YearInReview.open();
                     break;
 
                 case "wardrobe":
@@ -110,11 +107,6 @@ public class MainCommand extends CommandBase {
                 case "force_dungeon":
                     Utils.forceDungeon = !Utils.forceDungeon;
                     Utils.sendModMessage("Toggled forcing dungeon to "+Utils.forceDungeon);
-                    break;
-
-                case "force_paul":
-                    MayorAPI.forcePaul();
-                    Utils.sendModMessage("Paul has committed a coup d'état and is now mayor of SkyBlock");
                     break;
 
                 case "force_skyblock":

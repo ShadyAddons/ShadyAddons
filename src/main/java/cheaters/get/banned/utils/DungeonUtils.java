@@ -1,12 +1,8 @@
 package cheaters.get.banned.utils;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.TickEndEvent;
-import cheaters.get.banned.features.dungeonmap.DungeonMap;
-import cheaters.get.banned.remote.MayorAPI;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -159,30 +155,6 @@ public class DungeonUtils {
         } else {
             Utils.sendMessage("You must be in a dungeon to debug a dungeon!");
         }
-    }
-
-    public static int calculateScore() {
-        if(dungeonRun == null || DungeonMap.activeDungeonLayout == null) return 0;
-        return calculateSkillScore() + calculateExploreScore() + calculateSpeedScore() + calculateBonusScore();
-    }
-
-    private static int calculateSkillScore() {
-        // TODO: https://hypixel-skyblock.fandom.com/wiki/Dungeon_Score#Skill
-        return (100 - dungeonRun.deaths * 2) + (Config.assumeSpiritPet && dungeonRun.deaths > 0 ? 1 : 0);
-    }
-
-    private static int calculateExploreScore() {
-        // TODO: https://hypixel-skyblock.fandom.com/wiki/Dungeon_Score#Explore
-        return 60 + 40 * dungeonRun.secretsFound / DungeonMap.activeDungeonLayout.totalSecrets;
-    }
-
-    private static int calculateSpeedScore() {
-        // TODO: https://hypixel-skyblock.fandom.com/wiki/Dungeon_Score#Speed
-        return 100;
-    }
-
-    private static int calculateBonusScore() {
-        return (MayorAPI.isPaulBonus() ? 10 : 0) + (dungeonRun.mimicFound ? 5 : 0) + MathHelper.clamp_int(dungeonRun.cryptsFound, 0, 5);
     }
 
     @SubscribeEvent

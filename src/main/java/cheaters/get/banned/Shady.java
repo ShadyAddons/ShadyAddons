@@ -7,15 +7,15 @@ import cheaters.get.banned.config.settings.BooleanSetting;
 import cheaters.get.banned.config.settings.SelectSetting;
 import cheaters.get.banned.config.settings.Setting;
 import cheaters.get.banned.events.TickEndEvent;
-import cheaters.get.banned.features.*;
-import cheaters.get.banned.features.commandpalette.CommandPalette;
-import cheaters.get.banned.features.connectfoursolver.ConnectFourSolver;
-import cheaters.get.banned.features.dungeonmap.DungeonMap;
-import cheaters.get.banned.features.dungeonmap.DungeonScanner;
-import cheaters.get.banned.features.dungeonmap.RoomLoader;
-import cheaters.get.banned.features.jokes.CatPeople;
-import cheaters.get.banned.features.jokes.FakeBan;
-import cheaters.get.banned.features.jokes.Jokes;
+import cheaters.get.banned.features.include.*;
+import cheaters.get.banned.features.include.commandpalette.CommandPalette;
+import cheaters.get.banned.features.include.connectfoursolver.ConnectFourSolver;
+import cheaters.get.banned.features.include.dungeonmap.DungeonMap;
+import cheaters.get.banned.features.include.dungeonmap.DungeonScanner;
+import cheaters.get.banned.features.include.dungeonmap.RoomLoader;
+import cheaters.get.banned.features.include.jokes.CatPeople;
+import cheaters.get.banned.features.include.jokes.FakeBan;
+import cheaters.get.banned.features.include.jokes.Jokes;
 import cheaters.get.banned.remote.*;
 import cheaters.get.banned.stats.Analytics;
 import cheaters.get.banned.stats.MiscStats;
@@ -82,7 +82,6 @@ public class Shady {
 
         // Do Remote Things
         Updater.check();
-        MayorAPI.fetch();
         Analytics.collect("version", VERSION);
     }
 
@@ -128,7 +127,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new SocialCommandSolver());
         MinecraftForge.EVENT_BUS.register(new ConnectFourSolver());
         MinecraftForge.EVENT_BUS.register(new AutoWardrobe());
-        MinecraftForge.EVENT_BUS.register(new MithrilMacro());
+        MinecraftForge.EVENT_BUS.register(new CrystalEtherwarp());
 
         MinecraftForge.EVENT_BUS.register(new Jokes());
         MinecraftForge.EVENT_BUS.register(new FakeBan());
