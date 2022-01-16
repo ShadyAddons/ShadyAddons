@@ -128,6 +128,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new SocialCommandSolver());
         MinecraftForge.EVENT_BUS.register(new ConnectFourSolver());
         MinecraftForge.EVENT_BUS.register(new AutoWardrobe());
+        MinecraftForge.EVENT_BUS.register(new MithrilMacro());
 
         MinecraftForge.EVENT_BUS.register(new Jokes());
         MinecraftForge.EVENT_BUS.register(new FakeBan());
