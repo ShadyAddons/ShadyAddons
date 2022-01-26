@@ -6,7 +6,7 @@ import net.minecraft.network.Packet;
 public class NetworkUtils {
 
     public static void sendPacket(Packet<?> packet) {
-        Shady.mc.thePlayer.sendQueue.addToSendQueue(packet);
+        Shady.mc.getNetHandler().addToSendQueue(packet);
     }
 
 }

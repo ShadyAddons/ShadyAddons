@@ -1,8 +1,8 @@
 package cheaters.get.banned.config;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.features.AutoWardrobe;
-import cheaters.get.banned.features.commandpalette.CommandPalette;
+import cheaters.get.banned.features.include.AutoWardrobe;
+import cheaters.get.banned.features.include.commandpalette.CommandPalette;
 import cheaters.get.banned.utils.Utils;
 
 public class Config {
@@ -26,14 +26,6 @@ public class Config {
                 parent = "Stonkless Stonk"
         )
         public static boolean disableInBoss = false;
-
-        /*@Property(
-                type = Property.Type.BOOLEAN,
-                name = "Secret Aura",
-                parent = "Stonkless Stonk",
-                warning = true
-        )
-        public static boolean secretAura = false;*/
 
 
     @Property(
@@ -206,29 +198,20 @@ public class Config {
     public static boolean crystalReach = false;
 
 
-    /*@Property(
+    @Property(
             type = Property.Type.BOOLEAN,
-            name = "Terminal Reach",
-            note = "Sneak to activate",
-            warning = true
-    )*/
-    public static boolean terminalReach = false;
+            name = "Crystal Etherwarp",
+            note = "Automatically teleports to the crystal"
+    )
+    public static boolean crystalEtherwarp = false;
 
-        /*@Property(
-                type = Property.Type.BOOLEAN,
-                name = "Include Terminals Outside of Section",
-                parent = "Terminal Reach"
-        )*/
-        public static boolean outsideTerms = false;
-
-        /*@Property(
-                type = Property.Type.NUMBER,
-                name = "Range",
-                parent = "Terminal Reach",
-                min = 5,
-                max = 64
-        )*/
-        public static int terminalReachRange = 32;
+        @Property(
+                type = Property.Type.SELECT,
+                name = "Crystal Side",
+                options = {"Left", "Right"},
+                parent = "Crystal Etherwarp"
+        )
+        public static int crystalSide = 0;
 
 
     @Property(

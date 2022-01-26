@@ -5,6 +5,7 @@ import cheaters.get.banned.config.Config;
 import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.KeybindUtils;
+import cheaters.get.banned.utils.NetworkUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -100,9 +101,9 @@ public class ItemMacro {
                 if(rightClick) {
                     Shady.mc.playerController.sendUseItem(Shady.mc.thePlayer, Shady.mc.theWorld, item);
                 } else {
-                    Shady.mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(i));
+                    NetworkUtils.sendPacket(new C09PacketHeldItemChange(i));
                     KeybindUtils.leftClick();
-                    Shady.mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(previousItem));
+                    NetworkUtils.sendPacket(new C09PacketHeldItemChange(previousItem));
                 }
                 Shady.mc.thePlayer.inventory.currentItem = previousItem;
                 MiscStats.add(MiscStats.Metric.ITEMS_MACROED);
