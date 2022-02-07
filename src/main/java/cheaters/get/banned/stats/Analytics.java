@@ -2,9 +2,14 @@ package cheaters.get.banned.stats;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.utils.HttpUtils;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.client.utils.URIBuilder;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.UUID;
 
 public class Analytics {
@@ -33,6 +38,20 @@ public class Analytics {
                 HttpUtils.fetch(url.toString());
             } catch(Exception ignored) {}
         }, "ShadyAddons-Analytics").start();
+    }
+
+    public static String hashMod() {
+        ModContainer mod = Loader.instance().getIndexedModList().get(Shady.MOD_ID);
+        if(mod != null) {
+            File file = mod.getSource();
+            if(file != null) {
+                try {
+                    InputStream inputStream = Files.newInputStream(file.toPath());
+                    return DigestUtils.sha256Hex(inputStream);
+                } catch(Exception ignored) {}
+            }
+        }
+        return null;
     }
 
 }

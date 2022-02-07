@@ -147,7 +147,7 @@ public class Shady {
         USING_SKYTILS = Loader.isModLoaded("skytils");
         USING_SBE = Loader.isModLoaded("skyblockextras");
 
-        Analytics.collect("hash", CrashReporter.hashMod());
+        Analytics.collect("hash", Analytics.hashMod());
 
         Executors.newScheduledThreadPool(1)
                 .scheduleAtFixedRate(MiscStats::send, 5, 5, TimeUnit.MINUTES);

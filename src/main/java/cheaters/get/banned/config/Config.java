@@ -198,19 +198,19 @@ public class Config {
     public static boolean crystalReach = false;
 
 
-    @Property(
+    /*@Property(
             type = Property.Type.BOOLEAN,
             name = "Crystal Etherwarp",
             note = "Automatically teleports to the crystal"
-    )
+    )*/
     public static boolean crystalEtherwarp = false;
 
-        @Property(
+        /*@Property(
                 type = Property.Type.SELECT,
                 name = "Crystal Side",
                 options = {"Left", "Right"},
                 parent = "Crystal Etherwarp"
-        )
+        )*/
         public static int crystalSide = 0;
 
 
@@ -219,58 +219,6 @@ public class Config {
             name = "Auto Renew Crystal Hollows Pass"
     )
     public static boolean renewCrystalHollowsPass = false;
-
-    @Property(
-            type = Property.Type.FOLDER,
-            name = "Mining Macro",
-            warning = true
-    )
-    public static boolean miningMacro = false;
-
-        @Property(
-                type = Property.Type.SELECT,
-                name = "Mode",
-                note = "Gemstone support coming soon",
-                parent = "Mining Macro",
-                options = {"Disabled", "Mithril & Titanium", "Gold"}
-        )
-        public static int macroMode = 0;
-
-        @Property(
-                type = Property.Type.NUMBER,
-                name = "Head Movement Time",
-                parent = "Mining Macro",
-                suffix = "ms",
-                step =  100,
-                max = 1500
-        )
-        public static int headMovementTime = 500;
-
-        @Property(
-                type = Property.Type.BOOLEAN,
-                name = "Mine Through Blocks",
-                parent = "Mining Macro",
-                warning = true
-        )
-        public static boolean mineThroughBlocks = false;
-
-        /*@Property(
-                type = Property.Type.BOOLEAN,
-                name = "Warp to Safety",
-                parent = "Mining Macro"
-        )
-        public static boolean warpToSafety = false;
-
-            @Property(
-                    type = Property.Type.NUMBER,
-                    name = "Detection Range",
-                    parent = "Warp to Safety",
-                    min = 5,
-                    max = 30,
-                    step = 5,
-                    suffix = " blocks"
-            )
-            public static int safetyRange = 15;*/
 
 
     @Property(
