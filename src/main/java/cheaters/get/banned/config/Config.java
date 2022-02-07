@@ -801,4 +801,11 @@ public class Config {
     )
     public static boolean useCleanButtons = false;
 
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Send Anonymous Crash Reports",
+            note = "Improve ShadyAddons"
+    )
+    public static boolean sendCrashReports = true;
+
 }
