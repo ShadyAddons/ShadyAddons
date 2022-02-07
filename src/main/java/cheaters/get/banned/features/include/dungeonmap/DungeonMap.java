@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -42,39 +43,47 @@ public class DungeonMap {
 
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
-        if(Utils.inDungeon) {
-            if(activeDungeonLayout == null) {
-                if(DungeonUtils.dungeonRun != null && DungeonUtils.dungeonRun.floor != null && !scanning) {
-                    switch(DungeonUtils.dungeonRun.floor) {
-                        case FLOOR_1:
-                        case MASTER_1:
-                            xCorner = 127;
-                            zCorner = 159;
-                            break;
+        if(Utils.inDungeon && activeDungeonLayout == null) {
+            scanDungeon();
+        }
+    }
 
-                        case FLOOR_2:
-                        case MASTER_2:
-                            xCorner = 159;
-                            zCorner = 159;
-                            break;
+    @SubscribeEvent
+    public void onChat(ClientChatReceivedEvent event) {
+        if(Utils.inDungeon && event.message.getFormattedText().equals("§e[NPC] §bMort§f: Here, I found this map when I first entered the dungeon.")) {
+            scanDungeon();
+        }
+    }
 
-                        default:
-                            xCorner = 191;
-                            zCorner = 191;
-                    }
+    private static void scanDungeon() {
+        if(DungeonUtils.dungeonRun != null && DungeonUtils.dungeonRun.floor != null && !scanning) {
+            switch(DungeonUtils.dungeonRun.floor) {
+                case FLOOR_1:
+                case MASTER_1:
+                    xCorner = 127;
+                    zCorner = 159;
+                    break;
 
-                    // TODO: This also makes me want to vomit
-                    try {
-                        if(Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(xCorner, 70, zCorner)).isLoaded() && Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(0, 70, 0)).isLoaded()) {
-                            scanning = true;
-                            new Thread(() -> {
-                                activeDungeonLayout = DungeonScanner.scan(xCorner, zCorner);
-                                scanning = false;
-                            }, "ShadyAddons-DungeonScanner").start();
-                        }
-                    } catch(Exception ignored) {}
-                }
+                case FLOOR_2:
+                case MASTER_2:
+                    xCorner = 159;
+                    zCorner = 159;
+                    break;
+
+                default:
+                    xCorner = 191;
+                    zCorner = 191;
             }
+
+            try {
+                if(Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(xCorner, 70, zCorner)).isLoaded() && Shady.mc.theWorld.getChunkFromBlockCoords(new BlockPos(0, 70, 0)).isLoaded()) {
+                    scanning = true;
+                    new Thread(() -> {
+                        activeDungeonLayout = DungeonScanner.scan(xCorner, zCorner);
+                        scanning = false;
+                    }, "ShadyAddons-DungeonScanner").start();
+                }
+            } catch(Exception ignored) {}
         }
     }
 
