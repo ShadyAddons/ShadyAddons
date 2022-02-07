@@ -491,40 +491,6 @@ public class Config {
             public static int witherDoorColor = 0;
 
         @Property(
-                type = Property.Type.BOOLEAN,
-                name = "Assume Spirit Pet",
-                parent = "Dungeon Map"
-        )
-        public static boolean assumeSpiritPet = false;
-
-        @Property(
-                type = Property.Type.BOOLEAN,
-                name = "Announce Score in Chat",
-                parent = "Dungeon Map"
-        )
-        public static boolean announceScore = false;
-
-            @Property(
-                    type = Property.Type.NUMBER,
-                    name = "Specify Number",
-                    parent = "Announce Score in Chat",
-                    min = 230,
-                    max = 300,
-                    step = 10,
-                    prefix = "Announce at ",
-                    suffix = " score"
-            )
-            public static int announceScoreNumber = 300;
-
-            @Property(
-                    type = Property.Type.SELECT,
-                    name = "Specify Chat",
-                    parent = "Announce Score in Chat",
-                    options = {"Party Chat", "All Chat", "Guild Chat", "Message Reply"}
-            )
-            public static int announceScoreChat = 0;
-
-        @Property(
                 type = Property.Type.NUMBER,
                 name = "Horizontal Offset",
                 parent = "Dungeon Map",
@@ -577,6 +543,14 @@ public class Config {
                 options = {"Short", "Full", "None"}
         )
         public static int significantRoomNameStyle = 0;
+
+        @Property(
+                type = Property.Type.SELECT,
+                name = "Show Player Heads",
+                parent = "Dungeon Map",
+                options = {"None", "All", "Own"}
+        )
+        public static int showMapPlayerHeads = 1;
 
         /*@Property(
                 type = Property.Type.SELECT,
@@ -878,13 +852,5 @@ public class Config {
             note = "Not a cheat, just cosmetic"
     )
     public static boolean useCleanButtons = false;
-
-
-    @Property(
-            type = Property.Type.BOOLEAN,
-            name = "Send Anonymous Crash Reports",
-            note = "Improve ShadyAddons"
-    )
-    public static boolean sendCrashReports = true;
 
 }
