@@ -6,6 +6,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+import java.net.URL;
+
 public class HttpUtils {
 
     public static String fetch(String url) {
@@ -28,6 +30,16 @@ public class HttpUtils {
         } catch (Exception ignored) {}
 
         return response;
+    }
+
+    public boolean isValidURL(String url) {
+        try {
+            new URL(url).toURI();
+        } catch(Exception e) {
+            return false;
+        }
+
+        return true;
     }
 
 }
