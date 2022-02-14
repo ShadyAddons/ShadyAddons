@@ -1,6 +1,5 @@
-package cheaters.get.banned.features.include.routines.element;
+package cheaters.get.banned.features.include.routines;
 
-import cheaters.get.banned.features.include.routines.RoutineException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 

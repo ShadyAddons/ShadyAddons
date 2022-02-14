@@ -1,14 +1,12 @@
 package cheaters.get.banned.features.include.routines.actions;
 
-import cheaters.get.banned.features.include.routines.element.RoutineElement;
-import cheaters.get.banned.features.include.routines.element.RoutineElementData;
+import cheaters.get.banned.features.include.routines.RoutineElementData;
 
-public abstract class Action extends RoutineElement {
+public abstract class Action {
 
     protected RoutineElementData data;
 
     public Action(RoutineElementData data) {
-        super(data);
         this.data = data;
     }
 

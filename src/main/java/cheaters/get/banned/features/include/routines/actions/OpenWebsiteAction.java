@@ -1,7 +1,7 @@
 package cheaters.get.banned.features.include.routines.actions;
 
+import cheaters.get.banned.features.include.routines.RoutineElementData;
 import cheaters.get.banned.features.include.routines.RoutineException;
-import cheaters.get.banned.features.include.routines.element.RoutineElementData;
 import cheaters.get.banned.utils.Utils;
 
 public class OpenWebsiteAction extends Action {

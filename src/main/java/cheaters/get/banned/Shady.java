@@ -16,7 +16,11 @@ import cheaters.get.banned.features.include.dungeonmap.RoomLoader;
 import cheaters.get.banned.features.include.jokes.CatPeople;
 import cheaters.get.banned.features.include.jokes.FakeBan;
 import cheaters.get.banned.features.include.jokes.Jokes;
-import cheaters.get.banned.remote.*;
+import cheaters.get.banned.features.include.routines.RoutineHooks;
+import cheaters.get.banned.features.include.routines.Routines;
+import cheaters.get.banned.remote.DisableFeatures;
+import cheaters.get.banned.remote.UpdateGui;
+import cheaters.get.banned.remote.Updater;
 import cheaters.get.banned.stats.Analytics;
 import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.*;
@@ -40,6 +44,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.apache.commons.lang3.SystemUtils;
 import org.lwjgl.input.Keyboard;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -57,6 +62,7 @@ public class Shady {
 
     public static final Minecraft mc = Minecraft.getMinecraft();
     public static boolean shouldCrash = false;
+    public static final File dir = new File(new File(mc.mcDataDir, "config"), "shady");
 
     public static boolean USING_SBA = false;
     public static boolean USING_PATCHER = false;
@@ -74,11 +80,14 @@ public class Shady {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        if(!dir.exists()) dir.mkdirs();
+
         ClientCommandHandler.instance.registerCommand(new MainCommand());
 
         // Read JSON Files
         ConfigLogic.load();
         RoomLoader.load();
+        Routines.load();
 
         // Do Remote Things
         Updater.check();
@@ -94,6 +103,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new DungeonUtils());
         MinecraftForge.EVENT_BUS.register(new RotationUtils());
         MinecraftForge.EVENT_BUS.register(new MiscStats());
+        MinecraftForge.EVENT_BUS.register(new RoutineHooks());
 
         MinecraftForge.EVENT_BUS.register(new DungeonScanner());
         MinecraftForge.EVENT_BUS.register(new BlockAbilities());

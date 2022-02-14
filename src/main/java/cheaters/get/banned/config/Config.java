@@ -3,9 +3,57 @@ package cheaters.get.banned.config;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.include.AutoWardrobe;
 import cheaters.get.banned.features.include.commandpalette.CommandPalette;
+import cheaters.get.banned.features.include.routines.Routines;
 import cheaters.get.banned.utils.Utils;
 
+import java.awt.*;
+import java.io.IOException;
+
 public class Config {
+
+    @Property(
+            type = Property.Type.FOLDER,
+            name = "Routines",
+            note = "Learn more at ShadyAddos.com"
+    )
+    public static boolean routinesFolder = false;
+
+        @Property(
+                type = Property.Type.BUTTON,
+                button = "Visit",
+                name = "Browse & Share Routines",
+                parent = "Routines"
+        )
+        public static Runnable openRoutinesWebsite = () -> {
+            Utils.openUrl("https://shadyaddons.com/routines");
+        };
+
+        @Property(
+                type = Property.Type.BUTTON,
+                button = "Open",
+                name = "Open Routines Folder",
+                parent = "Routines"
+        )
+        public static Runnable openRoutinesFolder = () -> {
+            try {
+                Desktop.getDesktop().open(Routines.routinesDir);
+            } catch(IOException e) {
+                Utils.sendModMessage("Unable to open directory");
+                Utils.sendModMessage("Find it manually at .../minecraft/config/shady/routines");
+            }
+        };
+
+        @Property(
+                type = Property.Type.BUTTON,
+                button = "Reload",
+                name = "Force Reload Routines",
+                parent = "Routines"
+        )
+        public static Runnable refreshRoutines = () -> {
+            Routines.load();
+            Utils.sendModMessage("Reloaded routines");
+        };
+
 
     @Property(
             type = Property.Type.BOOLEAN,
@@ -800,12 +848,5 @@ public class Config {
             note = "Not a cheat, just cosmetic"
     )
     public static boolean useCleanButtons = false;
-
-    @Property(
-            type = Property.Type.BOOLEAN,
-            name = "Send Anonymous Crash Reports",
-            note = "Improve ShadyAddons"
-    )
-    public static boolean sendCrashReports = true;
 
 }

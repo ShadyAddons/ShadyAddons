@@ -8,12 +8,17 @@ import cheaters.get.banned.features.include.dungeonmap.DungeonMap;
 import cheaters.get.banned.features.include.dungeonmap.Room;
 import cheaters.get.banned.features.include.dungeonmap.RoomLoader;
 import cheaters.get.banned.features.include.jokes.CatPeople;
-import cheaters.get.banned.utils.*;
+import cheaters.get.banned.features.include.routines.Routine;
+import cheaters.get.banned.features.include.routines.Routines;
+import cheaters.get.banned.utils.DungeonUtils;
+import cheaters.get.banned.utils.MathUtils;
+import cheaters.get.banned.utils.Utils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +122,16 @@ public class MainCommand extends CommandBase {
                         switch(args[1]) {
                             case "dungeon":
                                 if(Utils.inDungeon) DungeonUtils.debug();
+                                break;
+
+                            case "routines":
+                                for(Routine routine : Routines.routines.values()) {
+                                    Utils.sendModMessage(StringUtils.rightPad(routine.name + ' ', 40, '-'));
+                                    Utils.sendModMessage("Author: " + routine.author);
+                                    Utils.sendModMessage("Concurrent: " + (routine.allowConcurrent ? "true" : "false"));
+                                    Utils.sendModMessage("Trigger: " + routine.trigger.getClass().getName());
+                                    Utils.sendModMessage("Actions: " + routine.actions.size());
+                                }
                                 break;
 
                             case "palette":

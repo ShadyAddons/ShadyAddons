@@ -1,23 +1,17 @@
 package cheaters.get.banned.features.include.routines.triggers;
 
-import cheaters.get.banned.features.include.routines.element.RoutineElement;
-import cheaters.get.banned.features.include.routines.element.RoutineElementData;
+import cheaters.get.banned.features.include.routines.RoutineElementData;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-public abstract class Trigger<E extends Event> extends RoutineElement {
+public abstract class Trigger {
 
-    protected Class<E> event;
+    public RoutineElementData data;
+    public boolean shouldCancelEvent = false;
 
-    public Trigger(Class<E> event, RoutineElementData data) {
-        super(data);
+    public Trigger(RoutineElementData data) {
         this.data = data;
-        this.event = event;
     }
 
-    public Class<E> getEvent() {
-        return event;
-    }
-
-    public abstract boolean shouldTrigger(E event);
+    public abstract boolean shouldTrigger(Event event);
 
 }

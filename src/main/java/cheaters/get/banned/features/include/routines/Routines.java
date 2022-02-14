@@ -1,0 +1,68 @@
+package cheaters.get.banned.features.include.routines;
+
+import cheaters.get.banned.Shady;
+import cheaters.get.banned.features.include.routines.triggers.Trigger;
+import cheaters.get.banned.utils.Utils;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.util.HashMap;
+
+public class Routines {
+
+    public static HashMap<Trigger, Routine> routines = new HashMap<>();
+    public static final File routinesDir = new File(Shady.dir, "routines");
+
+    public static void load() {
+        if(!routinesDir.exists()) routinesDir.mkdirs();
+
+        routines.clear();
+
+        try {
+            JsonParser parser = new JsonParser();
+            File[] files = routinesDir.listFiles(name -> name.isFile() && name.getName().endsWith(".json"));
+            if(files == null) return;
+
+            for(File file : files) {
+                String jsonString = FileUtils.readFileToString(file);
+                JsonObject json = parser.parse(jsonString).getAsJsonObject();
+
+                if(!json.get("enabled").getAsBoolean()) continue;
+
+                Routine routine = new Routine();
+
+                routine.name = json.get("name").getAsString();
+                routine.author = json.get("author").getAsString();
+                routine.allowConcurrent = json.get("allow_concurrent").getAsBoolean();
+
+                JsonObject triggerObject = json.get("trigger").getAsJsonObject();
+                routine.trigger = RoutineElementFactory.createTrigger(
+                        triggerObject.get("name").getAsString(),
+                        new RoutineElementData(triggerObject)
+                );
+
+                for(JsonElement action : json.get("actions").getAsJsonArray()) {
+                    JsonObject actionObject = action.getAsJsonObject();
+                    routine.actions.add(
+                            RoutineElementFactory.createAction(
+                                    actionObject.get("name").getAsString(),
+                                    new RoutineElementData(actionObject)
+                            )
+                    );
+                }
+
+                routines.put(routine.trigger, routine);
+            }
+
+        } catch(RoutineException exception) {
+            System.out.println(exception.getMessage());
+            if(Shady.mc.theWorld != null) {
+                Utils.sendModMessage("Error: " + exception.getMessage());
+            }
+        } catch(Exception ignored) {}
+    }
+
+}
