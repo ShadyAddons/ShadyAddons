@@ -24,13 +24,12 @@ public class CrystalEtherwarp {
                         248
                 ));
 
-                RotationUtils.look(rotation);
-
                 // Used to skip one tick after sending sneak
                 // TODO: At least rename variables
                 if(!sentSneak) {
                     Shady.mc.thePlayer.movementInput.sneak = true;
                     NetworkUtils.sendPacket(new C0BPacketEntityAction(Shady.mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
+                    RotationUtils.look(rotation);
                     sentSneak = true;
                 }
 
