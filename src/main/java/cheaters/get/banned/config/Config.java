@@ -246,19 +246,19 @@ public class Config {
     public static boolean crystalReach = false;
 
 
-    /*@Property(
+    @Property(
             type = Property.Type.BOOLEAN,
             name = "Crystal Etherwarp",
             note = "Automatically teleports to the crystal"
-    )*/
+    )
     public static boolean crystalEtherwarp = false;
 
-        /*@Property(
+        @Property(
                 type = Property.Type.SELECT,
                 name = "Crystal Side",
                 options = {"Left", "Right"},
                 parent = "Crystal Etherwarp"
-        )*/
+        )
         public static int crystalSide = 0;
 
 

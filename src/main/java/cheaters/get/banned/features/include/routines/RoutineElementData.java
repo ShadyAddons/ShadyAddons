@@ -11,15 +11,25 @@ public class RoutineElementData {
         this.json = json;
     }
 
-    public String keyAsString(String key) throws RoutineException {
+    public String keyAsString(String key, boolean error) throws RoutineException {
         JsonElement element = json.get(key);
-        if(element == null) throw new RoutineException("Value for '" + key + "' is invalid");
+
+        if(element == null) {
+            if(error) throw new RoutineException("Value for '" + key + "' is invalid");
+            return null;
+        }
+
         return element.getAsString();
     }
 
-    public int keyAsInt(String key) throws RoutineException {
+    public Integer keyAsInt(String key, boolean error) throws RoutineException {
         JsonElement element = json.get(key);
-        if(element == null) throw new RoutineException("Value for '" + key + "' is invalid");
+
+        if(element == null) {
+            if(error) throw new RoutineException("Value for '" + key + "' is invalid");
+            return null;
+        }
+
         return element.getAsInt();
     }
 

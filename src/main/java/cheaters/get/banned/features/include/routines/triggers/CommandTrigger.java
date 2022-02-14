@@ -12,7 +12,7 @@ public class CommandTrigger extends Trigger {
     public CommandTrigger(RoutineElementData data) throws RoutineException {
         super(data);
         super.shouldCancelEvent = true;
-        name = data.keyAsString("name");
+        name = data.keyAsString("name", true);
     }
 
     @Override

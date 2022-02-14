@@ -4,7 +4,7 @@ plugins {
     id "org.spongepowered.mixin" version "d5f9873d60"
 }
 
-version = "2.5.5"
+version = "2.6.0-pre1"
 group = "cheaters.get.banned"
 archivesBaseName = "ShadyAddons"
 

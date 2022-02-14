@@ -6,23 +6,23 @@ import cheaters.get.banned.utils.Utils;
 
 /**
  * {
- *     "name": "OpenWebsiteAction",
- *     "url": string
+ *     "name": "SendChatAction",
+ *     "message": string
  * }
  */
 
-public class OpenWebsiteAction extends Action {
+public class SendChatAction extends Action {
 
-    private String url;
+    private String message;
 
-    public OpenWebsiteAction(RoutineElementData data) throws RoutineException {
+    public SendChatAction(RoutineElementData data) throws RoutineException {
         super(data);
-        url = data.keyAsString("url", true);
+        message = data.keyAsString("message", true);
     }
 
     @Override
     public void doAction() {
-        Utils.openUrl(url);
+        Utils.sendMessageAsPlayer(message);
     }
 
 }

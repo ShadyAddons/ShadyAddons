@@ -4,25 +4,18 @@ import cheaters.get.banned.features.include.routines.RoutineElementData;
 import cheaters.get.banned.features.include.routines.RoutineException;
 import cheaters.get.banned.utils.Utils;
 
-/**
- * {
- *     "name": "OpenWebsiteAction",
- *     "url": string
- * }
- */
+public class UseCommandAction extends Action {
 
-public class OpenWebsiteAction extends Action {
+    private String command;
 
-    private String url;
-
-    public OpenWebsiteAction(RoutineElementData data) throws RoutineException {
+    public UseCommandAction(RoutineElementData data) throws RoutineException {
         super(data);
-        url = data.keyAsString("url", true);
+        command = data.keyAsString("command", true);
     }
 
     @Override
     public void doAction() {
-        Utils.openUrl(url);
+        Utils.executeCommand("/" + command);
     }
 
 }

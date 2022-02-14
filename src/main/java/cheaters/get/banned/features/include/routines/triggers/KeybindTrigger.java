@@ -14,7 +14,7 @@ public class KeybindTrigger extends Trigger {
         super(data);
         super.shouldCancelEvent = false;
 
-        String letter = data.keyAsString("key").toUpperCase().substring(0, 1);
+        String letter = data.keyAsString("key", true).toUpperCase().substring(0, 1);
         keyCode = Keyboard.getKeyIndex(letter);
         if(keyCode == Keyboard.KEY_NONE) {
             throw new RoutineException("Invalid key character '" + letter + "' in trigger");
