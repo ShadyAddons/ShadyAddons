@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class CrystalEtherwarp {
 
     private static boolean teleported = false;
+    private static boolean sentSneak = false;
 
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
@@ -23,18 +24,24 @@ public class CrystalEtherwarp {
                         248
                 ));
 
-                RotationUtils.look(rotation);
-
-                Shady.mc.thePlayer.movementInput.sneak = true;
-                NetworkUtils.sendPacket(new C0BPacketEntityAction(Shady.mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
-
-                KeybindUtils.rightClick();
-
-                Shady.mc.thePlayer.movementInput.sneak = false;
-                NetworkUtils.sendPacket(new C0BPacketEntityAction(Shady.mc.thePlayer, C0BPacketEntityAction.Action.STOP_SNEAKING));
+                // Used to skip one tick after sending sneak
+                // TODO: At least rename variables
+                if(!sentSneak) {
+                    Shady.mc.thePlayer.movementInput.sneak = true;
+                    NetworkUtils.sendPacket(new C0BPacketEntityAction(Shady.mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
+                    RotationUtils.look(rotation);
+                    sentSneak = true;
+                }
 
                 teleported = true;
             }
+        }
+
+        if(sentSneak) {
+            sentSneak = false;
+            KeybindUtils.rightClick();
+            Shady.mc.thePlayer.movementInput.sneak = false;
+            NetworkUtils.sendPacket(new C0BPacketEntityAction(Shady.mc.thePlayer, C0BPacketEntityAction.Action.STOP_SNEAKING));
         }
     }
 
