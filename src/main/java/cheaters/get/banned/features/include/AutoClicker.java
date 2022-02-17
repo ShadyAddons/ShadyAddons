@@ -1,8 +1,8 @@
 package cheaters.get.banned.features.include;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.components.ConfigInput;
+import cheaters.get.banned.gui.config.Config;
+import cheaters.get.banned.gui.config.components.ConfigInput;
 import cheaters.get.banned.utils.KeybindUtils;
 import cheaters.get.banned.utils.ThreadUtils;
 import net.minecraft.client.gui.Gui;

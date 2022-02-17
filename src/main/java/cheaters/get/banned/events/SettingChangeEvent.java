@@ -1,6 +1,6 @@
 package cheaters.get.banned.events;
 
-import cheaters.get.banned.config.settings.Setting;
+import cheaters.get.banned.gui.config.settings.Setting;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 public class SettingChangeEvent extends Event {

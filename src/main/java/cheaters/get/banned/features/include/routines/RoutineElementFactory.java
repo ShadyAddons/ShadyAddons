@@ -5,19 +5,21 @@ import cheaters.get.banned.features.include.routines.triggers.Trigger;
 
 public class RoutineElementFactory {
 
-    public static Trigger createTrigger(String name, RoutineElementData data) throws RoutineException {
+    public static Trigger createTrigger(String name, RoutineElementData data) throws RoutineRuntimeException {
         try {
-            return (Trigger) Class.forName("cheaters.get.banned.features.include.routines.triggers." + name).getConstructor(RoutineElementData.class).newInstance(data);
-        } catch(Exception ignored) {
-            throw new RoutineException("Trigger with name '" + name + "' is invalid");
+            return (Trigger) Class.forName("cheaters.get.banned.features.include.routines.triggers." + name + "Trigger").getConstructor(RoutineElementData.class).newInstance(data);
+        } catch(Exception exception) {
+            RoutineRuntimeException.javaException(exception);
+            throw new RoutineRuntimeException("Error creating trigger with name '" + name + "Trigger'");
         }
     }
 
-    public static Action createAction(String name, RoutineElementData data) throws RoutineException {
+    public static Action createAction(String name, RoutineElementData data) throws RoutineRuntimeException {
         try {
-            return (Action) Class.forName("cheaters.get.banned.features.include.routines.actions." + name).getConstructor(RoutineElementData.class).newInstance(data);
-        } catch(Exception ignored) {
-            throw new RoutineException("Action with name '" + name + "' is invalid");
+            return (Action) Class.forName("cheaters.get.banned.features.include.routines.actions." + name + "Action").getConstructor(RoutineElementData.class).newInstance(data);
+        } catch(Exception exception) {
+            RoutineRuntimeException.javaException(exception);
+            throw new RoutineRuntimeException("Error creating action with name '" + name + "Action'");
         }
     }
 

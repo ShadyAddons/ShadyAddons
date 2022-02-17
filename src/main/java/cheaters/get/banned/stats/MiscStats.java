@@ -23,6 +23,7 @@ public class MiscStats {
     }
 
     private static HashMap<Metric, Integer> data = new HashMap<>();
+    public static int minutesSinceLastSend = 0;
 
     private static String toJson() {
         return new Gson().toJson(data);

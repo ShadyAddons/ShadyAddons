@@ -1,6 +1,6 @@
 package cheaters.get.banned.features.include;
 
-import cheaters.get.banned.config.Config;
+import cheaters.get.banned.gui.config.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

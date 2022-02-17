@@ -1,7 +1,7 @@
 package cheaters.get.banned.features.include.dungeonmap;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
+import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.FontUtils;

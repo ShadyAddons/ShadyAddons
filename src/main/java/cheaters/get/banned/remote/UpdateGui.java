@@ -1,9 +1,9 @@
 package cheaters.get.banned.remote;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.utils.RenderUtils;
-import cheaters.get.banned.config.components.ClearButton;
+import cheaters.get.banned.gui.ClearButton;
 import cheaters.get.banned.utils.FontUtils;
+import cheaters.get.banned.utils.RenderUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -23,7 +23,7 @@ public class UpdateGui extends GuiScreen {
     @Override
     public void actionPerformed(GuiButton button) {
         if(button.id == 0) {
-            Utils.openUrl("https://cheatersgetbanned.me/");
+            Utils.openUrl("https://shadyaddons.com/");
         }
         Shady.guiToOpen = new GuiMainMenu();
     }

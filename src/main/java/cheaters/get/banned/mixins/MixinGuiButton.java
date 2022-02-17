@@ -1,6 +1,6 @@
 package cheaters.get.banned.mixins;
 
-import cheaters.get.banned.config.Config;
+import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.utils.FontUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

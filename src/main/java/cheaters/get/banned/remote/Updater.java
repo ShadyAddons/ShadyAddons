@@ -25,10 +25,10 @@ public class Updater {
 
     public static void check() {
         new Thread(() -> {
-            String url = "https://cheatersgetbanned.me/api/updates";
+            String url = "https://shadyaddons.com/api/updates";
             String response = null;
             try {
-                response = HttpUtils.fetch(url);
+                response = HttpUtils.get(url);
             } catch(Exception ignored) {}
 
             if(response != null) {

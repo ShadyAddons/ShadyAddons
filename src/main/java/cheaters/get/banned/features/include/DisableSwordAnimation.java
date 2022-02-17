@@ -1,7 +1,7 @@
 package cheaters.get.banned.features.include;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
+import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.utils.NetworkUtils;
 import cheaters.get.banned.utils.Utils;

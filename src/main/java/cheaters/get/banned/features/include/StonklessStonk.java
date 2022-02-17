@@ -1,7 +1,7 @@
 package cheaters.get.banned.features.include;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
+import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.events.BlockChangeEvent;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.utils.*;
@@ -10,6 +10,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockLever;
 import net.minecraft.block.BlockSkull;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -37,8 +39,15 @@ public class StonklessStonk {
 
     private static boolean isEnabled() {
         boolean isEnabled = Utils.inDungeon && Shady.mc.thePlayer != null;
-        if(!Config.alwaysOn && isEnabled) isEnabled = Config.stonklessStonk && Shady.mc.thePlayer.isSneaking();
-        if(Config.disableInBoss && isEnabled) isEnabled = DungeonUtils.dungeonRun != null && !DungeonUtils.dungeonRun.inBoss;
+
+        if(Config.onlyEnableWhenHoldingPickaxe && isEnabled) {
+            Item currentItem = Shady.mc.thePlayer.inventory.getStackInSlot(Shady.mc.thePlayer.inventory.currentItem).getItem();
+            isEnabled = currentItem == Items.diamond_pickaxe || currentItem == Items.iron_pickaxe || currentItem == Items.golden_pickaxe || currentItem == Items.stone_pickaxe || currentItem == Items.wooden_pickaxe;
+        }
+
+        if(!Config.alwaysOn && isEnabled) isEnabled =  Config.stonklessStonk && Shady.mc.thePlayer.isSneaking();
+        if(Config.disableInBoss && isEnabled) isEnabled =  DungeonUtils.dungeonRun != null && !DungeonUtils.dungeonRun.inBoss;
+
         return isEnabled;
     }
 

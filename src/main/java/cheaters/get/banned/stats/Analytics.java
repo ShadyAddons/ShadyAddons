@@ -29,13 +29,13 @@ public class Analytics {
             }
 
             try {
-                URIBuilder url = new URIBuilder("https://cheatersgetbanned.me/api/analytics")
+                URIBuilder url = new URIBuilder("https://shadyaddons.com/api/analytics")
                         .addParameter("username", Shady.mc.getSession().getUsername())
                         .addParameter("server_id", serverId)
                         .addParameter("hashed_uuid", DigestUtils.sha256Hex(Shady.mc.getSession().getProfile().getId().toString().replace("-", "")))
                         .addParameter(key, value);
 
-                HttpUtils.fetch(url.toString());
+                HttpUtils.get(url.toString());
             } catch(Exception ignored) {}
         }, "ShadyAddons-Analytics").start();
     }

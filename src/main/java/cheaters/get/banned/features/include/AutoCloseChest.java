@@ -1,7 +1,7 @@
 package cheaters.get.banned.features.include;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
+import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.client.gui.inventory.GuiChest;

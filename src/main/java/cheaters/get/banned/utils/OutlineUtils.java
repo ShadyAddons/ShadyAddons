@@ -1,7 +1,7 @@
 package cheaters.get.banned.utils;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
+import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.events.RenderEntityModelEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;

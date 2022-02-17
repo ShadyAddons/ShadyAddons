@@ -10,11 +10,11 @@ import java.util.List;
 public class DisableFeatures {
 
     public static List<String> load() {
-        String url = "https://cheatersgetbanned.me/api/disabled-features.json";
+        String url = "https://shadyaddons.com/api/disabled-features.json";
         String response = null;
 
         try {
-            response = HttpUtils.fetch(url);
+            response = HttpUtils.get(url);
         } catch(Exception ignored) {}
 
         if(response != null) {

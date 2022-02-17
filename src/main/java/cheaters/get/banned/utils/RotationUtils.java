@@ -44,7 +44,7 @@ public class RotationUtils {
     public static void smoothLook(Rotation rotation, int ticks, Runnable callback) {
         if(ticks == 0) {
             look(rotation);
-            callback.run();
+            if(callback != null) callback.run();
             return;
         }
 

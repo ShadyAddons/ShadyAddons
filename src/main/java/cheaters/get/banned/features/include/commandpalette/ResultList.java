@@ -1,7 +1,7 @@
 package cheaters.get.banned.features.include.commandpalette;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.config.Config;
+import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.features.include.commandpalette.actions.CommandAction;
 import cheaters.get.banned.features.include.commandpalette.actions.RunnableAction;
 import cheaters.get.banned.features.include.commandpalette.icons.ImageIcon;
@@ -32,11 +32,11 @@ public class ResultList {
         results.clear();
 
         /*if(Updater.update != null && !Updater.update.version.equals(Shady.VERSION)) {
-            results.put("update shady cheatersgetbanned.me",
+            results.put("update shady cheatersgetbanned.me shadyaddons.com",
                     new Result(
                             "Update ShadyAddons to " + Updater.update.version,
                             new ImageIcon("chester.png"),
-                            new RunnableAction(() -> Utils.openUrl("https://cheatersgetbanned.me/?update=true"))
+                            new RunnableAction(() -> Utils.openUrl("https://shadyaddons.com/?update=true"))
                     )
             );
         }*/
@@ -51,20 +51,11 @@ public class ResultList {
             );
         }
 
-        results.put("drip shady merch store shop",
-                new Result(
-                        "Buy ShadyAddons Merch",
-                        new ImageIcon("drip.png"),
-                        new RunnableAction(() -> Utils.openUrl("https://cheatersgetbanned.me/store")),
-                        "via Teespring"
-                )
-        );
-
         results.put("shadyaddons bug report",
                 new Result(
                         "Report a Bug",
                         new ImageIcon("chester.png"),
-                        new RunnableAction(() -> Utils.openUrl("https://cheatersgetbanned.me/bug-report/?version=" + Shady.VERSION))
+                        new RunnableAction(() -> Utils.openUrl("https://shadyaddons.com/bug-report/?version=" + Shady.VERSION))
                 )
         );
 

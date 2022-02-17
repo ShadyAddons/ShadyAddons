@@ -134,9 +134,9 @@ public class Utils {
 
     public static void sendModMessage(String message) {
         if(message.contains("§")) {
-            sendMessage("§" + FontUtils.getRainbowCode('c') + "ShadyAddons > §f" + message);
+            sendMessage("§" + FontUtils.getRainbowCode('7') + "ShadyAddons > §f" + message);
         } else {
-            sendMessage("&" + FontUtils.getRainbowCode('c') + "ShadyAddons > &f" + message);
+            sendMessage("&" + FontUtils.getRainbowCode('7') + "ShadyAddons > &f" + message);
         }
     }
 

@@ -1,7 +1,7 @@
 package cheaters.get.banned.features.include.routines.actions;
 
 import cheaters.get.banned.features.include.routines.RoutineElementData;
-import cheaters.get.banned.features.include.routines.RoutineException;
+import cheaters.get.banned.features.include.routines.RoutineRuntimeException;
 import cheaters.get.banned.utils.Utils;
 
 /**
@@ -15,9 +15,9 @@ public class OpenWebsiteAction extends Action {
 
     private String url;
 
-    public OpenWebsiteAction(RoutineElementData data) throws RoutineException {
+    public OpenWebsiteAction(RoutineElementData data) throws RoutineRuntimeException {
         super(data);
-        url = data.keyAsString("url", true);
+        url = data.keyAsString("url");
     }
 
     @Override

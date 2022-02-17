@@ -19,7 +19,20 @@ public class Routine {
             isRunning = true;
             new Thread(() -> {
                 for(Action action : actions) {
-                    action.doAction();
+                    try {
+                        int times = action.getRepeat();
+                        if(times == 1) {
+                            action.doAction();
+                        } else {
+                            for(int i = 0; i < times; i++) {
+                                action.doAction();
+                            }
+                        }
+                    } catch(RoutineRuntimeException exception) {
+                        exception.display();
+                    } catch(Exception exception) {
+                        RoutineRuntimeException.javaException(exception);
+                    }
                 }
                 isRunning = false;
             }, "ShadyAddons-Routine-" + name).start();

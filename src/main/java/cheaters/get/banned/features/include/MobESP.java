@@ -1,7 +1,7 @@
 package cheaters.get.banned.features.include;
 
-import cheaters.get.banned.config.Config;
-import cheaters.get.banned.config.settings.FolderSetting;
+import cheaters.get.banned.gui.config.Config;
+import cheaters.get.banned.gui.config.settings.FolderSetting;
 import cheaters.get.banned.events.RenderEntityModelEvent;
 import cheaters.get.banned.utils.LocationUtils;
 import cheaters.get.banned.utils.OutlineUtils;
