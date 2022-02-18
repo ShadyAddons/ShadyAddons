@@ -20,7 +20,7 @@ minecraft {
     mappings = 'stable_22'
     makeObfSourceJar = false
     replace '@VERSION@': project.version
-    replace 'https://shadyaddons.com': 'http://localhost:6969'
+    // replace 'https://shadyaddons.com': 'http://localhost:6969'
     clientJvmArgs += '-Dfml.coreMods.load=org.spongepowered.asm.launch.MixinTweaker'
     clientRunArgs += '--mixin mixins.shadyaddons.json'
 }
