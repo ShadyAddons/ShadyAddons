@@ -1,11 +1,5 @@
 package cheaters.get.banned;
 
-import cheaters.get.banned.gui.config.Config;
-import cheaters.get.banned.gui.config.ConfigLogic;
-import cheaters.get.banned.gui.config.MainCommand;
-import cheaters.get.banned.gui.config.settings.BooleanSetting;
-import cheaters.get.banned.gui.config.settings.SelectSetting;
-import cheaters.get.banned.gui.config.settings.Setting;
 import cheaters.get.banned.events.MinuteEvent;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.include.*;
@@ -19,11 +13,18 @@ import cheaters.get.banned.features.include.jokes.FakeBan;
 import cheaters.get.banned.features.include.jokes.Jokes;
 import cheaters.get.banned.features.include.routines.RoutineHooks;
 import cheaters.get.banned.features.include.routines.Routines;
+import cheaters.get.banned.gui.config.Config;
+import cheaters.get.banned.gui.config.ConfigLogic;
+import cheaters.get.banned.gui.config.MainCommand;
+import cheaters.get.banned.gui.config.settings.BooleanSetting;
+import cheaters.get.banned.gui.config.settings.SelectSetting;
+import cheaters.get.banned.gui.config.settings.Setting;
 import cheaters.get.banned.remote.DisableFeatures;
 import cheaters.get.banned.remote.UpdateGui;
 import cheaters.get.banned.remote.Updater;
 import cheaters.get.banned.stats.Analytics;
 import cheaters.get.banned.stats.MiscStats;
+import cheaters.get.banned.stats.RoutinesAPI;
 import cheaters.get.banned.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -96,6 +97,7 @@ public class Shady {
         // Do Remote Things
         Updater.check();
         Analytics.collect("version", VERSION);
+        RoutinesAPI.sync();
     }
 
     @Mod.EventHandler
@@ -161,8 +163,6 @@ public class Shady {
         USING_SKYTILS = Loader.isModLoaded("skytils");
         USING_SBE = Loader.isModLoaded("skyblockextras");
 
-        Analytics.collect("hash", Analytics.hashMod());
-
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime firstRun = now.withSecond(0).plusMinutes(1);
         Duration initialDelay = Duration.between(now, firstRun);
@@ -180,6 +180,7 @@ public class Shady {
         if(MiscStats.minutesSinceLastSend == 5) {
             MiscStats.minutesSinceLastSend = 0;
             MiscStats.send();
+            RoutinesAPI.sync();
         } else {
             MiscStats.minutesSinceLastSend++;
         }

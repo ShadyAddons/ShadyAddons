@@ -15,12 +15,15 @@ public class Routines {
 
     public static HashMap<Trigger, Routine> routines = new HashMap<>();
     public static ArrayList<String> invalidRoutines = new ArrayList<>();
+    public static ArrayList<String> routinesJson = new ArrayList<>();
     public static final File routinesDir = new File(Shady.dir, "routines");
 
     public static void load() {
         if(!routinesDir.exists()) routinesDir.mkdirs();
 
         routines.clear();
+        routinesJson.clear();
+        invalidRoutines.clear();
 
         JsonParser parser = new JsonParser();
         File[] files = routinesDir.listFiles(name -> name.isFile() && name.getName().endsWith(".json"));
@@ -64,6 +67,7 @@ public class Routines {
                     );
                 }
 
+                routinesJson.add(jsonString);
                 routines.put(routine.trigger, routine);
             } catch(Exception exception) {
                 invalidRoutines.add(routine.name);

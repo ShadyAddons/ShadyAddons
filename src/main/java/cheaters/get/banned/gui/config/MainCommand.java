@@ -10,6 +10,7 @@ import cheaters.get.banned.features.include.dungeonmap.RoomLoader;
 import cheaters.get.banned.features.include.jokes.CatPeople;
 import cheaters.get.banned.features.include.routines.Routine;
 import cheaters.get.banned.features.include.routines.Routines;
+import cheaters.get.banned.stats.RoutinesAPI;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.MathUtils;
 import cheaters.get.banned.utils.Utils;
@@ -57,6 +58,14 @@ public class MainCommand extends CommandBase {
 
         if(args.length > 0) {
             switch(args[0]) {
+                case "install":
+                    if(args.length == 2) {
+                        RoutinesAPI.download(args[1]);
+                    } else {
+                        Utils.sendModMessage("No routine ID specified");
+                    }
+                    break;
+
                 case "routines":
                     // Shady.guiToOpen = new RoutinesGui();
                     try {

@@ -18,7 +18,9 @@ public class DisableFeatures {
         } catch(Exception ignored) {}
 
         if(response != null) {
-            return Arrays.asList(new Gson().fromJson(response, String[].class));
+            try {
+                return Arrays.asList(new Gson().fromJson(response, String[].class));
+            } catch(Exception ignored) {}
         }
 
         return Collections.emptyList();
