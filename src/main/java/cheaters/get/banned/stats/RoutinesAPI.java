@@ -33,23 +33,25 @@ public class RoutinesAPI {
                 System.out.println(json);
                 HttpUtils.post(url.toString(), json);
             } catch(Exception ignored) {}
-        }, "ShadyAddons-RoutinesAPI").start();
+        }, "ShadyAddons-RoutineListAPI").start();
     }
 
     public static void download(String id) {
-        try {
-            String response = HttpUtils.get("https://shadyaddons.com/api/routines/download?id=" + id);
+        new Thread(() -> {
+            try {
+                String response = HttpUtils.get("https://shadyaddons.com/api/routines/download?id=" + id);
 
-            if(response != null) {
-                File file = new File(Routines.routinesDir, id + ".json");
-                FileUtils.writeStringToFile(file, response);
-                Routines.load();
+                if(response != null) {
+                    File file = new File(Routines.routinesDir, id + ".json");
+                    FileUtils.writeStringToFile(file, response);
+                    Routines.load();
 
-                if(Shady.mc.theWorld != null) {
-                    Utils.sendModMessage("Installed and loaded routine");
+                    if(Shady.mc.theWorld != null) {
+                        Utils.sendModMessage("Installed and loaded routine");
+                    }
                 }
-            }
-        } catch(Exception ignored) {}
+            } catch(Exception ignored) {}
+        }, "ShadyAddons-InstallRoutineAPI").start();
     }
 
 }

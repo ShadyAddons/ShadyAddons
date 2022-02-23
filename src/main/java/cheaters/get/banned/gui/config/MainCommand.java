@@ -146,7 +146,6 @@ public class MainCommand extends CommandBase {
                             case "routines":
                                 for(Routine routine : Routines.routines.values()) {
                                     Utils.sendModMessage(StringUtils.rightPad(routine.name + ' ', 40, '-'));
-                                    Utils.sendModMessage("Author: " + routine.author);
                                     Utils.sendModMessage("Concurrent: " + (routine.allowConcurrent ? "true" : "false"));
                                     Utils.sendModMessage("Trigger: " + routine.trigger.getClass().getSimpleName());
                                     Utils.sendModMessage("Actions: " + routine.actions.size());

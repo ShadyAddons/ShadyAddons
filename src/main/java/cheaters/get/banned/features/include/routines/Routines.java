@@ -49,7 +49,6 @@ public class Routines {
             routine.name = routineNameJson.getAsString();
 
             try {
-                routine.author = json.get("author").getAsString();
                 routine.allowConcurrent = json.get("allow_concurrent").getAsBoolean();
                 JsonObject triggerObject = json.get("trigger").getAsJsonObject();
                 routine.trigger = RoutineElementFactory.createTrigger(
@@ -71,6 +70,7 @@ public class Routines {
                 routines.put(routine.trigger, routine);
             } catch(Exception exception) {
                 invalidRoutines.add(routine.name);
+                exception.printStackTrace();
             }
 
         }

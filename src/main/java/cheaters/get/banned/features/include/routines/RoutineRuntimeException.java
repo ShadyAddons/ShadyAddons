@@ -17,9 +17,9 @@ public class RoutineRuntimeException extends Exception {
     public static void javaException(Throwable exception) {
         if(exception instanceof InvocationTargetException) {
             exception = exception.getCause();
-            exception.printStackTrace();
         }
 
+        exception.printStackTrace();
         new RoutineRuntimeException("Java exception '" + exception.getClass().getSimpleName() + "' in routine. Is Shady up to date?").display();
     }
 

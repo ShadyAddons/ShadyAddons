@@ -5,7 +5,6 @@ import cheaters.get.banned.events.MinuteEvent;
 import cheaters.get.banned.events.SendChatMessageEvent;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.include.routines.triggers.*;
-import cheaters.get.banned.utils.Utils;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
@@ -49,7 +48,7 @@ public class RoutineHooks {
     }
 
     private static void runTrigger(Class<? extends Trigger> triggerClass, Event event) {
-        if(Shady.mc.theWorld == null || !Utils.inSkyBlock) return;
+        if(Shady.mc.theWorld == null /*|| !Utils.inSkyBlock*/) return;
 
         for(Map.Entry<Trigger, Routine> routine : Routines.routines.entrySet()) {
             if(routine.getKey().getClass() == triggerClass && routine.getKey().shouldTrigger(event)) {

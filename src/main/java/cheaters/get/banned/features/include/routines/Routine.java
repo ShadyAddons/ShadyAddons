@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class Routine {
 
     public String name;
-    public String author;
     public boolean allowConcurrent;
     public Trigger trigger;
     public ArrayList<Action> actions = new ArrayList<>();

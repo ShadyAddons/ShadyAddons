@@ -20,7 +20,7 @@ public class ChatReceivedTrigger extends Trigger {
 
     @Override
     public boolean shouldTrigger(Event event) {
-        // Does not receive canceled events by default
+        // Will not receive canceled events by default
         if(event instanceof ClientChatReceivedEvent && ((ClientChatReceivedEvent) event).type == 1) {
             String messageContent = ((ClientChatReceivedEvent) event).message.getFormattedText();
             if(removeFormatting) messageContent = Utils.removeFormatting(messageContent);

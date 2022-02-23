@@ -70,8 +70,7 @@ public class Config {
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Only Enable When Holding Pickaxe",
-                parent = "Stonkless Stonk",
-                note = "Safeguard against being spec'd"
+                parent = "Stonkless Stonk"
         )
         public static boolean onlyEnableWhenHoldingPickaxe = false;
 
