@@ -97,7 +97,6 @@ public class Shady {
         // Do Remote Things
         Updater.check();
         Analytics.collect("version", VERSION);
-        RoutinesAPI.sync();
     }
 
     @Mod.EventHandler
@@ -180,10 +179,11 @@ public class Shady {
         if(MiscStats.minutesSinceLastSend == 5) {
             MiscStats.minutesSinceLastSend = 0;
             MiscStats.send();
+        } else if(MiscStats.minutesSinceLastSend == 2) {
             RoutinesAPI.sync();
-        } else {
-            MiscStats.minutesSinceLastSend++;
         }
+
+        MiscStats.minutesSinceLastSend++;
     }
 
     @SubscribeEvent
