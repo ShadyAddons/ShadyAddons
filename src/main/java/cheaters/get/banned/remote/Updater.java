@@ -25,7 +25,7 @@ public class Updater {
 
     public static void check() {
         new Thread(() -> {
-            String url = "https://shadyaddons.com/api/updates";
+            String url = "https://shady" + "addons.com/api/updates"; // Safeguard for build.gradle
             String response = null;
             try {
                 response = HttpUtils.get(url);
