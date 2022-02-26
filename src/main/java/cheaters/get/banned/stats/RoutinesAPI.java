@@ -47,11 +47,29 @@ public class RoutinesAPI {
                     Routines.load();
 
                     if(Shady.mc.theWorld != null) {
-                        Utils.sendModMessage("Installed and loaded routine");
+                        Utils.sendModMessage("&aInstalled and loaded routine!");
+                    }
+                } else {
+                    if(Shady.mc.theWorld != null) {
+                        Utils.sendModMessage("&cA routine with that ID does not exist!");
                     }
                 }
             } catch(Exception ignored) {}
         }, "ShadyAddons-InstallRoutineAPI").start();
+    }
+
+    public static void openAuthWebsite() {
+        try {
+            String serverId = UUID.randomUUID().toString().replace("-", "");
+
+            Shady.mc.getSessionService().joinServer(Shady.mc.getSession().getProfile(), Shady.mc.getSession().getToken(), serverId);
+
+            URIBuilder url = new URIBuilder("https://shadyaddons.com/auth")
+                    .addParameter("username", Shady.mc.getSession().getUsername())
+                    .addParameter("redirect", "routines")
+                    .addParameter("server_id", serverId);
+            Utils.openUrl(url.toString());
+        } catch(Exception ignored) {}
     }
 
 }

@@ -3,6 +3,7 @@ package cheaters.get.banned.utils;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -26,7 +27,10 @@ public class HttpUtils {
 
         try {
             HttpGet request = new HttpGet(url);
-            response = EntityUtils.toString(client.build().execute(request).getEntity(), "UTF-8");
+            CloseableHttpResponse httpResponse = client.build().execute(request);
+            if(httpResponse.getStatusLine().getStatusCode() < 299) {
+                response = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+            }
         } catch (Exception ignored) {}
 
         return response;
