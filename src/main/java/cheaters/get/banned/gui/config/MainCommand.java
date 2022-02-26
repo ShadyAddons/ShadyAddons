@@ -70,7 +70,7 @@ public class MainCommand extends CommandBase {
                     // Shady.guiToOpen = new RoutinesGui();
                     try {
                         Desktop.getDesktop().open(Routines.routinesDir);
-                        Utils.sendModMessage("There is no GUI yet :)");
+                        // Utils.sendModMessage("There is no GUI yet :)");
                     } catch(IOException e) {
                         Utils.sendModMessage("Unable to open directory");
                         Utils.sendModMessage("Find it manually at .../minecraft/config/shady/routines");
