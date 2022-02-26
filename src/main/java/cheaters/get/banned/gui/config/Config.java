@@ -4,6 +4,7 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.include.AutoWardrobe;
 import cheaters.get.banned.features.include.commandpalette.CommandPalette;
 import cheaters.get.banned.features.include.routines.Routines;
+import cheaters.get.banned.stats.RoutinesAPI;
 import cheaters.get.banned.utils.Utils;
 
 public class Config {
@@ -11,24 +12,22 @@ public class Config {
     @Property(
             type = Property.Type.FOLDER,
             name = "Routines",
-            note = "Learn more at ShadyAddos.com"
+            note = "Learn more at ShadyAddons.com"
     )
     public static boolean routinesFolder = false;
 
         @Property(
                 type = Property.Type.BUTTON,
                 button = "Visit",
-                name = "Browse & Share Routines",
+                name = "Create & Share Routines",
                 parent = "Routines"
         )
-        public static Runnable openRoutinesWebsite = () -> {
-            Utils.openUrl("https://shadyaddons.com/routines");
-        };
+        public static Runnable openRoutinesWebsite = RoutinesAPI::openAuthWebsite;
 
         @Property(
                 type = Property.Type.BUTTON,
                 button = "Open",
-                name = "Manage Routines",
+                name = "Open Routines Folder",
                 parent = "Routines"
         )
         public static Runnable openRoutinesFolder = () -> {
@@ -42,8 +41,8 @@ public class Config {
                 parent = "Routines"
         )
         public static Runnable refreshRoutines = () -> {
+            Utils.sendModMessage("Reloading routines...");
             Routines.load();
-            Utils.sendModMessage("Reloaded routines");
         };
 
 
