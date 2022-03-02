@@ -31,6 +31,8 @@ public class DungeonMap {
     public static boolean scanning = false;
     public static boolean debug = false;
 
+    private static final int dungeonOffset = -200;
+
     public DungeonMap() {
         // KeybindUtils.register("Peek Rooms", Keyboard.KEY_NONE);
     }
@@ -60,19 +62,19 @@ public class DungeonMap {
             switch(DungeonUtils.dungeonRun.floor) {
                 case FLOOR_1:
                 case MASTER_1:
-                    xCorner = 127;
-                    zCorner = 159;
+                    xCorner = 127 + dungeonOffset;
+                    zCorner = 159 + dungeonOffset;
                     break;
 
                 case FLOOR_2:
                 case MASTER_2:
-                    xCorner = 159;
-                    zCorner = 159;
+                    xCorner = 159 + dungeonOffset;
+                    zCorner = 159 + dungeonOffset;
                     break;
 
                 default:
-                    xCorner = 191;
-                    zCorner = 191;
+                    xCorner = 191 + dungeonOffset;
+                    zCorner = 191 + dungeonOffset;
             }
 
             try {

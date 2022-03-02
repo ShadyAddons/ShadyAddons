@@ -20,7 +20,7 @@ public class AutoSimonSays {
                 int y = event.pos.getY();
                 int z = event.pos.getZ();
 
-                if(x == 309 && y >= 120 && y <= 123 && z >= 291 && z <= 294) {
+                if(x == 309-200 && y >= 120 && y <= 123 && z >= 291-200 && z <= 294-200) {
                     clicking = true;
                     for(int i = 0; i < 4; i++) {
                         KeybindUtils.rightClick();
