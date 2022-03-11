@@ -5,12 +5,8 @@ import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.include.*;
 import cheaters.get.banned.features.include.commandpalette.CommandPalette;
 import cheaters.get.banned.features.include.connectfoursolver.ConnectFourSolver;
-import cheaters.get.banned.features.include.dungeonmap.DungeonMap;
-import cheaters.get.banned.features.include.dungeonmap.DungeonScanner;
-import cheaters.get.banned.features.include.dungeonmap.RoomLoader;
-import cheaters.get.banned.features.include.jokes.CatPeople;
-import cheaters.get.banned.features.include.jokes.FakeBan;
-import cheaters.get.banned.features.include.jokes.Jokes;
+import cheaters.get.banned.features.include.map.MapManager;
+import cheaters.get.banned.features.include.map.MapRender;
 import cheaters.get.banned.features.include.routines.RoutineHooks;
 import cheaters.get.banned.features.include.routines.Routines;
 import cheaters.get.banned.gui.config.Config;
@@ -91,8 +87,8 @@ public class Shady {
 
         // Read JSON Files
         ConfigLogic.load();
-        RoomLoader.load();
         Routines.load();
+        MapManager.loadRooms();
 
         // Do Remote Things
         Updater.check();
@@ -110,7 +106,6 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new MiscStats());
         MinecraftForge.EVENT_BUS.register(new RoutineHooks());
 
-        MinecraftForge.EVENT_BUS.register(new DungeonScanner());
         MinecraftForge.EVENT_BUS.register(new BlockAbilities());
         MinecraftForge.EVENT_BUS.register(new StonklessStonk());
         MinecraftForge.EVENT_BUS.register(new GhostBlocks());
@@ -130,12 +125,9 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new GemstoneESP());
         MinecraftForge.EVENT_BUS.register(new AutoTerminals());
         MinecraftForge.EVENT_BUS.register(new AutoMelody());
-        MinecraftForge.EVENT_BUS.register(new DungeonMap());
-        MinecraftForge.EVENT_BUS.register(new CatPeople());
         MinecraftForge.EVENT_BUS.register(new AutoReadyUp());
         MinecraftForge.EVENT_BUS.register(new CrystalReach());
         MinecraftForge.EVENT_BUS.register(new AutoSalvage());
-        // MinecraftForge.EVENT_BUS.register(new TerminalReach());
         MinecraftForge.EVENT_BUS.register(new AutoSell());
         // By RoseGold: MinecraftForge.EVENT_BUS.register(new AutoArrowAlign());
         // By Not-RoseGold: MinecraftForge.EVENT_BUS.register(new AutoAlignArrows());
@@ -144,8 +136,8 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new AutoWardrobe());
         MinecraftForge.EVENT_BUS.register(new CrystalEtherwarp());
 
-        MinecraftForge.EVENT_BUS.register(new Jokes());
-        MinecraftForge.EVENT_BUS.register(new FakeBan());
+        MinecraftForge.EVENT_BUS.register(new MapManager());
+        MinecraftForge.EVENT_BUS.register(new MapRender());
 
         KeybindUtils.register("Command Palette", Keyboard.KEY_K);
 

@@ -10,10 +10,13 @@
         "MixinGuiMainMenu",
         "MixinMinecraft",
         "MixinModelEnderCrystal",
+        "MixinModList",
+        "MixinNetworkManager",
         "MixinRendererLivingEntity",
         "MixinSplashProgress"
     ],
     "client": [
-        "MixinGuiScreen"
+        "MixinGuiScreen",
+        "MixinNetHandlerPlayClient"
     ]
 }

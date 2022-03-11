@@ -1,9 +1,9 @@
 package cheaters.get.banned.features.include;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.events.ClickEvent;
 import cheaters.get.banned.events.TickEndEvent;
+import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.stats.MiscStats;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.RayMarchUtils;
@@ -27,9 +27,8 @@ public class CrystalReach {
                 Utils.inDungeon &&
                 Shady.mc.thePlayer != null &&
                 Shady.mc.thePlayer.getPosition().getY() > 215 &&
-                DungeonUtils.dungeonRun != null &&
-                DungeonUtils.dungeonRun.inBoss &&
-                DungeonUtils.inFloor(DungeonUtils.Floor.FLOOR_7);
+                DungeonUtils.inBoss &&
+                DungeonUtils.inFloor(DungeonUtils.Floor.FLOOR_7, DungeonUtils.Floor.MASTER_7);
     }
 
     @SubscribeEvent

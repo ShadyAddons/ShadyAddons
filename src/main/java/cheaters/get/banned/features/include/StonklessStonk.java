@@ -1,9 +1,9 @@
 package cheaters.get.banned.features.include;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.events.BlockChangeEvent;
 import cheaters.get.banned.events.TickEndEvent;
+import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.utils.*;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.block.Block;
@@ -51,7 +51,7 @@ public class StonklessStonk {
         }
 
         if(!Config.alwaysOn && isEnabled) isEnabled =  Config.stonklessStonk && Shady.mc.thePlayer.isSneaking();
-        if(Config.disableInBoss && isEnabled) isEnabled =  DungeonUtils.dungeonRun != null && !DungeonUtils.dungeonRun.inBoss;
+        if(Config.disableInBoss && isEnabled) isEnabled =  !DungeonUtils.inBoss;
 
         return isEnabled;
     }

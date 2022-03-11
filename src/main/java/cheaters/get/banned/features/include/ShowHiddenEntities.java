@@ -1,6 +1,7 @@
 package cheaters.get.banned.features.include;
 
 import cheaters.get.banned.gui.config.Config;
+import cheaters.get.banned.utils.LocationUtils;
 import cheaters.get.banned.utils.ScoreboardUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.entity.EntityLivingBase;
@@ -35,6 +36,10 @@ public class ShowHiddenEntities {
             }
 
             if(Config.showGhosts && event.entity instanceof EntityCreeper && ScoreboardUtils.scoreboardContains("The Mist")) {
+                event.entity.setInvisible(false);
+            }
+
+            if(Config.showSneakyCreepers && event.entity instanceof EntityCreeper && LocationUtils.onIsland(LocationUtils.Island.DEEP_CAVERNS)) {
                 event.entity.setInvisible(false);
             }
         }

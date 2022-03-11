@@ -449,9 +449,7 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Dungeon Map",
-            note = "based on IllegalMap by UnclaimedBloom6",
-            beta = true
+            name = "Dungeon Map"
     )
     public static boolean dungeonMap = false;
 
@@ -482,7 +480,7 @@ public class Config {
                     parent = "Wither/Blood Door ESP",
                     options = {"White", "Black"}
             )*/
-            public static int witherDoorColor = 0;
+            public static int witherDoorEspColor = 0;
 
         @Property(
                 type = Property.Type.NUMBER,
@@ -545,6 +543,14 @@ public class Config {
                 options = {"None", "All", "Own"}
         )
         public static int showMapPlayerHeads = 1;
+
+        @Property(
+                type = Property.Type.SELECT,
+                name = "Wither Door Color",
+                parent = "Dungeon Map",
+                options = {"Brown", "Dark Brown", "Black", "Lime Green"}
+        )
+        public static int witherDoorColor = 1;
 
         /*@Property(
                 type = Property.Type.SELECT,
@@ -649,6 +655,13 @@ public class Config {
                 parent = "Show Hidden Mobs"
         )
         public static boolean showStealthyBloodMobs = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Sneaky Creepers",
+                parent = "Show Hidden Mobs"
+        )
+        public static boolean showSneakyCreepers = false;
 
 
     @Property(

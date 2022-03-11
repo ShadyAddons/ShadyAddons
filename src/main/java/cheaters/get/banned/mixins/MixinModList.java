@@ -12,14 +12,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 import java.util.Map;
 
-@Mixin(FMLHandshakeMessage.ModList.class)
+@Mixin(value = FMLHandshakeMessage.ModList.class, remap = false)
 public abstract class MixinModList {
 
     @Shadow private Map<String, String> modTags;
 
     @Inject(method = "<init>(Ljava/util/List;)V", at = @At("RETURN"), remap = false)
-    private void removeMod(List<ModContainer> modList, CallbackInfo ci) {
-        modTags.remove(Shady.MOD_ID);
+    private void hideModId(List<ModContainer> modList, CallbackInfo ci) {
+        if(!Shady.mc.isIntegratedServerRunning()) {
+            modTags.remove(Shady.MOD_ID);
+        }
     }
 
 }

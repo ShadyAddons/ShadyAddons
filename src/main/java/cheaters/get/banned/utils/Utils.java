@@ -185,7 +185,11 @@ public class Utils {
                     inSkyBlock = removeFormatting(scoreboardObj.getDisplayName()).contains("SKYBLOCK");
                 }
 
-                inDungeon = inSkyBlock && ScoreboardUtils.scoreboardContains("The Catacombs");
+                inDungeon =
+                        inSkyBlock &&
+                        ScoreboardUtils.scoreboardContains("The Catacombs") &&
+                        !ScoreboardUtils.scoreboardContains("Queue") ||
+                        ScoreboardUtils.scoreboardContains("Dungeon Cleared:");
             }
             ticks = 0;
         }

@@ -4,10 +4,8 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.include.AutoTerminals;
 import cheaters.get.banned.features.include.AutoWardrobe;
 import cheaters.get.banned.features.include.commandpalette.CommandPalette;
-import cheaters.get.banned.features.include.dungeonmap.DungeonMap;
-import cheaters.get.banned.features.include.dungeonmap.Room;
-import cheaters.get.banned.features.include.dungeonmap.RoomLoader;
-import cheaters.get.banned.features.include.jokes.CatPeople;
+import cheaters.get.banned.features.include.map.MapManager;
+import cheaters.get.banned.features.include.map.MapScanner;
 import cheaters.get.banned.features.include.routines.Routine;
 import cheaters.get.banned.features.include.routines.Routines;
 import cheaters.get.banned.stats.RoutinesAPI;
@@ -166,12 +164,6 @@ public class MainCommand extends CommandBase {
                                 }
                                 break;
 
-                            case "catperson":
-                            case "cat":
-                                CatPeople.addRandomCatPerson(MathUtils.random(0, 3));
-                                Utils.sendModMessage("rawr");
-                                break;
-
                             case "terminals":
                             case "terms":
                                 AutoTerminals.testing = !AutoTerminals.testing;
@@ -179,42 +171,23 @@ public class MainCommand extends CommandBase {
                                 if(!Utils.forceDungeon) Utils.executeCommand("/sh force_dungeon");
                                 break;
 
-                            case "rooms":
-                                Utils.sendModMessage("There are currently "+RoomLoader.rooms.size()+" rooms loaded");
-                                for(Room room : RoomLoader.rooms) {
-                                    Utils.sendModMessage(room.name);
-                                }
-                                break;
-
                             case "scan":
-                                DungeonMap.debug = !DungeonMap.debug;
-                                if(DungeonMap.debug) {
-                                    if(DungeonMap.activeDungeonLayout != null) {
-                                        Utils.sendModMessage("Rooms detected: "+DungeonMap.activeDungeonLayout.roomTiles.size());
-                                        Utils.sendModMessage("Connectors detected: "+DungeonMap.activeDungeonLayout.connectorTiles.size());
-                                        Utils.sendModMessage("Trap room type: "+DungeonMap.activeDungeonLayout.trapType);
-                                        Utils.sendModMessage("Total secrets: "+DungeonMap.activeDungeonLayout.totalSecrets);
-                                        Utils.sendModMessage("Total crypts: "+DungeonMap.activeDungeonLayout.totalCrypts);
-                                    } else {
-                                        Utils.sendModMessage("No scan exists");
-                                    }
+                                MapManager.scan();
+                                Utils.sendModMessage("Forced scan, check logs for any errors");
+
+                                if(MapManager.map == null) {
+                                    Utils.sendModMessage("Map is null");
+                                    break;
                                 }
                                 break;
-                        }
-                    }
-                    break;
 
-                case "force_dungeon_floor":
-                    if(args.length > 1) {
-                        for(DungeonUtils.Floor floor : DungeonUtils.Floor.values()) {
-                            if(floor.name.replaceAll("[()]", "").equalsIgnoreCase(args[1])) {
-                                if(!Utils.forceDungeon) Utils.executeCommand("/sh force_dungeon");
-                                DungeonUtils.dungeonRun.floor = floor;
-                                Utils.sendModMessage("Set floor to "+DungeonUtils.dungeonRun.floor);
-                                return;
-                            }
+                            case "core":
+                                Utils.sendModMessage("Core: " + MapScanner.getCore(Shady.mc.thePlayer.getPosition().getX(), Shady.mc.thePlayer.getPosition().getZ()));
+                                break;
+
+                            default:
+                                Utils.sendModMessage("&cDebug command not found");
                         }
-                        Utils.sendModMessage("Unable to match \""+args[1]+"\" to a dungeon floor");
                     }
                     break;
 

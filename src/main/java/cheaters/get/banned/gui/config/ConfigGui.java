@@ -1,7 +1,6 @@
 package cheaters.get.banned.gui.config;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.features.include.jokes.CatPeople;
 import cheaters.get.banned.gui.config.components.ConfigInput;
 import cheaters.get.banned.gui.config.components.Scrollbar;
 import cheaters.get.banned.gui.config.settings.BooleanSetting;
@@ -161,11 +160,6 @@ public class ConfigGui extends GuiScreen {
         ArrayList<Setting> newSettings = new ArrayList<>();
 
         for(Setting setting : Shady.settings) {
-            if(!CatPeople.usingPack) {
-                if(setting.name.equals("Catgirls")) continue;
-                if(setting.parent != null && setting.parent.name.equals("Catgirls")) continue;
-            }
-
             /*
             - top level settings
             - child settings of enabled parent BooleanSettings

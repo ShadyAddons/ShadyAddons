@@ -1,34 +1,45 @@
 package cheaters.get.banned.utils;
 
 import cheaters.get.banned.Shady;
+import cheaters.get.banned.events.PacketEvent;
 import cheaters.get.banned.events.TickEndEvent;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.server.S02PacketChat;
+import net.minecraft.util.StringUtils;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DungeonUtils {
 
-    private static final Pattern namePattern = Pattern.compile("([A-Za-z0-9_]{0,16}) \\((Mage|Tank|Berserk|Healer|Archer) ([IVXL0]{1,7})\\)");
-    private static final Pattern secretsPattern = Pattern.compile(" Secrets Found: (\\d*)");
-    private static final Pattern cryptsPattern = Pattern.compile(" Crypts: (\\d*)");
-    private static final Pattern deathsPattern = Pattern.compile("Deaths: \\((\\d*)\\)");
+    public static Floor floor = null;
+    public static int secretsFound = 0;
+    public static int cryptsFound = 0;
+    public static boolean inBoss = false;
+    public static boolean foundMimic = false;
+    public static int deaths = 0;
+    public static ArrayList<EntityPlayer> teammates = new ArrayList<>();
+    public static boolean activeRun = false;
 
-    private static final String[] mimicDeathMessages = new String[]{
-            "Mimic Dead!",
-            "$SKYTILS-DUNGEON-SCORE-MIMIC$",
-            "Child Destroyed!",
-            "Mimic Obliterated!",
-            "Mimic Exorcised!",
-            "Mimic Destroyed!",
-            "Mimic Annhilated!"
-    };
-
-    public static DungeonRun dungeonRun = null;
+    public static void reset() {
+        floor = null;
+        secretsFound = 0;
+        cryptsFound = 0;
+        inBoss = false;
+        foundMimic = false;
+        deaths = 0;
+        teammates.clear();
+        activeRun = false;
+    }
 
     public enum Floor {
         ENTERANCE("(E)"),
@@ -47,144 +58,190 @@ public class DungeonUtils {
         MASTER_6("(M6)"),
         MASTER_7("(M7)");
 
-        public String name;
+        public final String name;
 
         Floor(String name) {
             this.name = name;
         }
     }
 
-    public static class DungeonRun {
-        public int secretsFound = 0;
-        public int cryptsFound = 0;
-        public Floor floor = null;
-        public boolean inBoss = false;
-        public boolean mimicFound = false;
-        public int deaths;
-        public HashSet<String> team = new HashSet<>();
-        public long startTime = System.currentTimeMillis(); // TODO: Use dungeon start chat message
+    private static final Pattern deathsPattern = Pattern.compile("§r§a§lDeaths: §r§f\\((?<deaths>\\d+)\\)§r");
+    private static final Pattern secretsPattern = Pattern.compile("§r Secrets Found: §r§b(?<secrets>\\\\d+)§r");
+    private static final Pattern cryptsPattern = Pattern.compile("§r Crypts: §r§6(?<crypts>\\\\d+)§r");
+    private static final List<String> entryMessages = Arrays.asList(
+            "[BOSS] Bonzo: Gratz for making it this far, but I’m basically unbeatable.",
+            "[BOSS] Scarf: This is where the journey ends for you, Adventurers.",
+            "[BOSS] The Professor: I was burdened with terrible news recently...",
+            "[BOSS] Thorn: Welcome Adventurers! I am Thorn, the Spirit! And host of the Vegan Trials!",
+            "[BOSS] Livid: Welcome, you arrive right on time. I am Livid, the Master of Shadows.",
+            "[BOSS] Sadan: So you made it all the way here...and you wish to defy me? Sadan?!",
+            "[BOSS] Maxor: WELL WELL WELL LOOK WHO’S HERE!"
+    );
+    private static final String[] mimicMessages = new String[]{
+            "Mimic Dead!",
+            "$SKYTILS-DUNGEON-SCORE-MIMIC$",
+            "Child Destroyed!",
+            "Mimic Obliterated!",
+            "Mimic Exorcised!",
+            "Mimic Destroyed!",
+            "Mimic Annhilated!"
+    };
 
-        public long getTimeMs() {
-            return System.currentTimeMillis() - startTime;
-        }
-    }
-
-    @SubscribeEvent
-    public void onChat(ClientChatReceivedEvent event) {
-        if(Utils.inDungeon && !dungeonRun.mimicFound && onFloorWithMimic()) {
-            for(String mimicMessage : mimicDeathMessages) {
-                if(event.message.getFormattedText().contains(mimicMessage)) {
-                    dungeonRun.mimicFound = true;
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onChatPacket(PacketEvent.ReceiveEvent event) {
+        if(Utils.inDungeon && event.packet instanceof S02PacketChat) {
+            String text = StringUtils.stripControlCodes(((S02PacketChat) event.packet).getChatComponent().getUnformattedText());
+            if("[NPC] Mort: Here, I found this map when I first entered the dungeon.".equals(text)) {
+                updateTeammates(getTabList());
+            } else {
+                if(entryMessages.contains(text)) {
+                    inBoss = true;
+                } else {
+                    for(String message : mimicMessages) {
+                        if(text.contains(message)) {
+                            foundMimic = true;
+                            break;
+                        }
+                    }
                 }
             }
         }
     }
 
-    private int counter = 0;
+    @SubscribeEvent
+    public void onEntityDeath(LivingDeathEvent event) {
+        if(Utils.inDungeon && !foundMimic) {
+            if(event.entity.getClass() == EntityZombie.class) {
+                EntityZombie entity = (EntityZombie) event.entity;
+                if(entity.isChild()) {
+                    if(entity.getCurrentArmor(0) == null && entity.getCurrentArmor(1) == null && entity.getCurrentArmor(2) == null && entity.getCurrentArmor(3) == null) {
+                        foundMimic = true;
+                    }
+                }
+            }
+        }
+    }
+
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
-        if(counter % 20 == 0) {
-            if(Utils.inDungeon) {
-                if(dungeonRun == null) dungeonRun = new DungeonRun();
-                if(dungeonRun.floor == null) {
-                    String cataLine = ScoreboardUtils.getLineThatContains("The Catacombs");
-                    if(cataLine != null) {
-                        for(Floor floor : Floor.values()) {
-                            if(cataLine.contains(floor.name)) {
-                                dungeonRun.floor = floor;
-                            }
-                        }
-                    }
-                }
+        if(!Utils.inDungeon || !event.every(10)) return;
 
-                for(String name : TabUtils.getTabList()) {
-                    if(name.contains("Crypts: ")) {
-                        name = Utils.removeFormatting(name);
-                        Matcher cryptsMatcher = cryptsPattern.matcher(name);
-                        if(cryptsMatcher.matches()) {
-                            dungeonRun.cryptsFound = Integer.parseInt(cryptsMatcher.group(1));
-                        }
-                    } else if(name.contains("Secrets Found: ")) {
-                        name = Utils.removeFormatting(name);
-                        Matcher secretsMatcher = secretsPattern.matcher(name);
-                        if(secretsMatcher.matches()) {
-                            dungeonRun.secretsFound = Integer.parseInt(secretsMatcher.group(1));
-                        }
-                    } else if(name.contains("Deaths: ")) {
-                        name = Utils.removeFormatting(name);
-                        Matcher deathsMatcher = deathsPattern.matcher(name);
-                        if(deathsMatcher.matches()) {
-                            dungeonRun.deaths = Integer.parseInt(deathsMatcher.group(1));
-                        }
-                    } else if(dungeonRun.team.size() < 5 && (name.contains("Mage") || name.contains("Berserker") || name.contains("Archer") || name.contains("Tank") || name.contains("Healer"))) {
-                        name = Utils.removeFormatting(name);
-                        Matcher nameMatcher = namePattern.matcher(name);
-                        if(nameMatcher.matches()) {
-                            dungeonRun.team.add(nameMatcher.group(1).trim());
-                        }
-                    }
-                }
-
-                if(Shady.mc.theWorld != null && dungeonRun != null) {
-                    if((ScoreboardUtils.scoreboardContains("30,30") && (dungeonRun.floor == Floor.FLOOR_1 || dungeonRun.floor == Floor.MASTER_1)) ||
-                            (ScoreboardUtils.scoreboardContains("30,125") && (dungeonRun.floor == Floor.FLOOR_2 || dungeonRun.floor == Floor.MASTER_2)) ||
-                            (ScoreboardUtils.scoreboardContains("30,225") && (dungeonRun.floor == Floor.FLOOR_3 || dungeonRun.floor == Floor.MASTER_3)) ||
-                            (ScoreboardUtils.scoreboardContains("- Healthy") && (dungeonRun.floor == Floor.FLOOR_3 || dungeonRun.floor == Floor.MASTER_3)) ||
-                            (ScoreboardUtils.scoreboardContains("30,344") && (dungeonRun.floor == Floor.FLOOR_4 || dungeonRun.floor == Floor.MASTER_4)) ||
-                            (ScoreboardUtils.scoreboardContains("livid") && (dungeonRun.floor == Floor.FLOOR_5 || dungeonRun.floor == Floor.MASTER_5)) ||
-                            (ScoreboardUtils.scoreboardContains("sadan") && (dungeonRun.floor == Floor.FLOOR_6 || dungeonRun.floor == Floor.MASTER_6)) ||
-                            (ScoreboardUtils.scoreboardContains("necron") && (dungeonRun.floor == Floor.FLOOR_7 || dungeonRun.floor == Floor.MASTER_7))) {
-                        dungeonRun.inBoss = true;
-                    }
-                }
-            } else {
-                dungeonRun = null;
-            }
-
-            counter = 0;
+        if(floor == null) {
+            activeRun = updateFloor();
+            if(!activeRun) return;
         }
-        counter++;
+
+        List<String> tabList = getTabList();
+        if(tabList != null) {
+            updateStats(tabList);
+            if(teammates.isEmpty()) updateTeammates(tabList);
+        }
+    }
+
+    /**
+     * Scrapes players from the tab list and finds their corresponding {@link EntityPlayer} object
+     *
+     * @param tabList A tab list obtained from {@link DungeonUtils#getTabList()}
+     */
+    private static void updateTeammates(List<String> tabList) {
+        teammates.clear();
+        for(int i = 0; i < 4; i++) {
+            String text = StringUtils.stripControlCodes(tabList.get(1 + i * 4)).trim();
+            String username = text.split(" ")[0];
+            if(Objects.equals(username, "")) continue;
+            for(EntityPlayer playerEntity : Shady.mc.theWorld.playerEntities) {
+                if(playerEntity.getName().equals(username)) {
+                    teammates.add(playerEntity);
+                }
+            }
+        }
+    }
+
+    /**
+     * Scrapes the floor from the scoreboard
+     */
+    private static boolean updateFloor() {
+        String cataLine = ScoreboardUtils.getLineThatContains("The Catacombs");
+
+        if(cataLine != null) {
+            for(Floor floorOption : Floor.values()) {
+                if(cataLine.contains(floorOption.name)) {
+                    floor = floorOption;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Updates miscellaneous dungeon stats
+     *
+     * @param tabList A tab list obtained from {@link DungeonUtils#getTabList()}
+     */
+    private static void updateStats(List<String> tabList) {
+        try {
+            for(String item : tabList) {
+                if(item.contains("Deaths: ")) {
+                    Matcher deathsMatcher = deathsPattern.matcher(item);
+                    if(!deathsMatcher.matches()) continue;
+                    deaths = Integer.parseInt(deathsMatcher.group("deaths"));
+                } else if(item.contains("Secrets Found: ")) {
+                    Matcher secretsMatcher = secretsPattern.matcher(item);
+                    if(!secretsMatcher.matches()) continue;
+                    secretsFound = Integer.parseInt(secretsMatcher.group("secrets"));
+                } else if(item.contains("Crypts: ")) {
+                    Matcher cryptsMatcher = secretsPattern.matcher(item);
+                    if(!cryptsMatcher.matches()) continue;
+                    cryptsFound = Integer.parseInt(cryptsMatcher.group("crypts"));
+                }
+            }
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            Utils.sendModMessage("&cException in class DungeonUtils");
+        }
+    }
+
+    /**
+     * Gets the tab list for the dungeon as a {@link List<String>}
+     *
+     * @return Returns null if the list is not a dungeon's tab list
+     */
+    private static List<String> getTabList() {
+        List<String> tabList = TabUtils.getTabList();
+        if(tabList.size() < 18 || !tabList.get(0).contains("§r§b§lParty §r§f(")) return null;
+        return tabList;
+    }
+
+    /**
+     * Checks if the player is currently in one of the given floors
+     */
+    public static boolean inFloor(Floor...floors) {
+        for(Floor floorToCheck : floors) {
+            if(floorToCheck == floor) return true;
+        }
+        return false;
     }
 
     public static void debug() {
-        if(Utils.inDungeon && dungeonRun != null) {
-            Utils.sendModMessage("Floor: "+dungeonRun.floor.name());
-            Utils.sendModMessage("In Boss: "+dungeonRun.inBoss);
-            Utils.sendModMessage("Secrets Found: "+dungeonRun.secretsFound);
-            Utils.sendModMessage("Crypts Found: "+dungeonRun.cryptsFound);
+        if(Utils.inDungeon) {
+            Utils.sendModMessage("Floor: " + floor.name());
+            Utils.sendModMessage("In Boss: " + inBoss);
+            Utils.sendModMessage("Secrets Found: " + secretsFound);
+            Utils.sendModMessage("Crypts Found: " + cryptsFound);
+            Utils.sendModMessage("Team:");
+            for(EntityPlayer teammate : teammates) {
+                Utils.sendModMessage("- " + teammate.getName());
+            }
         } else {
             Utils.sendMessage("You must be in a dungeon to debug a dungeon!");
         }
     }
 
     @SubscribeEvent
-    public void onEntityDeath(LivingDeathEvent event) {
-        if(onFloorWithMimic() && !dungeonRun.mimicFound) {
-            if(event.entity.getClass() == EntityZombie.class) {
-                EntityZombie entity = (EntityZombie) event.entity;
-                if(entity.isChild()) {
-                    if(entity.getCurrentArmor(0) == null && entity.getCurrentArmor(1) == null && entity.getCurrentArmor(2) == null && entity.getCurrentArmor(3) == null) {
-                        dungeonRun.mimicFound = true;
-                    }
-                }
-            }
-        }
-    }
-
-    public static boolean inFloor(Floor floor) {
-        return floor.equals(dungeonRun.floor);
-    }
-
-    public static boolean onFloorWithMimic() {
-        return dungeonRun != null &&
-                dungeonRun.floor != null &&
-                dungeonRun.floor != Floor.ENTERANCE &&
-                dungeonRun.floor != Floor.FLOOR_1 &&
-                dungeonRun.floor != Floor.FLOOR_2 &&
-                dungeonRun.floor != Floor.FLOOR_3 &&
-                dungeonRun.floor != Floor.MASTER_1 &&
-                dungeonRun.floor != Floor.MASTER_2 &&
-                dungeonRun.floor != Floor.MASTER_3;
+    public void onWorldLoad(WorldEvent.Load event) {
+        reset();
     }
 
 }

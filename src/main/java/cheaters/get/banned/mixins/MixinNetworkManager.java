@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(NetworkManager.class)
 public abstract class MixinNetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
 
-    @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "channelRead0*", at = @At("HEAD"), cancellable = true)
     private void onReceivePacket(ChannelHandlerContext context, Packet<?> packet, CallbackInfo callbackInfo) {
         if(MinecraftForge.EVENT_BUS.post(new PacketEvent.ReceiveEvent(packet))) callbackInfo.cancel();
     }
