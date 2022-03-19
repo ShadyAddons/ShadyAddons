@@ -2,8 +2,9 @@ package cheaters.get.banned.features.map;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.map.elements.MapTile;
-import cheaters.get.banned.features.map.elements.doors.Door;
-import cheaters.get.banned.features.map.elements.rooms.Room;
+import cheaters.get.banned.features.map.elements.doors.DoorTile;
+import cheaters.get.banned.features.map.elements.rooms.RoomTile;
+import cheaters.get.banned.features.map.elements.rooms.RoomType;
 import cheaters.get.banned.features.map.elements.rooms.Separator;
 import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.utils.DungeonUtils;
@@ -18,6 +19,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 // Hey future self, I've over-documented this because rendering code can become confusing
 public class MapView {
@@ -151,9 +153,12 @@ public class MapView {
                             y + tileSize*3,
                             tile.color
                     );
-                    drawCheckmark((Room) tile, x, y);
+
+                    if(!drawCheckmark((RoomTile) tile, x, y)) {
+                        drawRoomName((RoomTile) tile, x, y);
+                    }
                 // Draw Doors
-                } else if(tile instanceof Door) {
+                } else if(tile instanceof DoorTile) {
                     /*
                      * Even column and odd row mean that it must be horizontal because rooms
                      * are in even columns and vertical doors and separators are in odd rows.
@@ -229,10 +234,15 @@ public class MapView {
                 0
         ); // Reset Positioning
         GlStateManager.popMatrix(); // Reset Scaling
+
+        slowRoomsDrawn.clear();
     }
 
     private static void drawPlayerIcon(EntityPlayer player, int size, int x, int y, int angle) {
         GlStateManager.pushMatrix();
+
+        GlStateManager.enableAlpha();
+        GlStateManager.translate(0, 0, 200);
 
         GlStateManager.translate(x+size/2f, y+size/2f, 0);
         GlStateManager.rotate(angle, 0, 0, 1);
@@ -242,6 +252,8 @@ public class MapView {
         GlStateManager.color(255, 255, 255);
         RenderUtils.drawPlayerIcon(player, size-2, x+1, y+1);
 
+        GlStateManager.translate(0, 0, -200);
+
         GlStateManager.popMatrix();
     }
 
@@ -249,10 +261,15 @@ public class MapView {
     private static final ResourceLocation icon_whiteCheck = new ResourceLocation("shadyaddons:dungeonscanner/white_check.png");
     private static final ResourceLocation icon_check = new ResourceLocation("shadyaddons:dungeonscanner/check.png");
 
-    private static void drawCheckmark(Room room, int x, int y) {
+    /**
+     * Draws a room's checkmark
+     *
+     * @return True if the room has a checkmark, false if it does not
+     */
+    private static boolean drawCheckmark(RoomTile roomTile, int x, int y) {
         ResourceLocation resourceLocation;
 
-        switch(room.status) {
+        switch(roomTile.status) {
             case FAILED:
                 resourceLocation = icon_cross;
                 break;
@@ -266,7 +283,7 @@ public class MapView {
                 break;
 
             default:
-                return;
+                return false;
         }
 
         RenderUtils.drawTexture(
@@ -276,6 +293,38 @@ public class MapView {
                 (int) (tileSize * 1.5),
                 (int) (tileSize * 1.5)
         );
+
+        return true;
+    }
+
+    private static ArrayList<String> slowRoomsDrawn = new ArrayList<>();
+
+    private static void drawRoomName(RoomTile roomTile, int x, int y) {
+        GlStateManager.translate(0, 0, 100);
+
+        String name = null;
+
+        if(Config.highlightSlowRooms && RoomLists.slowRooms.contains(roomTile.room.name) && !slowRoomsDrawn.contains(roomTile.room.name)) {
+            name = "§cSlow:\n" + roomTile.room.name;
+            slowRoomsDrawn.add(roomTile.room.name);
+        } else if(roomTile.room.type == RoomType.YELLOW || roomTile.room.type == RoomType.PUZZLE || roomTile.room.type == RoomType.TRAP) {
+            if(Config.significantRoomNameStyle == 1) { // Short
+                name = RoomLists.shortNames.get(roomTile.room.name);
+                if(name == null) name = roomTile.room.name;
+            } else if(Config.significantRoomNameStyle == 2) { // Full
+                name = roomTile.room.name.replace(" ", "\n");
+            }
+        }
+
+        if(name == null) return;
+
+        FontUtils.drawCenteredString(
+                name,
+                (int) (x + tileSize*1.5),
+                (int) (y + tileSize*1.5)
+        );
+
+        GlStateManager.translate(0, 0, -100);
     }
 
     /**

@@ -5,6 +5,7 @@ import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.map.elements.MapTile;
 import cheaters.get.banned.features.map.elements.rooms.Room;
 import cheaters.get.banned.features.map.elements.rooms.RoomStatus;
+import cheaters.get.banned.features.map.elements.rooms.RoomTile;
 import cheaters.get.banned.features.map.elements.rooms.RoomType;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.Utils;
@@ -29,7 +30,7 @@ public class MapController {
 
     public static HashMap<Integer, Room> rooms = new HashMap<>();
     public static HashSet<Room> uniqueRooms = new HashSet<>();
-    public static MapModel scannedMap;
+    public static MapModel scannedMap = null;
 
     public static boolean isScanning = false;
     private static long lastScan = 0;
@@ -53,17 +54,17 @@ public class MapController {
                 break;
 
             case FLOOR_4:
-                if(scannedMap.rooms.size() > 25) {
+                if(scannedMap.roomTiles.size() > 25) {
                     startCorner[0] = 5;
                     startCorner[1] = 16;
                 }
                 break;
 
             default:
-                if(scannedMap.rooms.size() == 30) {
+                if(scannedMap.roomTiles.size() == 30) {
                     startCorner[0] = 16;
                     startCorner[1] = 5;
-                } else if(scannedMap.rooms.size() == 25) {
+                } else if(scannedMap.roomTiles.size() == 25) {
                     startCorner[0] = 11;
                     startCorner[1] = 11;
                 } else {
@@ -79,7 +80,7 @@ public class MapController {
                 DungeonUtils.Floor.MASTER_1,
                 DungeonUtils.Floor.MASTER_2,
                 DungeonUtils.Floor.MASTER_3
-        ) || scannedMap.rooms.size() == 24) {
+        ) || scannedMap.roomTiles.size() == 24) {
             roomSize = 18;
         } else {
             roomSize = 16;
@@ -129,10 +130,10 @@ public class MapController {
      * Prints all the loaded rooms to the console for debugging.
      */
     public static void printRooms() {
-        for(Room room : uniqueRooms) {
-            System.out.println("Name: " + room.name);
-            System.out.println("Secrets: " + room.secrets);
-            System.out.println("Type: " + room.type.name());
+        for(Room roomTile : uniqueRooms) {
+            System.out.println("Name: " + roomTile.name);
+            System.out.println("Secrets: " + roomTile.secrets);
+            System.out.println("Type: " + roomTile.type.name());
             System.out.println();
         }
     }
@@ -164,6 +165,7 @@ public class MapController {
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
         if(shouldScan()) scan();
+        if(!Utils.inDungeon) scannedMap = null;
 
         if(event.every(10) && scannedMap != null && scannedMap.allLoaded)  {
             new Thread(MapController::updateRoomStatuses).start();
@@ -171,7 +173,7 @@ public class MapController {
     }
 
     /**
-     * Updates the the {@link RoomStatus} for {@link Room}s using the colors
+     * Updates the the {@link RoomStatus} for {@link RoomTile}s using the colors
      * from the handheld map. Leaves the statuses unchanged on failure.
      */
     public static void updateRoomStatuses() {
@@ -200,16 +202,16 @@ public class MapController {
 
                 switch(color) {
                     case 0: // Transparent
-                    case 85: // Gray (question mark rooms)
                     case 119: // Black (wither doors)
+                    case 85: // Gray (question mark rooms)
                         tile.status = RoomStatus.UNDISCOVERED;
                         break;
 
                     case 18: // Red
-                        if(tile instanceof Room) {
-                            if(((Room) tile).type == RoomType.BLOOD) {
+                        if(tile instanceof RoomTile) {
+                            if(((RoomTile) tile).room.type == RoomType.BLOOD) {
                                 tile.status = RoomStatus.DISCOVERED;
-                            } else if(((Room) tile).type == RoomType.PUZZLE) {
+                            } else if(((RoomTile) tile).room.type == RoomType.PUZZLE) {
                                 tile.status = RoomStatus.FAILED;
                             }
                             break;
@@ -218,8 +220,8 @@ public class MapController {
                         break;
 
                     case 30: // Green
-                        if(tile instanceof Room) {
-                            if(((Room) tile).type == RoomType.ENTRANCE) {
+                        if(tile instanceof RoomTile) {
+                            if(((RoomTile) tile).room.type == RoomType.ENTRANCE) {
                                 tile.status = RoomStatus.DISCOVERED;
                             } else {
                                 tile.status = RoomStatus.GREEN;

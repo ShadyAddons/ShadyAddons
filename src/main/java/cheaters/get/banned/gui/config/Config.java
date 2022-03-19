@@ -474,10 +474,10 @@ public class Config {
 
         /*@Property(
                 type = Property.Type.BOOLEAN,
-                name = "Darken Unexplored",
+                name = "Fade Unexplored",
                 parent = "Dungeon Map"
         )*/
-        public static boolean darkenUnexplored = false;
+        public static boolean fadeUnexplored = false;
 
         @Property(
                 type = Property.Type.BOOLEAN,
@@ -490,9 +490,23 @@ public class Config {
                 type = Property.Type.SELECT,
                 name = "Significant Room Name Style",
                 parent = "Dungeon Map",
-                options = {"Short", "Full", "None"}
+                options = {"None", "Short", "Full"}
         )
         public static int significantRoomNameStyle = 0;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Highlight Slow Rooms",
+                parent = "Dungeon Map"
+        )
+        public static boolean highlightSlowRooms = false;
+
+        /*@Property(
+                type = Property.Type.BOOLEAN,
+                name = "Legit Mode",
+                parent = "Dungeon Map"
+        )*/
+        public static boolean legitDungeonMap = false;
 
         @Property(
                 type = Property.Type.SELECT,
