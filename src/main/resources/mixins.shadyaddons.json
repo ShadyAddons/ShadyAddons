@@ -16,6 +16,7 @@
         "MixinSplashProgress"
     ],
     "client": [
+        "MixinAbstractClientPlayer",
         "MixinGuiScreen",
         "MixinNetHandlerPlayClient"
     ]

@@ -39,6 +39,9 @@ public abstract class ConfigInput extends GuiButton {
             case BUTTON:
                 return new ButtonInput((ButtonSetting) setting, x, y);
 
+            case SPACER:
+                return new SpacerComponent((SpacerSetting) setting, x, y);
+
             default:
                 return null;
         }

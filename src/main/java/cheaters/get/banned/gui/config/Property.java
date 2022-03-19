@@ -8,8 +8,9 @@ import java.lang.annotation.*;
 public @interface Property {
 
     Type type();
-    String name();
+    String name() default "Untitled";
     String parent() default "";
+
     String note() default "";
 
     boolean warning() default false;
@@ -50,7 +51,7 @@ public @interface Property {
     */
 
     enum Type {
-        BOOLEAN, FOLDER, NUMBER, SELECT, CHECKBOX, BUTTON
+        BOOLEAN, FOLDER, NUMBER, SELECT, CHECKBOX, BUTTON, SPACER
     }
 
 }

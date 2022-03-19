@@ -29,6 +29,7 @@ public class DungeonUtils {
     public static int deaths = 0;
     public static ArrayList<EntityPlayer> teammates = new ArrayList<>();
     public static boolean activeRun = false;
+    public static int score = 0;
 
     public static void reset() {
         floor = null;
@@ -39,6 +40,7 @@ public class DungeonUtils {
         deaths = 0;
         teammates.clear();
         activeRun = false;
+        score = 0;
     }
 
     public enum Floor {
@@ -65,9 +67,10 @@ public class DungeonUtils {
         }
     }
 
-    private static final Pattern deathsPattern = Pattern.compile("§r§a§lDeaths: §r§f\\((?<deaths>\\d+)\\)§r");
-    private static final Pattern secretsPattern = Pattern.compile("§r Secrets Found: §r§b(?<secrets>\\\\d+)§r");
-    private static final Pattern cryptsPattern = Pattern.compile("§r Crypts: §r§6(?<crypts>\\\\d+)§r");
+    // private static final Pattern deathsPattern = Pattern.compile("§r§a§lDeaths: §r§f\\((\\d+)\\)§r");
+    // private static final Pattern secretsPattern = Pattern.compile("§r Secrets Found: §r§b(\\d+)§r");
+    // private static final Pattern cryptsPattern = Pattern.compile("§r Crypts: §r§(\\d+)§r");
+    private static final Pattern scorePattern = Pattern.compile("Cleared: [0-9]{1,3}% \\((?<score>[0-9]+)\\)");
     private static final List<String> entryMessages = Arrays.asList(
             "[BOSS] Bonzo: Gratz for making it this far, but I’m basically unbeatable.",
             "[BOSS] Scarf: This is where the journey ends for you, Adventurers.",
@@ -89,7 +92,7 @@ public class DungeonUtils {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onChatPacket(PacketEvent.ReceiveEvent event) {
-        if(Utils.inDungeon && event.packet instanceof S02PacketChat) {
+        if(Utils.inDungeon && event.packet instanceof S02PacketChat && ((S02PacketChat) event.packet).getType() != 2) {
             String text = StringUtils.stripControlCodes(((S02PacketChat) event.packet).getChatComponent().getUnformattedText());
             if("[NPC] Mort: Here, I found this map when I first entered the dungeon.".equals(text)) {
                 updateTeammates(getTabList());
@@ -135,6 +138,15 @@ public class DungeonUtils {
         if(tabList != null) {
             updateStats(tabList);
             if(teammates.isEmpty()) updateTeammates(tabList);
+        }
+
+        String scoreLine = ScoreboardUtils.getLineThatContains("Cleared: ");
+        if(scoreLine != null) {
+            Matcher matcher = scorePattern.matcher(scoreLine);
+            if(matcher.matches()) {
+                String scoreString = matcher.group("score");
+                score = Integer.parseInt(scoreString);
+            }
         }
     }
 
@@ -184,17 +196,20 @@ public class DungeonUtils {
         try {
             for(String item : tabList) {
                 if(item.contains("Deaths: ")) {
-                    Matcher deathsMatcher = deathsPattern.matcher(item);
-                    if(!deathsMatcher.matches()) continue;
-                    deaths = Integer.parseInt(deathsMatcher.group("deaths"));
-                } else if(item.contains("Secrets Found: ")) {
-                    Matcher secretsMatcher = secretsPattern.matcher(item);
-                    if(!secretsMatcher.matches()) continue;
-                    secretsFound = Integer.parseInt(secretsMatcher.group("secrets"));
+                    item = StringUtils.stripControlCodes(item);
+                    String justNumbers = Utils.removeAllExceptNumbersAndPeriods(item);
+                    if(justNumbers.isEmpty()) continue;
+                    deaths = Integer.parseInt(justNumbers);
+                } else if(item.contains("Secrets Found: ") && !item.contains("%")) {
+                    item = StringUtils.stripControlCodes(item);
+                    String justNumbers = Utils.removeAllExceptNumbersAndPeriods(item);
+                    if(justNumbers.isEmpty()) continue;
+                    secretsFound = Integer.parseInt(justNumbers);
                 } else if(item.contains("Crypts: ")) {
-                    Matcher cryptsMatcher = secretsPattern.matcher(item);
-                    if(!cryptsMatcher.matches()) continue;
-                    cryptsFound = Integer.parseInt(cryptsMatcher.group("crypts"));
+                    item = StringUtils.stripControlCodes(item);
+                    String justNumbers = Utils.removeAllExceptNumbersAndPeriods(item);
+                    if(justNumbers.isEmpty()) continue;
+                    cryptsFound = Integer.parseInt(justNumbers);
                 }
             }
         } catch(Exception exception) {

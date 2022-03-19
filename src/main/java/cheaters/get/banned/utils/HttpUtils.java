@@ -30,6 +30,8 @@ public class HttpUtils {
             CloseableHttpResponse httpResponse = client.build().execute(request);
             if(httpResponse.getStatusLine().getStatusCode() < 299) {
                 response = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+            } else {
+                Utils.log("Error code " + httpResponse.getStatusLine().getStatusCode());
             }
         } catch (Exception ignored) {}
 

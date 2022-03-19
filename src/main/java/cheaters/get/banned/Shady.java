@@ -2,25 +2,26 @@ package cheaters.get.banned;
 
 import cheaters.get.banned.events.MinuteEvent;
 import cheaters.get.banned.events.TickEndEvent;
-import cheaters.get.banned.features.include.*;
-import cheaters.get.banned.features.include.commandpalette.CommandPalette;
-import cheaters.get.banned.features.include.connectfoursolver.ConnectFourSolver;
-import cheaters.get.banned.features.include.map.MapManager;
-import cheaters.get.banned.features.include.map.MapRender;
-import cheaters.get.banned.features.include.routines.RoutineHooks;
-import cheaters.get.banned.features.include.routines.Routines;
+import cheaters.get.banned.features.*;
+import cheaters.get.banned.features.autoterminals.NewAutoTerminals;
+import cheaters.get.banned.features.commandpalette.CommandPalette;
+import cheaters.get.banned.features.connectfoursolver.ConnectFourSolver;
+import cheaters.get.banned.features.map.MapController;
+import cheaters.get.banned.features.map.MapView;
+import cheaters.get.banned.features.routines.RoutineHooks;
+import cheaters.get.banned.features.routines.Routines;
 import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.gui.config.ConfigLogic;
 import cheaters.get.banned.gui.config.MainCommand;
 import cheaters.get.banned.gui.config.settings.BooleanSetting;
 import cheaters.get.banned.gui.config.settings.SelectSetting;
 import cheaters.get.banned.gui.config.settings.Setting;
+import cheaters.get.banned.remote.Capes;
 import cheaters.get.banned.remote.DisableFeatures;
 import cheaters.get.banned.remote.UpdateGui;
 import cheaters.get.banned.remote.Updater;
 import cheaters.get.banned.stats.Analytics;
 import cheaters.get.banned.stats.MiscStats;
-import cheaters.get.banned.stats.RoutinesAPI;
 import cheaters.get.banned.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -88,7 +89,7 @@ public class Shady {
         // Read JSON Files
         ConfigLogic.load();
         Routines.load();
-        MapManager.loadRooms();
+        MapController.loadRooms();
 
         // Do Remote Things
         Updater.check();
@@ -112,7 +113,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new AutoCloseChest());
         MinecraftForge.EVENT_BUS.register(new RoyalPigeonMacro());
         MinecraftForge.EVENT_BUS.register(new AutoGG());
-        MinecraftForge.EVENT_BUS.register(new AutoSimonSays());
+        // MinecraftForge.EVENT_BUS.register(new AutoSimonSays());
         MinecraftForge.EVENT_BUS.register(new AbilityKeybind());
         MinecraftForge.EVENT_BUS.register(new AutoClicker());
         MinecraftForge.EVENT_BUS.register(new AutoRenewCrystalHollows());
@@ -123,21 +124,21 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new ItemMacro());
         MinecraftForge.EVENT_BUS.register(new MobESP());
         MinecraftForge.EVENT_BUS.register(new GemstoneESP());
-        MinecraftForge.EVENT_BUS.register(new AutoTerminals());
+        MinecraftForge.EVENT_BUS.register(new NewAutoTerminals());
         MinecraftForge.EVENT_BUS.register(new AutoMelody());
         MinecraftForge.EVENT_BUS.register(new AutoReadyUp());
-        MinecraftForge.EVENT_BUS.register(new CrystalReach());
+        // MinecraftForge.EVENT_BUS.register(new CrystalReach());
         MinecraftForge.EVENT_BUS.register(new AutoSalvage());
         MinecraftForge.EVENT_BUS.register(new AutoSell());
-        // By RoseGold: MinecraftForge.EVENT_BUS.register(new AutoArrowAlign());
-        // By Not-RoseGold: MinecraftForge.EVENT_BUS.register(new AutoAlignArrows());
         MinecraftForge.EVENT_BUS.register(new SocialCommandSolver());
         MinecraftForge.EVENT_BUS.register(new ConnectFourSolver());
         MinecraftForge.EVENT_BUS.register(new AutoWardrobe());
-        MinecraftForge.EVENT_BUS.register(new CrystalEtherwarp());
+        // MinecraftForge.EVENT_BUS.register(new CrystalEtherwarp());
+        MinecraftForge.EVENT_BUS.register(new NoRotate());
+        MinecraftForge.EVENT_BUS.register(new AntiKB());
 
-        MinecraftForge.EVENT_BUS.register(new MapManager());
-        MinecraftForge.EVENT_BUS.register(new MapRender());
+        MinecraftForge.EVENT_BUS.register(new MapController());
+        MinecraftForge.EVENT_BUS.register(new MapView());
 
         KeybindUtils.register("Command Palette", Keyboard.KEY_K);
 
@@ -153,6 +154,8 @@ public class Shady {
         USING_SKYTILS = Loader.isModLoaded("skytils");
         USING_SKYTILS = Loader.isModLoaded("skytils");
         USING_SBE = Loader.isModLoaded("skyblockextras");
+
+        Capes.load(); // TODO: Figure out how to make this async
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime firstRun = now.withSecond(0).plusMinutes(1);
@@ -171,8 +174,6 @@ public class Shady {
         if(MiscStats.minutesSinceLastSend == 5) {
             MiscStats.minutesSinceLastSend = 0;
             MiscStats.send();
-        } else if(MiscStats.minutesSinceLastSend == 2) {
-            RoutinesAPI.sync();
         }
 
         MiscStats.minutesSinceLastSend++;

@@ -55,6 +55,7 @@ public class ConfigGui extends GuiScreen {
         drawCenteredString(Shady.mc.fontRendererObj, (Shady.BETA ? "Beta ✦ " : "Stable ✦ ") + Shady.VERSION, width / 2, 67-scrollOffset, -1);
 
         // Settings
+        int categoryCount = 0;
         for(int i = 0; i < settings.size(); i++) {
             Setting setting = settings.get(i);
 
@@ -63,8 +64,8 @@ public class ConfigGui extends GuiScreen {
 
             x += setting.getIndent(0);
 
+            // Setting Border
             if(setting.parent == null && i > 0) {
-                // Setting Border
                 drawRect(x, y-3, getOffset() + columnWidth, y-2, ConfigInput.transparent.getRGB());
             }
 
@@ -76,13 +77,14 @@ public class ConfigGui extends GuiScreen {
                     int textureX = (int) ((System.currentTimeMillis() / 100) % 10 * 9);
                     RenderUtils.drawTexture(new ResourceLocation("shadyaddons:beta.png"), x, y, 9, 9, 90, 9, textureX, 0);
                 }
+
                 x += 13;
             }
 
             // Setting Text
-            char color = 'f';
-            if(setting instanceof BooleanSetting && setting.get(Boolean.class)) color = 'a';
-            if(setting instanceof FolderSetting && ((FolderSetting) setting).isChildEnabled()) color = 'a';
+            char color = 'f'; // White
+            if(setting instanceof BooleanSetting && setting.get(Boolean.class)) color = 'a'; // Green
+            if(setting instanceof FolderSetting && ((FolderSetting) setting).isChildEnabled()) color = 'a'; // Green
 
             Shady.mc.fontRendererObj.drawString("§" + color + setting.name, x, y+1, -1);
             if(setting.note != null) {

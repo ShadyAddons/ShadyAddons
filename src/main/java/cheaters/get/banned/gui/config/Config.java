@@ -1,18 +1,65 @@
 package cheaters.get.banned.gui.config;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.features.include.AutoWardrobe;
-import cheaters.get.banned.features.include.commandpalette.CommandPalette;
-import cheaters.get.banned.features.include.routines.Routines;
+import cheaters.get.banned.features.AutoWardrobe;
+import cheaters.get.banned.features.commandpalette.CommandPalette;
+import cheaters.get.banned.features.routines.Routines;
 import cheaters.get.banned.stats.RoutinesAPI;
 import cheaters.get.banned.utils.Utils;
 
 public class Config {
 
     @Property(
+            type = Property.Type.BUTTON,
+            name = "Official Discord Server",
+            button = "Join"
+    )
+    public static Runnable joinDiscord = () -> Utils.openUrl("https://shadyaddons.com/discord");
+
+    @Property(
+            type = Property.Type.BUTTON,
+            name = "ShadyAddons Store",
+            note = "Animated capes and more!",
+            button = "Visit"
+    )
+    public static Runnable openShop = () -> Utils.openUrl("https://shadyaddons.com/store");
+
+
+    @Property(type = Property.Type.SPACER)
+    public static Object spacer1;
+
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Stonkless Stonk"
+    )
+    public static boolean stonklessStonk = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Always On",
+                parent = "Stonkless Stonk"
+        )
+        public static boolean alwaysOn = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Disable in Boss",
+                parent = "Stonkless Stonk"
+        )
+        public static boolean disableInBoss = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Only Enable When Holding Pickaxe",
+                parent = "Stonkless Stonk"
+        )
+        public static boolean onlyEnableWhenHoldingPickaxe = false;
+
+
+    @Property(
             type = Property.Type.FOLDER,
-            name = "Routines",
-            note = "Learn more at ShadyAddons.com"
+            name = "Routines"
     )
     public static boolean routinesFolder = false;
 
@@ -46,38 +93,10 @@ public class Config {
         };
 
 
-    @Property(
-            type = Property.Type.BOOLEAN,
-            name = "Stonkless Stonk"
-    )
-    public static boolean stonklessStonk = false;
-
-        @Property(
-                type = Property.Type.BOOLEAN,
-                name = "Always On",
-                parent = "Stonkless Stonk"
-        )
-        public static boolean alwaysOn = false;
-
-        @Property(
-                type = Property.Type.BOOLEAN,
-                name = "Disable in Boss",
-                parent = "Stonkless Stonk"
-        )
-        public static boolean disableInBoss = false;
-
-        @Property(
-                type = Property.Type.BOOLEAN,
-                name = "Only Enable When Holding Pickaxe",
-                parent = "Stonkless Stonk"
-        )
-        public static boolean onlyEnableWhenHoldingPickaxe = false;
-
-
-    @Property(
+    /*@Property(
             type = Property.Type.BOOLEAN,
             name = "Auto Simon-Says"
-    )
+    )*/
     public static boolean autoSimonSays = false;
 
 
@@ -235,12 +254,12 @@ public class Config {
         public static boolean autoSellPotions = false;
 
 
-    @Property(
+    /*@Property(
             type = Property.Type.BOOLEAN,
             name = "Crystal Reach",
             note = "Sneak to activate",
             warning = true
-    )
+    )*/
     public static boolean crystalReach = false;
 
 
@@ -465,7 +484,31 @@ public class Config {
                 name = "Show Run Information",
                 parent = "Dungeon Map"
         )
-        public static boolean showDungeonInformation = false;
+        public static boolean showDungeonInfo = false;
+
+        @Property(
+                type = Property.Type.SELECT,
+                name = "Significant Room Name Style",
+                parent = "Dungeon Map",
+                options = {"Short", "Full", "None"}
+        )
+        public static int significantRoomNameStyle = 0;
+
+        @Property(
+                type = Property.Type.SELECT,
+                name = "Show Player Heads",
+                parent = "Dungeon Map",
+                options = {"None", "All", "Own"}
+        )
+        public static int showMapPlayerHeads = 1;
+
+        @Property(
+            type = Property.Type.SELECT,
+            name = "Map Border",
+            parent = "Dungeon Map",
+            options = {"None", "Chroma", "Black", "White"}
+        )
+        public static int mapBorder = 0;
 
         /*@Property(
                 type = Property.Type.BOOLEAN,
@@ -519,46 +562,7 @@ public class Config {
                 step = 10,
                 suffix = "%"
         )
-        public static int mapBackgroundOpacity = 50;
-
-        /*@Property(
-                type = Property.Type.BOOLEAN,
-                name = "RBG Border",
-                parent = "Dungeon Map"
-        )*/
-        public static boolean rbgMapBorder = false;
-
-        @Property(
-                type = Property.Type.SELECT,
-                name = "Significant Room Name Style",
-                parent = "Dungeon Map",
-                options = {"Short", "Full", "None"}
-        )
-        public static int significantRoomNameStyle = 0;
-
-        @Property(
-                type = Property.Type.SELECT,
-                name = "Show Player Heads",
-                parent = "Dungeon Map",
-                options = {"None", "All", "Own"}
-        )
-        public static int showMapPlayerHeads = 1;
-
-        @Property(
-                type = Property.Type.SELECT,
-                name = "Wither Door Color",
-                parent = "Dungeon Map",
-                options = {"Brown", "Dark Brown", "Black", "Lime Green"}
-        )
-        public static int witherDoorColor = 1;
-
-        /*@Property(
-                type = Property.Type.SELECT,
-                name = "Checkmark Style",
-                parent = "Dungeon Map",
-                options = {"None", "Vanilla", "Fancy"}
-        )*/
-        public static int mapCheckmarkStyle = 0;
+        public static int mapBackgroundOpacity = 30;
 
 
     @Property(
@@ -814,37 +818,40 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Catgirls"
+            name = "No Teleport Rotation",
+            warning = true,
+            note = "Only in SkyBlock"
     )
-    public static boolean catGirls = false;
+    public static boolean noRotate = false;
 
-        @Property(
-                type = Property.Type.SELECT,
-                name = "Cat-Mode",
-                parent = "Catgirls",
-                options = {"Girls", "Boys", "Bisexual", "Real Cats"}
-        )
-        public static int catGirlsMode = 0;
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Anti-Knockback",
+            warning = true,
+            note = "Only in SkyBlock"
+    )
+    public static boolean antiKb = false;
 
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Terminals",
-            note = "by 0Kelvin_"
+            name = "Auto Terminals"
     )
     public static boolean autoTerminals = false;
 
         @Property(
                 type = Property.Type.BOOLEAN,
-                name = "Pingless",
-                note = "Send clicks before window is updated",
-                parent = "Auto Terminals"
+                name = "Half-Trip",
+                note = "Attempts to send clicks before window is updated",
+                parent = "Auto Terminals",
+                warning = true
         )
-        public static boolean terminalPingless = false;
+        public static boolean terminalHalfTrip = false;
 
         @Property(
                 type = Property.Type.NUMBER,
                 name = "Click Delay",
+                note = "Adjust this to compensate for your ping",
                 parent = "Auto Terminals",
                 step =  10,
                 suffix = "ms",

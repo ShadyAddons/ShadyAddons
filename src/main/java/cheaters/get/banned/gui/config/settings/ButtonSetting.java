@@ -4,7 +4,7 @@ import cheaters.get.banned.gui.config.Property;
 
 import java.lang.reflect.Field;
 
-public class ButtonSetting extends Setting {
+public class ButtonSetting extends Setting implements DoNotSave {
 
     public String buttonText = "Click";
     private Runnable runnable;

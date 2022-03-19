@@ -70,6 +70,10 @@ public class ConfigLogic {
                             throw new TypeMismatchException("type boolean or Boolean", field.getType().getName());
                         }
                         break;
+
+                    case SPACER:
+                        settings.add(new SpacerSetting(annotation, field));
+                        break;
                 }
             }
         }
@@ -113,26 +117,11 @@ public class ConfigLogic {
         return null;
     }
 
-    public static void legacySave() {
-        try {
-            HashMap<String, Object> convertedSettings = new HashMap<>();
-            for(Setting setting : Shady.settings) {
-                if(setting instanceof FolderSetting || setting instanceof ButtonSetting) continue;
-                convertedSettings.put(setting.name, setting.get(Object.class));
-            }
-            String json = new Gson().toJson(convertedSettings);
-            Files.write(Paths.get(fileName), json.getBytes(StandardCharsets.UTF_8));
-        } catch(Exception error) {
-            System.out.println("Error saving config file");
-            error.printStackTrace();
-        }
-    }
-
     public static void save() {
         try {
             HashMap<String, Object> settingsToSave = new HashMap<>();
             for(Setting setting : Shady.settings) {
-                if(setting instanceof FolderSetting || setting instanceof ButtonSetting) continue;
+                if(setting instanceof DoNotSave) continue;
                 settingsToSave.put(setting.field.getName(), setting.get(Object.class));
             }
             String json = new Gson().toJson(settingsToSave);
@@ -169,32 +158,6 @@ public class ConfigLogic {
                             } else {
                                 beingUpdated.forceSet(fromConfig.getValue());
                             }
-                        }
-                    }
-                }
-            }
-        } catch(Exception error) {
-            System.out.println("Error while loading config file");
-            error.printStackTrace();
-        }
-    }
-
-    public static void legacyLoad() {
-        try {
-            File file = new File(fileName);
-            if(file.exists()) {
-                Reader reader = Files.newBufferedReader(Paths.get(fileName));
-                Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
-
-                HashMap<String, Object> settingsFromConfig = new Gson().fromJson(reader, type);
-
-                for(Map.Entry<String, Object> fromConfig : settingsFromConfig.entrySet()) {
-                    Setting beingUpdated = getSettingByName(fromConfig.getKey(), Shady.settings);
-                    if(beingUpdated != null) {
-                        if(beingUpdated instanceof NumberSetting || beingUpdated instanceof SelectSetting) {
-                            beingUpdated.set(((Double)fromConfig.getValue()).intValue());
-                        } else {
-                            beingUpdated.forceSet(fromConfig.getValue());
                         }
                     }
                 }

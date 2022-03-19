@@ -8,6 +8,7 @@ import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.ItemStack;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.ChatComponentText;
@@ -20,6 +21,7 @@ import java.awt.datatransfer.StringSelection;
 import java.net.URI;
 import java.util.List;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -27,6 +29,12 @@ public class Utils {
     public static boolean inDungeon = false;
     public static boolean forceSkyBlock = false;
     public static boolean forceDungeon = false;
+
+    public static void log(Object content) {
+        if((boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment")) {
+            System.out.println(content);
+        }
+    }
 
     public static int romanToInt(String s) {
         Map<Character, Integer> numerals = new HashMap<>();
@@ -140,8 +148,18 @@ public class Utils {
         }
     }
 
+    private static final Pattern numberPattern = Pattern.compile("[^0-9.]");
+    public static String removeAllExceptNumbersAndPeriods(String text) {
+        return numberPattern.matcher(text).replaceAll("");
+    }
+
     public static Color addAlpha(Color color, int alpha) {
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+    }
+
+    public static Color addAlphaPct(Color color, float alpha) {
+        int alphaNum = Math.round(255 * alpha);
+        return addAlpha(color, alphaNum);
     }
 
     public static boolean isInteractable(Block block) {

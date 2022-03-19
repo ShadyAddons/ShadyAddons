@@ -6,7 +6,7 @@ import cheaters.get.banned.gui.config.Property;
 
 import java.lang.reflect.Field;
 
-public class FolderSetting extends ParentSetting {
+public class FolderSetting extends ParentSetting implements DoNotSave {
 
     public FolderSetting(Property annotation, Field field) {
         super(annotation, field);

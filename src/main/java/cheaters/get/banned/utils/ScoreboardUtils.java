@@ -78,15 +78,12 @@ public class ScoreboardUtils {
     }
 
     public static String getLineThatContains(String string) {
-        String result = null;
-        List<String> scoreboard = getScoreboard();
-        for(String line : scoreboard) {
+        for(String line : getScoreboard()) {
             line = cleanSB(line);
             if(line.contains(string)) {
-                result = line;
-                break;
+                return line;
             }
         }
-        return result;
+        return null;
     }
 }

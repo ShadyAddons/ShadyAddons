@@ -1,13 +1,12 @@
 package cheaters.get.banned.gui.config;
 
 import cheaters.get.banned.Shady;
-import cheaters.get.banned.features.include.AutoTerminals;
-import cheaters.get.banned.features.include.AutoWardrobe;
-import cheaters.get.banned.features.include.commandpalette.CommandPalette;
-import cheaters.get.banned.features.include.map.MapManager;
-import cheaters.get.banned.features.include.map.MapScanner;
-import cheaters.get.banned.features.include.routines.Routine;
-import cheaters.get.banned.features.include.routines.Routines;
+import cheaters.get.banned.features.AutoWardrobe;
+import cheaters.get.banned.features.commandpalette.CommandPalette;
+import cheaters.get.banned.features.map.MapController;
+import cheaters.get.banned.features.map.MapScanner;
+import cheaters.get.banned.features.routines.Routine;
+import cheaters.get.banned.features.routines.Routines;
 import cheaters.get.banned.stats.RoutinesAPI;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.MathUtils;
@@ -164,18 +163,11 @@ public class MainCommand extends CommandBase {
                                 }
                                 break;
 
-                            case "terminals":
-                            case "terms":
-                                AutoTerminals.testing = !AutoTerminals.testing;
-                                Utils.sendModMessage("Toggled testing terminals to "+AutoTerminals.testing);
-                                if(!Utils.forceDungeon) Utils.executeCommand("/sh force_dungeon");
-                                break;
-
                             case "scan":
-                                MapManager.scan();
+                                MapController.scannedMap = MapScanner.getScan();
                                 Utils.sendModMessage("Forced scan, check logs for any errors");
 
-                                if(MapManager.map == null) {
+                                if(MapController.scannedMap == null) {
                                     Utils.sendModMessage("Map is null");
                                     break;
                                 }

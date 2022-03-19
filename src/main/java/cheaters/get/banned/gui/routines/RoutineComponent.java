@@ -1,6 +1,6 @@
 package cheaters.get.banned.gui.routines;
 
-import cheaters.get.banned.features.include.routines.Routine;
+import cheaters.get.banned.features.routines.Routine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
