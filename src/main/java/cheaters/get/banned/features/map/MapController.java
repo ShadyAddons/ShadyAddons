@@ -4,8 +4,8 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.map.elements.MapTile;
 import cheaters.get.banned.features.map.elements.rooms.Room;
-import cheaters.get.banned.features.map.elements.rooms.RoomStatus;
 import cheaters.get.banned.features.map.elements.rooms.RoomTile;
+import cheaters.get.banned.features.map.elements.rooms.RoomStatus;
 import cheaters.get.banned.features.map.elements.rooms.RoomType;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.Utils;
@@ -30,7 +30,7 @@ public class MapController {
 
     public static HashMap<Integer, Room> rooms = new HashMap<>();
     public static HashSet<Room> uniqueRooms = new HashSet<>();
-    public static MapModel scannedMap = null;
+    public static MapModel scannedMap;
 
     public static boolean isScanning = false;
     private static long lastScan = 0;
@@ -164,8 +164,8 @@ public class MapController {
 
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
-        if(shouldScan()) scan();
         if(!Utils.inDungeon) scannedMap = null;
+        if(shouldScan()) scan();
 
         if(event.every(10) && scannedMap != null && scannedMap.allLoaded)  {
             new Thread(MapController::updateRoomStatuses).start();
@@ -198,12 +198,12 @@ public class MapController {
                 if(tile == null) continue;
 
                 int color = Byte.toUnsignedInt(mapColors[(mapY << 7) + mapX]);
-                if(color != 0) Utils.log("Color is " + color);
+                // if(color != 0) Utils.log("Color is " + color);
 
                 switch(color) {
                     case 0: // Transparent
-                    case 119: // Black (wither doors)
                     case 85: // Gray (question mark rooms)
+                    case 119: // Black (wither doors)
                         tile.status = RoomStatus.UNDISCOVERED;
                         break;
 

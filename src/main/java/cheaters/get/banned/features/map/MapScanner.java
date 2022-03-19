@@ -4,6 +4,7 @@ import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.map.elements.MapTile;
 import cheaters.get.banned.features.map.elements.doors.DoorTile;
 import cheaters.get.banned.features.map.elements.doors.DoorType;
+import cheaters.get.banned.features.map.elements.rooms.Room;
 import cheaters.get.banned.features.map.elements.rooms.RoomTile;
 import cheaters.get.banned.features.map.elements.rooms.RoomType;
 import cheaters.get.banned.features.map.elements.rooms.Separator;
@@ -23,8 +24,6 @@ public class MapScanner {
     public static final int zCorner = -200;
     public static final int halfRoom = 16;
 
-    private static boolean isScanning = false;
-
     public static MapModel getScan() {
         MapModel map = new MapModel();
 
@@ -33,7 +32,6 @@ public class MapScanner {
                 int x = halfRoom - 1 + xCorner + col * halfRoom;
                 int z = halfRoom - 1 + zCorner + row * halfRoom;
 
-                // TODO: Test and possibly allow for partial scans
                 if(!Shady.mc.theWorld.getChunkFromChunkCoords(x >> 4, z >> 4).isLoaded()) {
                     Utils.log("Chunk at x" + x + " z" + z + "is not loaded");
                     map.allLoaded = false;
@@ -48,9 +46,11 @@ public class MapScanner {
                     // Add rooms
                     RoomTile roomTile = getRoomTile(x, z);
                     map.elements[row][col] = roomTile;
-                    if(!map.uniqueRooms.contains(roomTile.room)) map.totalSecrets += roomTile.room.secrets;
+                    if(roomTile != null) {
+                        if(map.uniqueRooms.contains(roomTile.room)) map.totalSecrets += roomTile.room.secrets;
+                        map.uniqueRooms.add(roomTile.room);
+                    }
                     map.roomTiles.add(roomTile);
-                    map.uniqueRooms.add(roomTile.room);
                 } else if(!rowEven && !colEven) {
                     // Fills holes in 2x2 rooms (https://i.imgur.com/Tx0xD43.png)
                     if(map.elements[row - 1][col - 1] instanceof RoomTile) {
@@ -78,7 +78,9 @@ public class MapScanner {
 
     private static RoomTile getRoomTile(int x, int z) {
         int core = getCore(x, z);
-        return new RoomTile(MapController.rooms.get(core));
+        Room room = MapController.rooms.get(core);
+        if(room == null) return null;
+        return new RoomTile(room);
     }
 
     /**
