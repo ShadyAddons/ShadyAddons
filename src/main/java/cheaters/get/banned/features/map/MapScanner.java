@@ -5,6 +5,7 @@ import cheaters.get.banned.features.map.elements.MapTile;
 import cheaters.get.banned.features.map.elements.doors.Door;
 import cheaters.get.banned.features.map.elements.doors.DoorType;
 import cheaters.get.banned.features.map.elements.rooms.Room;
+import cheaters.get.banned.features.map.elements.rooms.RoomTile;
 import cheaters.get.banned.features.map.elements.rooms.RoomType;
 import cheaters.get.banned.features.map.elements.rooms.Separator;
 import cheaters.get.banned.utils.Utils;
@@ -47,13 +48,16 @@ public class MapScanner {
 
                 if(rowEven && colEven) {
                     // Add rooms
-                    Room room = getRoom(x, z);
-                    map.elements[row][col] = room;
-                    if(room != null && !map.rooms.contains(room)) map.totalSecrets += room.secrets;
-                    map.rooms.add(room);
+                    RoomTile roomTile = getRoomTile(x, z);
+                    map.elements[row][col] = roomTile;
+                    if(roomTile != null && roomTile.room != null) {
+                        if(!map.uniqueRooms.contains(roomTile.room)) map.totalSecrets += roomTile.room.secrets;
+                        map.uniqueRooms.add(roomTile.room);
+                    }
+                    map.roomTiles.add(roomTile);
                 } else if(!rowEven && !colEven) {
                     // Fills holes in 2x2 rooms (https://i.imgur.com/Tx0xD43.png)
-                    if(map.elements[row - 1][col - 1] instanceof Room) {
+                    if(map.elements[row - 1][col - 1] instanceof RoomTile) {
                         map.elements[row][col] = Separator.GENERIC;
                     }
                 } else if(isDoor(x, z)) {
@@ -62,8 +66,8 @@ public class MapScanner {
                 } else {
                     // Add separators (https://i.imgur.com/E67GWl0.png)
                     MapTile tileToCheck = map.elements[rowEven ? row : row - 1][rowEven ? col - 1 : col];
-                    if(tileToCheck instanceof Room) {
-                        if(((Room) tileToCheck).type == RoomType.ENTRANCE) {
+                    if(tileToCheck instanceof RoomTile) {
+                        if(((RoomTile) tileToCheck).room.type == RoomType.ENTRANCE) {
                             map.elements[row][col] = new Door(DoorType.ENTRANCE);
                         } else {
                             map.elements[row][col] = Separator.GENERIC;
@@ -76,9 +80,11 @@ public class MapScanner {
         return map;
     }
 
-    @Nullable private static Room getRoom(int x, int z) {
+    @Nullable private static RoomTile getRoomTile(int x, int z) {
         int core = getCore(x, z);
-        return MapController.rooms.get(core);
+        Room room = MapController.rooms.get(core);
+        if(room == null) return null;
+        return new RoomTile(room);
     }
 
     /**

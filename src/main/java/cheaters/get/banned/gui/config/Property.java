@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 public @interface Property {
 
     Type type();
-    String name() default "Untitled";
+    String name() default "";
     String parent() default "";
 
     String note() default "";

@@ -3,7 +3,8 @@ package cheaters.get.banned.features.map;
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.map.elements.MapTile;
 import cheaters.get.banned.features.map.elements.doors.Door;
-import cheaters.get.banned.features.map.elements.rooms.Room;
+import cheaters.get.banned.features.map.elements.rooms.RoomTile;
+import cheaters.get.banned.features.map.elements.rooms.RoomType;
 import cheaters.get.banned.features.map.elements.rooms.Separator;
 import cheaters.get.banned.gui.config.Config;
 import cheaters.get.banned.utils.DungeonUtils;
@@ -151,7 +152,9 @@ public class MapView {
                             y + tileSize*3,
                             tile.color
                     );
-                    drawCheckmark((Room) tile, x, y);
+                    if(!drawCheckmark((RoomTile) tile, x, y)) {
+                        drawRoomName((RoomTile) tile, x, y);
+                    }
                 // Draw Doors
                 } else if(tile instanceof Door) {
                     /*
@@ -240,7 +243,10 @@ public class MapView {
 
         Gui.drawRect(x, y, x+size, y+size, Color.BLACK.getRGB());
         GlStateManager.color(255, 255, 255);
+
+        GlStateManager.translate(0, 0, 200);
         RenderUtils.drawPlayerIcon(player, size-2, x+1, y+1);
+        GlStateManager.translate(0, 0, -200);
 
         GlStateManager.popMatrix();
     }
@@ -249,7 +255,7 @@ public class MapView {
     private static final ResourceLocation icon_whiteCheck = new ResourceLocation("shadyaddons:dungeonscanner/white_check.png");
     private static final ResourceLocation icon_check = new ResourceLocation("shadyaddons:dungeonscanner/check.png");
 
-    private static void drawCheckmark(Room room, int x, int y) {
+    private static boolean drawCheckmark(RoomTile room, int x, int y) {
         ResourceLocation resourceLocation;
 
         switch(room.status) {
@@ -266,7 +272,7 @@ public class MapView {
                 break;
 
             default:
-                return;
+                return false;
         }
 
         RenderUtils.drawTexture(
@@ -276,6 +282,35 @@ public class MapView {
                 (int) (tileSize * 1.5),
                 (int) (tileSize * 1.5)
         );
+
+        return true;
+    }
+
+    private static void drawRoomName(RoomTile roomTile, int x, int y) {
+        if(Config.showRoomNames == 0) return;
+
+        String name = null;
+
+        if(Config.showRoomNames == 1) { // Important
+            if(roomTile.room.type == RoomType.YELLOW || roomTile.room.type == RoomType.PUZZLE || roomTile.room.type == RoomType.TRAP) {
+                name = RoomLists.shortNames.get(roomTile.room.name);
+                if(name == null) name = roomTile.room.name.replace(" ", "\n");
+            }
+        } else if(Config.showRoomNames == 2) { // All
+            name = roomTile.room.name.replace(" ", "\n");
+        }
+
+        if(name == null) return;
+
+        GlStateManager.translate(0, 0, 100);
+
+        FontUtils.drawCenteredString(
+                name,
+                (int) (x + tileSize*1.5),
+                (int) (y + tileSize*1.5)
+        );
+
+        GlStateManager.translate(0, 0, -100);
     }
 
     /**

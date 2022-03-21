@@ -95,14 +95,14 @@ public class Config {
 
     /*@Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Simon-Says"
+            name = "Auto-Simon Says"
     )*/
     public static boolean autoSimonSays = false;
 
 
     /*@Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Align Arrows"
+            name = "Auto-Align Arrows"
     )*/
     public static boolean autoArrowAlign = false;
 
@@ -116,7 +116,7 @@ public class Config {
 
     @Property(
             type = Property.Type.FOLDER,
-            name = "Auto Clicker",
+            name = "Auto-Clicker",
             warning = true
     )
     public static boolean autoClicker = false;
@@ -124,7 +124,7 @@ public class Config {
         @Property(
                 type = Property.Type.NUMBER,
                 name = "CPS",
-                parent = "Auto Clicker",
+                parent = "Auto-Clicker",
                 min = 10,
                 max = 500,
                 step = 10,
@@ -135,7 +135,7 @@ public class Config {
         @Property(
                 type = Property.Type.SELECT,
                 name = "Mode",
-                parent = "Auto Clicker",
+                parent = "Auto-Clicker",
                 options = {"Burst", "Continous"}
         )
         public static int autoClickerMode = 0;
@@ -143,14 +143,14 @@ public class Config {
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Show Indicator",
-                parent = "Auto Clicker"
+                parent = "Auto-Clicker"
         )
         public static boolean autoClickerIndicator = false;
 
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Stop in GUI",
-                parent = "Auto Clicker"
+                parent = "Auto-Clicker"
         )
         public static boolean stopAutoClickerInGui = false;
 
@@ -207,49 +207,49 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Salvage"
+            name = "Auto-Salvage"
     )
     public static boolean autoSalvage = false;
 
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Automatically Start Salvaging",
-                parent = "Auto Salvage"
+                parent = "Auto-Salvage"
         )
         public static boolean automaticallyStartSalvaging = false;
 
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Sell"
+            name = "Auto-Sell"
     )
     public static boolean autoSell = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
                 name = "Salvageable Items",
-                parent = "Auto Sell"
+                parent = "Auto-Sell"
         )
         public static boolean autoSellSalvageable = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
                 name = "Superboom",
-                parent = "Auto Sell"
+                parent = "Auto-Sell"
         )
         public static boolean autoSellSuperboom = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
                 name = "Dungeons Junk",
-                parent = "Auto Sell"
+                parent = "Auto-Sell"
         )
         public static boolean autoSellDungeonsJunk = false;
 
         @Property(
                 type = Property.Type.CHECKBOX,
                 name = "Speed/Weakness Potions",
-                parent = "Auto Sell"
+                parent = "Auto-Sell"
         )
         public static boolean autoSellPotions = false;
 
@@ -281,7 +281,7 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Renew Crystal Hollows Pass"
+            name = "Auto-Renew Crystal Hollows Pass"
     )
     public static boolean renewCrystalHollowsPass = false;
 
@@ -432,7 +432,7 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Ready Up",
+            name = "Auto-Ready Up",
             warning = true
     )
     public static boolean autoReadyUp = false;
@@ -480,19 +480,20 @@ public class Config {
         public static boolean darkenUnexplored = false;
 
         @Property(
+                type = Property.Type.SELECT,
+                name = "Show Room Names",
+                parent = "Dungeon Map",
+                options = {"None", "Important", "All"}
+        )
+        public static int showRoomNames = 0;
+
+
+        @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Show Run Information",
                 parent = "Dungeon Map"
         )
         public static boolean showDungeonInfo = false;
-
-        @Property(
-                type = Property.Type.SELECT,
-                name = "Significant Room Name Style",
-                parent = "Dungeon Map",
-                options = {"Short", "Full", "None"}
-        )
-        public static int significantRoomNameStyle = 0;
 
         @Property(
                 type = Property.Type.SELECT,
@@ -509,21 +510,6 @@ public class Config {
             options = {"None", "Chroma", "Black", "White"}
         )
         public static int mapBorder = 0;
-
-        /*@Property(
-                type = Property.Type.BOOLEAN,
-                name = "Wither/Blood Door ESP",
-                parent = "Dungeon Map"
-        )*/
-        public static boolean witherDoorESP = false;
-
-            /*@Property(
-                    type = Property.Type.SELECT,
-                    name = "Wither Door Color",
-                    parent = "Wither/Blood Door ESP",
-                    options = {"White", "Black"}
-            )*/
-            public static int witherDoorEspColor = 0;
 
         @Property(
                 type = Property.Type.NUMBER,
@@ -600,28 +586,28 @@ public class Config {
 
     @Property(
             type = Property.Type.FOLDER,
-            name = "Auto Close Chests"
+            name = "Auto-Close Chests"
     )
     public static boolean closeChests = false;
 
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Secret Chests",
-                parent = "Auto Close Chests"
+                parent = "Auto-Close Chests"
         )
         public static boolean closeSecretChests = false;
 
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Crystal Hollows Chests",
-                parent = "Auto Close Chests"
+                parent = "Auto-Close Chests"
         )
         public static boolean closeCrystalHollowsChests = false;
 
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto GG"
+            name = "Auto-GG"
     )
     public static boolean autoGg = false;
 
@@ -811,7 +797,7 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Melody"
+            name = "Auto-Melody"
     )
     public static boolean autoMelody = false;
 
@@ -835,7 +821,7 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "Auto Terminals"
+            name = "Auto-Terminals"
     )
     public static boolean autoTerminals = false;
 
@@ -843,7 +829,7 @@ public class Config {
                 type = Property.Type.BOOLEAN,
                 name = "Half-Trip",
                 note = "Attempts to send clicks before window is updated",
-                parent = "Auto Terminals",
+                parent = "Auto-Terminals",
                 warning = true
         )
         public static boolean terminalHalfTrip = false;
@@ -852,7 +838,7 @@ public class Config {
                 type = Property.Type.NUMBER,
                 name = "Click Delay",
                 note = "Adjust this to compensate for your ping",
-                parent = "Auto Terminals",
+                parent = "Auto-Terminals",
                 step =  10,
                 suffix = "ms",
                 min = 50,

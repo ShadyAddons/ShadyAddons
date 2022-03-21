@@ -5,6 +5,7 @@ import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.map.elements.MapTile;
 import cheaters.get.banned.features.map.elements.rooms.Room;
 import cheaters.get.banned.features.map.elements.rooms.RoomStatus;
+import cheaters.get.banned.features.map.elements.rooms.RoomTile;
 import cheaters.get.banned.features.map.elements.rooms.RoomType;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.Utils;
@@ -53,17 +54,17 @@ public class MapController {
                 break;
 
             case FLOOR_4:
-                if(scannedMap.rooms.size() > 25) {
+                if(scannedMap.roomTiles.size() > 25) {
                     startCorner[0] = 5;
                     startCorner[1] = 16;
                 }
                 break;
 
             default:
-                if(scannedMap.rooms.size() == 30) {
+                if(scannedMap.roomTiles.size() == 30) {
                     startCorner[0] = 16;
                     startCorner[1] = 5;
-                } else if(scannedMap.rooms.size() == 25) {
+                } else if(scannedMap.roomTiles.size() == 25) {
                     startCorner[0] = 11;
                     startCorner[1] = 11;
                 } else {
@@ -79,7 +80,7 @@ public class MapController {
                 DungeonUtils.Floor.MASTER_1,
                 DungeonUtils.Floor.MASTER_2,
                 DungeonUtils.Floor.MASTER_3
-        ) || scannedMap.rooms.size() == 24) {
+        ) || scannedMap.roomTiles.size() == 24) {
             roomSize = 18;
         } else {
             roomSize = 16;
@@ -164,6 +165,7 @@ public class MapController {
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
         if(shouldScan()) scan();
+        if(!Utils.inDungeon && scannedMap != null) scannedMap.clear();
 
         if(event.every(10) && scannedMap != null && scannedMap.allLoaded)  {
             new Thread(MapController::updateRoomStatuses).start();
@@ -206,10 +208,10 @@ public class MapController {
                         break;
 
                     case 18: // Red
-                        if(tile instanceof Room) {
-                            if(((Room) tile).type == RoomType.BLOOD) {
+                        if(tile instanceof RoomTile) {
+                            if(((RoomTile) tile).room.type == RoomType.BLOOD) {
                                 tile.status = RoomStatus.DISCOVERED;
-                            } else if(((Room) tile).type == RoomType.PUZZLE) {
+                            } else if(((RoomTile) tile).room.type == RoomType.PUZZLE) {
                                 tile.status = RoomStatus.FAILED;
                             }
                             break;
@@ -218,8 +220,8 @@ public class MapController {
                         break;
 
                     case 30: // Green
-                        if(tile instanceof Room) {
-                            if(((Room) tile).type == RoomType.ENTRANCE) {
+                        if(tile instanceof RoomTile) {
+                            if(((RoomTile) tile).room.type == RoomType.ENTRANCE) {
                                 tile.status = RoomStatus.DISCOVERED;
                             } else {
                                 tile.status = RoomStatus.GREEN;
