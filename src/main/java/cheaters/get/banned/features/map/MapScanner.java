@@ -2,7 +2,7 @@ package cheaters.get.banned.features.map;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.map.elements.MapTile;
-import cheaters.get.banned.features.map.elements.doors.DoorTile;
+import cheaters.get.banned.features.map.elements.doors.Door;
 import cheaters.get.banned.features.map.elements.doors.DoorType;
 import cheaters.get.banned.features.map.elements.rooms.Room;
 import cheaters.get.banned.features.map.elements.rooms.RoomTile;
@@ -15,6 +15,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 
 public class MapScanner {
@@ -24,6 +25,8 @@ public class MapScanner {
     public static final int zCorner = -200;
     public static final int halfRoom = 16;
 
+    private static boolean isScanning = false;
+
     public static MapModel getScan() {
         MapModel map = new MapModel();
 
@@ -32,6 +35,7 @@ public class MapScanner {
                 int x = halfRoom - 1 + xCorner + col * halfRoom;
                 int z = halfRoom - 1 + zCorner + row * halfRoom;
 
+                // TODO: Test and possibly allow for partial scans
                 if(!Shady.mc.theWorld.getChunkFromChunkCoords(x >> 4, z >> 4).isLoaded()) {
                     Utils.log("Chunk at x" + x + " z" + z + "is not loaded");
                     map.allLoaded = false;
@@ -46,8 +50,8 @@ public class MapScanner {
                     // Add rooms
                     RoomTile roomTile = getRoomTile(x, z);
                     map.elements[row][col] = roomTile;
-                    if(roomTile != null) {
-                        if(map.uniqueRooms.contains(roomTile.room)) map.totalSecrets += roomTile.room.secrets;
+                    if(roomTile != null && roomTile.room != null) {
+                        if(!map.uniqueRooms.contains(roomTile.room)) map.totalSecrets += roomTile.room.secrets;
                         map.uniqueRooms.add(roomTile.room);
                     }
                     map.roomTiles.add(roomTile);
@@ -64,7 +68,7 @@ public class MapScanner {
                     MapTile tileToCheck = map.elements[rowEven ? row : row - 1][rowEven ? col - 1 : col];
                     if(tileToCheck instanceof RoomTile) {
                         if(((RoomTile) tileToCheck).room.type == RoomType.ENTRANCE) {
-                            map.elements[row][col] = new DoorTile(DoorType.ENTRANCE);
+                            map.elements[row][col] = new Door(DoorType.ENTRANCE);
                         } else {
                             map.elements[row][col] = Separator.GENERIC;
                         }
@@ -76,7 +80,7 @@ public class MapScanner {
         return map;
     }
 
-    private static RoomTile getRoomTile(int x, int z) {
+    @Nullable private static RoomTile getRoomTile(int x, int z) {
         int core = getCore(x, z);
         Room room = MapController.rooms.get(core);
         if(room == null) return null;
@@ -96,7 +100,7 @@ public class MapScanner {
         return xPlus4 && xMinus4 && !zPlus4 && !zMinus4 || !xPlus4 && !xMinus4 && zPlus4 && zMinus4;
     }
 
-    private static DoorTile getDoor(int x, int z) {
+    private static Door getDoor(int x, int z) {
         IBlockState blockState = Shady.mc.theWorld.getBlockState(new BlockPos(x, 69, z));
         Block block = blockState.getBlock();
         DoorType type = null;
@@ -106,7 +110,7 @@ public class MapScanner {
         if(block == Blocks.stained_hardened_clay && Blocks.stained_hardened_clay.getMetaFromState(blockState) == 14) type = DoorType.BLOOD;
         if(type == null) type = DoorType.NORMAL;
 
-        return new DoorTile(type);
+        return new Door(type);
     }
 
     /**

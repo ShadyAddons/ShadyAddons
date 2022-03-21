@@ -20,8 +20,6 @@ public abstract class RoomLists {
         put("Three Weirdos", "3 Men");
         put("King Midas", "Midas");
         put("Shadow Assassin", "SA");
-        put("Dragon", "LA");
-        put("Default", "");
     }};
 
     public static final ArrayList<String> slowRooms = new ArrayList<>(Arrays.asList(

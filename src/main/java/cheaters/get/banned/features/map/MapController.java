@@ -6,6 +6,7 @@ import cheaters.get.banned.features.map.elements.MapTile;
 import cheaters.get.banned.features.map.elements.rooms.Room;
 import cheaters.get.banned.features.map.elements.rooms.RoomTile;
 import cheaters.get.banned.features.map.elements.rooms.RoomStatus;
+import cheaters.get.banned.features.map.elements.rooms.RoomTile;
 import cheaters.get.banned.features.map.elements.rooms.RoomType;
 import cheaters.get.banned.utils.DungeonUtils;
 import cheaters.get.banned.utils.Utils;
@@ -166,6 +167,7 @@ public class MapController {
     public void onTick(TickEndEvent event) {
         if(!Utils.inDungeon) scannedMap = null;
         if(shouldScan()) scan();
+        if(!Utils.inDungeon && scannedMap != null) scannedMap.clear();
 
         if(event.every(10) && scannedMap != null && scannedMap.allLoaded)  {
             new Thread(MapController::updateRoomStatuses).start();

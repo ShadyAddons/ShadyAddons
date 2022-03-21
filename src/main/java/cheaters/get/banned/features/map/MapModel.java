@@ -18,7 +18,6 @@ public class MapModel {
     
     public void clear() {
         roomTiles.clear();
-        uniqueRooms.clear();
         totalSecrets = 0;
         allLoaded = true;
 
