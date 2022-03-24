@@ -2,7 +2,7 @@ package cheaters.get.banned.features.map;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.map.elements.MapTile;
-import cheaters.get.banned.features.map.elements.doors.Door;
+import cheaters.get.banned.features.map.elements.doors.DoorTile;
 import cheaters.get.banned.features.map.elements.doors.DoorType;
 import cheaters.get.banned.features.map.elements.rooms.Room;
 import cheaters.get.banned.features.map.elements.rooms.RoomTile;
@@ -68,7 +68,7 @@ public class MapScanner {
                     MapTile tileToCheck = map.elements[rowEven ? row : row - 1][rowEven ? col - 1 : col];
                     if(tileToCheck instanceof RoomTile) {
                         if(((RoomTile) tileToCheck).room.type == RoomType.ENTRANCE) {
-                            map.elements[row][col] = new Door(DoorType.ENTRANCE);
+                            map.elements[row][col] = new DoorTile(DoorType.ENTRANCE);
                         } else {
                             map.elements[row][col] = Separator.GENERIC;
                         }
@@ -100,7 +100,7 @@ public class MapScanner {
         return xPlus4 && xMinus4 && !zPlus4 && !zMinus4 || !xPlus4 && !xMinus4 && zPlus4 && zMinus4;
     }
 
-    private static Door getDoor(int x, int z) {
+    private static DoorTile getDoor(int x, int z) {
         IBlockState blockState = Shady.mc.theWorld.getBlockState(new BlockPos(x, 69, z));
         Block block = blockState.getBlock();
         DoorType type = null;
@@ -110,7 +110,7 @@ public class MapScanner {
         if(block == Blocks.stained_hardened_clay && Blocks.stained_hardened_clay.getMetaFromState(blockState) == 14) type = DoorType.BLOOD;
         if(type == null) type = DoorType.NORMAL;
 
-        return new Door(type);
+        return new DoorTile(type);
     }
 
     /**

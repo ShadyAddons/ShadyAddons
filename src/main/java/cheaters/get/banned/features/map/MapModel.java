@@ -15,15 +15,5 @@ public class MapModel {
     public HashSet<Room> uniqueRooms = new HashSet<>();
     public boolean allLoaded = true;
     public int totalSecrets = 0;
-    
-    public void clear() {
-        roomTiles.clear();
-        totalSecrets = 0;
-        allLoaded = true;
-
-        for(MapTile[] element : elements) {
-            Arrays.fill(element, null);
-        }
-    }
 
 }
