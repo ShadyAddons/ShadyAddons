@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(AbstractClientPlayer.class)
+@Mixin(value = AbstractClientPlayer.class, priority = Integer.MAX_VALUE)
 public class MixinAbstractClientPlayer {
 
     @Shadow private NetworkPlayerInfo playerInfo;

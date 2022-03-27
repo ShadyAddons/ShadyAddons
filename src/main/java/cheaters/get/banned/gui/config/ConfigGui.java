@@ -52,10 +52,10 @@ public class ConfigGui extends GuiScreen {
         GlStateManager.color(255, 255, 255);
         Shady.mc.getTextureManager().bindTexture(logo);
         drawModalRectWithCustomSizedTexture(width / 2 - 143, 24 - scrollOffset, 0, 0, 286, 40, 286, 40);
-        drawCenteredString(Shady.mc.fontRendererObj, (Shady.BETA ? "Beta ✦ " : "Stable ✦ ") + Shady.VERSION, width / 2, 67-scrollOffset, -1);
+        // drawCenteredString(Shady.mc.fontRendererObj, (Shady.BETA ? "Beta ✦ " : "Stable ✦ ") + Shady.VERSION, width / 2, 67-scrollOffset, -1);
+        FontUtils.drawCenteredString((Shady.BETA ? "Beta ✦ " : "Stable ✦ ") + Shady.VERSION, width / 2, 67-scrollOffset+FontUtils.LINE_HEIGHT);
 
         // Settings
-        int categoryCount = 0;
         for(int i = 0; i < settings.size(); i++) {
             Setting setting = settings.get(i);
 
@@ -86,9 +86,9 @@ public class ConfigGui extends GuiScreen {
             if(setting instanceof BooleanSetting && setting.get(Boolean.class)) color = 'a'; // Green
             if(setting instanceof FolderSetting && ((FolderSetting) setting).isChildEnabled()) color = 'a'; // Green
 
-            Shady.mc.fontRendererObj.drawString("§" + color + setting.name, x, y+1, -1);
+            FontUtils.drawString("§" + color + setting.name, x, y+1, false);
             if(setting.note != null) {
-                int settingNameWidth = Shady.mc.fontRendererObj.getStringWidth(setting.name+" ");
+                int settingNameWidth = FontUtils.getStringWidth(setting.name + " ");
                 GlStateManager.translate(0, 1.8, 0);
                 FontUtils.drawScaledString("§7"+setting.note, 0.8f, x+settingNameWidth, y+1, false);
                 GlStateManager.translate(0, -1.8, 0);

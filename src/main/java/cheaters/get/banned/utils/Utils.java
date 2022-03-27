@@ -68,6 +68,8 @@ public class Utils {
         int month = Calendar.getInstance().get(Calendar.MONTH);
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
+        // April Fools
+        if(EstonianUtils.isEstoniaDay()) return "logo-estonian";
         // December 21-31 (Christmas)
         if(month == Calendar.DECEMBER && day > 20) return "logo-christmas";
         // October 26-31 (Halloween)

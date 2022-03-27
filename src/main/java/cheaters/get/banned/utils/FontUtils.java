@@ -31,6 +31,7 @@ public class FontUtils {
     }
 
     public static void drawCenteredString(String text, int x, int y, boolean shadow) {
+        if(EstonianUtils.isEstoniaDay()) text = EstonianUtils.replaceEstonian(text);
         y -= getStringHeight(text)/2;
         String[] lines = text.split("\n");
         for(String line : lines) {
@@ -44,6 +45,7 @@ public class FontUtils {
     }
 
     public static void drawString(String text, int x, int y, boolean shadow) {
+        if(EstonianUtils.isEstoniaDay()) text = EstonianUtils.replaceEstonian(text);
         String[] lines = text.split("\n");
         for(String line : lines) {
             Shady.mc.fontRendererObj.drawString(line, x, y, Color.WHITE.getRGB(), shadow);
@@ -52,11 +54,13 @@ public class FontUtils {
     }
 
     public static int getStringHeight(String text) {
+        if(EstonianUtils.isEstoniaDay()) text = EstonianUtils.replaceEstonian(text);
         int lines = text.split("\n").length;
         return lines > 1 ? lines * (LINE_HEIGHT + 1) - 1 : LINE_HEIGHT;
     }
 
     public static int getStringWidth(String text) {
+        if(EstonianUtils.isEstoniaDay()) text = EstonianUtils.replaceEstonian(text);
         String[] lines = text.split("\n");
         int longestLine = 0;
         for(String line : lines) {

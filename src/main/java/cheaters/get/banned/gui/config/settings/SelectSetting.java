@@ -1,6 +1,7 @@
 package cheaters.get.banned.gui.config.settings;
 
 import cheaters.get.banned.gui.config.Property;
+import cheaters.get.banned.utils.EstonianUtils;
 
 import java.lang.reflect.Field;
 
@@ -10,7 +11,7 @@ public class SelectSetting extends Setting {
 
     public SelectSetting(Property annotation, Field field) {
         super(annotation, field);
-        this.options = annotation.options();
+        options = annotation.options();
     }
 
     @Override

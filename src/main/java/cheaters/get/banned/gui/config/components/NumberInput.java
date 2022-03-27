@@ -1,13 +1,13 @@
 package cheaters.get.banned.gui.config.components;
 
-import cheaters.get.banned.Shady;
 import cheaters.get.banned.gui.config.settings.NumberSetting;
+import cheaters.get.banned.utils.FontUtils;
 import net.minecraft.client.Minecraft;
 
 public class NumberInput extends ConfigInput {
 
-    private int minusWidth = Shady.mc.fontRendererObj.getStringWidth("-");
-    private int plusWidth = Shady.mc.fontRendererObj.getStringWidth("+");
+    private int minusWidth = FontUtils.getStringWidth("-");
+    private int plusWidth = FontUtils.getStringWidth("+");
     private int gap = 3;
     private boolean minusHovered = false;
     private boolean plusHovered = false;
@@ -32,9 +32,9 @@ public class NumberInput extends ConfigInput {
         // minusWidth     displayStringWidth     plusWidth
         // pro tip: it helps to trace your finger along this diagram
 
-        Shady.mc.fontRendererObj.drawString((minusHovered?"§c":"§7")+"-", xPosition-width, yPosition, -1);
-        Shady.mc.fontRendererObj.drawString(displayString, xPosition-width+minusWidth+gap, yPosition, -1);
-        Shady.mc.fontRendererObj.drawString((plusHovered?"§a":"§7")+"+", xPosition-plusWidth, yPosition, -1);
+        FontUtils.drawString((minusHovered?"§c":"§7")+"-", xPosition-width, yPosition, false);
+        FontUtils.drawString(displayString, xPosition-width+minusWidth+gap, yPosition, false);
+        FontUtils.drawString((plusHovered?"§a":"§7")+"+", xPosition-plusWidth, yPosition, false);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class NumberInput extends ConfigInput {
 
     public void updateText() {
         displayString = (setting.prefix == null ? "" : setting.prefix) + setting.get(Integer.class) + (setting.suffix == null ? "" : setting.suffix);
-        width = Shady.mc.fontRendererObj.getStringWidth(displayString) + plusWidth+minusWidth + gap*2;
+        width = FontUtils.getStringWidth(displayString) + plusWidth+minusWidth + gap*2;
     }
 
 }

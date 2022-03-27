@@ -14,6 +14,8 @@ import java.awt.*;
 
 public class UpdateGui extends GuiScreen {
 
+    private static final ResourceLocation backgroundImage = new ResourceLocation("shadyaddons:background.jpg");
+
     @Override
     public void initGui() {
         buttonList.add(new ClearButton(1, this.width / 2 - 105, this.height / 2+10, 100, 20, "Dismiss"));
@@ -22,9 +24,7 @@ public class UpdateGui extends GuiScreen {
 
     @Override
     public void actionPerformed(GuiButton button) {
-        if(button.id == 0) {
-            Utils.openUrl("https://shadyaddons.com/");
-        }
+        if(button.id == 0) Utils.openUrl("https://shadyaddons.com/download/latest");
         Shady.guiToOpen = new GuiMainMenu();
     }
 
@@ -44,7 +44,7 @@ public class UpdateGui extends GuiScreen {
             bgWidth = width;
         }
 
-        RenderUtils.drawTexture(new ResourceLocation("shadyaddons:background.jpg"), 0, 0, Math.round(bgWidth), Math.round(bgHeight));
+        RenderUtils.drawTexture(backgroundImage, 0, 0, Math.round(bgWidth), Math.round(bgHeight));
 
         String title = "ShadyAddons §" + FontUtils.getRainbowCode('c') + Updater.update.version + "§f is available!";
         FontUtils.drawScaledCenteredString(title, 1.5f, width/2, height/2-15-5, true);

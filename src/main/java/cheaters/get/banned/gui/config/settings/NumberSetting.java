@@ -1,6 +1,7 @@
 package cheaters.get.banned.gui.config.settings;
 
 import cheaters.get.banned.gui.config.Property;
+import cheaters.get.banned.utils.EstonianUtils;
 import net.minecraft.util.MathHelper;
 
 import java.lang.reflect.Field;
@@ -15,11 +16,11 @@ public class NumberSetting extends Setting implements Comparable<Integer> {
 
     public NumberSetting(Property annotation, Field field) {
         super(annotation, field);
-        this.step = annotation.step();
-        this.min = annotation.min();
-        this.max = annotation.max();
-        this.prefix = annotation.prefix();
-        this.suffix = annotation.suffix();
+        step = annotation.step();
+        min = annotation.min();
+        max = annotation.max();
+        prefix = annotation.prefix();
+        suffix = annotation.suffix();
     }
 
     @Override

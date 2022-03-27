@@ -227,6 +227,13 @@ public class Config {
 
         @Property(
                 type = Property.Type.CHECKBOX,
+                name = "Enchanted Snow & Clay",
+                parent = "Auto-Sell"
+        )
+        public static boolean autoSellMinionDrops = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
                 name = "Salvageable Items",
                 parent = "Auto-Sell"
         )
@@ -737,7 +744,7 @@ public class Config {
 
         @Property(
                 type = Property.Type.NUMBER,
-                name = "Scan Radius",
+            name = "Scan Radius",
                 parent = "Gemstone ESP",
                 suffix = " blocks",
                 min = 5,

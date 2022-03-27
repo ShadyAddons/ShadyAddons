@@ -1,7 +1,7 @@
 package cheaters.get.banned.gui.config.settings;
 
-import cheaters.get.banned.gui.config.Property;
 import cheaters.get.banned.events.SettingChangeEvent;
+import cheaters.get.banned.gui.config.Property;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.lang.reflect.Field;

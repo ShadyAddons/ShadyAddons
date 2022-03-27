@@ -2,7 +2,7 @@ package cheaters.get.banned.features.map;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.map.elements.MapTile;
-import cheaters.get.banned.features.map.elements.doors.Door;
+import cheaters.get.banned.features.map.elements.doors.DoorTile;
 import cheaters.get.banned.features.map.elements.rooms.RoomTile;
 import cheaters.get.banned.features.map.elements.rooms.RoomType;
 import cheaters.get.banned.features.map.elements.rooms.Separator;
@@ -19,6 +19,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 // Hey future self, I've over-documented this because rendering code can become confusing
 public class MapView {
@@ -27,6 +28,7 @@ public class MapView {
     public static final int maxMapPx = tileSize * 23; // Max width/height in pixels
     public static final int maxMapBlocks = 197; // Max width/heigh in blocks
     private static final int borderSize = 3;
+    private static ArrayList<String> roomNamesDrawn = new ArrayList<>();
 
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent event) {
@@ -156,7 +158,7 @@ public class MapView {
                         drawRoomName((RoomTile) tile, x, y);
                     }
                 // Draw Doors
-                } else if(tile instanceof Door) {
+                } else if(tile instanceof DoorTile) {
                     /*
                      * Even column and odd row mean that it must be horizontal because rooms
                      * are in even columns and vertical doors and separators are in odd rows.
@@ -232,6 +234,8 @@ public class MapView {
                 0
         ); // Reset Positioning
         GlStateManager.popMatrix(); // Reset Scaling
+
+        roomNamesDrawn.clear();
     }
 
     private static void drawPlayerIcon(EntityPlayer player, int size, int x, int y, int angle) {
@@ -297,7 +301,9 @@ public class MapView {
                 if(name == null) name = roomTile.room.name.replace(" ", "\n");
             }
         } else if(Config.showRoomNames == 2) { // All
+            if(roomNamesDrawn.contains(roomTile.room.name)) return;
             name = roomTile.room.name.replace(" ", "\n");
+            roomNamesDrawn.add(roomTile.room.name);
         }
 
         if(name == null) return;

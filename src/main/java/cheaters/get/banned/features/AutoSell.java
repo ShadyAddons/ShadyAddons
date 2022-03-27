@@ -20,7 +20,7 @@ public class AutoSell {
     private boolean inTradeMenu = false;
     private int tickCount = 0;
 
-    private static final String[] salable = new String[]{
+    private static final String[] dungeonJunk = new String[]{
             "Training Weight",
             "Health Potion VIII Splash Potion",
             "Healing Potion 8 Slash Potion",
@@ -38,9 +38,7 @@ public class AutoSell {
             "Lever",
             "Rune",
             "Journal Entry",
-            "Sign",
-            "Enchanted Snow",
-            "Enchanted Clay"
+            "Sign"
     };
 
     @SubscribeEvent
@@ -80,8 +78,14 @@ public class AutoSell {
                 }
             }
 
+            if(Config.autoSellMinionDrops) {
+                if(item.getDisplayName().contains("Enchanted Snow") || item.getDisplayName().contains("Enchanted Clay")) {
+                    return true;
+                }
+            }
+
             if(Config.autoSellDungeonsJunk) {
-                for(String name : salable) {
+                for(String name : dungeonJunk) {
                     if(item.getDisplayName().contains(name)) {
                         return true;
                     }

@@ -9,6 +9,7 @@ import cheaters.get.banned.features.routines.Routine;
 import cheaters.get.banned.features.routines.Routines;
 import cheaters.get.banned.stats.RoutinesAPI;
 import cheaters.get.banned.utils.DungeonUtils;
+import cheaters.get.banned.utils.EstonianUtils;
 import cheaters.get.banned.utils.MathUtils;
 import cheaters.get.banned.utils.Utils;
 import net.minecraft.command.CommandBase;
@@ -151,6 +152,10 @@ public class MainCommand extends CommandBase {
 
                             case "palette":
                                 Shady.guiToOpen = new CommandPalette();
+                                break;
+
+                            case "estonia":
+                                EstonianUtils.playFolkSong();
                                 break;
 
                             case "crash":

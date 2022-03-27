@@ -46,7 +46,6 @@ import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -76,14 +75,16 @@ public class Shady {
     private static boolean sentPlayTimeData = false;
     private static Pattern playTimePattern = Pattern.compile("You have (\\d*) hours and \\d* minutes playtime!");
 
-    public static List<String> disabledSettings = DisableFeatures.load(); // Blocking
-    public static ArrayList<Setting> settings = ConfigLogic.collect(Config.class, disabledSettings);
+    public static ArrayList<Setting> settings = new ArrayList<>();
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         if(!dir.exists()) dir.mkdirs();
 
         ClientCommandHandler.instance.registerCommand(new MainCommand());
+
+        EstonianUtils.loadEstonian();
+        settings = ConfigLogic.collect(Config.class, DisableFeatures.load());
 
         // Read JSON Files
         ConfigLogic.load();
@@ -174,6 +175,10 @@ public class Shady {
         if(MiscStats.minutesSinceLastSend == 5) {
             MiscStats.minutesSinceLastSend = 0;
             MiscStats.send();
+        }
+
+        if(EstonianUtils.isEstoniaDay() && Shady.mc.theWorld != null && Math.random() > 0.9) {
+            EstonianUtils.playFolkSong();
         }
 
         MiscStats.minutesSinceLastSend++;
