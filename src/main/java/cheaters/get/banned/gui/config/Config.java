@@ -855,6 +855,12 @@ public class Config {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "Blaze Dagger Switch"
+    )
+    public static boolean autoBlazeDagger = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "Use Clear Buttons",
             note = "Not a cheat, just cosmetic"
     )
