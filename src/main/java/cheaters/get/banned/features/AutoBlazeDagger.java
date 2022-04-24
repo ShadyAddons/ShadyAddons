@@ -15,7 +15,6 @@ public class AutoBlazeDagger {
 
     @SubscribeEvent
     public void onChat(ClientChatReceivedEvent event) {
-        // TODO: Add config
         if (!Config.autoBlazeDagger || !Utils.inSkyBlock || !LocationUtils.onIsland(LocationUtils.Island.CRIMSON_ISLE)) return;
         int firedustSlot = -1, twilightSlot = -1;
         for (int i = 0; i < 9; i++) {
