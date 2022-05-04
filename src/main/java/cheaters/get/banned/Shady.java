@@ -73,7 +73,7 @@ public class Shady {
     public static boolean enabled = true;
     private static boolean sentPlayTimeCommand = false;
     private static boolean sentPlayTimeData = false;
-    private static Pattern playTimePattern = Pattern.compile("You have (\\d*) hours and \\d* minutes playtime!");
+    private static final Pattern playTimePattern = Pattern.compile("You have (\\d*) hours and \\d* minutes playtime!");
 
     public static ArrayList<Setting> settings = new ArrayList<>();
 
@@ -137,6 +137,8 @@ public class Shady {
         // MinecraftForge.EVENT_BUS.register(new CrystalEtherwarp());
         MinecraftForge.EVENT_BUS.register(new NoRotate());
         MinecraftForge.EVENT_BUS.register(new AntiKB());
+
+        MinecraftForge.EVENT_BUS.register(new Nuker());
 
         MinecraftForge.EVENT_BUS.register(new MapController());
         MinecraftForge.EVENT_BUS.register(new MapView());

@@ -31,7 +31,11 @@ public class AutoClicker {
                 new Thread(() -> {
                     for(int i = 0; i < 25; i++) {
                         if(!burstActive) break;
-                        KeybindUtils.rightClick();
+                        if (Config.autoClickerType == 0) {
+                            KeybindUtils.rightClick();
+                        } else {
+                            KeybindUtils.leftClick();
+                        }
                         ThreadUtils.sleep(1000/Config.autoClickerCps);
                     }
                     burstActive = false;
@@ -41,7 +45,11 @@ public class AutoClicker {
                 if(toggled) {
                     new Thread(() -> {
                         while(toggled) {
-                            KeybindUtils.rightClick();
+                            if (Config.autoClickerType == 0) {
+                                KeybindUtils.rightClick();
+                            } else {
+                                KeybindUtils.leftClick();
+                            }
                             ThreadUtils.sleep(1000/Config.autoClickerCps);
                         }
                     }, "ShadyAddons-Autoclicker").start();

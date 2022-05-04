@@ -10,13 +10,20 @@ public class BlockAbilities {
 
     @SubscribeEvent
     public void onInteract(PlayerInteractEvent event) {
+        String skyBlockID = Utils.getSkyBlockID(Shady.mc.thePlayer.getHeldItem());
         if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && Shady.mc.thePlayer.getHeldItem() != null) {
-            String skyBlockID = Utils.getSkyBlockID(Shady.mc.thePlayer.getHeldItem());
             if(
 
                     (Config.blockCellsAlignment && skyBlockID.equals("GYROKINETIC_WAND")) ||
                     (Config.blockGiantsSlam && skyBlockID.equals("GIANTS_SWORD")) ||
-                    (Config.blockValkyrie && Utils.inDungeon && skyBlockID.equals("VALKYRIE"))
+                    (Config.blockValkyrie && Utils.inDungeon && skyBlockID.equals("VALKYRIE")) ||
+                    (Config.blockExtremeMeasures && skyBlockID.equals("GLOOMLOCK_GRIMOIRE"))
+
+            ) { event.setCanceled(true); }
+        }
+        if(event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK && Shady.mc.thePlayer.getHeldItem() != null) {
+            if(
+                        (Config.blockLifeTap && skyBlockID.equals("GLOOMLOCK_GRIMOIRE"))
 
             ) { event.setCanceled(true); }
         }

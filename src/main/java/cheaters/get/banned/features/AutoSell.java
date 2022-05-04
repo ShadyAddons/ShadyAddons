@@ -41,6 +41,20 @@ public class AutoSell {
             "Sign"
     };
 
+    private static final String[] minionItems = new String[]{
+            "Enchanted Diamond Block",
+            "Enchanted Diamond",
+            "Diamond",
+            "Enchanted Snow Block",
+            "Snow Block",
+            "Snowball",
+            "Enchanted Clay",
+            "Clay",
+            "Enchanted Melon Block",
+            "Enchanted Melon",
+            "Melon"
+    };
+
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
         if(tickCount % 3 == 0) {
@@ -79,8 +93,10 @@ public class AutoSell {
             }
 
             if(Config.autoSellMinionDrops) {
-                if(item.getDisplayName().contains("Enchanted Snow") || item.getDisplayName().contains("Enchanted Clay")) {
-                    return true;
+                for(String name : minionItems) {
+                    if(item.getDisplayName().contains(name)) {
+                        return true;
+                    }
                 }
             }
 
