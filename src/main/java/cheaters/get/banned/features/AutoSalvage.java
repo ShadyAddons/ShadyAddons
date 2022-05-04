@@ -51,7 +51,7 @@ public class AutoSalvage {
                     }
 
                     if(chestInventory.get(13) != null && chestInventory.get(13).getStack() != null) {
-                        if(chestInventory.get(22) != null && chestInventory.get(22).getStack() != null && chestInventory.get(22).getStack().getItem() == Item.getItemFromBlock(Blocks.anvil)) {
+                        if(chestInventory.get(22) != null && chestInventory.get(22).getStack() != null && chestInventory.get(22).getStack().getItem() == Item.getItemFromBlock(Blocks.beacon)) {
                             // Click anvil to salvage the item
                             Shady.mc.playerController.windowClick(Shady.mc.thePlayer.openContainer.windowId, 22, 2, 0, Shady.mc.thePlayer);
                             MiscStats.add(MiscStats.Metric.ITEMS_SALVAGED);
