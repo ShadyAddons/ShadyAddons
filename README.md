@@ -13,9 +13,7 @@ If you're not a coder, don't worry! You can continue suggesting features in the 
 
 <img align="right" width="100" src="https://user-images.githubusercontent.com/64276359/166627164-de980be7-7ddf-43fb-b043-a6baa72634d5.png">
 
-If you are a coder, the [recent SkyBlock update](https://hypixel.net/threads/skyblock-patch-0-13-crimson-isle.4914038/) looks insane and is ripe for features!  To get started, click <a href="https://github.com/jxxe/ShadyAddons/fork"><img height="25px" src="https://user-images.githubusercontent.com/64276359/166626452-89c90800-b3e4-417d-a25c-a0500fa8cc81.png"></a> and clone the repository to your computer. Make any changes, then open a pull request to contribute them back to this repository. As a reward for your efforts, you will be given a **special contributor cape** in game, and regular contributors will be given a special role in Discord that grants access to a private channel. Your profile picture will also appear below.
-<br><br>
-<a href="https://github.com/jxxe/ShadyAddons/graphs/contributors"><img src="https://contrib.rocks/image?repo=LeCoupa/awesome-cheatsheets"></a>
+If you are a coder, the [recent SkyBlock update](https://hypixel.net/threads/skyblock-patch-0-13-crimson-isle.4914038/) looks insane and is ripe for features!  To get started, click <a href="https://github.com/jxxe/ShadyAddons/fork"><img height="25px" src="https://user-images.githubusercontent.com/64276359/166626452-89c90800-b3e4-417d-a25c-a0500fa8cc81.png"></a> and clone the repository to your computer. Make any changes, then open a pull request to contribute them back to this repository. As a reward for your efforts, you will be given a **special contributor cape** in game, and regular contributors will be given a special role in Discord that grants access to a private channel.
 
 [^qol]: Quality-of-life, AKA cheat
 [^peak]: February 26, 2022
