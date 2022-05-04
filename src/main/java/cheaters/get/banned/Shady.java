@@ -137,6 +137,7 @@ public class Shady {
         // MinecraftForge.EVENT_BUS.register(new CrystalEtherwarp());
         MinecraftForge.EVENT_BUS.register(new NoRotate());
         MinecraftForge.EVENT_BUS.register(new AntiKB());
+        MinecraftForge.EVENT_BUS.register(new AutoSwitchSwordDojo());
 
         MinecraftForge.EVENT_BUS.register(new MapController());
         MinecraftForge.EVENT_BUS.register(new MapView());

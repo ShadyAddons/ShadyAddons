@@ -854,6 +854,19 @@ public class Config {
         public static int terminalClickDelay = 100;
 
     @Property(
+            type = Property.Type.FOLDER,
+            name = "Dojo"
+    )
+    public static boolean dojo = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Auto Switch Sword",
+                parent = "Dojo"
+        )
+        public static boolean dojoDiscipline = false;
+
+    @Property(
             type = Property.Type.BOOLEAN,
             name = "Use Clear Buttons",
             note = "Not a cheat, just cosmetic"
