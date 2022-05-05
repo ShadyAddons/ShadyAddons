@@ -855,6 +855,19 @@ public class Config {
 
     @Property(
             type = Property.Type.FOLDER,
+            name = "Blaze Slayer"
+    )
+    public static boolean blaze = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Attunement Swapper",
+                parent = "Blaze Slayer"
+        )
+        public static boolean autoBlazeDagger = false;
+
+    @Property(
+            type = Property.Type.FOLDER,
             name = "Dojo"
     )
     public static boolean dojo = false;

@@ -41,6 +41,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.apache.commons.lang3.SystemUtils;
 import org.lwjgl.input.Keyboard;
+import scala.collection.parallel.ParIterableLike;
 
 import java.io.File;
 import java.time.Duration;
@@ -138,6 +139,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new NoRotate());
         MinecraftForge.EVENT_BUS.register(new AntiKB());
         MinecraftForge.EVENT_BUS.register(new AutoSwitchSwordDojo());
+        MinecraftForge.EVENT_BUS.register(new AutoBlazeSword());
 
         MinecraftForge.EVENT_BUS.register(new MapController());
         MinecraftForge.EVENT_BUS.register(new MapView());
