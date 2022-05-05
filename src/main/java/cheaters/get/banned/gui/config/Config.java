@@ -2,10 +2,15 @@ package cheaters.get.banned.gui.config;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.AutoWardrobe;
+import cheaters.get.banned.features.BlockAbilities;
 import cheaters.get.banned.features.commandpalette.CommandPalette;
 import cheaters.get.banned.features.routines.Routines;
 import cheaters.get.banned.stats.RoutinesAPI;
 import cheaters.get.banned.utils.Utils;
+import jdk.nashorn.internal.ir.Block;
+
+import java.util.Map;
+import java.util.Set;
 
 public class Config {
 
@@ -472,6 +477,35 @@ public class Config {
         )
         public static boolean blockValkyrie = false;
 
+        @Property(
+                type = Property.Type.FOLDER,
+                name = "Custom Block Abilities",
+                parent = "Block Abilities"
+        )
+        public static boolean customBlock = false;
+
+            @Property(
+                    type = Property.Type.CHECKBOX,
+                    name = "Block Custom Abilities",
+                    parent = "Custom Block Abilities"
+            )
+            public static boolean blockCustomAbilities = false;
+
+            @Property(
+                    type = Property.Type.BUTTON,
+                    name = "Show Blocked Abilities",
+                    parent = "Custom Block Abilities"
+            )
+            public static Runnable showAbilities = () -> {
+                Utils.sendModMessage("Blocked Abilities:");
+                if(BlockAbilities.blockedAbilities.isEmpty()){
+                    Utils.sendMessage("§aEmpty");
+                    return;
+                }
+                for(Map.Entry<String, Integer> s: BlockAbilities.blockedAbilities.entrySet()){
+                    Utils.sendMessage("§f- "+s.getKey() + " " + BlockAbilities.click.get(s.getValue()));
+                }
+            };
 
     @Property(
             type = Property.Type.BOOLEAN,

@@ -41,7 +41,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.apache.commons.lang3.SystemUtils;
 import org.lwjgl.input.Keyboard;
-import scala.collection.parallel.ParIterableLike;
 
 import java.io.File;
 import java.time.Duration;
@@ -91,6 +90,7 @@ public class Shady {
         ConfigLogic.load();
         Routines.load();
         MapController.loadRooms();
+        BlockAbilities.load();
 
         // Do Remote Things
         Updater.check();
