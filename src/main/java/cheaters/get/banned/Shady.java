@@ -140,6 +140,7 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new AntiKB());
         MinecraftForge.EVENT_BUS.register(new AutoSwitchSwordDojo());
         MinecraftForge.EVENT_BUS.register(new AutoBlazeSword());
+        MinecraftForge.EVENT_BUS.register(new AutoCloak());
 
         MinecraftForge.EVENT_BUS.register(new MapController());
         MinecraftForge.EVENT_BUS.register(new MapView());

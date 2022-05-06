@@ -900,6 +900,13 @@ public class Config {
         )
         public static boolean autoBlazeDagger = false;
 
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Auto Cloak",
+                parent = "Blaze Slayer"
+        )
+        public static boolean autoCloak = false;
+
     @Property(
             type = Property.Type.FOLDER,
             name = "Dojo"
