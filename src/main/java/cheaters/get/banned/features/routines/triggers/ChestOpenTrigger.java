@@ -3,7 +3,6 @@ package cheaters.get.banned.features.routines.triggers;
 import cheaters.get.banned.features.routines.RoutineElementData;
 import cheaters.get.banned.features.routines.RoutineRuntimeException;
 import cheaters.get.banned.utils.ReflectionUtils;
-import jdk.internal.reflect.Reflection;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryLargeChest;
