@@ -28,13 +28,13 @@ public class SwapHotbarAction extends Action {
     public SwapHotbarAction(RoutineElementData data) throws RoutineRuntimeException {
         super(data);
 
-        slot = data.keyAsInt_noError("slot_number");
+        slot = data.keyAsInt("slot_number", null);
         if(slot != null) return;
 
-        skyblockId = data.keyAsString_noError("skyblock_id");
+        skyblockId = data.keyAsString("skyblock_id", null);
         if(skyblockId != null) return;
 
-        nameContains = data.keyAsString_noError("name_contains");
+        nameContains = data.keyAsString("name_contains", null);
         if(nameContains == null) throw new RoutineRuntimeException("Invalid value(s) for SwapHotbarAction");
     }
 
