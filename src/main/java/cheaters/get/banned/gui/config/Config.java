@@ -7,10 +7,8 @@ import cheaters.get.banned.features.commandpalette.CommandPalette;
 import cheaters.get.banned.features.routines.Routines;
 import cheaters.get.banned.stats.RoutinesAPI;
 import cheaters.get.banned.utils.Utils;
-import jdk.nashorn.internal.ir.Block;
 
 import java.util.Map;
-import java.util.Set;
 
 public class Config {
 
@@ -900,12 +898,32 @@ public class Config {
         )
         public static boolean autoBlazeDagger = false;
 
+            @Property(
+                    type = Property.Type.NUMBER,
+                    name = "Swap Delay",
+                    parent = "Attunement Swapper",
+                    note = "Change if it swaps to often/not often enough",
+                    suffix = "ticks",
+                    max = 10
+            )
+            public static int swapDelay = 2;
+
         @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Auto Cloak",
                 parent = "Blaze Slayer"
         )
         public static boolean autoCloak = false;
+
+            @Property(
+                    type = Property.Type.NUMBER,
+                    name = "Trigger Time",
+                    parent = "Auto Cloak",
+                    min = 1,
+                    max = 8,
+                    suffix = "s"
+            )
+            public static int cloakTiming = 2;
 
     @Property(
             type = Property.Type.FOLDER,

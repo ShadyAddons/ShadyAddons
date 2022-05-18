@@ -27,10 +27,11 @@ public class AutoCloak {
         if(System.currentTimeMillis()-pillarFoundTime >= 5000 && pillar){ pillar=false; cloak = false;}
         if(!pillar) {
             World world = Shady.mc.theWorld;
-            List<EntityArmorStand> list = world.getEntities(EntityArmorStand.class, entity -> entity.getDisplayName().getUnformattedText().contains("hits") && entity.getDisplayName().getUnformattedText().contains("2s"));
+            List<EntityArmorStand> list = world.getEntities(EntityArmorStand.class, entity -> entity.getDisplayName().getUnformattedText().contains("hits") && entity.getDisplayName().getUnformattedText().contains(Config.cloakTiming + "s"));
             pillar = !list.isEmpty();
             pillarFoundTime = System.currentTimeMillis();
-        } else if(!cloak){
+        }
+        if(!cloak){
             int cloakSpot = -1;
             for(int i=0; i<9; i++) {
                 ItemStack item = Shady.mc.thePlayer.inventory.getStackInSlot(i);
