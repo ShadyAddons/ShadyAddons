@@ -28,6 +28,7 @@ public class AutoBlazeSword {
     HashSet<String> spirit = new HashSet<>();
     boolean enabled = false;
     int tick = 0;
+    boolean changed = false;
 
     public void enable(){
         enabled = true;
