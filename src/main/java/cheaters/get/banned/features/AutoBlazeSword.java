@@ -14,6 +14,7 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +27,7 @@ public class AutoBlazeSword {
     HashSet<String> ash = new HashSet<>();
     HashSet<String> spirit = new HashSet<>();
     boolean enabled = false;
+    int tick = 0;
 
     public void enable(){
         enabled = true;
@@ -44,6 +46,13 @@ public class AutoBlazeSword {
             }
         }
         return false;
+    }
+    
+    public void changeAttunement(){
+        if(!changed) {
+            KeybindUtils.rightClick();
+            changed = true;
+        }
     }
 
     @SubscribeEvent
@@ -74,7 +83,7 @@ public class AutoBlazeSword {
                         if (daggerAsh != Shady.mc.thePlayer.inventory.currentItem)
                             Shady.mc.thePlayer.inventory.currentItem = daggerAsh;
                         if (Shady.mc.thePlayer.inventory.getCurrentItem().getItem() != Items.stone_sword)
-                            KeybindUtils.rightClick();
+                            changeAttunement();
                     }
                     break;
                 case 2:
@@ -82,7 +91,7 @@ public class AutoBlazeSword {
                         if (daggerAsh != Shady.mc.thePlayer.inventory.currentItem)
                             Shady.mc.thePlayer.inventory.currentItem = daggerAsh;
                         if (Shady.mc.thePlayer.inventory.getCurrentItem().getItem() != Items.golden_sword)
-                            KeybindUtils.rightClick();
+                            changeAttunement();
                     }
                     break;
                 case 3:
@@ -90,7 +99,7 @@ public class AutoBlazeSword {
                         if (daggerSpirit != Shady.mc.thePlayer.inventory.currentItem)
                             Shady.mc.thePlayer.inventory.currentItem = daggerSpirit;
                         if (Shady.mc.thePlayer.inventory.getCurrentItem().getItem() != Items.iron_sword)
-                            KeybindUtils.rightClick();
+                            changeAttunement();
                     }
                     break;
                 case 4:
@@ -98,9 +107,20 @@ public class AutoBlazeSword {
                         if (daggerSpirit != Shady.mc.thePlayer.inventory.currentItem)
                             Shady.mc.thePlayer.inventory.currentItem = daggerSpirit;
                         if (Shady.mc.thePlayer.inventory.getCurrentItem().getItem() != Items.diamond_sword)
-                            KeybindUtils.rightClick();
+                            changeAttunement();
                     }
                     break;
+            }
+        }
+    }
+    
+    @SubscribeEvent
+    public void onTick(TickEvent event) {
+        if(changed) {
+            tick++;
+            if(tick >= 5) {
+                tick = 0;
+                changed = false;
             }
         }
     }
