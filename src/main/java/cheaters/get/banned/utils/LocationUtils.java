@@ -20,7 +20,7 @@ public class LocationUtils {
         PRIVATE_ISLAND("Private Island"),
         HUB("Hub"),
         SPIDERS_DEN("Spider's Den"),
-        BLAZING_FORTRESS("Blazing Fortress"),
+        CRIMSON_ISLE("Crimson Isle"),
         THE_END("The End"),
         THE_PARK("The Park"),
         GOLD_MINE("Gold Mine"),

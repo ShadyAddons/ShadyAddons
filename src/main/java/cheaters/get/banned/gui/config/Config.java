@@ -2,10 +2,13 @@ package cheaters.get.banned.gui.config;
 
 import cheaters.get.banned.Shady;
 import cheaters.get.banned.features.AutoWardrobe;
+import cheaters.get.banned.features.BlockAbilities;
 import cheaters.get.banned.features.commandpalette.CommandPalette;
 import cheaters.get.banned.features.routines.Routines;
 import cheaters.get.banned.stats.RoutinesAPI;
 import cheaters.get.banned.utils.Utils;
+
+import java.util.Map;
 
 public class Config {
 
@@ -472,6 +475,35 @@ public class Config {
         )
         public static boolean blockValkyrie = false;
 
+        @Property(
+                type = Property.Type.FOLDER,
+                name = "Custom Block Abilities",
+                parent = "Block Abilities"
+        )
+        public static boolean customBlock = false;
+
+            @Property(
+                    type = Property.Type.CHECKBOX,
+                    name = "Block Custom Abilities",
+                    parent = "Custom Block Abilities"
+            )
+            public static boolean blockCustomAbilities = false;
+
+            @Property(
+                    type = Property.Type.BUTTON,
+                    name = "Show Blocked Abilities",
+                    parent = "Custom Block Abilities"
+            )
+            public static Runnable showAbilities = () -> {
+                Utils.sendModMessage("Blocked Abilities:");
+                if(BlockAbilities.blockedAbilities.isEmpty()){
+                    Utils.sendMessage("§aEmpty");
+                    return;
+                }
+                for(Map.Entry<String, Integer> s: BlockAbilities.blockedAbilities.entrySet()){
+                    Utils.sendMessage("§f- "+s.getKey() + " " + BlockAbilities.click.get(s.getValue()));
+                }
+            };
 
     @Property(
             type = Property.Type.BOOLEAN,
@@ -854,10 +886,64 @@ public class Config {
         public static int terminalClickDelay = 100;
 
     @Property(
+            type = Property.Type.FOLDER,
+            name = "Blaze Slayer"
+    )
+    public static boolean blaze = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Attunement Swapper",
+                parent = "Blaze Slayer"
+        )
+        public static boolean autoBlazeDagger = false;
+
+            @Property(
+                    type = Property.Type.NUMBER,
+                    name = "Swap Delay",
+                    parent = "Attunement Swapper",
+                    note = "Change if it swaps to often/not often enough",
+                    suffix = "ticks",
+                    max = 10
+            )
+            public static int swapDelay = 2;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Auto Cloak",
+                parent = "Blaze Slayer"
+        )
+        public static boolean autoCloak = false;
+
+            @Property(
+                    type = Property.Type.NUMBER,
+                    name = "Trigger Time",
+                    parent = "Auto Cloak",
+                    min = 1,
+                    max = 8,
+                    suffix = "s"
+            )
+            public static int cloakTiming = 2;
+
+    @Property(
+            type = Property.Type.FOLDER,
+            name = "Dojo"
+    )
+    public static boolean dojo = false;
+
+        @Property(
+                type = Property.Type.BOOLEAN,
+                name = "Auto Switch Sword",
+                parent = "Dojo"
+        )
+        public static boolean dojoDiscipline = false;
+
+    @Property(
             type = Property.Type.BOOLEAN,
             name = "Use Clear Buttons",
             note = "Not a cheat, just cosmetic"
     )
     public static boolean useCleanButtons = false;
+
 
 }
