@@ -14,9 +14,7 @@ public abstract class Action {
     public abstract void doAction() throws RoutineRuntimeException;
 
     public int getRepeat() {
-        Integer times = data.keyAsInt_noError("repeat");
-        if(times == null) return 1;
-        return times;
+        return data.keyAsInt("repeat", 1);
     }
 
 }
