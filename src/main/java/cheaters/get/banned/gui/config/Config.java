@@ -592,25 +592,10 @@ public class Config {
 
 
     @Property(
-            type = Property.Type.FOLDER,
-            name = "Auto-Close Chests"
+            type = Property.Type.BOOLEAN,
+            name = "Auto-Close Secret Chests"
     )
-    public static boolean closeChests = false;
-
-        @Property(
-                type = Property.Type.BOOLEAN,
-                name = "Secret Chests",
-                parent = "Auto-Close Chests"
-        )
-        public static boolean closeSecretChests = false;
-
-        @Property(
-                type = Property.Type.BOOLEAN,
-                name = "Crystal Hollows Chests",
-                parent = "Auto-Close Chests"
-        )
-        public static boolean closeCrystalHollowsChests = false;
-
+    public static boolean closeSecretChests = false;
 
     @Property(
             type = Property.Type.BOOLEAN,
