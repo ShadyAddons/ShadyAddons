@@ -6,7 +6,7 @@ ShadyAddons is the most popular QoL[^qol] mod for [Hypixel SkyBlock](https://hyp
 Type `/sh` to open the settings.
 
 ## What's going on?
-I am open sourcing ShadyAddons in the hope that the community can breathe new life into it. I haven't played SkyBlock in almost a year, so you can imagine that it's difficult to find motivation to work on Shady. I will continue to pay for and maintain the [ShadyAddons.com](https://shadyaddons.com) website and backend.
+I am making ShadyAddons open source in the hope that the community can breathe new life into it. I haven't played SkyBlock in almost a year, so you can imagine that it's difficult to find motivation to work on Shady. I will continue to pay for and maintain the [ShadyAddons.com](https://shadyaddons.com) website and backend.
 
 ## What can I do?
 If you're not a coder, don't worry! You can continue suggesting features in the Discord server. If you have a more fleshed out idea or a bug report, consider [opening an issue](https://github.com/jxxe/ShadyAddons/issues/new) and detailing it so someone else can build the feature.
