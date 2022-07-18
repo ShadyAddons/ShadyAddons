@@ -141,6 +141,14 @@ public class Config {
         public static int autoClickerMode = 0;
 
         @Property(
+                type = Property.Type.SELECT,
+                name = "Type",
+                parent = "Auto-Clicker",
+                options = {"Right", "Left"}
+        )
+        public static int autoClickerType = 0;
+
+        @Property(
                 type = Property.Type.BOOLEAN,
                 name = "Show Indicator",
                 parent = "Auto-Clicker"
@@ -227,7 +235,7 @@ public class Config {
 
         @Property(
                 type = Property.Type.CHECKBOX,
-                name = "Enchanted Snow & Clay",
+                name = "All Forms of Snow, Clay, Melon, and Diamonds",
                 parent = "Auto-Sell"
         )
         public static boolean autoSellMinionDrops = false;
@@ -471,6 +479,20 @@ public class Config {
                 parent = "Block Abilities"
         )
         public static boolean blockValkyrie = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Gloomlock Grimiore Life Tap",
+                parent = "Block Abilities"
+        )
+        public static boolean blockLifeTap = false;
+
+        @Property(
+                type = Property.Type.CHECKBOX,
+                name = "Gloomlock Grimiore Extreme Measures",
+                parent = "Block Abilities"
+        )
+        public static boolean blockExtremeMeasures = false;
 
 
     @Property(
@@ -837,6 +859,31 @@ public class Config {
                 max = 1000
         )
         public static int terminalClickDelay = 100;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Nuker",
+            warning = true
+    )
+    public static boolean nuker = false;
+
+        @Property(
+                type = Property.Type.SELECT,
+                name = "Nuker Block",
+                note = "Chooses the block to be nuked.",
+                parent = "Nuker",
+                options = {"Mycelium", "Red Sand"}
+        )
+        public static int nukerBlock;
+
+        @Property(
+                type = Property.Type.SELECT,
+                name = "Nuker BPS",
+                note = "How many blocks per second (20 Ticks) Nuker breaks.",
+                parent = "Nuker",
+                options = {"20bps", "40bps", "60bps", "80bps"}
+        )
+        public static int nukerBPS;
 
     @Property(
             type = Property.Type.BOOLEAN,
