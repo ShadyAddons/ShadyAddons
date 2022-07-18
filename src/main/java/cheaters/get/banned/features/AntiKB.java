@@ -27,7 +27,7 @@ public class AntiKB {
 
         if(Shady.mc.thePlayer.getHeldItem() != null) {
             String itemId = Utils.getSkyBlockID(Shady.mc.thePlayer.getHeldItem());
-            return !itemId.equals("JERRY_STAFF") && !itemId.equals("BONZO_STAFF") && !itemId.equals("STARRED_BONZO_STAFF");
+            return !itemId.equals("JERRY_STAFF") || !itemId.equals("BONZO_STAFF") || !itemId.equals("STARRED_BONZO_STAFF");
         }
 
         return true;
