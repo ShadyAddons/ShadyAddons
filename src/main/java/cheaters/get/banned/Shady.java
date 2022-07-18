@@ -3,6 +3,7 @@ package cheaters.get.banned;
 import cheaters.get.banned.events.MinuteEvent;
 import cheaters.get.banned.events.TickEndEvent;
 import cheaters.get.banned.features.*;
+import cheaters.get.banned.features.autoterminals.NewAutoTerminals;
 import cheaters.get.banned.features.commandpalette.CommandPalette;
 import cheaters.get.banned.features.connectfoursolver.ConnectFourSolver;
 import cheaters.get.banned.features.map.MapController;
@@ -124,8 +125,8 @@ public class Shady {
         MinecraftForge.EVENT_BUS.register(new ItemMacro());
         MinecraftForge.EVENT_BUS.register(new MobESP());
         MinecraftForge.EVENT_BUS.register(new GemstoneESP());
-        // MinecraftForge.EVENT_BUS.register(new NewAutoTerminals());
-        MinecraftForge.EVENT_BUS.register(new AutoTerminals());
+        MinecraftForge.EVENT_BUS.register(new NewAutoTerminals());
+        //MinecraftForge.EVENT_BUS.register(new AutoTerminals());
         MinecraftForge.EVENT_BUS.register(new AutoMelody());
         MinecraftForge.EVENT_BUS.register(new AutoReadyUp());
         // MinecraftForge.EVENT_BUS.register(new CrystalReach());
